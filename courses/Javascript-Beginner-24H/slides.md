@@ -1,0 +1,25 @@
+---
+layout: cover
+highlighter: shiki
+monaco: true
+titleTemplate: "%s - Kevin UNFRICHT"
+---
+
+# Introduction au développement avec Javascript
+
+Objectif de ce parcours : Découvrir les bases du développement Web avec Javascript & Typescript dans un navigateur web
+
+Durée du parcours : 24 heures <br>
+Projet de notation : 12 heures
+
+<div class="abs-bl mx-14 my-12 flex">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACKElEQVR4nO2WT0hVQRTGz/GZ7yEiRJJ/SsMiRaigUFwUhQgGouLChZS5Cmmj5c4kol1tRNoYLcJ0JRKUFYmUJi5EQSP/dEFxkUW4iQyUIMS+mHe5jtN7ihLeO8L54OPBmXmX+c2c+90hEolEIisFh2CTSQAcOQFIC+1GQbcM5CV2gt91SIw6we885EPm2GHarYJeMATACX7XIS3k/M+O8YZ7282xmT5CbTkjI42RGGJkHWbUVTJmX+4DgMFOQiSsx2iTkyMcHbcWYH2WkHtU18NJjILj7q9XKz7D+PPJUoCPz3U9IYEx/cKtLw4STmQzbl5jrExYfALDXbqu2uj3lJ7/64NlKRQP4MuQWa8uZXx+t9PnWQCgfPmC+eJGwozrNYz5/n0C8G2YcLYgNoFCIRdkddJyAGW1yNYGRkpyLMjpPMaPMcsBPH8fJdxvJqQfMiEar3KwACrvtwP4N+d/jlM0/7352Rk+AqgUqSphvH6kawsDJsCrDj3W/YBQeCo279tb9H+SDvgE0NNG0c+/lya36hkddwnnz5ktoe4+ar66/3i1kmLG1yG3vjxOuFSkx9TX2heAuTcaYCufPKavBg9bzZNhZhxJN68SyrcbfGyh908JqSnxF69a4e0Ts/fv3Nge+GJh/CjdMwDlpRFCUx0jJ9PNc3VNriljTD6LP3+sh3ClgpGf6+7+wVR34Y/vEdZmtkq1PQTwwyQAjpwAfG0hkUgkIj/0FxH0JVVHu8XgAAAAAElFTkSuQmCC" alt="javascript logo">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJ0lEQVR4nO2Xy2sTQRzH998YS1VqLz0WwYJeRLS0eCiCiBQVb4Jn2ajtwUsfBqS1SEVsYyooHsRzKra1FInSqpDnZtM8mhbdYBrqpmn6SOYru7Rpx6TYHNKd4Hzhe9idx85n5jczv5UkISEhIS5FZA94siQAZLECECFUiawOGSI2sWz9rBNxjMrWzzwRF5nMh6VKZfWAiQCQrZ91IkJI3n9G5uJZVCr7uFZsf+y+F7Z3S3gf0JFIb2BlLW9a07fwdSGLl5+Xcdoe4hOguScIRcv9s/41R4xPgI+hTEnZVoEinc0z7y4/i1QPoG0ojCvPo0VfHYkyHw/8yDHlhlv6FZzqU5h6BQrcebuEo/e8Zr8NXT7ceBHHVEjHxSfzh3cP1N/1MgNzR1fL1uscjTH1JhV93z7rbB7+AK47WIDgz5y5oS0/Rg8KcLI3CErZ+J+LZ9H6OFwbAIbfzKZLNjGlgMv/G+cGVP4Bmh748X1xrQTCUL5A4XSncPyvsOIKwHBjtw9j7mXzFCqnL7HV4snEJcCOLwyGMaHoZSH6XRr/AGTbl55GsJjeZPownmsGgMgenLGHmD6M8Dpi4wzg7CMVt18nigMje2zc1HtlJHfcrUDHcMQsV5PreDiumRfb+UHVTNy+Jdj8alrN8AtwEN10xmsTgFJg4EOSaccNwIluH269WoDjUwoz8xnEUhtmGv0rs/sj0z5UmlZUHaDalv47ACEhISHpMPQHFt1nSGvrWBcAAAAASUVORK5CYII=" alt="typescript logo">
+</div>
+
+---
+layout: center
+---
+
+# Module 1 : Introduction à la programmation Web

@@ -2,6 +2,7 @@
     "name": "@k.school/javascript-beginner-introduction",
     "version": "0.0.1",
     "private": "true",
+    "type": "module",
     "scripts": {
         "build": "slidev build",
         "dev": "slidev --open",

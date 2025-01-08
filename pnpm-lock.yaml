@@ -24,7 +24,7 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  courses/Javascript-Beginner-Introduction:
+  courses/Javascript-Beginner-36H:
     dependencies:
       '@slidev/cli':
         specifier: 'catalog:'

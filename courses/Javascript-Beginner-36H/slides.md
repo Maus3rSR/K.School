@@ -35,7 +35,6 @@ image: https://cover.sli.dev
 * Créé par Brendan Eich en 1995
 * Un langage de programmation dynamique
 * Intégré dans les navigateurs web
-* Principalement utilisé pour ajouter de l'interactivité aux pages web
 
 </v-clicks>
 
@@ -47,7 +46,7 @@ Créé par Brendan Eich en 1995
 _____
 Un langage de programmation dynamique
 
-- Le typage est dynamique, donc pas besoin de déclarer les types à l'avance.
+- Le typage est dynamique, donc pas besoin de déclarer les types à l'avance. Même si nous souhaiterons rapidement
 - On peut créer des variables à la volée, c'est super flexible.
 - Ça permet de faire plein de trucs sans se prendre la tête.
 _____
@@ -77,7 +76,7 @@ function calculerFactorielle(n) {
   return resultat
 }
 
-console.log(calculerFactorielle(5))
+console.log(`La factorielle de 5 est : ${calculerFactorielle(5)}`)
 ```
   </div>
   </template>
@@ -106,14 +105,18 @@ button.addEventListener('click', function() {
   </template>
   
   <template #3-5>
-  <div class="grid grid-cols-[.2fr_1fr] gap-x-4 gap-y-12">
+  
+  ## Manipulation du DOM
+
+  <div class="grid grid-cols-[.2fr_1fr] gap-x-4 gap-y-12 mt-6">
 
   <div class="my-auto opacity-75">
-  Manipulation du DOM
+  Changer le contenu
   </div>
 
-```js {monaco}
-document.querySelector('h1').textContent = 'Bonjour, monde !';
+```js {monaco-run} {autorun:false}
+const title = document.querySelector('h2')
+title.textContent = `${title.textContent} (en temps réel côté client !)`
 ```
   </div>
   </template>
@@ -122,11 +125,14 @@ document.querySelector('h1').textContent = 'Bonjour, monde !';
   <div class="grid grid-cols-[.2fr_1fr] gap-x-4 gap-y-12">
 
   <div class="my-auto opacity-75">
-  Manipulation du style
+  Changer le style
   </div>
 
-```js {monaco}
-document.querySelector('h1').style.color = 'blue';
+```js {monaco-run} {autorun:false}
+const title = document.querySelector('h2')
+title.style.transition = 'all 1s ease-out'
+title.style.backgroundColor = '#1B1B1B'
+title.style.padding = '16px'
 ```
 
   </div>
@@ -140,16 +146,16 @@ document.querySelector('h1').style.color = 'blue';
   </div>
 
 
-```js {monaco-run}
+```js {monaco-run} {autorun:false}
 console.log('Chargement des pokemons...')
-await new Promise(resolve => setTimeout(resolve, 1000));
-fetch('https://pokeapi.co/api/v2/pokemon?limit=3')
-  .then(response => response.json())
-  .then(data => {
-    console.log('Pokemons récupérés ! Voici la liste :')
-    data.results.forEach(pokemon => console.log(pokemon.name));
-  })
-  .catch(error => console.error('Erreur lors de la récupération des pokémons:', error));
+
+const data = await new Promise(resolve => setTimeout(async () => {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3')
+  resolve(response.json())
+}, 1000));
+
+console.log('Pokemons récupérés ! Voici la liste :')
+data.results.forEach(pokemon => console.log(pokemon.name))
 ```
   </div>
   </template>
@@ -158,8 +164,10 @@ fetch('https://pokeapi.co/api/v2/pokemon?limit=3')
   <div class="grid grid-cols-[.2fr_1fr] gap-x-4 gap-y-12">
 
   <div class="my-auto opacity-75">
-  Et plus encore (2d, 3d, communication en temps réel, etc.)
+  Et plus encore...
   </div>
+
+  2d, 3d, communication en temps réel, etc.
 
   </div>
   </template>
@@ -194,8 +202,17 @@ fetch('https://pokeapi.co/api/v2/pokemon?limit=3')
 
 ---
 
-# Trigger Warning
+# Trigger Warning : Violence !
 
-Ne pas confondre JavaScript & Java !
+<div class="slidev-layout center grid place-content-center text-center">
+  <h2 v-mark.crossed-off.red>
+    <span v-click class="px-4">Java</span>
+    <span v-click class="text-4xl px-4">=</span>
+    <span v-click class="px-4">JavaScript</span>
+  </h2>
 
-Il est important de noter que JavaScript et Java sont deux langages de programmation distincts, malgré leur nom similaire. JavaScript est un langage de programmation dynamique principalement utilisé pour ajouter de l'interactivité aux pages web, tandis que Java est un langage de programmation utilisé pour développer des applications plus larges.
+  <div v-click.at="4" class="flex justify-center items-center mt-8">
+    <img class="center" width="250" src="/javascript_is_not_java.jpg" />
+  </div>
+
+</div>

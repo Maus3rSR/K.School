@@ -15,6 +15,7 @@ dist
 build
 out
 .output
+slides-export.pdf
 
 # Debug logs
 npm-debug.log*

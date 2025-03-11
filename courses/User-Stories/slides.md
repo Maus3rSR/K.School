@@ -1,9 +1,15 @@
 ---
 layout: cover
+background: whats_your_story.jpg
 highlighter: shiki
 monaco: true
 titleTemplate: "%s - Kevin UNFRICHT"
 ---
+<style>
+.cover div {
+  margin-top: 10%;
+}
+</style>
 
 # Les User Stories
 L'expression du besoin utilisateur au sein d'un produit logiciel
@@ -17,7 +23,9 @@ class: text-center
 Ou "Récit Utilisateur" in French
 
 ---
-
+layout: image-right
+image: pere_castor.jpg
+---
 # Père Castor raconte moi une user story
 
 - Nous provient de la méthologie Agile
@@ -63,15 +71,22 @@ Pour le Product Owner, l’intérêt de rédiger des User Stories est triple :
 -->
 
 ---
+layout: image-left
+image: nope.jpg
+---
 
 # Ce que ne sont pas les users stories
 
 - Des spécifications techniques
 - Uniquement une description de fonctionnalités (features)
-- Un backlog / une toto list du cahier des charges fonctionnels (Spoiler: la majorité des fonctionnalités d'un cahier des charges peuvent partir à la poubelle lors d'une conception produit)
+- Un backlog / une toto list du cahier des charges fonctionnels
+
+_(Spoiler: la majorité des fonctionnalités d'un cahier des charges peuvent partir à la poubelle lors d'une conception produit)_
 
 ---
-
+layout: image-right
+image: think.jpg
+---
 # L'importance des user stories dans l'analyse architecturale
 
 - Une bonne vision produit permet de s'assurer que l'architecture technique réponde aux réels besoins
@@ -85,6 +100,9 @@ class: text-center
 
 # Partie 2 - Recette de rédaction d'une User Story
 
+---
+layout: image-left
+image: idea.jpg
 ---
 
 # Qui, quoi, pourquoi
@@ -159,6 +177,9 @@ Nous sommes bien dans l’esprit de l’agile : délivrer de la valeur rapidemen
 -->
 
 ---
+layout: image-right
+image: post_it.jpg
+---
 
 # Comment rédiger les critères d'acceptation ?
 Les critères d'acceptation peuvent être orientés "Règles" ou orientés "Scénario"
@@ -166,7 +187,6 @@ Les critères d'acceptation peuvent être orientés "Règles" ou orientés "Scé
 - Orienté **Règles** : Se décrit sous forme d'une liste simple
 - Orienté **Scénario** : S'appuie sur le BDD (Behaviour Driven Development) qui consiste à développer les scénarios axé sur le comportement de l'utilisateur
   - Utilisation du format anglophone **Given** (Étant donné), **When** (Quand / Lorsque), **Then** (Alors)
-  - Ce format est pratique car compréhensible par tous
 - Comme pour l'écriture de la User Story, les critères d'acceptation n'est pas technique !
 
 ---
@@ -199,11 +219,14 @@ class: text-center
 ---
 
 # Partie 4 - Example Mapping
+L'exemple n'est pas une autre façon d'enseigner, c'est la seule façon d'enseigner - Einstein
 
+---
+layout: image-left
+image: mapping.jpg
 ---
 
 # Qu'est-ce que l'Example Mapping ?
-L'exemple n'est pas une autre façon d'enseigner, c'est la seule façon d'enseigner - Einstein
 
 - Méthode uilisant des exemples concrets pour illustrer et mieux définir les critères d'acceptation d'une US
 - L'objectif principal de l'atelier est d'encourager l'échange autour d'un même référentiel
@@ -223,3 +246,16 @@ L’Example Mapping a recours à quatre catégories d’éléments
 Bien sûr, l'atelier peut se faire en version numérique.
 
 Si, à la fin de l’atelier, vous avez trop de règles, cela peut signifier que la user story analysée devrait être scindée en deux parties ou plus. Si vous avez trop d’exemples sous une règle, cela peut signifier que la règle devrait être divisée en plusieurs parties. L’Exemple Mapping est une bonne façon de s’assurer que les user stories sont toujours de la bonne taille.
+
+---
+layout: image
+image: example_mapping.webp
+---
+
+---
+
+# Ressources
+
+- [User Story](https://datascientest.com/user-story-tout-savoir)
+- [Critères d'acceptation](https://devway.tech/blog/comment-definir-criteres-acceptation/)
+- [Exemple Mapping](https://draft.io/fr/example/example-mapping)

@@ -1,0 +1,16 @@
+{
+  "name": "@k.school/dotnet-blazor-fundamentals",
+  "version": "0.0.1",
+  "private": "true",
+  "type": "module",
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "vue": "catalog:"
+  }
+}

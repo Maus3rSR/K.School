@@ -18,7 +18,7 @@ class: text-center
 
 ---
 layout: image-right
-image: https://cover.sli.dev
+image: https://cover.sli.dev?3
 ---
 
 # Mais, c'est quoi <span v-mark.underline.indigo>.NET</span> ?
@@ -34,7 +34,7 @@ image: https://cover.sli.dev
 
 ---
 layout: image-left
-image: https://cover.sli.dev
+image: https://cover.sli.dev?4
 ---
 
 # Petit tracé historique... .NET Framework
@@ -67,7 +67,7 @@ Limites du .NET Framework
 
 ---
 layout: image-right
-image: https://cover.sli.dev
+image: https://cover.sli.dev?5
 ---
 
 # 2016, place à la (longue) révolution !
@@ -123,7 +123,7 @@ class: text-center
 
 ---
 layout: image-left
-image: https://cover.sli.dev
+image: https://cover.sli.dev?8
 ---
 
 # En .NET, vous avez plusieurs options pour développer une application web :
@@ -146,7 +146,7 @@ _NB: Vous pouvez avoir une application qui mélange plusieurs options_
 
 ---
 layout: image-right
-image: https://cover.sli.dev
+image: https://cover.sli.dev?9
 ---
 
 # .NET MVC
@@ -161,7 +161,7 @@ image: https://cover.sli.dev
 
 ---
 layout: image-left
-image: https://cover.sli.dev
+image: https://cover.sli.dev?10
 ---
 
 # .NET Razor Pages
@@ -178,7 +178,7 @@ image: https://cover.sli.dev
 
 ---
 layout: image-right
-image: https://cover.sli.dev
+image: https://cover.sli.dev?11
 ---
 
 # .NET Blazor
@@ -203,7 +203,7 @@ class: text-center
 
 ---
 layout: image-left
-image: https://cover.sli.dev
+image: https://cover.sli.dev?13
 ---
 
 # Différents modèles d'hébergement
@@ -213,7 +213,7 @@ image: https://cover.sli.dev
 <v-clicks class="pt-8">
 
 * **Blazor Server** : Application .NET 100% côté serveur (SSR)
-* **Blazor WebAssembly** : Application .NET 100% côté client (CSR avec [WebAssembly](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpub.mdpi-res.com%2Ffutureinternet%2Ffutureinternet-15-00275%2Farticle_deploy%2Fhtml%2Fimages%2Ffutureinternet-15-00275-g002.png%3F1692356421&f=1&nofb=1&ipt=b788575463c4e243dc208f03e30f48593406a7703f3921113cdf596d0df0b6a7))
+* **Blazor WebAssembly** : Application .NET 100% côté client (CSR avec [WebAssembly](./webassembly.png))
 * **Blazor Hybrid** : Application .NET, exécution des composants directement sur la plateforme native (desktop, mobile...) et affiche une interface basée sur HTML/CSS (via une webview)
 
 </v-clicks>

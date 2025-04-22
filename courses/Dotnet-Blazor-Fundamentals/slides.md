@@ -246,7 +246,7 @@ Bien que parfois présenté comme un "JavaScript nouvelle génération", WASM es
 
 ---
 
- # Les composants
+# Les composants
 
 [Documentation](https://learn.microsoft.com/fr-fr/aspnet/core/blazor/?view=aspnetcore-9.0)
 
@@ -286,3 +286,53 @@ La classe de composant est généralement écrite sous la forme d’une page de 
 Blazor utilise des balises HTML naturelles pour la composition de l’IU. Les balises Razor suivantes illustrent un composant qui incrémente un compteur lorsque l’utilisateur sélectionne un bouton.
 
  -->
+
+---
+
+# Configurer une page d'erreur 404
+En mode de rendu SSR
+
+[Documentation](https://learn.microsoft.com/fr-fr/aspnet/core/fundamentals/error-handling?view=aspnetcore-9.0#usestatuscodepageswithredirects)
+
+<p>Le serveur renverra un code de redirection 302 et redirigera le client vers le chemin que vous aurez spécifié. Si vous utilisez `{0}` dans le chemin, {0} contiendra le statut HTTP d'erreur.</p>
+
+`Program.cs`
+
+```csharp {monaco-diff}
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+~~~
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+// Dans notre exemple, on souhaite dans le cas d'une erreur 404, rediriger sur /404
+app.UseStatusCodePagesWithRedirects("/{0}");
+// OU `UseStatusCodePagesWithReExecute`
+// Même comportement mais re-execute la requête sur le serveur sans faire rediriger le client sur la nouvelle URL
+// app.UseStatusCodePagesWithReExecute("/{0}");
+```
+
+---
+
+# Configurer une page d'erreur 404
+En mode de rendu SSR
+
+<p>Faites un composant `404.razor` qui contiendra le contenu de votre page 404.</p>
+
+`Components/404.razor`
+
+```csharp
+@page "/404"
+
+<h3>Page not found bitch!</h3>
+```

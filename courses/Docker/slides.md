@@ -18,7 +18,8 @@ class: text-center
 
 ---
 
-# 01 - Qu'est-ce que Docker ?
+# Qu'est-ce que Docker ?
+Bref résumé
 
 * **Logiciel open-source**
 * **Version 1.0** : 13 mars 2013
@@ -30,7 +31,38 @@ class: text-center
 
 ---
 
-# 01 - Qu'est-ce que Docker ?
+# Qu'est-ce que Docker ?
+Analogie
+
+<img class="w-180 m-auto" src="./Docker_1.png" />
+
+---
+
+# Qu'est-ce que Docker ?
+Analogie
+
+<img class="w-180 m-auto" src="./Docker_1.png" />
+
+---
+
+# Qu'est-ce que Docker ?
+Analogie
+
+<img class="w-180 m-auto" src="./Docker_2.png" />
+
+---
+
+# Qu'est-ce que Docker ?
+Analogie
+
+<img class="w-180 m-auto" src="./Docker_2.png" />
+
+---
+
+# Qu'est-ce que Docker ?
+Analogie
+
+<img class="w-180 m-auto" src="./Docker_3.png" />
 
 ---
 

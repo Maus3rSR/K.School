@@ -108,6 +108,7 @@ layout: default
 
 # Pourquoi Docker vaut le coup ?
 
+
 * Fini les : "ça marche sur ma machine"
 * Standardisation des environnements de développement
 * Partage de ressources entre containers
@@ -132,7 +133,7 @@ class: text-center
   * [Docker Engine](https://docs.docker.com/engine/install/) ⚙
   * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-_Docker Desktop crée une machine virtuelle (VM) dans laquelle Docker Engine s'exécute. De ce fait, il est souvent nécéssaire de l'installer sur des machines Windows. Ce qui n'est pas le cas pour les machines sous le noyeau Linux._
+_Docker Desktop crée une machine virtuelle (VM) dans laquelle Docker Engine s'exécute. De ce fait, il est souvent nécéssaire de l'installer sur des machines Windows. Ce qui n'est pas le cas pour les machines sous le noyeau Linux car Docker s'exécute directement sur le noyeau de l'OS._
 
 ---
 

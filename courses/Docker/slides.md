@@ -41,20 +41,6 @@ Analogie
 # Qu'est-ce que Docker ?
 Analogie
 
-<img class="w-180 m-auto" src="./Docker_1.png" />
-
----
-
-# Qu'est-ce que Docker ?
-Analogie
-
-<img class="w-180 m-auto" src="./Docker_2.png" />
-
----
-
-# Qu'est-ce que Docker ?
-Analogie
-
 <img class="w-180 m-auto" src="./Docker_2.png" />
 
 ---
@@ -65,61 +51,88 @@ Analogie
 <img class="w-180 m-auto" src="./Docker_3.png" />
 
 ---
+layout: center
+class: text-center
+---
 
-# Machines Virtuelles vs Conteneurs
+# Qu'est-ce que Docker ?
+&nbsp;
 
-<div class="grid grid-cols-2 gap-8 pt-8">
+Docker vous permet **d'emballer _(package)_ une application** avec **toutes ses dépendances** dans **une unité standardisé** pour le développement logiciel :
 
-<div>
+## les CONTAINERS
 
-## Machines Virtuelles
-
-* Incluent un système d'exploitation complet
-* Plus lourdes et consomment plus de ressources
-* Démarrage plus lent
-* Isolation complète
-
-</div>
-
-<div>
-
-## Conteneurs
-
-* Partagent le noyau du système hôte
-* Plus légers et plus rapides
-* Démarrage quasi-instantané
-* Isolation au niveau du processus
-
-</div>
-
-</div>
+<!--
+« Toutes » comprend : les bibliothèques partagées système et les fichiers de configuration, l’environnement d’exécution de l’application (interpréteur, JRE, CLR, ...), la plateforme de l’application (serveur d’applications, IIS, ...), l’application elle-même, ses configurations...
+-->
 
 ---
 
-# Pourquoi c'est un grand problème ?
+# Qu'est-ce que Docker
+Machines Virtuelles vs Conteneurs - Schéma
 
-<v-clicks class="pt-8">
-
-* Résout le problème "ça marche sur ma machine"
-* Standardise les environnements de développement
-* Facilite le déploiement en production
-* Permet une meilleure utilisation des ressources
-
-</v-clicks>
-
-Consultez le paysage CNCF : https://landscape.cncf.io/
+<img class="w-190 m-auto" src="./docker-vs-vm.png" />
 
 ---
 
-# Installation de Docker
+# Qu'est-ce que Docker
+Machines Virtuelles vs Conteneurs - Tableau comparatif
 
-<v-clicks class="pt-8">
+<style>
+  table {
+    font-size: .8rem;
+  }
+</style>
 
-* **Deux façons différentes de l'installer :**
-  * Docker Desktop 💡 (Windows/MacOS)
-  * Docker Engine ⚙ (Linux)
+| **Critère** | **Machine virtuelle (VM)** | **Conteneur Docker** |
+|---------|------------------------|------------------|
+| **Niveau de virtualisation** | Virtualise une machine complète (matériel + OS invité) | Virtualise uniquement l'espace applicatif |
+| **Système d'exploitation** | Chaque VM a son propre OS complet | Partage le noyau de l'OS hôte |
+| **Isolation** | Très forte (OS séparés) | Moins forte, isolation au niveau processus/namespaces |
+| **Consommation ressources** | Lourde (RAM, CPU, disque élevés) | Légère, utilisation optimisée des ressources |
+| **Temps de démarrage** | Lents (secondes à minutes, boot d'un OS) | Très rapides (souvent en quelques secondes) |
+| **Portabilité** | Image plus lourde, moins pratique à déplacer | Image légère, très facile à distribuer |
+| **Cas d'usage typiques** | Exécuter plusieurs OS différents, services très isolés | Microservices, CI/CD, scaling rapide d'applications |
+| **Sécurité** | Très bonne grâce à l'isolement complet de l'OS | Bonne mais dépend davantage de la sécurité du noyau |
+| **Gestion de l'infra** | Souvent pour infra "classique" ou serveurs complets | Orienté déploiement d'applications et services |
 
-</v-clicks>
+<!-- 
+Un hyperviseur (Hyper-V, VirtualBox, VMWare, QEMU/KVM, Proxmox), également connu sous le nom de moniteur de machine virtuelle ou VMM, est un logiciel qui crée et exécute des machines virtuelles (VM).
+
+Une VM va contenir un système d’exploitation dans son intégralité c’est-à-dire les pilotes, les fichiers binaires, les bibliothèques alors que les conteneurs Docker ne possèdent que le strict nécessaire pour l’exécution de l’application. Il fait appel à l’OS de sa machine hôte pour réaliser ses appels système et exécuter ses applications, d’où son extrême légèreté.
+-->
+
+---
+layout: default
+---
+
+# Pourquoi Docker vaut le coup ?
+
+* Fini les : "ça marche sur ma machine"
+* Standardisation des environnements de développement
+* Partage de ressources entre containers
+* "Facilite" le déploiement des applications dans différents environnements
+
+<br/>
+
+Consultez le paysage des technologies Cloud : https://landscape.cncf.io/
+
+---
+layout: center
+class: text-center
+---
+
+# Chapitre 02 - Installation de Docker
+
+---
+
+# Chapitre 02 - Installation de Docker
+
+**Deux façons différentes de l'installer :**
+  * [Docker Engine](https://docs.docker.com/engine/install/) ⚙
+  * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+_Docker Desktop crée une machine virtuelle (VM) dans laquelle Docker Engine s'exécute. De ce fait, il est souvent nécéssaire de l'installer sur des machines Windows. Ce qui n'est pas le cas pour les machines sous le noyeau Linux._
 
 ---
 
@@ -140,7 +153,6 @@ Consultez le paysage CNCF : https://landscape.cncf.io/
 
 ---
 layout: center
-class: text-center
 ---
 
 # Chapitre 02 - Images & Conteneurs !

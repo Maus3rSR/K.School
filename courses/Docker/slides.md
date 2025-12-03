@@ -71,7 +71,7 @@ Docker vous permet **d'emballer _(package)_ une application** avec **toutes ses 
 # Qu'est-ce que Docker
 Machines Virtuelles vs Conteneurs - Schéma
 
-<img class="w-190 m-auto" src="./docker-vs-vm.png" />
+<img class="w-180 m-auto" src="./docker-vs-vm.png" />
 
 ---
 
@@ -80,7 +80,7 @@ Machines Virtuelles vs Conteneurs - Tableau comparatif
 
 <style>
   table {
-    font-size: .8rem;
+    font-size: 60%;
   }
 </style>
 
@@ -131,45 +131,40 @@ class: text-center
 
 **Deux façons différentes de l'installer :**
   * [Docker Engine](https://docs.docker.com/engine/install/) ⚙
-  * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+  * [Docker Desktop](https://www.docker.com/products/docker-desktop/) 💡
 
 _Docker Desktop crée une machine virtuelle (VM) dans laquelle Docker Engine s'exécute. De ce fait, il est souvent nécéssaire de l'installer sur des machines Windows. Ce qui n'est pas le cas pour les machines sous le noyeau Linux car Docker s'exécute directement sur le noyeau de l'OS._
-
----
-
-# Guide d'installation
-
-<v-clicks class="pt-8">
-
-* **Sur Windows/MacOS** : installez Docker Desktop !
-  * https://docs.docker.com/engine/install/
-
-* **Sur Linux** : optez pour Docker Engine
-  * https://docs.docker.com/engine/install/ubuntu/
-  * https://docs.docker.com/engine/install/linux-postinstall/
-
-</v-clicks>
-
-**Lab 1** : Installez Docker sur votre machine
 
 ---
 layout: center
 ---
 
-# Chapitre 02 - Images & Conteneurs !
+# Chapitre 03 - Images & Conteneurs !
 
 ---
 
-# Images & Conteneurs !
+# Chapitre 03 - Images & Conteneurs !
+Analogie
 
-<v-clicks class="pt-8">
+Similaire à la programmation orientée objet, un `container` est une instance d'une `image`
 
-* Similaire à la programmation orientée objet
-* Une **image** est un template
-* Un **conteneur** est une instance d'une image
-* Les images sont immuables, les conteneurs sont mutables
+<div class="grid grid-cols-2 gap-x-4">
+```ts
+class Point2D {
+  x: number;
+  y: number;
+  constructor(coordinates: { x: number, y: number }) {
+    this.x = coordinates.x;
+    this.y = coordinates.y;
+  }
+}
+```
 
-</v-clicks>
+```ts
+// point est une instance de la classe Point2D
+const point = new Point2D({ x: 1, y: 2 });
+```
+</div>
 
 ---
 
@@ -188,7 +183,7 @@ layout: center
 
 # Commandes Docker de base
 
-```bash {monaco-run}
+```bash {monaco}
 # Lister les images
 docker image ls
 
@@ -218,7 +213,7 @@ docker container run -it ubuntu bash
 
 # Committer les modifications
 
-```bash {monaco-run}
+```bash {monaco}
 # Exécuter un conteneur interactif
 docker container run -it ubuntu bash
 
@@ -265,7 +260,7 @@ class: text-center
 
 # Utiliser les Volumes
 
-```bash {monaco-run}
+```bash {monaco}
 # Créer un volume nommé
 docker volume create my-volume
 
@@ -322,7 +317,7 @@ docker container inspect <container_name/id>
 
 # Exposer un Service
 
-```bash {monaco-run}
+```bash {monaco}
 # Démarrer un conteneur nginx et exposer le port 80
 docker container run -d -p 8080:80 nginx
 
@@ -342,108 +337,6 @@ docker container run -d -p 8080:80 nginx
 * (Optionnel) Montrez que le service est accessible depuis le réseau
 
 </v-clicks>
-
----
-layout: center
-class: text-center
----
-
-# Chapitre 04 - Réseaux !
-
----
-
-# Réseaux Docker
-
-<v-clicks class="pt-8">
-
-* Les conteneurs ont la mise en réseau activée par défaut
-* Chaque conteneur voit une interface réseau avec une adresse IP
-* Les pilotes réseau contrôlent l'isolation entre conteneurs
-* Permet une communication sécurisée entre services
-
-</v-clicks>
-
----
-
-# Types de Pilotes Réseau
-
-<v-clicks class="pt-8">
-
-* **bridge** : isolation par défaut entre conteneurs
-* **host** : supprime l'isolation réseau
-* **overlay** : pour les clusters Docker Swarm
-* **none** : pas de mise en réseau
-
-</v-clicks>
-
----
-
-# Pilote Host
-
-<v-clicks class="pt-8">
-
-* Supprime l'isolation réseau entre le conteneur et l'hôte
-* Le conteneur utilise directement le réseau de l'hôte
-* Utile pour les performances critiques
-* Moins d'isolation = moins de sécurité
-
-</v-clicks>
-
----
-
-# Pilote None
-
-<v-clicks class="pt-8">
-
-* Isole complètement un conteneur
-* Pas de communication avec l'hôte ou d'autres conteneurs
-* Utile pour les conteneurs sans besoin réseau
-
-</v-clicks>
-
----
-
-# Pilote Bridge
-
-<v-clicks class="pt-8">
-
-* Isolation par défaut entre conteneurs
-* Chaque conteneur obtient sa propre interface virtuelle
-* Les conteneurs peuvent communiquer via le pont Docker
-* Permet une architecture en couches
-
-</v-clicks>
-
----
-
-# Architecture en Couches
-
-<v-clicks class="pt-8">
-
-* Frontend, Backend et Database
-* Le frontend ne devrait pas communiquer avec la base de données
-* Les requêtes vers la base de données doivent passer par le backend
-* Utilisez des réseaux séparés pour chaque couche
-
-</v-clicks>
-
----
-
-# Lab 4 - Réseaux
-
-<v-clicks class="pt-8">
-
-* Créez trois réseaux : frontends, backends, databases
-* Déployez trois conteneurs nginx sur leurs réseaux respectifs
-* Vérifiez que les conteneurs ne peuvent communiquer que sur leur réseau
-
-</v-clicks>
-
-```bash {monaco-run}
-docker network create frontends
-docker network create backends
-docker network create databases
-```
 
 ---
 layout: center
@@ -482,7 +375,7 @@ class: text-center
 
 # Exemple d'Application Python
 
-```python {monaco-run}
+```python {monaco}
 from flask import Flask
 app = Flask(__name__)
 
@@ -495,7 +388,7 @@ def hello():
 
 # Dockerfile pour l'Application
 
-```dockerfile {monaco-run}
+```dockerfile {monaco}
 # syntax=docker/dockerfile:1
 FROM ubuntu:22.04
 
@@ -516,7 +409,7 @@ CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 
 # Construire et Exécuter l'Image
 
-```bash {monaco-run}
+```bash {monaco}
 # Construire l'image
 docker image build -t app:latest .
 
@@ -547,7 +440,7 @@ docker container run -p 127.0.0.1:8000:8000 app:latest
 
 # Ressources pour le Lab
 
-```bash {monaco-run}
+```bash {monaco}
 # Cloner le dépôt d'exemple
 git clone https://github.com/MadJlzz/containers-with-docker.git
 

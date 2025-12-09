@@ -274,12 +274,12 @@ Démarrer un conteneur depuis l'image `alpine` et afficher `Hello World!`
 
 Démarrer un conteneur depuis l'image `alpine` et y attacher un shell interactif
 > docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-i -t</span> alpine sh
-> 
-> echo “Hello World!”
-> 
-> ls <span class="text-red">-lah</span>
-> 
-> exit
+
+```bash
+echo "Hello World!"
+ls -lah
+exit
+```
 
 <!--
 -t --tty : permet de lier les flux I/O du conteneur à un pseudo terminal
@@ -337,9 +337,10 @@ Démarrer un conteneur nommé, avec un shell interactif
 > docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-it</span> <span class="text-red">--name</span> nodejs-container alpine
 
 Installons NodeJS
-> apk add --update nodejs
->
-> exit
+```bash
+apk add --update nodejs
+exit
+```
 
 Créer une nouvelle image depuis un container actif
 > docker <span class="text-orange">image</span> <span class="text-blue">commit</span> nodejs-container <span class="text-green">my-nodejs</span>
@@ -387,116 +388,156 @@ background: https://cover.sli.dev?5
 ---
 
 # Volumes & Ports
+&nbsp;
 
-* Les conteneurs sont éphémères
-* Les données sont perdues à l'arrêt du conteneur
-* Les volumes permettent de persister les données
-* Les ports permettent d'exposer les services
+Par défaut, tous les fichiers créés dans le conteneur sont stockés sur une couche en écriture. Ce que cela veut dire :
 
----
-
-# Types de Volumes
-
-* **Volumes nommés** : gérés par Docker
-* **Volumes de liaison** : liés à un répertoire de l'hôte
-* **Volumes tmpfs** : stockés en mémoire
+* Les créations/modifications/suppressions de données d'un conteneur **n'affectent pas les autres conteneurs**
+* Les données **ne persistent pas** sur une conteneur quand il est supprimé
+* Comment persister les données dans ce cas ? Les **Volumes** !
 
 ---
 
-# Utiliser les Volumes
+# Volumes & Ports
+Types de Volumes
 
-```bash {monaco}
-# Créer un volume nommé
-docker volume create my-volume
+<div class="grid grid-cols-2 gap-x-4"> 
 
-# Exécuter un conteneur avec un volume
-docker container run -v my-volume:/data alpine
+<div>
+Il existe deux options pour un conteneur afin de stocker les fichiers sur la machine hôte :
 
-# Exécuter un conteneur avec un volume de liaison
-docker container run -v /host/path:/container/path alpine
+* **docker volumes** : gérés par Docker
+* **bind mounts** : liés à un répertoire de l'hôte
 
-# Inspecter un conteneur pour trouver le volume
-docker container inspect <container_name/id>
+Une troisième option existe et consiste à écrire directement les fichiers dans la RAM et non sur le disque. Cela se nomme **tmpfs** <small>_(temporary filesystem)_</small>
+</div>
+
+<img src="./docker_volume.png" />
+
+</div>
+
+---
+
+# Volumes & Ports
+Types de Volumes
+
+<div class="grid grid-cols-2 gap-x-4"> 
+
+* Les volumes docker **fonctionnent de la même manière** que les `bind mounts`
+* Ils sont également écrits sur le système de fichier de la machine hôte
+* Les données sont persistées, mais nous ne savons pas exactement où car c'est Docker qui s'en occupe pour nous
+
+<img src="./docker_volume.png" />
+
+</div>
+
+---
+
+# Volumes & Ports
+Types de Volumes
+
+<div class="grid grid-cols-2 gap-x-4"> 
+
+* Les volumes sont pratiques pour **le partage de données** entre différents conteneurs
+
+<img src="./docker_volume_shared.png" />
+
+</div>
+
+---
+
+# Volumes & Ports
+Pratique guidée
+
+Démarrer un conteneur `alpine` et faire un montage du dossier hôte `/tmp` dans le dossier du conteneur `/opt/data`
+> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-it --volume</span> /tmp<span class="text-yellow font-black">:</span>/opt/data alpine
+
+Regardez les permissions des fichiers dans `/opt/data`, que penses-vous des permissions ? 💣
+```bash
+ls -alrt /opt/data
 ```
 
----
-
-# Lab 2 - Volumes
-
-* Créez deux conteneurs avec un volume partagé
-* Un conteneur avec accès en lecture-écriture
-* Un conteneur avec accès en lecture seule
-* Écrivez un fichier depuis le premier conteneur
-* Vérifiez que vous pouvez le lire depuis le second
+<!--
+Les permissions affichées dans /opt/data sont exactement celles du répertoire /tmp de l’hôte, pas celles « par défaut » du conteneur
+Un bind mount casse partiellement l’isolation : le conteneur voit et peut modifier des fichiers de l’hôte avec les mêmes droits que l’UID/GID qui tourne dans le conteneur.
+Si on lance un conteneur en root (comme dans l’exemple), root dans le conteneur = root sur l’hôte pour ce répertoire monté : il peut supprimer/modifier tout ce qu’il veut dans /tmp de l’hôte.
+-->
 
 ---
 
-# Port Mapping
+# Volumes & Ports
+Pratique guidée
 
-* Docker n'expose pas automatiquement les ports
-* Vous devez mapper les ports de l'hôte vers le conteneur
-* Syntaxe : `-p [host_ip:]host_port:container_port`
-* Par défaut, Docker utilise l'interface globale (0.0.0.0)
+Créez un volume nommé `outerspace`
+> docker <span class="text-orange">volume</span> <span class="text-blue">create</span> outerspace
+
+Montez ce volume dans le conteneur `alpine`. Notez ici que nous ne précisons pas où est situé ce volume sur le système de fichier hôte. Docker s'en occupe pour nous.
+> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-it --volume</span> outerspace<span class="text-yellow font-black">:</span>/opt/data alpine
+
+On peut néanmoins, si besoin, localiser le volume
+> docker <span class="text-orange">container</span> <span class="text-blue">inspect</span> `<container_name>`
+> 
+---
+
+# Volumes & Ports
+Port mapping
+
+* Que vous vouliez **exposer** une **base de données**, un **serveur web** ou même une **API Rest**, vous devez toujours le faire démarrer sur **un port de votre machine**
+* Docker **ne publie pas** les ports de votre application **automatiquement**. Vous devez lui dire depuis quel port de votre machine locale rediriger le traffic vers quel port du conteneur. C'est ce qu'on appelle le **port-mapping**
+* Par défaut, Docker utilise l'interface globale `0.0.0.0` pour exposer les ports. ⚠️ Ce qui est dangereux et **rend accessible votre application depuis tout le réseau**. On peut éviter cela en spécifiant **l'interface locale** `127.0.0.1` quand on publie des ports.
 
 ---
 
-# Sécurité des Ports
+# Volumes & Ports
+Port mapping
 
-* Utiliser `0.0.0.0` rend l'application accessible depuis Internet
-* Pour plus de sécurité, utilisez l'interface locale `127.0.0.1`
-* Exemple : `-p 127.0.0.1:8080:8080`
-
----
-
-# Exposer un Service
-
-```bash {monaco}
-# Démarrer un conteneur nginx et exposer le port 80
-docker container run -d -p 8080:80 nginx
-
-# Ouvrir un navigateur à http://localhost:8080
-# Vous devriez voir la page par défaut de nginx
-```
+<img src="./docker_port_mapping.webp" />
 
 ---
 
-# Lab 3 - Ports
+# Volumes & Ports
+Exposer un Service
 
-* Démarrez un conteneur nginx
-* Exposez son port 80 vers votre port 8080
-* Ouvrez un navigateur à http://localhost:8080
-* (Optionnel) Montrez que le service est accessible depuis le réseau
+Démarrez un nouveau conteneur qui fera tourner `nginx` et exposez sont port 80 sur votre machine
+> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-d -p</span> 8080:80 nginx
+
+Ouvrez votre navigateur à l'adresse http://127.0.0.1:8080
+
 
 ---
 layout: center
 class: text-center
 ---
 
-# Chapitre 05 - Dockerfiles
+# Chapitre 05 - Dockerfile
 
 ---
 
-# Dockerfiles
+# Dockerfile
+C'est quoi
 
-* Jusqu'à présent, nous avons créé des images en commitant les modifications
-* Ce n'est pas très efficace
-* Les Dockerfiles permettent de décrire chaque étape
-* Chaque instruction crée une nouvelle couche
+* Jusqu'à présent, nous n'avions qu'une seule méthode pour créer de nouvelles images : **valider (`commit`)** les modifications effectuées **depuis un conteneur**
+* Cette méthode **n'est pas optimale**. C'est pourquoi, **pour simplifier la création d'images d'applications**, l'équipe Docker nous permet de décrire chaque étape dans un fichier : le **Dockerfile**
+* **Chaque instruction** exécutée dans un Dockerfile **ajoute une nouvelle couche à l'image finale**. Notez que la quasi-totalité des instructions créent de nouvelles couches
+* Il est important de souligner que la taille de notre image **doit rester réduite**. Plus elle est petite, plus nos conteneurs **démarreront rapidement**
 
----
-
-# Avantages des Dockerfiles
-
-* Reproductibilité : même image à chaque fois
-* Versioning : tracer les modifications
-* Automatisation : build automatisé
-* Optimisation : garder les images petites
+[Documentation Dockerfile](https://docs.docker.com/reference/dockerfile/)
 
 ---
 
-# Exemple d'Application Python
+# Dockerfile
+Analogie
 
-```python {monaco}
+<img class="w-200" src="./docker-analogie-gateau.jpg" />
+
+---
+
+# Dockerfile
+Dockerizons votre première application
+
+Script python `hello.py`
+
+```python
 from flask import Flask
 app = Flask(__name__)
 
@@ -505,9 +546,7 @@ def hello():
     return "Hello World!"
 ```
 
----
-
-# Dockerfile pour l'Application
+Dockerfile décrivant l'image de cette application
 
 ```dockerfile {monaco}
 # syntax=docker/dockerfile:1
@@ -528,43 +567,45 @@ CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 
 ---
 
-# Construire et Exécuter l'Image
+# Dockerfile
+Dockerizons votre première application
 
-```bash {monaco}
-# Construire l'image
-docker image build -t app:latest .
+Faisons un build de l'image
+> docker <span class="text-orange">image</span> <span class="text-blue">build</span> <span class="text-red">--tag</span> app:latest <span class="text-yellow font-black">.</span>
 
-# Exécuter le conteneur
-docker container run -p 127.0.0.1:8000:8000 app:latest
-```
+Et lançons le !
+> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-p</span> 127.0.0.1:8000:8000 app:latest
 
-<v-click>
-
-**Note** : Le `.` représente le contexte de build (les fichiers accessibles pendant la construction)
-
-</v-click>
+ℹ️ Petite précision concernant le point `.` dans la commande ci-dessus : il représente le contexte de **build**, c’est-à-dire l’ensemble des fichiers auxquels nous pouvons accéder pendant la compilation.
+Si on essaye de copier des fichiers en dehors du contexte fera échouer le build.
 
 ---
 
-# Lab 5 - Containeriser une Application
+# Dockerfile pour l'Application
+Exemples plus avancés
 
-* Choisissez une application que vous avez développée
-* Créez un Dockerfile pour la containeriser
-* Construisez l'image
-* Exécutez le conteneur et testez-le
 
----
+<div class="grid grid-cols-2 gap-x-4">
 
-# Ressources pour le Lab
+<div>
 
-```bash {monaco}
-# Cloner le dépôt d'exemple
-git clone https://github.com/MadJlzz/containers-with-docker.git
+## Wordpress
 
-# Le dossier sample-app contient l'application à containeriser
-# Pour compiler l'application Go :
-CGO_ENABLED=0 go build -o <binaire> *.go
-```
+[Docker Hub](https://hub.docker.com/_/wordpress)
+
+[Dockerfile](https://github.com/docker-library/wordpress/tree/c82afd7240879748c5e4a64e5fb04e2d34172686/latest/php8.5/apache)
+</div>
+
+<div>
+
+## Nextcloud
+
+[Docker Hub](https://hub.docker.com/_/nextcloud/)
+
+[Dockerfile](https://github.com/nextcloud/all-in-one/tree/main/Containers/nextcloud)
+</div>
+
+</div>
 
 ---
 layout: center
@@ -576,20 +617,84 @@ class: text-center
 ---
 
 # Docker Compose
+C'est quoi
 
-* Outil pour définir et exécuter des applications multi-conteneurs
-* Clé pour un développement et un déploiement efficaces
-* Simplifie la gestion de votre pile applicative
-* Utilise un fichier de configuration YAML
+* Docker Compose est **un outil** permettant de définir et **d'exécuter des applications multi-conteneurs**. Il est essentiel pour une expérience de développement et de déploiement simplifiée et efficace.
+* Compose simplifie la gestion de l'ensemble de votre pile applicative, facilitant ainsi la **gestion des services, des réseaux et des volumes** dans un seul **fichier de configuration YAML** clair et concis.
+* Ensuite, **une simple commande** suffit pour **créer et démarrer tous les services** à partir de ce fichier :
+
+> docker <span class="text-orange">compose</span> <span class="text-blue">up</span> <span class="text-red">-d</span>
+> 
+> docker <span class="text-orange">compose</span> <span class="text-blue">ps</span>
+> 
+> docker <span class="text-orange">compose</span> <span class="text-blue">down</span>
 
 ---
 
-# Avantages de Docker Compose
+# Docker Compose
+Pourquoi ?
 
-* **Un seul fichier** : définissez tous vos services
-* **Un seul commande** : démarrez tous les services
-* **Gestion facile** : services, réseaux, volumes
-* **Développement efficace** : environnement cohérent
+Si nous devions par exemple, lancer une application Wordpress avec Docker, nous devrions faire ceci en ligne de commande :
+
+```bash
+# Démarrer le conteneur MySQL
+docker run -d --name db --restart always -e MYSQL_DATABASE=exampledb -e MYSQL_USER=exampleuser \
+  -e MYSQL_PASSWORD=examplepass -e MYSQL_RANDOM_ROOT_PASSWORD=1 -v db:/var/lib/mysql mysql:8.0
+
+# Démarrer le conteneur WordPress
+docker run -d --name wordpress --restart always -p 8080:80 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=exampleuser \
+  -e WORDPRESS_DB_PASSWORD=examplepass -e WORDPRESS_DB_NAME=exampledb \
+  -v wordpress:/var/www/html --link db:db wordpress
+```
+
+Plutôt verbeux n'est-ce pas ?
+
+---
+
+# Docker Compose
+Pourquoi ?
+
+Grâce à docker-compose, nous pouvons orchestrer nos conteneurs dans un fichier YAML descriptif
+
+<div class="grid grid-cols-2 gap-x-4">
+
+```yaml
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+```
+
+```yaml
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+```
+
+</div>
+
+[Tutoriel pour votre premier docker-compose](https://docs.docker.com/compose/gettingstarted/)
 
 ---
 layout: center
@@ -598,6 +703,7 @@ layout: center
 # Chapitre 07 - Et Ensuite
 Prochaines Étapes
 
+* Maîtrisez Dockerfile pour vous permettre de "Dockeriser" n'importe laquelle de vos applications
 * Maîtrisez Docker Compose pour les applications multi-conteneurs
 * Explorez [Docker Swarm](https://docs.docker.com/engine/swarm/) ou [Kubernetes](https://kubernetes.io/fr/) pour l'orchestration d'applications de production avec mise à l'échelle
 * Apprenez les bonnes pratiques de sécurité lors de l'utilisation de Docker

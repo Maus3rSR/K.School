@@ -505,8 +505,8 @@ Ouvrez votre navigateur à l'adresse http://127.0.0.1:8080
 
 
 ---
-layout: center
-class: text-center
+layout: cover
+background: https://cover.sli.dev?6
 ---
 
 # Chapitre 05 - Dockerfile
@@ -608,8 +608,8 @@ Exemples plus avancés
 </div>
 
 ---
-layout: center
-class: text-center
+layout: cover
+background: https://cover.sli.dev?7
 ---
 
 # Chapitre 06 - Docker Compose

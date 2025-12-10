@@ -291,7 +291,7 @@ exit
 Docker CLI - Pratique guidée
 
 Démarrer un conteneur en arrière-plan avec un processus détaché
-> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-d</span> alpine sh -c `while true; do echo "Hello World!"; sleep 1; done`
+> docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-d</span> alpine sh -c 'while true; do echo "Hello World!"; sleep 1; done'
 
 Regardons la liste des conteneurs actifs
 > docker <span class="text-orange">container</span> <span class="text-blue">ls</span>
@@ -343,7 +343,10 @@ exit
 ```
 
 Créer une nouvelle image depuis un container actif
-> docker <span class="text-orange">image</span> <span class="text-blue">commit</span> nodejs-container <span class="text-green">my-nodejs</span>
+> docker <span class="text-orange">container</span> <span class="text-blue">commit</span> nodejs-container <span class="text-green">my-nodejs</span>
+
+Executer une commande sur un container actif
+> docker <span class="text-orange">exec</span> <span class="text-red">-it</span> nodejs-container sh
 
 ---
 
@@ -498,11 +501,10 @@ Port mapping
 # Volumes & Ports
 Exposer un Service
 
-Démarrez un nouveau conteneur qui fera tourner `nginx` et exposez sont port 80 sur votre machine
+Démarrez un nouveau conteneur qui fera tourner `nginx` et exposez son port 80 sur votre machine
 > docker <span class="text-orange">container</span> <span class="text-blue">run</span> <span class="text-red">-d -p</span> 8080:80 nginx
 
 Ouvrez votre navigateur à l'adresse http://127.0.0.1:8080
-
 
 ---
 layout: cover
@@ -535,9 +537,11 @@ Analogie
 # Dockerfile
 Dockerizons votre première application
 
-Script python `hello.py`
+<div class="grid grid-cols-2 gap-x-4">
 
-```python
+<div>
+Script python `hello.py`
+```python {monaco}
 from flask import Flask
 app = Flask(__name__)
 
@@ -545,6 +549,9 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 ```
+</div>
+
+<div>
 
 Dockerfile décrivant l'image de cette application
 
@@ -564,6 +571,8 @@ ENV FLASK_APP=hello
 EXPOSE 8000
 CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 ```
+</div>
+</div>
 
 ---
 

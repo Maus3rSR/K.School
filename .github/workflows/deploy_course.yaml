@@ -1,0 +1,76 @@
+# Reusable workflow
+name: 🚀 Deploy Course
+on:
+  workflow_call:
+    inputs:
+      course:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      course:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Course ${{ inputs.course }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug
+        run: |
+          echo "Course: ${{ inputs.course }}"
+
+      # - name: 🛎️ Checkout files
+      #   uses: actions/checkout@v4
+
+      # - name: 📥 Install pnpm
+      #   uses: pnpm/action-setup@v4
+      #   with:
+      #     version: 10.18.0
+      #     run_install: false
+
+      # - name: 📥 Install Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      #     cache: "pnpm"
+
+      # - name: 🔧 Setup pnpm store directory
+      #   id: pnpm-store-path
+      #   shell: bash
+      #   run: |
+      #     echo "PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      # - name: 📦 Retrieve pnpm cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ${{ steps.pnpm-store-path.outputs.PATH }}
+      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-store-
+
+      # - name: 📥 Install Turbo
+      #   run: |
+      #     pnpm install turbo@2.3.3 --global
+      #     turbo telemetry disable
+
+      # - name: 🪓 Turbo prune
+      #   run: |
+      #     turbo prune ${{ inputs.course }}
+
+      # - name: 📥 Install dependencies
+      #   working-directory: ./out
+      #   run: |
+      #     pnpm install
+
+      # - name: 🏗️ Build
+      #   working-directory: ./out
+      #   run: |
+      #     turbo run build
+
+      # - name: 📯 List out files of build
+      #   working-directory: ./out/${{ inputs.course }}/public
+      #   run: |
+      #     ls -la

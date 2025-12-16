@@ -1,0 +1,97 @@
+# Reusable workflow
+name: 👀 Check changes
+on:
+  workflow_call:
+    inputs:
+      force:
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      apps:
+        description: "A string containing all the apps built"
+        value: ${{ jobs.build.outputs.apps }}
+
+jobs:
+  build:
+    name: job
+    runs-on: ubuntu-latest
+    outputs:
+      # Output the list of apps that were built and need to be deployed
+      apps: ${{ steps.changes.outputs.value || '[]' }}
+    steps:
+      - name: 🛎️ Checkout files
+        uses: actions/checkout@v4
+        with:
+          # Needed for nrwl/nx-set-shas@v4
+          fetch-depth: 0
+
+      - name: 📥 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.0
+          run_install: false
+
+      - name: 📥 Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: 🔧 Setup pnpm store directory
+        id: pnpm-store-path
+        shell: bash
+        run: |
+          echo "PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: 📦 Prepare pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store-path.outputs.PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 🔧 Setup base and head SHAs to compare changes
+        id: sha
+        uses: nrwl/nx-set-shas@v4
+        with:
+          last-successful-event: ${{ github.event_name }}
+          workflow-id: main.yaml # need to be provided as input var if used by another workflow
+
+      - name: 📯 echo SHAS
+        run: |
+          echo "BASE: ${{ steps.sha.outputs.base }}"
+          echo "HEAD: ${{ steps.sha.outputs.head }}"
+
+      - name: 📥 Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpx turbo telemetry disable
+
+      # - name: 📦 Prepare apps cache
+      #   id: cache-build
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: .turbo
+      #     key: ${{ runner.os }}-turbo-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-turbo-
+
+      - name: ❓ Which workspaces changed
+        id: changes
+        run: |
+          pnpx turbo run build --dry-run=json \
+            ${{ vars.EXCLUDED_PROJECTS }} ${{ !inputs.force && format('--filter="[{0}...{1}]"', steps.sha.outputs.base, steps.sha.outputs.head) || '' }} \
+            | jq -c .packages \
+            | xargs -I"{}" echo "value='{}'" >> $GITHUB_OUTPUT
+
+      - name: 📯 Which workspaces changed
+        run: |
+          echo "CHANGES: ${{ steps.changes.outputs.value }}"
+
+      # J'ai quelques soucis sur le build, je n'arrive pas à cache-hit...
+      # De plus: Comment faire pour avoir le .env d'un projet spécifique dans le build step?
+      # - name: 🏗️ Build affected apps
+      #   if: ${{ !steps.cache-build.outputs.cache-hit }}
+      #   run: pnpx turbo run build --cache-dir=.turbo ${{ vars.EXCLUDED_PROJECTS }} ${{ !inputs.force && format('--filter="[{0}...{1}]"', steps.sha.outputs.base, steps.sha.outputs.head) || '' }}

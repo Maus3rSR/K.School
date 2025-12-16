@@ -1,0 +1,35 @@
+name: ✨ Main workflow
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force workflow for all apps"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  changes:
+    uses: ./.github/workflows/check_changes.yaml
+    with:
+      force: ${{ inputs.force || false }}
+    permissions:
+      contents: "read"
+      actions: "read"
+
+  deploy:
+    name: Production
+    strategy:
+      matrix:
+        course: [needs.changes.outputs.apps]
+    uses: ./.github/workflows/deploy_course.yaml
+    needs: [changes]
+    secrets: inherit
+    with:
+      course: ${{ matrix.course }}

@@ -8,7 +8,7 @@ titleTemplate: "%s - Kevin UNFRICHT"
 
 # Versionner son code avec
 
-<img src="./git-logo.svg" />
+<img src="/git-logo.svg" />
 
 ---
 layout: cover
@@ -24,11 +24,11 @@ Chapitre 01 - Qu'est ce que GIT
 
 <div class="grid grid-cols-2 gap-4">
     <div v-click>
-        <img class="w-80 mb-2" src="./git_issue_1.png" />
+        <img class="w-80 mb-2" src="/git_issue_1.png" />
         Gérer les versions de ses fichiers sans système de versionnage
     </div>
     <div v-click>
-        <img class="w-80 mb-2" src="./git_issue_2.jpg" />
+        <img class="w-80 mb-2" src="/git_issue_2.jpg" />
         L'exponentialité des interactions humaines
     </div>
 </div>

@@ -35,21 +35,21 @@ Bref résumé
 # Qu'est-ce que Docker
 Analogie
 
-<img class="w-180 m-auto" src="./Docker_1.png" />
+<img class="w-180 m-auto" src="/Docker_1.png" />
 
 ---
 
 # Qu'est-ce que Docker
 Analogie
 
-<img class="w-180 m-auto" src="./Docker_2.png" />
+<img class="w-180 m-auto" src="/Docker_2.png" />
 
 ---
 
 # Qu'est-ce que Docker
 Analogie
 
-<img class="w-180 m-auto" src="./Docker_3.png" />
+<img class="w-180 m-auto" src="/Docker_3.png" />
 
 ---
 layout: center
@@ -72,7 +72,7 @@ Docker vous permet **d'emballer _(package)_ une application** avec **toutes ses 
 # Qu'est-ce que Docker
 Machines Virtuelles vs Conteneurs - Schéma
 
-<img class="w-180 m-auto" src="./docker-vs-vm.png" />
+<img class="w-180 m-auto" src="/docker-vs-vm.png" />
 
 ---
 
@@ -180,7 +180,7 @@ Structure des Images
 
 <div class="grid grid-cols-2 gap-x-4">
 
-<img src="./container-filesystem.png" />
+<img src="/container-filesystem.png" />
 
 * Composées de couches <small>_(layers)_</small>
 * Chaque couche est immuable <small>_(lecture seule)_</small>
@@ -217,7 +217,7 @@ Stockage en ligne
 * Similaire à [npmjs.com](https://npmjs.com/), on peut stocker nos images dans un registre
 * [Docker Hub](https://hub.docker.com/) est un service dans le cloud qui permet de stocker les images
 
-<img class="w-100" src="./docker_hub.webp" />
+<img class="w-100" src="/docker_hub.webp" />
 
 <small>Bien sûr, nous pouvons avoir des registres privés si besoin</small>
 
@@ -226,7 +226,7 @@ Stockage en ligne
 # Images & Conteneurs
 Architecture
 
-<img src="./docker_daemon.jpg" />
+<img src="/docker_daemon.jpg" />
 
 <!--
 Architecture client-serveur.
@@ -415,7 +415,7 @@ Il existe deux options pour un conteneur afin de stocker les fichiers sur la mac
 Une troisième option existe et consiste à écrire directement les fichiers dans la RAM et non sur le disque. Cela se nomme **tmpfs** <small>_(temporary filesystem)_</small>
 </div>
 
-<img src="./docker_volume.png" />
+<img src="/docker_volume.png" />
 
 </div>
 
@@ -430,7 +430,7 @@ Types de Volumes
 * Ils sont également écrits sur le système de fichier de la machine hôte
 * Les données sont persistées, mais nous ne savons pas exactement où car c'est Docker qui s'en occupe pour nous
 
-<img src="./docker_volume.png" />
+<img src="/docker_volume.png" />
 
 </div>
 
@@ -443,7 +443,7 @@ Types de Volumes
 
 * Les volumes sont pratiques pour **le partage de données** entre différents conteneurs
 
-<img src="./docker_volume_shared.png" />
+<img src="/docker_volume_shared.png" />
 
 </div>
 
@@ -494,7 +494,7 @@ Port mapping
 # Volumes & Ports
 Port mapping
 
-<img src="./docker_port_mapping.webp" />
+<img src="/docker_port_mapping.webp" />
 
 ---
 
@@ -530,7 +530,7 @@ C'est quoi
 # Dockerfile
 Analogie
 
-<img class="w-200" src="./docker-analogie-gateau.jpg" />
+<img class="w-200" src="/docker-analogie-gateau.jpg" />
 
 ---
 

@@ -10,6 +10,8 @@ titleTemplate: "%s - Kevin UNFRICHT"
 
 <img src="/git-logo.svg" />
 
+<small>(Support de cours en work in progress 😅)</small>
+
 ---
 layout: cover
 background: https://cover.sli.dev?2
@@ -95,6 +97,38 @@ Suivez les instructions
 # Configuration
 Chapitre 02 - Installation de GIT
 
+Configuration Nom et Email pour votre identité
+```shell {monaco}
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+Préférence pour les fins de ligne
+
+<div class="grid grid-cols-2 gap-4">
+    <div>
+        <small>Pour les utilisateurs Unix/Mac</small>
+```shell {monaco}
+git config --global core.autocrlf input
+git config --global core.safecrlf true
+```
+    </div>
+    <div>
+        <small>Pour les utilisateurs Windows</small>
+```shell {monaco}
+git config --global core.autocrlf true
+git config --global core.safecrlf true
+```
+    </div>
+</div>
+
+<!--
+Les fins de ligne indiquent où une ligne de texte se termine.
+Selon le système, elles sont encodées avec LF (Unix/macOS) ou CRLF (Windows).
+
+Le but de cette config est de permettre de normaliser les fin de lignes pour éviter d'avoir un mélange inutile.
+-->
+
 ---
 layout: cover
 background: https://cover.sli.dev?4
@@ -104,8 +138,36 @@ background: https://cover.sli.dev?4
 
 ---
 
-# Confirmer des changements
+# Préalable
 Chapitre 03 - Confirmer des changements
+
+Crééz un nouveau dossier de travail, ouvrez un terminal dans ce dossier puis initialisez votre premier dépôt git 
+```shell {monaco}
+git init
+```
+
+---
+
+# Cycle de vie
+Chapitre 03 - Confirmer des changements
+
+<img src="/lifecycle.png" />
+
+---
+
+# Vérifier le statut de son espace de travail
+Chapitre 03 - Confirmer des changements
+
+```shell {monaco}
+git status
+```
+
+Vous devriez voir
+```shell {monaco}
+git status
+On branch main
+nothing to commit, working tree clean
+```
 
 ---
 layout: center
@@ -115,6 +177,8 @@ layout: center
 <br/>
 
 [Documentation](https://git-scm.com/book/fr/v2)
+
+[Tutoriel](https://gitimmersion.com/)
 
 [Cheat Sheet](https://git-scm.com/cheat-sheet)
 

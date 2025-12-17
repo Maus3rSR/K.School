@@ -27,7 +27,7 @@ jobs:
     name: Production
     strategy:
       matrix:
-        course: ${{ needs.changes.outputs.apps }}
+        course: ${{ fromJson(needs.changes.outputs.apps) }}
     uses: ./.github/workflows/deploy_course.yaml
     needs: [changes]
     secrets: inherit

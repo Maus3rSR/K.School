@@ -1,3 +1,5 @@
 {
-    "editor.defaultFormatter": null
+  "editor.defaultFormatter": null,
+  "slidev.preview-sync": true,
+  "slidev.port": 3030
 }

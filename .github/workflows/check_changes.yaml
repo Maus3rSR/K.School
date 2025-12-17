@@ -81,10 +81,10 @@ jobs:
       - name: ❓ Which workspaces changed
         id: changes
         run: |
-          pnpx turbo run build --dry-run=json \
+          PACKAGES=$(pnpx turbo run build --dry-run=json \
             ${{ vars.EXCLUDED_PROJECTS }} ${{ !inputs.force && format('--filter="[{0}...{1}]"', steps.sha.outputs.base, steps.sha.outputs.head) || '' }} \
-            | jq -c .packages \
-            | xargs -I"{}" echo "value='{}'" >> $GITHUB_OUTPUT
+            | jq -c '.packages // []')
+          echo "value=$PACKAGES" >> $GITHUB_OUTPUT
 
       - name: 📯 Which workspaces changed
         run: |

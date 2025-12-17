@@ -23,8 +23,8 @@ jobs:
       contents: "read"
       actions: "read"
 
-  deploy:
-    name: Production
+  publish:
+    name: Course
     strategy:
       matrix:
         course: ${{ fromJson(needs.changes.outputs.apps) }}

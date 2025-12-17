@@ -18,10 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug
-        run: |
-          echo "Course: ${{ inputs.course }}"
-
+      - run: echo 'Coucou'
       # - name: 🛎️ Checkout files
       #   uses: actions/checkout@v4
 

@@ -71,9 +71,51 @@ Lorsque les auteurs sont d’accord sur une amélioration, ils fusionnent leurs 
 S'il y a un conflit aux mêmes endroits de leurs carnets lors de la fusion, ils doivent décider de ce qu'il faut conserver dans le roman principal.
 
 Si une erreur s’est glissée dans l’histoire, on peut rouvrir un ancien chapitre archivé et revenir à cette version, ou comparer deux versions pour voir exactement ce qui a changé, comme on le ferait avec les commits et les diffs dans Git.
+
 </span>
 
 ---
+layout: cover
+background: https://cover.sli.dev?3
+---
 
-# Confirmer les modifications
-Chapitre 01 - Qu'est ce que GIT
+# Chapitre 02 - Installation de GIT
+
+---
+
+# Installation
+Chapitre 02 - Installation de GIT
+
+https://git-scm.com/install/
+
+Suivez les instructions
+
+---
+
+# Configuration
+Chapitre 02 - Installation de GIT
+
+---
+layout: cover
+background: https://cover.sli.dev?4
+---
+
+# Chapitre 03 - Confirmer des changements
+
+---
+
+# Confirmer des changements
+Chapitre 03 - Confirmer des changements
+
+---
+layout: center
+---
+
+# Ressources Utiles
+<br/>
+
+[Documentation](https://git-scm.com/book/fr/v2)
+
+[Cheat Sheet](https://git-scm.com/cheat-sheet)
+
+[Le jeu "Oh my GIT"](https://ohmygit.org/)

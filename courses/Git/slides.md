@@ -236,6 +236,7 @@ TODO:
 * `git branch` pour créer, lister et supprimer des branches
 * `git switch -c <branche>` (ou `git checkout -b <branche>` ou `git branch <branche> && git checkout <branche>`) pour basculer entre les branches
 * `git merge` pour fusionner les branches
+* `git rebase`
 
 ---
 layout: center

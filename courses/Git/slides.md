@@ -146,6 +146,10 @@ Crééz un nouveau dossier de travail, ouvrez un terminal dans ce dossier puis i
 git init
 ```
 
+TODO:
+* Warning: Ne pas créer de dépôt dans un dossier, dont un dossier parent est déjà initialisé avec un dépôt Git
+* Explication du `.git` folder
+
 ---
 
 # Cycle de vie
@@ -168,6 +172,70 @@ git status
 On branch main
 nothing to commit, working tree clean
 ```
+
+---
+
+TODO:
+* Expliquez `git add` sur les fichiers que l'on peut modifier
+* Expliquez que nous trackons des modifications, et non pas des fichiers uniquement (exemple avec une modification sur un seul fichier dont une partie est staged et une partie unmodified)
+* `git hist` et `git log --graph`
+* `git diff` pour voir les différences
+* `git diff --staged` pour voir les différences des fichiers staged
+* `git commit --amend` pour modifier le dernier commit
+
+---
+layout: cover
+background: https://cover.sli.dev?5
+---
+
+# Chapitre 04 - Revenir en arrière
+
+TODO:
+* Naviguer dans l'historique avec `git checkout`
+* `git restore` pour les modifications unstaged
+* `git restore --staged` pour les modifications staged ou `git rm --cached` pour les fichiers non trackés staged
+* `git revert` pour annuler un commit (+ parler du pointeur HEAD)
+* `git reset` pour supprimer un commit
+
+---
+layout: cover
+background: https://cover.sli.dev?6
+---
+
+# Chapitre 05 - Travail collaboratif
+
+TODO:
+* Créer un dépôt distant avec `git init --bare`
+* Configurer le dépôt distant avec `git remote add <nom> <chemin>`
+* `git push` et `git pull` (+ `--set-upstream`)
+* `git clone` 
+* `git fetch`
+* Initialiser un dépôt GitHub
+* Configuration d'une clé SSH
+
+---
+layout: cover
+background: https://cover.sli.dev?7
+---
+
+# Chapitre 06 - Gestion des conflits
+
+TODO:
+* Explication des conflits de fusion
+* Résolution manuelle des conflits
+
+---
+layout: cover
+background: https://cover.sli.dev?8
+---
+
+# Chapitre 07 - Être branché 😎
+
+TODO:
+* Explication du concept de branche
+* `git branch` pour créer, lister et supprimer des branches
+* `git switch -c <branche>` (ou `git checkout -b <branche>` ou `git branch <branche> && git checkout <branche>`) pour basculer entre les branches
+* `git merge` pour fusionner les branches
 
 ---
 layout: center

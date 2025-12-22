@@ -209,7 +209,7 @@ TODO:
 * Configurer le dépôt distant avec `git remote add <nom> <chemin>`
 * `git push` et `git pull` (+ `--set-upstream`)
 * `git clone` 
-* `git fetch`
+* `git fetch` + argument `--prune` pour nettoyer les branches distantes supprimées
 * Initialiser un dépôt GitHub
 * Configuration d'une clé SSH
 
@@ -237,6 +237,59 @@ TODO:
 * `git switch -c <branche>` (ou `git checkout -b <branche>` ou `git branch <branche> && git checkout <branche>`) pour basculer entre les branches
 * `git merge` pour fusionner les branches
 * `git rebase`
+
+---
+layout: cover
+background: https://cover.sli.dev?9
+---
+
+# Chapitre 08 - Flux de travail
+
+---
+
+# Critères pour choisir une stratégie
+Chapitre 08 - Flux de travail
+
+<span class="text-sm">
+
+* **Taille de l'équipe** : Les petites équipes privilégieront des stratégies plus simples comme le développement basé uniquement sur la branche principale ou GitHub Flow, tandis que les grandes équipes tireront profit d'approches structurées telles que Gitflow. Pour plus de clarté, utilisez des conventions de nommage de branches cohérentes, comme `/feature/{{author}}/{{card-number}}/{{description}}` pour Gitflow ou `/{{author}}/{{short-description}}` pour GitHub Flow.
+
+* **Complexité du projet** : Les projets complexes nécessitent souvent une organisation plus poussée, ce qui rend Gitflow ou le système de branches de version idéaux. Par exemple, Gitflow peut utiliser `/hotfix/{{issue-number}}` pour les correctifs critiques ou `/release/{{version}}` pour la préparation des versions.
+
+* **Besoins de déploiement** : Le déploiement continu est optimal avec GitHub Flow ou le développement basé sur la branche principale. Les branches éphémères dans le développement basé sur la branche principale peuvent suivre des formats comme `/fix/{{bug-id}}` ou `/task/{{id}}` pour la traçabilité.
+
+* **Tests et stabilité** : Si les tests et la stabilité sont essentiels, Gitflow ou le système de branches de publication offrent une meilleur isolation pour faire des contrôles.
+
+* **Rythme de développement** : Les projets à évolution rapide tirent parti du développement basé sur le tronc ou de GitHub Flow, où des conventions de nommage de branches légères comme `/{{author}}/{{short-description}}` sont efficaces.
+
+</span>
+
+---
+
+# Tableau récapitulatif
+Chapitre 08 - Flux de travail
+
+<div class="text-sm">
+
+| Critère | Main only | Feature <br/>Branching | Gitflow | GitHub flow | Trunked Based <br/> Development | Release <br/>branching |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| Taille de l'équipe | 👤 | 👤👤 | 👤👤👤 | 👤 | 👤👤 | 👤👤👤|
+| Taille du projet | 🏠 | 🏠🏠 | 🏠🏠🏠| 🏠| 🏠🏠 | 🏠🏠🏠 |
+| Rapidité release | 🚀🚀🚀 | 🚀🚀| 🚀| 🚀🚀🚀 | 🚀🚀🚀 | 🚀
+| Complexité | 🥵 | 🥵🥵| 🥵🥵🥵| 🥵 | 🥵 | 🥵🥵🥵
+| Stabilité projet |➕ |➕➕ | ➕➕➕| ➕➕|➕ | ➕➕➕
+| Risque conflits |⚠️ |⚠️⚠️ | ⚠️⚠️⚠️| ⚠️⚠️|⚠️| ⚠️⚠️⚠️
+
+</div>
+
+<small>_Ce tableau est un résumé et non à prendre au pied de la lettre car chaque critère est influencé par un contexte bien précis d'objectifs à atteindre avec une stratégie_</small>
+
+---
+layout: cover
+background: https://cover.sli.dev?10
+---
+
+# Chapitre 09 - Conventions & bonnes pratiques
 
 ---
 layout: center

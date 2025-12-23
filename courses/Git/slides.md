@@ -88,6 +88,13 @@ background: https://cover.sli.dev?3
 # Installation
 Chapitre 02 - Installation de GIT
 
+Faites un
+```shell {monaco}
+git --version
+```
+
+Si vous n'obtenez pas de numéro de version, vous pouvez faire l'installation depuis le site :
+
 https://git-scm.com/install/
 
 Suivez les instructions
@@ -101,6 +108,9 @@ Configuration Nom et Email pour votre identité
 ```shell {monaco}
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
+
+# Nom de la branche par défaut, historiquement c'est "master"
+git config --global init.defaultBranch main
 ```
 
 Préférence pour les fins de ligne
@@ -127,6 +137,10 @@ Les fins de ligne indiquent où une ligne de texte se termine.
 Selon le système, elles sont encodées avec LF (Unix/macOS) ou CRLF (Windows).
 
 Le but de cette config est de permettre de normaliser les fin de lignes pour éviter d'avoir un mélange inutile.
+
+Nom de branche par défaut -> parenthèse historique (master vs main) : dans le passé, la branche par défaut était nommée "master", mais aujourd'hui il est préférable d'utiliser "main" pour des raisons d'inclusivité.
+
+Cela permet d'avoir une convention plus inclusive et neutre en termes de genre, en évitant des termes potentiellement offensants dans le contexte de l'informatique.
 -->
 
 ---
@@ -141,7 +155,12 @@ background: https://cover.sli.dev?4
 # Préalable
 Chapitre 03 - Confirmer des changements
 
-Crééz un nouveau dossier de travail, ouvrez un terminal dans ce dossier puis initialisez votre premier dépôt git 
+* Crééz un nouveau dossier de travail
+* Ouvrez un terminal dans ce dossier
+* Initialisez votre premier dépôt <span v-mark.red.underline class="font-black">local</span> git
+
+<br/>
+
 ```shell {monaco}
 git init
 ```
@@ -162,16 +181,70 @@ Chapitre 03 - Confirmer des changements
 # Vérifier le statut de son espace de travail
 Chapitre 03 - Confirmer des changements
 
+<span v-click>
+Affichez le statut de votre dépôt
 ```shell {monaco}
 git status
 ```
+</span>
 
+<span v-click>
 Vous devriez voir
 ```shell {monaco}
 git status
 On branch main
 nothing to commit, working tree clean
 ```
+</span>
+
+<span v-click>
+Créez un premier fichier dans votre espace de travail et refaites la commande
+
+```shell {monaco}
+git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        hello.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+</span>
+
+---
+
+# Vérifier le statut de son espace de travail
+Chapitre 03 - Confirmer des changements
+
+<span v-click>
+Indexez le fichier pour le suivre
+```shell {monaco}
+git add hello.txt
+```
+</span>
+
+<span v-click>
+Vérifiez le statut après l'indexation
+```shell {monaco}
+git status
+```
+</span>
+
+<span v-click>
+Vous devriez voir que le fichier est maintenant dans la zone d'indexation
+```shell {monaco}
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   hello.txt
+```
+</span>
 
 ---
 

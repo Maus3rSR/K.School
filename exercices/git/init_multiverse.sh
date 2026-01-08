@@ -308,77 +308,153 @@ GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commi
 # Retour sur Universe-616
 git switch Universe-616
 
-# --- ARC 2 : LE SORT DE L'ÉCHO (Compétences: git branch, git merge, résolution de conflits) ---
+# --- ARC 2 : LE RITUEL ANCIEN (Compétences: git branch, git merge, résolution de conflits multiples) ---
 
-echo "=== Arc 2 : Le Sort de l'Écho ==="
+echo "=== Arc 2 : Le Rituel Ancien ==="
 
-# Création de la branche Kamar-Taj-Spells
-git branch Kamar-Taj-Spells
-git switch Kamar-Taj-Spells
+# Création de la branche de travail
+git branch ritual-work
+git switch ritual-work
 
-# Dr. Strange crée le sort initial (version incomplète)
-cat << 'EOF' > incantations.txt
-# SORT DE PROTECTION DU SANCTUAIRE
+cat << 'EOF' > ritual_instructions.md
+# Rituel de Reconstruction du Mot de Pouvoir
 
-## Incantation Principale
-Par les Vishanti, par les anciens,
-Je convoque la protection des dimensions.
+Vous êtes dans l'univers des sorts anciens.
 
-## Fragment du Nom Sacré
-Le son de la création résonne...
+**Contexte :** Dr. Strange a dispersé les lettres d'un mot de pouvoir dans différentes branches. Vous devez assembler ces lettres dans le bon ordre en utilisant différentes techniques Git.
+
+**Avertissement :** Certaines branches contiennent de mauvaises lettres. Si vous assemblez un mot incorrect, le rituel échouera.
+
+**Techniques requises :**
+1. **Fusion avec résolution de conflits** : Certaines lettres nécessitent de fusionner des branches et de résoudre des conflits
+2. **Cherry-pick** : Certaines lettres doivent être récupérées via cherry-pick de commits spécifiques
+3. **Rebase interactif** : Certaines lettres nécessitent de réorganiser l'historique
+
+**Procédure :**
+1. Explorez les branches disponibles
+2. Identifiez les bonnes lettres parmi les mauvaises
+3. Assemblez-les dans le bon ordre pour former un mot de 4 lettres
+4. Le fichier `spell_word.txt` contiendra le mot final
+
+**Compétences nécessaires :** Merge, résolution de conflits, cherry-pick, rebase interactif, exploration de l'historique
 EOF
 
-cat << 'EOF' > clue-2.md
-# Indice pour l'Arc 2
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
 
-Vous êtes dans l'univers `Kamar-Taj-Spells`.
-
-**Objectif :** Récupérer le deuxième fragment du nom de l'univers caché.
-
-**Situation :** Le sort de protection (`incantations.txt`) est incomplet. Le Dr. Strange a créé une version complète dans un univers parallèle appelé `Sorcerer-Supreme-838`.
-
-**Stratégie recommandée :**
-1. Créez une branche de travail temporaire
-2. Fusionnez l'univers `Sorcerer-Supreme-838` dans votre branche de travail
-3. **ATTENTION :** Un conflit va se produire dans `incantations.txt`. C'est normal et attendu !
-4. Résolvez le conflit manuellement en conservant les informations des deux versions
-5. Finalisez la fusion
-6. Lisez le fichier fusionné pour trouver le fragment
-7. Nettoyez en supprimant la branche temporaire
-
-**Compétences nécessaires :** Création de branches, fusion, résolution de conflits
-
-**Prochaine étape :** Un nouveau fichier apparaîtra après la fusion réussie.
+[Vide - À assembler]
 EOF
 
-git add incantations.txt clue-2.md
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Préparation du sort de protection"
+git add ritual_instructions.md spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Initialisation du rituel de reconstruction"
 
-# Création de la branche Sorcerer-Supreme-838 (version parallèle)
+# Retour sur Universe-616 pour créer les branches de lettres
 git switch Universe-616
-git branch Sorcerer-Supreme-838
-git switch Sorcerer-Supreme-838
 
-cat << 'EOF' > incantations.txt
-# SORT DE PROTECTION DU SANCTUAIRE
+# Branches en désordre avec lettres correctes (H, O, C, E) et incorrectes (A, K, R, U)
 
-## Incantation Principale
-Par les Vishanti, par les anciens,
-Je convoque la protection des dimensions.
+# Branche fragment-alpha : Lettre H (position 3)
+git branch fragment-alpha ritual-work
+git switch fragment-alpha
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
 
-## Fragment du Nom Sacré
-Le son de la création résonne...
-C'est un ÉCHO qui traverse les mondes.
+H
 EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment alpha"
 
-cat << 'EOF' > post_merge_clue.md
-# Synchronisation Réussie
+# Branche fragment-beta : Lettre O (position 4) - CORRECTE
+git branch fragment-beta ritual-work
+git switch fragment-beta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
 
-Excellent travail, Agent ! Vous avez fusionné les deux versions du sort.
+O
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment beta"
 
-Le deuxième fragment est : **ECHO**
+# Branche fragment-gamma : Lettre C (position 2) - CORRECTE
+git branch fragment-gamma ritual-work
+git switch fragment-gamma
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
 
-**Fragments collectés jusqu'à présent :** CELESTIAL-ECHO
+C
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment gamma"
+
+# Branche fragment-delta : Lettre E (position 1) - CORRECTE
+git branch fragment-delta ritual-work
+git switch fragment-delta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
+
+E
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment delta"
+
+# Branches avec mauvaises lettres
+
+# Branche fragment-epsilon : Lettre A (incorrecte)
+git branch fragment-epsilon ritual-work
+git switch fragment-epsilon
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
+
+A
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment epsilon"
+
+# Branche fragment-zeta : Lettre K (incorrecte)
+git branch fragment-zeta ritual-work
+git switch fragment-zeta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
+
+K
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment zeta"
+
+# Branche fragment-eta : Lettre R (incorrecte)
+git branch fragment-eta ritual-work
+git switch fragment-eta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
+
+R
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment eta"
+
+# Branche fragment-theta : Lettre U (incorrecte)
+git branch fragment-theta ritual-work
+git switch fragment-theta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR
+
+U
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment theta"
+
+# Fichier de vérification (à consulter après assemblage)
+git switch ritual-work
+cat << 'EOF' > verification.md
+# Vérification du Rituel
+
+Une fois que vous avez assemblé les 4 lettres dans le bon ordre dans le fichier `spell_word.txt`, consultez ce fichier pour vérifier votre réponse.
+
+**Si vous avez formé le mot "ECHO" :**
+
+C'est un ÉCHO qui traverse les mondes.
+
+Le deuxième fragment est confirmé : **ECHO**
 
 **Prochaine destination :** L'univers `Nexus-Calculations`.
 
@@ -387,10 +463,13 @@ Le Dr. Strange a effectué des calculs complexes pour déterminer le dernier fra
 Vous devrez utiliser des outils avancés de navigation dans l'historique Git pour retrouver les commits perdus et restaurer le calcul correct.
 
 **Direction :** Retournez sur l'univers principal, puis explorez `Nexus-Calculations`.
-EOF
 
-git add incantations.txt post_merge_clue.md
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Version complète du sort avec le fragment ECHO"
+---
+
+**Si vous avez formé un autre mot :** Vous avez choisi les mauvaises lettres. Recommencez en explorant les branches de fragments.
+EOF
+git add verification.md
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Ajout du fichier de vérification"
 
 # Retour sur Universe-616
 git switch Universe-616
@@ -403,94 +482,107 @@ echo "=== Arc 3 : Le Paradoxe Temporel ==="
 git branch Nexus-Calculations
 git switch Nexus-Calculations
 
-# Dr. Strange commence les calculs
-cat << 'EOF' > paradox.log
-# CALCUL DES COORDONNÉES NEXUS
-
-## Étape 1 : Initialisation
-Base de calcul : 100
+# Dr. Strange crée le premier fichier de séquence avec la partie 1
+cat << 'EOF' > sequence_part1.txt
+7
 EOF
 
-git add paradox.log
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Initialisation des calculs"
-
-# Calcul intermédiaire 1
 cat << 'EOF' > paradox.log
-# CALCUL DES COORDONNÉES NEXUS
+# SÉQUENCE DE DÉVERROUILLAGE DIMENSIONNEL
 
-## Étape 1 : Initialisation
-Base de calcul : 100
+Dr. Strange a fragmenté la coordonnée finale en trois parties.
+Chaque partie est stockée dans un fichier différent.
 
-## Étape 2 : Addition des constantes temporelles
-100 + 200 = 300
+Partie 1 : sequence_part1.txt
+Partie 2 : sequence_part2.txt
+Partie 3 : sequence_part3.txt
+
+Formule d'assemblage : [Part1] × [Part2] - [Part3]
 EOF
 
-git add paradox.log
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Calcul intermédiaire 1"
+git add sequence_part1.txt paradox.log
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Séquence partie 1 - Initialisation"
 
-# Calcul intermédiaire 2 (CORRECT - celui que Loki va effacer)
-cat << 'EOF' > paradox.log
-# CALCUL DES COORDONNÉES NEXUS
-
-## Étape 1 : Initialisation
-Base de calcul : 100
-
-## Étape 2 : Addition des constantes temporelles
-100 + 200 = 300
-
-## Étape 3 : Multiplication par le facteur Nexus
-300 + 477 = 777
+# Dr. Strange ajoute la partie 2
+cat << 'EOF' > sequence_part2.txt
+111
 EOF
 
-git add paradox.log
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Calcul du facteur Nexus - CORRECT"
+git add sequence_part2.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Séquence partie 2 - Ajout du multiplicateur"
+
+# Dr. Strange ajoute la partie 3 (CORRECT - celui que Loki va effacer)
+cat << 'EOF' > sequence_part3.txt
+0
+EOF
+
+git add sequence_part3.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Séquence partie 3 - CORRECTE"
 
 # On sauvegarde le hash de ce commit correct
-CORRECT_CALCULATION_HASH=$(git rev-parse HEAD)
+CORRECT_SEQUENCE_HASH=$(git rev-parse HEAD)
 
-# Loki sabote en faisant un reset pour effacer le bon calcul
+# Loki sabote en faisant un reset pour effacer le bon commit
 git reset --hard HEAD~1
 
-# Loki ajoute un mauvais calcul
-cat << 'EOF' > paradox.log
-# CALCUL DES COORDONNÉES NEXUS
-
-## Étape 1 : Initialisation
-Base de calcul : 100
-
-## Étape 2 : Addition des constantes temporelles
-100 + 200 = 300
-
-## Étape 3 : Multiplication par le facteur Nexus (ERRONÉ)
-300 + 444 = 744
+# Loki remplace les fichiers par de fausses valeurs
+cat << 'EOF' > sequence_part1.txt
+5
 EOF
 
-git add paradox.log
-GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Correction du calcul"
+cat << 'EOF' > sequence_part2.txt
+99
+EOF
+
+cat << 'EOF' > sequence_part3.txt
+12
+EOF
+
+cat << 'EOF' > paradox.log
+# SÉQUENCE DE DÉVERROUILLAGE DIMENSIONNEL
+
+Dr. Strange a fragmenté la coordonnée finale en trois parties.
+Chaque partie est stockée dans un fichier différent.
+
+Partie 1 : sequence_part1.txt
+Partie 2 : sequence_part2.txt
+Partie 3 : sequence_part3.txt
+
+Formule d'assemblage : [Part1] × [Part2] - [Part3]
+
+[ATTENTION : Ces valeurs ont été corrompues par Loki]
+EOF
+
+git add sequence_part1.txt sequence_part2.txt sequence_part3.txt paradox.log
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Correction des séquences"
 
 # Ajout du fichier d'indice
 cat << 'EOF' > tva_report.md
 # Rapport de la TVA - Anomalie Temporelle Détectée
 
-**ALERTE :** Une manipulation temporelle a été détectée dans cette branche.
+**ALERTE :** Une manipulation temporelle majeure a été détectée dans cette branche.
 
-**Analyse :** Loki a utilisé une réinitialisation forcée pour effacer un commit contenant le calcul correct. Ce commit existe toujours dans l'historique de Git, mais il n'est plus accessible via les commandes d'historique standard.
+**Analyse :** Dr. Strange a créé une séquence de déverrouillage en trois parties pour protéger la coordonnée finale. Loki a utilisé une réinitialisation forcée pour effacer le commit contenant les vraies valeurs et les a remplacées par des valeurs corrompues.
 
-**Objectif :** Retrouver le commit perdu et restaurer le calcul correct.
+**Objectif :** Retrouver le commit perdu contenant les vraies valeurs de la séquence.
+
+**Situation actuelle :**
+- Les fichiers `sequence_part1.txt`, `sequence_part2.txt` et `sequence_part3.txt` existent
+- MAIS ils contiennent des valeurs corrompues par Loki
+- Le commit original avec les vraies valeurs a été effacé de l'historique standard
 
 **Procédure de récupération :**
 1. Consultez l'historique complet de TOUTES les actions Git (y compris les commits "perdus")
-2. Identifiez le commit avec le message "Calcul du facteur Nexus - CORRECT"
+2. Identifiez le commit avec le message "Séquence partie 3 - CORRECTE"
 3. Notez son identifiant (hash)
 4. Créez une nouvelle branche pointant vers ce commit perdu
 5. Basculez sur cette nouvelle branche
-6. Lisez le fichier `paradox.log` pour obtenir le dernier fragment
-7. Documentez votre découverte dans un fichier `final_coordinate.md`
-8. Validez votre travail avec un commit
+6. Lisez les trois fichiers `sequence_part1.txt`, `sequence_part2.txt`, `sequence_part3.txt`
+7. Appliquez la formule indiquée dans `paradox.log` : [Part1] × [Part2] - [Part3]
+8. Le résultat est le dernier fragment
 
-**Compétences nécessaires :** Navigation avancée dans l'historique, récupération de commits perdus, création de branches
+**Compétences nécessaires :** Navigation avancée dans l'historique, récupération de commits perdus, création de branches, calcul simple
 
-**Le dernier fragment se trouve dans le résultat du calcul correct.**
 EOF
 
 git add tva_report.md

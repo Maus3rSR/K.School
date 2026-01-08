@@ -69,10 +69,10 @@ Le Dr. Strange a laissé des indices à travers plusieurs univers. Votre premiè
 
 **INDICE :** Dans cette bibliothèque se trouve une stèle ancienne contenant le premier fragment du nom de l'univers caché. Mais attention, Loki a manipulé l'historique de cette stèle. Vous devrez examiner les modifications passées pour découvrir ce qui a été effacé.
 
-**COMMANDES UTILES :**
-- Pour voir l'historique des modifications : `git log`
-- Pour voir le détail d'un commit : `git show <hash_du_commit>`
-- Pour annuler une modification malveillante : `git revert <hash_du_commit>`
+**OUTILS À VOTRE DISPOSITION :**
+- Consultez l'historique des commits
+- Examinez le contenu détaillé des modifications
+- Annulez les actions malveillantes de Loki
 
 Bonne chance, Agent.
 EOF
@@ -116,36 +116,117 @@ git branch Dark-Dimension-001
 git branch Mirror-Dimension-Alpha
 git branch Astral-Plane-Beta
 
-# Ajout de commits placeholder sur quelques branches pour brouiller
+# Ajout de commits placeholder sur les branches pour brouiller
 git switch Asgard-Prime
 echo "Archives royales d'Asgard" > asgard_data.txt
 git add asgard_data.txt
 GIT_AUTHOR_NAME="Heimdall" GIT_AUTHOR_EMAIL="heimdall@asgard.net" git commit -m "Sauvegarde des archives royales"
+echo "Inventaire des armes légendaires" >> asgard_data.txt
+git add asgard_data.txt
+GIT_AUTHOR_NAME="Heimdall" GIT_AUTHOR_EMAIL="heimdall@asgard.net" git commit -m "Mise à jour de l'inventaire"
+echo "Rapport de sécurité du Bifrost" >> asgard_data.txt
+git add asgard_data.txt
+GIT_AUTHOR_NAME="Heimdall" GIT_AUTHOR_EMAIL="heimdall@asgard.net" git commit -m "Rapport de sécurité"
+
+git switch Jotunheim-Frost
+echo "Température moyenne : -200°C" > climate.log
+git add climate.log
+GIT_AUTHOR_NAME="Laufey" GIT_AUTHOR_EMAIL="laufey@jotunheim.ice" git commit -m "Données climatiques"
+echo "Réserves de glace éternelle" >> climate.log
+git add climate.log
+GIT_AUTHOR_NAME="Laufey" GIT_AUTHOR_EMAIL="laufey@jotunheim.ice" git commit -m "Inventaire des ressources"
 
 git switch Sakaar-Wasteland
 echo "Déchets accumulés depuis 1000 ans" > junk.log
 git add junk.log
 GIT_AUTHOR_NAME="Grandmaster" GIT_AUTHOR_EMAIL="gm@sakaar.contest" git commit -m "Inventaire des déchets"
+echo "Nouveaux arrivants par le portail" >> junk.log
+git add junk.log
+GIT_AUTHOR_NAME="Grandmaster" GIT_AUTHOR_EMAIL="gm@sakaar.contest" git commit -m "Registre des arrivées"
+echo "Programme des combats de gladiateurs" >> junk.log
+git add junk.log
+GIT_AUTHOR_NAME="Grandmaster" GIT_AUTHOR_EMAIL="gm@sakaar.contest" git commit -m "Planning des combats"
 
 git switch Xandar-Nova
 echo "Registre des Nova Corps" > nova_registry.txt
 git add nova_registry.txt
 GIT_AUTHOR_NAME="Nova Prime" GIT_AUTHOR_EMAIL="prime@xandar.nova" git commit -m "Mise à jour du registre"
+echo "Déploiement de la flotte défensive" >> nova_registry.txt
+git add nova_registry.txt
+GIT_AUTHOR_NAME="Nova Prime" GIT_AUTHOR_EMAIL="prime@xandar.nova" git commit -m "Ordre de déploiement"
 
 git switch Knowhere-Mining
 echo "Extraction de matière cérébrale céleste" > mining_log.txt
 git add mining_log.txt
 GIT_AUTHOR_NAME="Collector" GIT_AUTHOR_EMAIL="collector@knowhere.org" git commit -m "Rapport d'extraction"
+echo "Nouvelle collection d'artefacts" >> mining_log.txt
+git add mining_log.txt
+GIT_AUTHOR_NAME="Collector" GIT_AUTHOR_EMAIL="collector@knowhere.org" git commit -m "Catalogue des artefacts"
+echo "Spécimens rares acquis" >> mining_log.txt
+git add mining_log.txt
+GIT_AUTHOR_NAME="Collector" GIT_AUTHOR_EMAIL="collector@knowhere.org" git commit -m "Acquisition de spécimens"
+
+git switch Vormir-Soul
+echo "Gardien de la Pierre d'Âme" > guardian.log
+git add guardian.log
+GIT_AUTHOR_NAME="Red Skull" GIT_AUTHOR_EMAIL="skull@vormir.soul" git commit -m "Journal du gardien"
+echo "Aucun visiteur depuis 73 ans" >> guardian.log
+git add guardian.log
+GIT_AUTHOR_NAME="Red Skull" GIT_AUTHOR_EMAIL="skull@vormir.soul" git commit -m "Mise à jour du journal"
+
+git switch Titan-Ruins
+echo "Ruines de la civilisation Titan" > ruins_survey.txt
+git add ruins_survey.txt
+GIT_AUTHOR_NAME="Thanos" GIT_AUTHOR_EMAIL="thanos@titan.ruins" git commit -m "Exploration des ruines"
+echo "Ressources épuisées" >> ruins_survey.txt
+git add ruins_survey.txt
+GIT_AUTHOR_NAME="Thanos" GIT_AUTHOR_EMAIL="thanos@titan.ruins" git commit -m "Rapport de ressources"
 
 git switch Quantum-Realm-Sub1
 echo "Particules subatomiques détectées" > quantum_data.txt
 git add quantum_data.txt
 GIT_AUTHOR_NAME="Hank Pym" GIT_AUTHOR_EMAIL="hank@pym.tech" git commit -m "Analyse quantique"
+echo "Tunnel temporel instable" >> quantum_data.txt
+git add quantum_data.txt
+GIT_AUTHOR_NAME="Hank Pym" GIT_AUTHOR_EMAIL="hank@pym.tech" git commit -m "Détection de tunnel temporel"
+echo "Vortex d'énergie quantique" >> quantum_data.txt
+git add quantum_data.txt
+GIT_AUTHOR_NAME="Janet van Dyne" GIT_AUTHOR_EMAIL="janet@pym.tech" git commit -m "Cartographie du vortex"
+
+git switch Quantum-Realm-Sub2
+echo "Zone de distorsion temporelle" > temporal_anomaly.log
+git add temporal_anomaly.log
+GIT_AUTHOR_NAME="Janet van Dyne" GIT_AUTHOR_EMAIL="janet@pym.tech" git commit -m "Anomalie détectée"
+echo "Fluctuations chronologiques" >> temporal_anomaly.log
+git add temporal_anomaly.log
+GIT_AUTHOR_NAME="Janet van Dyne" GIT_AUTHOR_EMAIL="janet@pym.tech" git commit -m "Analyse des fluctuations"
 
 git switch Dark-Dimension-001
 echo "Énergie obscure infinie" > dark_energy.log
 git add dark_energy.log
 GIT_AUTHOR_NAME="Dormammu" GIT_AUTHOR_EMAIL="dormammu@dark.dimension" git commit -m "Mesure de l'énergie"
+echo "Absorption de dimensions mineures" >> dark_energy.log
+git add dark_energy.log
+GIT_AUTHOR_NAME="Dormammu" GIT_AUTHOR_EMAIL="dormammu@dark.dimension" git commit -m "Expansion dimensionnelle"
+echo "Tentative d'invasion de Terre-616" >> dark_energy.log
+git add dark_energy.log
+GIT_AUTHOR_NAME="Dormammu" GIT_AUTHOR_EMAIL="dormammu@dark.dimension" git commit -m "Plan d'invasion"
+
+git switch Mirror-Dimension-Alpha
+echo "Reflets de la réalité" > mirror_data.txt
+git add mirror_data.txt
+GIT_AUTHOR_NAME="Ancient One" GIT_AUTHOR_EMAIL="ancient@kamar-taj.net" git commit -m "Cartographie de la dimension miroir"
+echo "Entraînement des sorciers" >> mirror_data.txt
+git add mirror_data.txt
+GIT_AUTHOR_NAME="Ancient One" GIT_AUTHOR_EMAIL="ancient@kamar-taj.net" git commit -m "Sessions d'entraînement"
+
+git switch Nidavellir-Forge
+echo "Forge des nains" > forge_status.log
+git add forge_status.log
+GIT_AUTHOR_NAME="Eitri" GIT_AUTHOR_EMAIL="eitri@nidavellir.forge" git commit -m "État de la forge"
+echo "Création de Stormbreaker" >> forge_status.log
+git add forge_status.log
+GIT_AUTHOR_NAME="Eitri" GIT_AUTHOR_EMAIL="eitri@nidavellir.forge" git commit -m "Forgeage de Stormbreaker"
 
 # Retour sur Universe-616
 git switch Universe-616
@@ -179,11 +260,14 @@ Vous êtes dans la bibliothèque de Wong (`Wong-Library-Archives`).
 
 **Situation :** La stèle ancienne (`STELE.txt`) semble avoir été altérée. Le texte actuel ne contient pas d'information utile.
 
-**Que faire ?**
-1. Examinez l'historique des modifications de cette branche avec `git log`.
-2. Identifiez le commit où Loki a effacé le contenu de la stèle.
-3. Utilisez `git revert <hash_du_commit_de_loki>` pour annuler sa modification et restaurer le texte original.
-4. Lisez le contenu restauré de `STELE.txt` pour obtenir le premier fragment.
+**Analyse :**
+Loki a manipulé l'historique de cette branche. Vous devez :
+1. Consulter l'historique complet des modifications
+2. Identifier l'action malveillante de Loki
+3. Annuler cette action pour restaurer le contenu original
+4. Lire le texte restauré pour obtenir le fragment
+
+**Compétences nécessaires :** Consultation d'historique, annulation de commits
 
 **Prochaine étape :** Une fois le fragment trouvé, un nouveau fichier vous guidera vers l'arc suivant.
 EOF
@@ -213,9 +297,9 @@ Vous avez récupéré le premier fragment : **CELESTIAL**
 
 Dans cet univers, le Dr. Strange a préparé un sort de protection. Mais Loki a corrompu les incantations en créant des versions contradictoires dans différents univers parallèles.
 
-Vous devrez fusionner deux versions du sort pour obtenir le deuxième fragment.
+Vous devrez synchroniser et fusionner deux versions du sort pour obtenir le deuxième fragment.
 
-**Retournez sur `Universe-616` puis naviguez vers `Kamar-Taj-Spells`.**
+**Direction :** Retournez sur l'univers principal, puis explorez `Kamar-Taj-Spells`.
 EOF
 
 git add next-step-1.md
@@ -253,16 +337,18 @@ Vous êtes dans l'univers `Kamar-Taj-Spells`.
 
 **Situation :** Le sort de protection (`incantations.txt`) est incomplet. Le Dr. Strange a créé une version complète dans un univers parallèle appelé `Sorcerer-Supreme-838`.
 
-**Que faire ?**
-1. Créez une branche temporaire pour travailler : `git branch fusion-temporaire` puis `git switch fusion-temporaire`.
-2. Fusionnez la branche `Sorcerer-Supreme-838` dans votre branche temporaire : `git merge Sorcerer-Supreme-838`.
-3. **ATTENTION :** Un conflit va se produire dans le fichier `incantations.txt`. C'est normal !
-4. Ouvrez `incantations.txt` et résolvez le conflit manuellement en gardant les deux versions du texte.
-5. Ajoutez le fichier résolu : `git add incantations.txt`.
-6. Finalisez la fusion : `git commit`.
-7. Lisez le fichier `incantations.txt` pour trouver le deuxième fragment.
-8. Un nouveau fichier `post_merge_clue.md` vous guidera vers l'arc final.
-9. Supprimez la branche temporaire : `git switch Kamar-Taj-Spells` puis `git branch -d fusion-temporaire`.
+**Stratégie recommandée :**
+1. Créez une branche de travail temporaire
+2. Fusionnez l'univers `Sorcerer-Supreme-838` dans votre branche de travail
+3. **ATTENTION :** Un conflit va se produire dans `incantations.txt`. C'est normal et attendu !
+4. Résolvez le conflit manuellement en conservant les informations des deux versions
+5. Finalisez la fusion
+6. Lisez le fichier fusionné pour trouver le fragment
+7. Nettoyez en supprimant la branche temporaire
+
+**Compétences nécessaires :** Création de branches, fusion, résolution de conflits
+
+**Prochaine étape :** Un nouveau fichier apparaîtra après la fusion réussie.
 EOF
 
 git add incantations.txt clue-2.md
@@ -296,11 +382,11 @@ Le deuxième fragment est : **ECHO**
 
 **Prochaine destination :** L'univers `Nexus-Calculations`.
 
-Le Dr. Strange a effectué des calculs complexes pour déterminer le dernier fragment. Mais Loki a saboté ces calculs et a même effacé certains commits de l'historique.
+Le Dr. Strange a effectué des calculs complexes pour déterminer le dernier fragment. Mais Loki a saboté ces calculs et a même effacé certains commits de l'historique en utilisant des manipulations temporelles.
 
-Vous devrez utiliser des techniques avancées pour retrouver les commits perdus et corriger les erreurs.
+Vous devrez utiliser des outils avancés de navigation dans l'historique Git pour retrouver les commits perdus et restaurer le calcul correct.
 
-**Retournez sur `Universe-616` puis naviguez vers `Nexus-Calculations`.**
+**Direction :** Retournez sur l'univers principal, puis explorez `Nexus-Calculations`.
 EOF
 
 git add incantations.txt post_merge_clue.md
@@ -388,19 +474,21 @@ cat << 'EOF' > tva_report.md
 
 **ALERTE :** Une manipulation temporelle a été détectée dans cette branche.
 
-**Analyse :** Loki a utilisé un `git reset --hard` pour effacer un commit contenant le calcul correct. Ce commit existe toujours dans l'historique de Git, mais il n'est plus accessible via `git log`.
+**Analyse :** Loki a utilisé une réinitialisation forcée pour effacer un commit contenant le calcul correct. Ce commit existe toujours dans l'historique de Git, mais il n'est plus accessible via les commandes d'historique standard.
 
 **Objectif :** Retrouver le commit perdu et restaurer le calcul correct.
 
-**Instructions :**
-1. Utilisez `git reflog` pour voir l'historique complet de toutes les actions Git, y compris les commits "perdus".
-2. Identifiez le commit avec le message "Calcul du facteur Nexus - CORRECT".
-3. Notez son hash (les 7 premiers caractères suffisent).
-4. Créez une nouvelle branche à partir de ce commit : `git branch recovery-777 <hash_du_commit>`.
-5. Basculez sur cette branche : `git switch recovery-777`.
-6. Lisez le fichier `paradox.log` pour obtenir le dernier fragment.
-7. Créez un fichier `final_coordinate.md` contenant les trois fragments assemblés.
-8. Faites un commit : `git add final_coordinate.md` puis `git commit -m "Assemblage final"`.
+**Procédure de récupération :**
+1. Consultez l'historique complet de TOUTES les actions Git (y compris les commits "perdus")
+2. Identifiez le commit avec le message "Calcul du facteur Nexus - CORRECT"
+3. Notez son identifiant (hash)
+4. Créez une nouvelle branche pointant vers ce commit perdu
+5. Basculez sur cette nouvelle branche
+6. Lisez le fichier `paradox.log` pour obtenir le dernier fragment
+7. Documentez votre découverte dans un fichier `final_coordinate.md`
+8. Validez votre travail avec un commit
+
+**Compétences nécessaires :** Navigation avancée dans l'historique, récupération de commits perdus, création de branches
 
 **Le dernier fragment se trouve dans le résultat du calcul correct.**
 EOF

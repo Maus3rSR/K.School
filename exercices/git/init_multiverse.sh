@@ -340,7 +340,7 @@ EOF
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-[Vide - À assembler]
+_ _ _ _
 EOF
 
 git add ritual_instructions.md spell_word.txt
@@ -357,7 +357,7 @@ git switch fragment-alpha
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-H
+_ _ H _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment alpha"
@@ -368,7 +368,7 @@ git switch fragment-beta
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-O
+_ _ _ O
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment beta"
@@ -379,7 +379,7 @@ git switch fragment-gamma
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-C
+_ C _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment gamma"
@@ -390,7 +390,7 @@ git switch fragment-delta
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-E
+E _ _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment delta"
@@ -403,7 +403,7 @@ git switch fragment-epsilon
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-A
+A _ _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment epsilon"
@@ -414,7 +414,7 @@ git switch fragment-zeta
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-K
+_ K _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment zeta"
@@ -425,7 +425,7 @@ git switch fragment-eta
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-R
+_ _ R _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment eta"
@@ -436,7 +436,7 @@ git switch fragment-theta
 cat << 'EOF' > spell_word.txt
 # MOT DE POUVOIR
 
-U
+_ _ _ U
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment theta"
@@ -448,11 +448,11 @@ cat << 'EOF' > verification.md
 
 Une fois que vous avez assemblé les 4 lettres dans le bon ordre dans le fichier `spell_word.txt`, consultez ce fichier pour vérifier votre réponse.
 
-**Si vous avez formé le mot "ECHO" :**
+**Si la formule que vous avez formé avec le mot est correcte :**
 
-C'est un ÉCHO qui traverse les mondes.
+Un [REMPLACER_PAR_LE_MOT_FORME] résonne à travers les mondes.
 
-Le deuxième fragment est confirmé : **ECHO**
+Le deuxième fragment est confirmé. Il s'agit du mot que vous venez de reconstituer.
 
 **Prochaine destination :** L'univers `Nexus-Calculations`.
 
@@ -595,7 +595,7 @@ cat << 'EOF' > MISSION_FINALE.md
 
 Une fois que vous avez assemblé les trois fragments, vous devez soumettre votre rapport.
 
-**Format de la solution :** Les trois fragments (CELESTIAL, ECHO, et le numéro de l'Arc 3) doivent être assemblés avec des tirets (format: `CELESTIAL-ECHO-XXX`).
+**Format de la solution :** Les trois fragments doivent être assemblés avec des tirets (format: `FRAGMENT1-FRAGMENT2-FRAGMENT3`).
 
 **Procédure de soumission :**
 1. Assurez-vous d'être sur `Universe-616` : `git switch Universe-616`

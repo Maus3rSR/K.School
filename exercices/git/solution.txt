@@ -1,1 +1,0 @@
-Vous saurez qu'un étudiant a réussi lorsqu'il vous présentera une nouvelle branche (par exemple, agent-<son_nom>) contenant un unique commit avec un fichier SOLUTION.md indiquant CELESTIAL-ECHO-777.

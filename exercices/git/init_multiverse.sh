@@ -267,7 +267,13 @@ Loki a manipulé l'historique de cette branche. Vous devez :
 3. Annuler cette action pour restaurer le contenu original de la stèle ET le fichier manquant.
 4. Lire le texte restauré pour obtenir le fragment.
 
-**Compétences nécessaires :** Consultation d'historique, annulation de commits (`git revert`).
+**Compétences nécessaires :** Consultation d'historique, annulation de commits.
+
+**Commandes utiles :**
+- `git log` : Pour consulter l'historique des modifications
+- `git show` : Pour examiner le contenu d'un commit spécifique
+- `git revert` : Pour annuler les effets d'un commit en créant un nouveau commit
+- `git restore` : Pour restaurer un fichier depuis un commit spécifique
 
 **Prochaine étape :** Une fois le fragment trouvé, le fichier restauré vous guidera vers l'arc suivant.
 EOF
@@ -335,10 +341,17 @@ Vous êtes dans l'univers des sorts anciens.
 4. Le fichier `spell_word.txt` contiendra le mot final
 
 **Compétences nécessaires :** Merge, résolution de conflits, cherry-pick, rebase interactif, exploration de l'historique
+
+**Commandes utiles :**
+- `git branch` : Pour lister les branches disponibles
+- `git switch` : Pour basculer entre les branches
+- `git merge` : Pour fusionner une branche dans la branche actuelle
+- `git log` : Pour examiner l'historique et identifier les auteurs des commits
+- En cas de conflit : éditez le fichier concerné, puis `git add` et `git commit`
 EOF
 
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
 _ _ _ _
 EOF
@@ -351,90 +364,90 @@ git switch Universe-616
 
 # Branches en désordre avec lettres correctes (H, O, C, E) et incorrectes (A, K, R, U)
 
-# Branche fragment-alpha : Lettre H (position 3)
+# Branche fragment-alpha : Lettre E (position 1) - CORRECTE
 git branch fragment-alpha Kamar-Taj-Spells
 git switch fragment-alpha
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
-_ _ H _
+E _ _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment alpha"
 
-# Branche fragment-beta : Lettre O (position 4) - CORRECTE
+# Branche fragment-beta : Lettre A (incorrecte)
 git branch fragment-beta Kamar-Taj-Spells
 git switch fragment-beta
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
-_ _ _ O
+A _ _ _
 EOF
 git add spell_word.txt
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment beta"
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment beta"
 
 # Branche fragment-gamma : Lettre C (position 2) - CORRECTE
 git branch fragment-gamma Kamar-Taj-Spells
 git switch fragment-gamma
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
 _ C _ _
 EOF
 git add spell_word.txt
 GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment gamma"
 
-# Branche fragment-delta : Lettre E (position 1) - CORRECTE
+# Branche fragment-delta : Lettre K (incorrecte)
 git branch fragment-delta Kamar-Taj-Spells
 git switch fragment-delta
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
-
-E _ _ _
-EOF
-git add spell_word.txt
-GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment delta"
-
-# Branches avec mauvaises lettres
-
-# Branche fragment-epsilon : Lettre A (incorrecte)
-git branch fragment-epsilon Kamar-Taj-Spells
-git switch fragment-epsilon
-cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
-
-A _ _ _
-EOF
-git add spell_word.txt
-GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment epsilon"
-
-# Branche fragment-zeta : Lettre K (incorrecte)
-git branch fragment-zeta Kamar-Taj-Spells
-git switch fragment-zeta
-cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
 _ K _ _
 EOF
 git add spell_word.txt
-GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment zeta"
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment delta"
 
-# Branche fragment-eta : Lettre R (incorrecte)
-git branch fragment-eta Kamar-Taj-Spells
-git switch fragment-eta
+# Branches avec mauvaises lettres
+
+# Branche fragment-epsilon : Lettre H (position 3) - CORRECTE
+git branch fragment-epsilon Kamar-Taj-Spells
+git switch fragment-epsilon
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
+
+_ _ H _
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment epsilon"
+
+# Branche fragment-zeta : Lettre R (incorrecte)
+git branch fragment-zeta Kamar-Taj-Spells
+git switch fragment-zeta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
 _ _ R _
 EOF
 git add spell_word.txt
-GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment eta"
+GIT_AUTHOR_NAME="Loki" GIT_AUTHOR_EMAIL="loki@asgard.mischief" git commit -m "Fragment zeta"
+
+# Branche fragment-eta : Lettre O (position 4) - CORRECTE
+git branch fragment-eta Kamar-Taj-Spells
+git switch fragment-eta
+cat << 'EOF' > spell_word.txt
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
+
+_ _ _ O
+EOF
+git add spell_word.txt
+GIT_AUTHOR_NAME="Dr. Strange" GIT_AUTHOR_EMAIL="strange@kamar-taj.net" git commit -m "Fragment eta"
 
 # Branche fragment-theta : Lettre U (incorrecte)
 git branch fragment-theta Kamar-Taj-Spells
 git switch fragment-theta
 cat << 'EOF' > spell_word.txt
-# MOT DE POUVOIR
+# MOT DE POUVOIR (Le mot doit tenir sur une ligne)
 
 _ _ _ U
 EOF
@@ -580,6 +593,12 @@ cat << 'EOF' > tva_report.md
 8. Le résultat est le dernier fragment
 
 **Compétences nécessaires :** Navigation avancée dans l'historique, récupération de commits perdus, création de branches, calcul simple
+
+**Commandes utiles :**
+- `git reflog` : Pour consulter l'historique complet de TOUTES les actions Git (même les commits "perdus")
+- `git branch` : Pour créer une nouvelle branche à partir d'un commit spécifique
+- `git switch` : Pour basculer sur une branche
+- `cat` : Pour lire le contenu des fichiers
 
 EOF
 

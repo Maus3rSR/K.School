@@ -111,6 +111,9 @@ git config --global user.email "your.email@example.com"
 
 # Nom de la branche par défaut, historiquement c'est "master"
 git config --global init.defaultBranch main
+
+# Permet de lier la branche locale avec une branche distante
+git config --global push.autoSetupRemote true
 ```
 
 Préférence pour les fins de ligne
@@ -189,15 +192,18 @@ git status
 </span>
 
 <span v-click>
+
 Vous devriez voir
 ```shell {monaco}
 git status
 On branch main
 nothing to commit, working tree clean
 ```
+
 </span>
 
 <span v-click>
+
 Créez un premier fichier dans votre espace de travail et refaites la commande
 
 ```shell {monaco}
@@ -212,6 +218,7 @@ Untracked files:
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
+
 </span>
 
 ---
@@ -220,20 +227,25 @@ nothing added to commit but untracked files present (use "git add" to track)
 Chapitre 03 - Confirmer des changements
 
 <span v-click>
+
 Indexez le fichier pour le suivre
 ```shell {monaco}
 git add hello.txt
 ```
+
 </span>
 
 <span v-click>
+
 Vérifiez le statut après l'indexation
 ```shell {monaco}
 git status
 ```
+
 </span>
 
 <span v-click>
+
 Vous devriez voir que le fichier est maintenant dans la zone d'indexation
 ```shell {monaco}
 On branch main
@@ -242,6 +254,7 @@ Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
         new file:   hello.txt
 ```
+
 </span>
 
 ---
@@ -262,6 +275,7 @@ background: https://cover.sli.dev?5
 # Chapitre 04 - Revenir en arrière
 
 TODO:
+
 * Naviguer dans l'historique avec `git checkout`
 * `git restore` pour les modifications unstaged
 * `git restore --staged` pour les modifications staged ou `git rm --cached` pour les fichiers non trackés staged
@@ -442,6 +456,7 @@ Chapitre 08 - Flux de travail
 **Inconvénients :**
 * Conflits plus fréquents
 * Demande de la discipline sur des fusions régulières et de mises à jour des branches
+
 </span>
 
 </div>

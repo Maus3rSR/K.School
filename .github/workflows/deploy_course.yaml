@@ -44,7 +44,18 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: 🏗️ Build courses
-        run: pnpm build
+        run: |
+          for course_dir in courses/*; do
+            [ -d "$course_dir" ] || continue
+            [ -f "$course_dir/package.json" ] || continue
+            
+            course_name="$(basename "$course_dir")"
+            echo "Building $course_name with base path /${{ github.event.repository.name }}/$course_name/"
+            
+            cd "$course_dir"
+            pnpm build --base "/${{ github.event.repository.name }}/$course_name/"
+            cd ../..
+          done
 
       - name: 📦 Assemble Pages dist + index
         shell: bash

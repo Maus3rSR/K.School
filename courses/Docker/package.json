@@ -4,7 +4,7 @@
     "private": "true",
     "type": "module",
     "scripts": {
-      "build": "slidev build --base /Docker/",
+      "build": "slidev build",
       "dev": "slidev --open",
       "export": "slidev export"
     },

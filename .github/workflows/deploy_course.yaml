@@ -2,70 +2,172 @@
 name: 🚀 Deploy Course
 on:
   workflow_call:
-    inputs:
-      course:
-        required: true
-        type: string
   workflow_dispatch:
-    inputs:
-      course:
-        required: true
-        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - run: echo 'Coucou'
-      # - name: 🛎️ Checkout files
-      #   uses: actions/checkout@v4
-      #   uses: pnpm/action-setup@v4
-      #   with:
-      #     version: 10.26.0
-      #     run_install: false
+      - name: 🛎️ Checkout files
+        uses: actions/checkout@v4
 
-      # - name: 📥 Install Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      #     cache: "pnpm"
+      - name: 📥 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+          run_install: false
 
-      # - name: 🔧 Setup pnpm store directory
-      #   id: pnpm-store-path
-      #   shell: bash
-      #   run: |
-      #     echo "PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: 📥 Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
 
-      # - name: 📦 Retrieve pnpm cache
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ${{ steps.pnpm-store-path.outputs.PATH }}
-      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pnpm-store-
+      - name: ⚙️ Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-      # - name: 📥 Install Turbo
-      #   run: |
-      #     pnpm install turbo@2.3.3 --global
-      #     turbo telemetry disable
+      - name: 📥 Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      # - name: 🪓 Turbo prune
-      #   run: |
-      #     turbo prune ${{ inputs.course }}
+      - name: 🏗️ Build courses
+        run: pnpm build
 
-      # - name: 📥 Install dependencies
-      #   working-directory: ./out
-      #   run: |
-      #     pnpm install
+      - name: 📦 Assemble Pages dist + index
+        shell: bash
+        run: |
+          mkdir -p dist
 
-      # - name: 🏗️ Build
-      #   working-directory: ./out
-      #   run: |
-      #     turbo run build
+          course_names=()
 
-      # - name: 📯 List out files of build
-      #   working-directory: ./out/${{ inputs.course }}/public
-      #   run: |
-      #     ls -la
+          for course_dir in courses/*; do
+            [ -d "$course_dir" ] || continue
+            [ -d "$course_dir/dist" ] || continue
+
+            course_name="$(basename "$course_dir")"
+            course_names+=("$course_name")
+
+            mkdir -p "dist/$course_name"
+            cp -r "$course_dir/dist/." "dist/$course_name/"
+          done
+
+          if [ "${#course_names[@]}" -eq 0 ]; then
+            echo "No course build found in courses/*/dist"
+            exit 1
+          fi
+
+          IFS=$'\n' sorted_courses=($(printf '%s\n' "${course_names[@]}" | sort))
+          unset IFS
+
+          cat > dist/index.html <<'EOF'
+          <!doctype html>
+          <html lang="fr">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>K.School Courses</title>
+              <style>
+                :root {
+                  color-scheme: light;
+                  --bg: #f6f8fb;
+                  --text: #1f2937;
+                  --card: #ffffff;
+                  --border: #e5e7eb;
+                  --accent: #0f766e;
+                  --accent-hover: #115e59;
+                }
+                * { box-sizing: border-box; }
+                body {
+                  margin: 0;
+                  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                  color: var(--text);
+                  background:
+                    radial-gradient(circle at top right, #d1fae5 0%, transparent 35%),
+                    radial-gradient(circle at top left, #e0e7ff 0%, transparent 30%),
+                    var(--bg);
+                }
+                main {
+                  max-width: 820px;
+                  margin: 48px auto;
+                  padding: 0 20px;
+                }
+                h1 {
+                  margin: 0 0 8px;
+                  font-size: clamp(2rem, 4vw, 2.8rem);
+                }
+                p {
+                  margin: 0 0 24px;
+                  line-height: 1.5;
+                }
+                ul {
+                  list-style: none;
+                  margin: 0;
+                  padding: 0;
+                  display: grid;
+                  gap: 12px;
+                }
+                a {
+                  display: block;
+                  text-decoration: none;
+                  color: inherit;
+                  background: var(--card);
+                  border: 1px solid var(--border);
+                  border-radius: 12px;
+                  padding: 16px;
+                  transition: transform .15s ease, border-color .15s ease;
+                }
+                a:hover {
+                  transform: translateY(-2px);
+                  border-color: var(--accent);
+                }
+                .label {
+                  font-weight: 600;
+                  margin-bottom: 4px;
+                }
+                .url {
+                  color: var(--accent-hover);
+                  font-size: .92rem;
+                }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>K.School Courses</h1>
+                <p>Sélectionnez un cours pour ouvrir les slides publiées sur GitHub Pages.</p>
+                <ul>
+          EOF
+
+          for course in "${sorted_courses[@]}"; do
+            printf '                  <li><a href="./%s/"><div class="label">%s</div><div class="url">./%s/</div></a></li>\n' "$course" "$course" "$course" >> dist/index.html
+          done
+
+          cat >> dist/index.html <<'EOF'
+                </ul>
+              </main>
+            </body>
+          </html>
+          EOF
+
+          touch dist/.nojekyll
+
+      - name: 📤 Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

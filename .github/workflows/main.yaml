@@ -11,5 +11,9 @@ on:
 jobs:
   publish:
     name: Courses
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     uses: ./.github/workflows/deploy_course.yaml
     secrets: inherit

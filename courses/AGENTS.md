@@ -2,137 +2,24 @@
 
 ## Sli.dev Presentation Framework
 
-### Core Capabilities
+### **MANDATORY: Use the Slidev Skill**
 
-#### 1. Slide Syntax
-- **Slide Separators**: Use `---` padded with new lines to separate slides
-- **Frontmatter**: Configure slides using YAML format at the beginning of each slide
-  - First frontmatter block is the **headmatter** (configures entire deck)
-  - Subsequent frontmatters configure individual slides
-  - Common properties: `theme`, `layout`, `background`, `class`, `title`
-- **Notes**: Add presenter notes using HTML comments at the end of slides (`<!-- note content -->`)
+**CRITICAL**: For **ALL** Slidev/Sli.dev related features, documentation, or implementation:
+- **MUST** use the `slidev` skill installed at `.windsurf/skills/slidev`
+- **NEVER** rely solely on training data for Slidev information
+- **ALWAYS** invoke the skill for up-to-date Slidev documentation and best practices
 
-#### 2. Code Blocks
-- Built-in **Shiki** syntax highlighter
-- Support for multiple programming languages
-- Markdown-flavored code blocks with syntax highlighting
-- Example: ` ```ts console.log('Hello, World!') ``` `
+### How to Use the Slidev Skill
 
-#### 3. Mathematical & Diagram Support
-- **LaTeX Blocks**: For mathematical and chemical formulas
-- **Mermaid**: Text-based diagrams
-- **PlantUML**: UML diagrams from text
+The Slidev skill provides comprehensive knowledge about:
+- Creating and presenting web-based slidedecks
+- Markdown syntax for slides
+- Vue components integration
+- Code highlighting and animations
+- Interactive features
+- Technical presentations and teaching materials
 
-#### 4. Styling
-- **Comark Syntax**: Easy way to apply styles and classes to elements
-- **Scoped CSS**: Style individual slides with scoped CSS blocks
-- **UnoCSS**: Built-in utility-first CSS framework for styling
-- **Vue Components**: Full Vue component support in slides
-
-#### 5. Built-in Components
-Sli.dev provides numerous built-in components:
-- `<Arrow>` - Draw arrows on slides
-- `<VDragArrow>` - Draggable arrows
-- `<AutoFitText>` - Auto-sizing text
-- `<LightOrDark>` - Theme-aware content
-- `<Link>` - Enhanced links
-- `<RenderWhen>` - Conditional rendering
-- `<SlideCurrentNo>` - Current slide number
-- `<SlidesTotal>` - Total slides count
-- `<Toc>` - Table of contents
-- `<Transform>` - Element transformations
-- `<Tweet>` - Embed tweets
-- `<VAfter>`, `<VClick>`, `<VClicks>` - Click animations
-- `<VSwitch>` - Switch between content
-- `<VDrag>` - Draggable elements
-- `<SlidevVideo>` - Video player
-- `<Youtube>` - YouTube embeds
-
-#### 6. Animation System
-- **Click Animations**: 
-  - `v-click` directive for sequential reveals
-  - `v-after` for content after clicks
-  - `v-clicks` for multiple elements
-  - Custom positioning and timing
-- **Motion**: Animation library integration
-- **Slide Transitions**: Built-in transitions between slides
-- **Element Transitions**: Smooth transitions for individual elements
-- **View Transition API**: Modern browser transitions
-
-#### 7. Advanced Features
-- **Importing Slides**: Import slides from external files using `src` in frontmatter
-- **Layouts**: Multiple built-in layouts (center, cover, etc.)
-- **Themes & Addons**: Extensible theme and addon system
-- **Exporting**: Export to PDF, PNG, or host online
-- **Presenter Mode**: Dedicated presenter view with notes
-
-### Configuration Options
-- **Highlighter**: Configure Shiki syntax highlighting
-- **Vite & Plugins**: Customize build process
-- **Vue App**: Configure Vue application
-- **UnoCSS**: Customize utility classes
-- **Code Runners**: Execute code in slides
-- **Transformers**: Custom content transformers
-- **Monaco**: Code editor integration
-- **KaTeX**: Math rendering
-- **Mermaid**: Diagram rendering
-- **Routes**: Custom routing
-- **Shortcuts**: Keyboard shortcuts
-- **Context Menu**: Custom context menu
-- **Fonts**: Font configuration
-
-## Sli.dev Documentation Reference Links
-
-### Essential Guides
-- **Getting Started**: https://sli.dev/guide/
-- **Syntax Guide**: https://sli.dev/guide/syntax
-- **Animations**: https://sli.dev/guide/animations
-- **User Interface**: https://sli.dev/guide/ui
-- **Theme & Addons**: https://sli.dev/guide/theme-addon
-- **Components**: https://sli.dev/guide/component
-- **Layouts**: https://sli.dev/guide/layout
-- **Exporting**: https://sli.dev/guide/exporting
-- **Hosting**: https://sli.dev/guide/hosting
-- **Work with AI**: https://sli.dev/guide/work-with-ai
-- **FAQ**: https://sli.dev/guide/faq
-
-### Advanced Topics
-- **Global Context**: https://sli.dev/guide/global-context
-- **Writing Layouts**: https://sli.dev/guide/write-layout
-- **Writing Themes**: https://sli.dev/guide/write-theme
-- **Writing Addons**: https://sli.dev/guide/write-addon
-
-### Built-in Features
-- **CLI**: https://sli.dev/builtin/cli
-- **Built-in Components**: https://sli.dev/builtin/components
-- **Built-in Layouts**: https://sli.dev/builtin/layouts
-
-### Customization
-- **Configurations**: https://sli.dev/custom/
-- **Directory Structure**: https://sli.dev/custom/directory-structure
-- **Configure Highlighter**: https://sli.dev/custom/config-highlighter
-- **Configure Vite**: https://sli.dev/custom/config-vite
-- **Configure Vue App**: https://sli.dev/custom/config-vue
-- **Configure UnoCSS**: https://sli.dev/custom/config-unocss
-- **Configure Code Runners**: https://sli.dev/custom/config-code-runners
-- **Configure Transformers**: https://sli.dev/custom/config-transformers
-- **Configure Monaco**: https://sli.dev/custom/config-monaco
-- **Configure KaTeX**: https://sli.dev/custom/config-katex
-- **Configure Mermaid**: https://sli.dev/custom/config-mermaid
-- **Configure Routes**: https://sli.dev/custom/config-routes
-- **Configure Shortcuts**: https://sli.dev/custom/config-shortcuts
-- **Configure Fonts**: https://sli.dev/custom/config-fonts
-
-### Resources
-- **Showcases**: https://sli.dev/resources/showcases
-- **Theme Gallery**: https://sli.dev/resources/theme-gallery
-- **Addon Gallery**: https://sli.dev/resources/addon-gallery
-- **Learning Resources**: https://sli.dev/resources/learning
-- **Curated Covers**: https://sli.dev/resources/covers
-
-### Main Documentation
-- **Features Overview**: https://sli.dev/features/
-- **Official Website**: https://sli.dev/
+**To access Slidev documentation and capabilities**, invoke the skill using the appropriate skill invocation method provided by your agent system.
 
 ---
 

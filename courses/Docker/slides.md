@@ -1,9 +1,10 @@
 ---
+titleTemplate: "%s - Kevin UNFRICHT"
 layout: cover
 background: https://cover.sli.dev?1
 highlighter: shiki
+lineNumbers: true
 monaco: true
-titleTemplate: "%s - Kevin UNFRICHT"
 ---
 
 # Utiliser des conteneurs avec Docker 🐳

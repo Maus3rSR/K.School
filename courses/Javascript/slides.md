@@ -1,6 +1,5 @@
 ---
 layout: cover
-highlighter: shiki
 monaco: true
 titleTemplate: "%s - Kevin UNFRICHT"
 ---

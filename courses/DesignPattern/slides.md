@@ -134,6 +134,21 @@ Garantir qu'une classe n'a qu'une seule instance
 
 </v-clicks>
 
+<div v-click class="mt-4">
+
+```mermaid
+classDiagram
+    class Singleton {
+        -static instance: Singleton
+        -Singleton()
+        +static getInstance(): Singleton
+    }
+    
+    note for Singleton "Constructeur privé\nInstance unique"
+```
+
+</div>
+
 <!--
 Le Singleton est probablement le pattern le plus connu, mais aussi le plus controversé.
 Il faut l'utiliser avec parcimonie car il peut créer des dépendances cachées.
@@ -270,6 +285,8 @@ C'est très utile quand on veut étendre le système avec de nouveaux types.
 
 # Factory Method - Implémentation
 
+<div class="overflow-y-auto" style="max-height: 90%;">
+
 ````md magic-move {lines: true}
 
 ```typescript
@@ -280,11 +297,11 @@ interface Notification {
 ```
 
 ```typescript
+// Étape 1 : Interface du produit
 interface Notification {
   send(message: string): void;
 }
 
-// Étape 2 : Implémentations concrètes
 class EmailNotification implements Notification {
   send(message: string): void {
     console.log(`📧 Email: ${message}`);
@@ -326,7 +343,7 @@ abstract class NotificationFactory {
 }
 ```
 
-```ts
+```typescript
 interface Notification {
   send(message: string): void;
 }
@@ -415,6 +432,8 @@ sendAlert(new SMSFactory(), "Code de vérification : 1234");
 
 ````
 
+</div>
+
 <!--
 La progression montre comment :
 1. On définit l'interface commune
@@ -436,32 +455,29 @@ Construire des objets complexes étape par étape
 
 - 🎯 **Problème** : Créer des objets avec beaucoup de paramètres optionnels
 - ✅ **Solution** : Séparer la construction de la représentation
-- 📦 **Cas d'usage** : Requêtes SQL, documents, configurations complexes
+- 📦 **Cas d'usage** : Requêtes SQL, documents, configurations complexes, test doubles
 
 </v-clicks>
 
 <div v-click class="mt-4">
 
-```typescript {1-2|4-8|10-14|16-20|all}
-// Sans Builder - difficile à lire
-const user = new User("John", "Doe", "john@example.com", 30, "123 Main St", "555-1234", true, false);
-
-// Avec Builder - clair et flexible
-const user = new UserBuilder()
-  .setFirstName("John")
-  .setLastName("Doe")
-  .setEmail("john@example.com")
-  .setAge(30)
-  .setAddress("123 Main St")
-  .setPhone("555-1234")
-  .setActive(true)
-  .build();
-
-// Ou version minimale
-const simpleUser = new UserBuilder()
-  .setFirstName("Jane")
-  .setEmail("jane@example.com")
-  .build();
+```mermaid
+classDiagram
+    direction LR
+    class Product {
+        +property1
+        +property2
+        +property3
+    }
+    class Builder {
+        -product: Product
+        +withProperty1()
+        +withProperty2()
+        +withProperty3()
+        +build(): Product
+    }
+    
+    Builder ..> Product : creates
 ```
 
 </div>
@@ -469,6 +485,284 @@ const simpleUser = new UserBuilder()
 <!--
 Le Builder rend le code beaucoup plus lisible et maintenable.
 On peut créer des objets avec seulement les propriétés nécessaires.
+-->
+
+---
+
+# Builder - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : La classe produit
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public age?: number,
+    public address?: string,
+    public phone?: string,
+    public isActive?: boolean
+  ) {}
+}
+```
+
+```typescript
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public age?: number,
+    public address?: string,
+    public phone?: string,
+    public isActive?: boolean
+  ) {}
+}
+
+// Étape 2 : Le Builder
+class UserBuilder {
+  private firstName: string = "";
+  private lastName: string = "";
+  private email: string = "";
+  private age?: number;
+  private address?: string;
+  private phone?: string;
+  private active: boolean = false;
+}
+```
+
+```typescript
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public age?: number,
+    public address?: string,
+    public phone?: string,
+    public isActive?: boolean
+  ) {}
+}
+
+class UserBuilder {
+  private firstName: string = "";
+  private lastName: string = "";
+  private email: string = "";
+  private age?: number;
+  private address?: string;
+  private phone?: string;
+  private active: boolean = false;
+
+  // Étape 3 : Méthodes de construction
+  withFirstName(firstName: string): UserBuilder {
+    this.firstName = firstName;
+    return this;
+  }
+
+  withLastName(lastName: string): UserBuilder {
+    this.lastName = lastName;
+    return this;
+  }
+
+  withEmail(email: string): UserBuilder {
+    this.email = email;
+    return this;
+  }
+
+  withAge(age: number): UserBuilder {
+    this.age = age;
+    return this;
+  }
+
+  withAddress(address: string): UserBuilder {
+    this.address = address;
+    return this;
+  }
+
+  withPhone(phone: string): UserBuilder {
+    this.phone = phone;
+    return this;
+  }
+
+  isActive(active: boolean): UserBuilder {
+    this.active = active;
+    return this;
+  }
+}
+```
+
+```typescript
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public age?: number,
+    public address?: string,
+    public phone?: string,
+    public isActive?: boolean
+  ) {}
+}
+
+class UserBuilder {
+  private firstName: string = "";
+  private lastName: string = "";
+  private email: string = "";
+  private age?: number;
+  private address?: string;
+  private phone?: string;
+  private active: boolean = false;
+
+  withFirstName(firstName: string): UserBuilder {
+    this.firstName = firstName;
+    return this;
+  }
+
+  withLastName(lastName: string): UserBuilder {
+    this.lastName = lastName;
+    return this;
+  }
+
+  withEmail(email: string): UserBuilder {
+    this.email = email;
+    return this;
+  }
+
+  withAge(age: number): UserBuilder {
+    this.age = age;
+    return this;
+  }
+
+  withAddress(address: string): UserBuilder {
+    this.address = address;
+    return this;
+  }
+
+  withPhone(phone: string): UserBuilder {
+    this.phone = phone;
+    return this;
+  }
+
+  isActive(active: boolean): UserBuilder {
+    this.active = active;
+    return this;
+  }
+
+  // Étape 4 : Méthode build()
+  build(): User {
+    return new User(
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.age,
+      this.address,
+      this.phone,
+      this.active
+    );
+  }
+}
+```
+
+```typescript
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public age?: number,
+    public address?: string,
+    public phone?: string,
+    public isActive?: boolean
+  ) {}
+}
+
+class UserBuilder {
+  private firstName: string = "";
+  private lastName: string = "";
+  private email: string = "";
+  private age?: number;
+  private address?: string;
+  private phone?: string;
+  private active: boolean = false;
+
+  withFirstName(firstName: string): UserBuilder {
+    this.firstName = firstName;
+    return this;
+  }
+
+  withLastName(lastName: string): UserBuilder {
+    this.lastName = lastName;
+    return this;
+  }
+
+  withEmail(email: string): UserBuilder {
+    this.email = email;
+    return this;
+  }
+
+  withAge(age: number): UserBuilder {
+    this.age = age;
+    return this;
+  }
+
+  withAddress(address: string): UserBuilder {
+    this.address = address;
+    return this;
+  }
+
+  withPhone(phone: string): UserBuilder {
+    this.phone = phone;
+    return this;
+  }
+
+  isActive(active: boolean): UserBuilder {
+    this.active = active;
+    return this;
+  }
+
+  build(): User {
+    return new User(
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.age,
+      this.address,
+      this.phone,
+      this.active
+    );
+  }
+}
+
+// Étape 5 : Utilisation
+const user = new UserBuilder()
+  .withFirstName("John")
+  .withLastName("Doe")
+  .withEmail("john@example.com")
+  .withAge(30)
+  .isActive(true)
+  .build();
+
+const simpleUser = new UserBuilder()
+  .withFirstName("Jane")
+  .withEmail("jane@example.com")
+  .build();
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit la classe produit complexe
+2. On crée le Builder avec les propriétés privées
+3. On ajoute les méthodes fluent (qui retournent this)
+4. On implémente la méthode build() finale
+5. On utilise le Builder de manière claire et flexible
 -->
 
 ---
@@ -499,6 +793,7 @@ Convertir l'interface d'une classe en une autre interface
 
 ```mermaid
 classDiagram
+    direction LR
     class Client
     class Target {
         <<interface>>
@@ -528,6 +823,8 @@ il permet de brancher un appareil sur une prise incompatible.
 
 # Adapter - Implémentation
 
+<div class="overflow-y-auto" style="max-height: 90%;">
+
 ````md magic-move {lines: true}
 
 ```typescript
@@ -539,8 +836,21 @@ class OldPaymentSystem {
 }
 ```
 
-```typescript {7-11}
+```typescript
+class OldPaymentSystem {
+  processPayment(amount: number): void {
+    console.log(`Traitement de ${amount}€ via l'ancien système`);
+  }
+}
+
 // Étape 2 : Nouvelle interface attendue
+interface ModernPaymentProcessor {
+  pay(amount: number, currency: string): void;
+  refund(transactionId: string): void;
+}
+```
+
+```typescript
 class OldPaymentSystem {
   processPayment(amount: number): void {
     console.log(`Traitement de ${amount}€ via l'ancien système`);
@@ -551,21 +861,8 @@ interface ModernPaymentProcessor {
   pay(amount: number, currency: string): void;
   refund(transactionId: string): void;
 }
-```
 
-```typescript {13-24}
 // Étape 3 : Créer l'adaptateur
-class OldPaymentSystem {
-  processPayment(amount: number): void {
-    console.log(`Traitement de ${amount}€ via l'ancien système`);
-  }
-}
-
-interface ModernPaymentProcessor {
-  pay(amount: number, currency: string): void;
-  refund(transactionId: string): void;
-}
-
 class PaymentAdapter implements ModernPaymentProcessor {
   private oldSystem: OldPaymentSystem;
   
@@ -584,8 +881,7 @@ class PaymentAdapter implements ModernPaymentProcessor {
 }
 ```
 
-```typescript {26-33}
-// Étape 4 : Utilisation
+```typescript
 class OldPaymentSystem {
   processPayment(amount: number): void {
     console.log(`Traitement de ${amount}€ via l'ancien système`);
@@ -614,7 +910,7 @@ class PaymentAdapter implements ModernPaymentProcessor {
   }
 }
 
-// Code client utilise la nouvelle interface
+// Étape 4 : Utilisation
 function processOrder(processor: ModernPaymentProcessor) {
   processor.pay(100, "USD");
 }
@@ -625,6 +921,8 @@ processOrder(adapter); // Fonctionne avec l'ancien système !
 ```
 
 ````
+
+</div>
 
 <!--
 L'adaptateur permet de réutiliser du code existant sans le modifier.
@@ -649,38 +947,32 @@ Ajouter dynamiquement des responsabilités à un objet
 
 <div v-click class="mt-4">
 
-```typescript {1-3|5-9|11-19|all}
-// Interface de base
-interface Coffee {
-  cost(): number;
-  description(): string;
-}
-
-// Implémentation simple
-class SimpleCoffee implements Coffee {
-  cost() { return 2; }
-  description() { return "Café simple"; }
-}
-
-// Décorateurs qui ajoutent des fonctionnalités
-class MilkDecorator implements Coffee {
-  constructor(private coffee: Coffee) {}
-  cost() { return this.coffee.cost() + 0.5; }
-  description() { return this.coffee.description() + " + lait"; }
-}
-
-class SugarDecorator implements Coffee {
-  constructor(private coffee: Coffee) {}
-  cost() { return this.coffee.cost() + 0.2; }
-  description() { return this.coffee.description() + " + sucre"; }
-}
-
-// Utilisation : on empile les décorateurs
-let coffee = new SimpleCoffee();
-coffee = new MilkDecorator(coffee);
-coffee = new SugarDecorator(coffee);
-console.log(coffee.description()); // "Café simple + lait + sucre"
-console.log(coffee.cost()); // 2.7
+```mermaid {scale: 0.7}
+classDiagram
+    direction LR
+    class Component {
+        <<interface>>
+        +operation()
+    }
+    class ConcreteComponent {
+        +operation()
+    }
+    class Decorator {
+        -component: Component
+        +operation()
+    }
+    class ConcreteDecoratorA {
+        +operation()
+    }
+    class ConcreteDecoratorB {
+        +operation()
+    }
+    
+    Component <|.. ConcreteComponent
+    Component <|.. Decorator
+    Decorator <|-- ConcreteDecoratorA
+    Decorator <|-- ConcreteDecoratorB
+    Decorator o-- Component
 ```
 
 </div>
@@ -692,67 +984,404 @@ On peut combiner les décorateurs comme on veut, dans l'ordre qu'on veut.
 
 ---
 
-# Facade
+# Decorator - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface de base
+interface Coffee {
+  cost(): number;
+  description(): string;
+}
+```
+
+```typescript
+interface Coffee {
+  cost(): number;
+  description(): string;
+}
+
+// Étape 2 : Implémentation simple
+class SimpleCoffee implements Coffee {
+  cost(): number {
+    return 2;
+  }
+  
+  description(): string {
+    return "Café simple";
+  }
+}
+```
+
+```typescript
+interface Coffee {
+  cost(): number;
+  description(): string;
+}
+
+class SimpleCoffee implements Coffee {
+  cost(): number {
+    return 2;
+  }
+  
+  description(): string {
+    return "Café simple";
+  }
+}
+
+// Étape 3 : Premier décorateur
+class MilkDecorator implements Coffee {
+  constructor(private coffee: Coffee) {}
+  
+  cost(): number {
+    return this.coffee.cost() + 0.5;
+  }
+  
+  description(): string {
+    return this.coffee.description() + " + lait";
+  }
+}
+```
+
+```typescript
+interface Coffee {
+  cost(): number;
+  description(): string;
+}
+
+class SimpleCoffee implements Coffee {
+  cost(): number {
+    return 2;
+  }
+  
+  description(): string {
+    return "Café simple";
+  }
+}
+
+class MilkDecorator implements Coffee {
+  constructor(private coffee: Coffee) {}
+  
+  cost(): number {
+    return this.coffee.cost() + 0.5;
+  }
+  
+  description(): string {
+    return this.coffee.description() + " + lait";
+  }
+}
+
+// Étape 4 : Deuxième décorateur
+class SugarDecorator implements Coffee {
+  constructor(private coffee: Coffee) {}
+  
+  cost(): number {
+    return this.coffee.cost() + 0.2;
+  }
+  
+  description(): string {
+    return this.coffee.description() + " + sucre";
+  }
+}
+```
+
+```typescript
+interface Coffee {
+  cost(): number;
+  description(): string;
+}
+
+class SimpleCoffee implements Coffee {
+  cost(): number {
+    return 2;
+  }
+  
+  description(): string {
+    return "Café simple";
+  }
+}
+
+class MilkDecorator implements Coffee {
+  constructor(private coffee: Coffee) {}
+  
+  cost(): number {
+    return this.coffee.cost() + 0.5;
+  }
+  
+  description(): string {
+    return this.coffee.description() + " + lait";
+  }
+}
+
+class SugarDecorator implements Coffee {
+  constructor(private coffee: Coffee) {}
+  
+  cost(): number {
+    return this.coffee.cost() + 0.2;
+  }
+  
+  description(): string {
+    return this.coffee.description() + " + sucre";
+  }
+}
+
+// Étape 5 : Utilisation - empiler les décorateurs
+let coffee: Coffee = new SimpleCoffee();
+coffee = new MilkDecorator(coffee);
+coffee = new SugarDecorator(coffee);
+
+console.log(coffee.description()); // "Café simple + lait + sucre"
+console.log(coffee.cost()); // 2.7
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit l'interface commune
+2. On crée l'implémentation de base
+3. On ajoute le premier décorateur qui enveloppe
+4. On ajoute d'autres décorateurs
+5. On empile les décorateurs pour combiner les fonctionnalités
+-->
+
+---
+
+# Composite
 
 <div class="text-xl mb-4">
-Fournir une interface simplifiée à un système complexe
+Composer des objets en structures arborescentes
 </div>
 
 <v-clicks>
 
-- 🎯 **Problème** : Système complexe avec beaucoup de classes interdépendantes
-- ✅ **Solution** : Créer une interface unifiée et simple
-- 📦 **Cas d'usage** : API simplifiée, bibliothèques complexes
+- 🎯 **Problème** : Traiter uniformément objets individuels et compositions d'objets
+- ✅ **Solution** : Structure arborescente avec interface commune
+- 📦 **Cas d'usage** : Systèmes de fichiers, menus, arbres DOM, organisations
 
 </v-clicks>
 
 <div v-click class="mt-4">
 
-```typescript {1-15|17-29|31-35|all}
-// Sous-systèmes complexes
-class VideoFile {
-  constructor(public filename: string) {}
-}
-
-class AudioMixer {
-  fix(video: VideoFile): void {
-    console.log("Correction audio...");
-  }
-}
-
-class VideoEncoder {
-  encode(video: VideoFile, format: string): void {
-    console.log(`Encodage en ${format}...`);
-  }
-}
-
-// Facade qui simplifie tout
-class VideoConverter {
-  convert(filename: string, format: string): void {
-    console.log("🎬 Début de la conversion");
+```mermaid {scale: 0.75}
+classDiagram
+    direction LR
+    class Component {
+        <<interface>>
+        +operation()
+        +add(Component)
+        +remove(Component)
+    }
+    class Leaf {
+        +operation()
+    }
+    class Composite {
+        -children: Component[]
+        +operation()
+        +add(Component)
+        +remove(Component)
+    }
     
-    const video = new VideoFile(filename);
-    const audio = new AudioMixer();
-    const encoder = new VideoEncoder();
-    
-    audio.fix(video);
-    encoder.encode(video, format);
-    
-    console.log("✅ Conversion terminée");
-  }
-}
-
-// Utilisation simple
-const converter = new VideoConverter();
-converter.convert("video.mp4", "avi");
-// Au lieu de gérer VideoFile, AudioMixer, VideoEncoder séparément
+    Component <|.. Leaf
+    Component <|.. Composite
+    Composite o-- Component
 ```
 
 </div>
 
 <!--
-La Facade cache la complexité derrière une interface simple.
-L'utilisateur n'a pas besoin de connaître tous les sous-systèmes.
+Le Composite permet de traiter de la même manière un objet seul ou un groupe d'objets.
+C'est comme un système de fichiers : un fichier ou un dossier peuvent être manipulés de la même façon.
+-->
+
+---
+
+# Composite - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface commune
+interface FileSystemComponent {
+  getName(): string;
+  getSize(): number;
+  display(indent: string): void;
+}
+```
+
+```typescript
+interface FileSystemComponent {
+  getName(): string;
+  getSize(): number;
+  display(indent: string): void;
+}
+
+// Étape 2 : Feuille (File)
+class File implements FileSystemComponent {
+  constructor(
+    private name: string,
+    private size: number
+  ) {}
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getSize(): number {
+    return this.size;
+  }
+  
+  display(indent: string): void {
+    console.log(`${indent}📄 ${this.name} (${this.size} KB)`);
+  }
+}
+```
+
+```typescript
+interface FileSystemComponent {
+  getName(): string;
+  getSize(): number;
+  display(indent: string): void;
+}
+
+class File implements FileSystemComponent {
+  constructor(
+    private name: string,
+    private size: number
+  ) {}
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getSize(): number {
+    return this.size;
+  }
+  
+  display(indent: string): void {
+    console.log(`${indent}📄 ${this.name} (${this.size} KB)`);
+  }
+}
+
+// Étape 3 : Composite (Folder)
+class Folder implements FileSystemComponent {
+  private children: FileSystemComponent[] = [];
+  
+  constructor(private name: string) {}
+  
+  add(component: FileSystemComponent): void {
+    this.children.push(component);
+  }
+  
+  remove(component: FileSystemComponent): void {
+    const index = this.children.indexOf(component);
+    if (index > -1) this.children.splice(index, 1);
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getSize(): number {
+    return this.children.reduce((sum, child) => sum + child.getSize(), 0);
+  }
+  
+  display(indent: string): void {
+    console.log(`${indent}📁 ${this.name} (${this.getSize()} KB)`);
+    this.children.forEach(child => child.display(indent + "  "));
+  }
+}
+```
+
+```typescript
+interface FileSystemComponent {
+  getName(): string;
+  getSize(): number;
+  display(indent: string): void;
+}
+
+class File implements FileSystemComponent {
+  constructor(
+    private name: string,
+    private size: number
+  ) {}
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getSize(): number {
+    return this.size;
+  }
+  
+  display(indent: string): void {
+    console.log(`${indent}📄 ${this.name} (${this.size} KB)`);
+  }
+}
+
+class Folder implements FileSystemComponent {
+  private children: FileSystemComponent[] = [];
+  
+  constructor(private name: string) {}
+  
+  add(component: FileSystemComponent): void {
+    this.children.push(component);
+  }
+  
+  remove(component: FileSystemComponent): void {
+    const index = this.children.indexOf(component);
+    if (index > -1) this.children.splice(index, 1);
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+  
+  getSize(): number {
+    return this.children.reduce((sum, child) => sum + child.getSize(), 0);
+  }
+  
+  display(indent: string): void {
+    console.log(`${indent}📁 ${this.name} (${this.getSize()} KB)`);
+    this.children.forEach(child => child.display(indent + "  "));
+  }
+}
+
+// Étape 4 : Utilisation - créer une arborescence
+const root = new Folder("root");
+const documents = new Folder("documents");
+const images = new Folder("images");
+
+documents.add(new File("cv.pdf", 150));
+documents.add(new File("lettre.docx", 50));
+
+images.add(new File("photo1.jpg", 2000));
+images.add(new File("photo2.jpg", 1800));
+
+root.add(documents);
+root.add(images);
+root.add(new File("readme.txt", 5));
+
+root.display(""); // Affiche toute l'arborescence
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit l'interface commune
+2. On crée les feuilles (objets simples)
+3. On crée le composite (conteneur)
+4. On utilise le pattern pour créer une structure arborescente
 -->
 
 ---
@@ -765,205 +1394,377 @@ Gérer les algorithmes et les responsabilités
 
 ---
 
-# Observer
+# État (State)
 
 <div class="text-xl mb-4">
-Notifier automatiquement les objets dépendants des changements
+Modifier le comportement d'un objet selon son état interne
 </div>
 
 <v-clicks>
 
-- 🎯 **Problème** : Maintenir la cohérence entre objets liés
-- ✅ **Solution** : Système de publication/abonnement
-- 📦 **Cas d'usage** : Event listeners, MVC, systèmes réactifs
+- 🎯 **Problème** : Comportement différent selon l'état, éviter les if/else
+- ✅ **Solution** : Encapsuler chaque état dans une classe
+- 📦 **Cas d'usage** : Machines à états, workflows, jeux vidéo
 
 </v-clicks>
 
 <div v-click class="mt-4">
 
-```mermaid
+```mermaid {scale: 0.9}
 classDiagram
-    class Subject {
-        -observers: Observer[]
-        +attach(observer)
-        +detach(observer)
-        +notify()
+    direction LR
+    class Context {
+        -state: State
+        +setState(State)
+        +request()
     }
-    class Observer {
+    class State {
         <<interface>>
-        +update()
+        +handle(Context)
     }
-    class ConcreteObserverA {
-        +update()
+    class ConcreteStateA {
+        +handle(Context)
     }
-    class ConcreteObserverB {
-        +update()
+    class ConcreteStateB {
+        +handle(Context)
     }
     
-    Subject o--> Observer
-    Observer <|.. ConcreteObserverA
-    Observer <|.. ConcreteObserverB
+    Context o-- State
+    State <|.. ConcreteStateA
+    State <|.. ConcreteStateB
 ```
 
 </div>
 
 <!--
-L'Observer est la base des systèmes événementiels.
-C'est comme s'abonner à une newsletter : on est notifié automatiquement.
+Le pattern État évite les longues chaînes de if/else pour gérer les états.
+C'est comme un distributeur automatique qui change de comportement selon son état.
 -->
 
 ---
 
-# Observer - Implémentation
+# État - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
 
 ````md magic-move {lines: true}
 
 ```typescript
-// Étape 1 : Interface Observer
-interface Observer {
-  update(data: any): void;
+// Étape 1 : Interface State
+interface OrderState {
+  cancel(order: Order): void;
+  ship(order: Order): void;
+  deliver(order: Order): void;
 }
 ```
 
-```typescript {6-18}
-// Étape 2 : Subject (Observable)
-interface Observer {
-  update(data: any): void;
+```typescript
+interface OrderState {
+  cancel(order: Order): void;
+  ship(order: Order): void;
+  deliver(order: Order): void;
 }
 
-class NewsAgency {
-  private observers: Observer[] = [];
-  private news: string = "";
-  
-  attach(observer: Observer): void {
-    this.observers.push(observer);
+// Étape 2 : États concrets
+class PendingState implements OrderState {
+  cancel(order: Order): void {
+    console.log("✅ Commande annulée");
+    order.setState(new CancelledState());
   }
   
-  detach(observer: Observer): void {
-    const index = this.observers.indexOf(observer);
-    if (index > -1) this.observers.splice(index, 1);
+  ship(order: Order): void {
+    console.log("📦 Commande expédiée");
+    order.setState(new ShippedState());
   }
   
-  notify(): void {
-    this.observers.forEach(obs => obs.update(this.news));
-  }
-  
-  setNews(news: string): void {
-    this.news = news;
-    this.notify();
-  }
-}
-```
-
-```typescript {28-40}
-// Étape 3 : Observers concrets
-interface Observer {
-  update(data: any): void;
-}
-
-class NewsAgency {
-  private observers: Observer[] = [];
-  private news: string = "";
-  
-  attach(observer: Observer): void {
-    this.observers.push(observer);
-  }
-  
-  detach(observer: Observer): void {
-    const index = this.observers.indexOf(observer);
-    if (index > -1) this.observers.splice(index, 1);
-  }
-  
-  notify(): void {
-    this.observers.forEach(obs => obs.update(this.news));
-  }
-  
-  setNews(news: string): void {
-    this.news = news;
-    this.notify();
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande non expédiée");
   }
 }
 
-class EmailSubscriber implements Observer {
-  constructor(private email: string) {}
-  
-  update(news: string): void {
-    console.log(`📧 Email à ${this.email}: ${news}`);
+class ShippedState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande expédiée");
   }
-}
-
-class SMSSubscriber implements Observer {
-  constructor(private phone: string) {}
   
-  update(news: string): void {
-    console.log(`📱 SMS à ${this.phone}: ${news}`);
+  ship(order: Order): void {
+    console.log("❌ Commande déjà expédiée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("🎉 Commande livrée");
+    order.setState(new DeliveredState());
   }
 }
 ```
 
-```typescript {42-51}
+```typescript
+interface OrderState {
+  cancel(order: Order): void;
+  ship(order: Order): void;
+  deliver(order: Order): void;
+}
+
+class PendingState implements OrderState {
+  cancel(order: Order): void {
+    console.log("✅ Commande annulée");
+    order.setState(new CancelledState());
+  }
+  
+  ship(order: Order): void {
+    console.log("📦 Commande expédiée");
+    order.setState(new ShippedState());
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande non expédiée");
+  }
+}
+
+class ShippedState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande expédiée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà expédiée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("🎉 Commande livrée");
+    order.setState(new DeliveredState());
+  }
+}
+
+class DeliveredState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande livrée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+}
+
+class CancelledState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Commande déjà annulée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Impossible d'expédier une commande annulée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande annulée");
+  }
+}
+```
+
+```typescript
+interface OrderState {
+  cancel(order: Order): void;
+  ship(order: Order): void;
+  deliver(order: Order): void;
+}
+
+class PendingState implements OrderState {
+  cancel(order: Order): void {
+    console.log("✅ Commande annulée");
+    order.setState(new CancelledState());
+  }
+  
+  ship(order: Order): void {
+    console.log("📦 Commande expédiée");
+    order.setState(new ShippedState());
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande non expédiée");
+  }
+}
+
+class ShippedState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande expédiée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà expédiée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("🎉 Commande livrée");
+    order.setState(new DeliveredState());
+  }
+}
+
+class DeliveredState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande livrée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+}
+
+class CancelledState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Commande déjà annulée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Impossible d'expédier une commande annulée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande annulée");
+  }
+}
+
+// Étape 3 : Contexte
+class Order {
+  private state: OrderState;
+  
+  constructor() {
+    this.state = new PendingState();
+  }
+  
+  setState(state: OrderState): void {
+    this.state = state;
+  }
+  
+  cancel(): void {
+    this.state.cancel(this);
+  }
+  
+  ship(): void {
+    this.state.ship(this);
+  }
+  
+  deliver(): void {
+    this.state.deliver(this);
+  }
+}
+```
+
+```typescript
+interface OrderState {
+  cancel(order: Order): void;
+  ship(order: Order): void;
+  deliver(order: Order): void;
+}
+
+class PendingState implements OrderState {
+  cancel(order: Order): void {
+    console.log("✅ Commande annulée");
+    order.setState(new CancelledState());
+  }
+  
+  ship(order: Order): void {
+    console.log("📦 Commande expédiée");
+    order.setState(new ShippedState());
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande non expédiée");
+  }
+}
+
+class ShippedState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande expédiée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà expédiée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("🎉 Commande livrée");
+    order.setState(new DeliveredState());
+  }
+}
+
+class DeliveredState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Impossible d'annuler une commande livrée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Commande déjà livrée");
+  }
+}
+
+class CancelledState implements OrderState {
+  cancel(order: Order): void {
+    console.log("❌ Commande déjà annulée");
+  }
+  
+  ship(order: Order): void {
+    console.log("❌ Impossible d'expédier une commande annulée");
+  }
+  
+  deliver(order: Order): void {
+    console.log("❌ Impossible de livrer une commande annulée");
+  }
+}
+
+class Order {
+  private state: OrderState;
+  
+  constructor() {
+    this.state = new PendingState();
+  }
+  
+  setState(state: OrderState): void {
+    this.state = state;
+  }
+  
+  cancel(): void {
+    this.state.cancel(this);
+  }
+  
+  ship(): void {
+    this.state.ship(this);
+  }
+  
+  deliver(): void {
+    this.state.deliver(this);
+  }
+}
+
 // Étape 4 : Utilisation
-interface Observer {
-  update(data: any): void;
-}
+const order = new Order();
 
-class NewsAgency {
-  private observers: Observer[] = [];
-  private news: string = "";
-  
-  attach(observer: Observer): void {
-    this.observers.push(observer);
-  }
-  
-  detach(observer: Observer): void {
-    const index = this.observers.indexOf(observer);
-    if (index > -1) this.observers.splice(index, 1);
-  }
-  
-  notify(): void {
-    this.observers.forEach(obs => obs.update(this.news));
-  }
-  
-  setNews(news: string): void {
-    this.news = news;
-    this.notify();
-  }
-}
-
-class EmailSubscriber implements Observer {
-  constructor(private email: string) {}
-  
-  update(news: string): void {
-    console.log(`📧 Email à ${this.email}: ${news}`);
-  }
-}
-
-class SMSSubscriber implements Observer {
-  constructor(private phone: string) {}
-  
-  update(news: string): void {
-    console.log(`📱 SMS à ${this.phone}: ${news}`);
-  }
-}
-
-// Utilisation
-const agency = new NewsAgency();
-const emailSub = new EmailSubscriber("user@example.com");
-const smsSub = new SMSSubscriber("555-1234");
-
-agency.attach(emailSub);
-agency.attach(smsSub);
-
-agency.setNews("Nouvelle importante !");
-// 📧 Email à user@example.com: Nouvelle importante !
-// 📱 SMS à 555-1234: Nouvelle importante !
+order.ship();    // � Commande expédiée
+order.deliver(); // 🎉 Commande livrée
+order.cancel();  // ❌ Impossible d'annuler une commande livrée
 ```
 
 ````
 
+</div>
+
 <!--
-L'Observer découple le sujet des observateurs.
-Le sujet ne connaît pas les détails des observateurs, juste leur interface.
+La progression montre comment :
+1. On définit l'interface State
+2. On crée les états concrets avec leurs comportements
+3. On crée le contexte qui délègue aux états
+4. On utilise le pattern pour gérer les transitions d'état
 -->
 
 ---
@@ -984,8 +1785,103 @@ Définir une famille d'algorithmes interchangeables
 
 <div v-click class="mt-4">
 
-```typescript {1-5|7-19|21-31|all}
-// Stratégies de paiement
+```mermaid {scale: 0.6}
+classDiagram
+    direction LR
+    class Context {
+        -strategy: Strategy
+        +setStrategy(Strategy)
+        +executeStrategy()
+    }
+    class Strategy {
+        <<interface>>
+        +execute()
+    }
+    class ConcreteStrategyA {
+        +execute()
+    }
+    class ConcreteStrategyB {
+        +execute()
+    }
+    class ConcreteStrategyC {
+        +execute()
+    }
+    
+    Context o-- Strategy
+    Strategy <|.. ConcreteStrategyA
+    Strategy <|.. ConcreteStrategyB
+    Strategy <|.. ConcreteStrategyC
+```
+
+</div>
+
+<!--
+Strategy permet de changer d'algorithme dynamiquement.
+C'est comme choisir un moyen de transport : voiture, vélo, train...
+-->
+
+---
+
+# Strategy - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface de stratégie
+interface PaymentStrategy {
+  pay(amount: number): void;
+}
+```
+
+```typescript
+interface PaymentStrategy {
+  pay(amount: number): void;
+}
+
+// Étape 2 : Première stratégie concrète
+class CreditCardPayment implements PaymentStrategy {
+  constructor(private cardNumber: string) {}
+  
+  pay(amount: number): void {
+    console.log(`💳 Paiement de ${amount}€ par carte ${this.cardNumber}`);
+  }
+}
+```
+
+```typescript
+interface PaymentStrategy {
+  pay(amount: number): void;
+}
+
+class CreditCardPayment implements PaymentStrategy {
+  constructor(private cardNumber: string) {}
+  
+  pay(amount: number): void {
+    console.log(`💳 Paiement de ${amount}€ par carte ${this.cardNumber}`);
+  }
+}
+
+// Étape 3 : Autres stratégies
+class PayPalPayment implements PaymentStrategy {
+  constructor(private email: string) {}
+  
+  pay(amount: number): void {
+    console.log(`🅿️ Paiement de ${amount}€ via PayPal (${this.email})`);
+  }
+}
+
+class CryptoPayment implements PaymentStrategy {
+  constructor(private wallet: string) {}
+  
+  pay(amount: number): void {
+    console.log(`₿ Paiement de ${amount}€ en crypto (${this.wallet})`);
+  }
+}
+```
+
+```typescript
 interface PaymentStrategy {
   pay(amount: number): void;
 }
@@ -1014,7 +1910,49 @@ class CryptoPayment implements PaymentStrategy {
   }
 }
 
-// Contexte qui utilise la stratégie
+// Étape 4 : Contexte qui utilise la stratégie
+class ShoppingCart {
+  private strategy: PaymentStrategy;
+  
+  setPaymentStrategy(strategy: PaymentStrategy): void {
+    this.strategy = strategy;
+  }
+  
+  checkout(amount: number): void {
+    this.strategy.pay(amount);
+  }
+}
+```
+
+```typescript
+interface PaymentStrategy {
+  pay(amount: number): void;
+}
+
+class CreditCardPayment implements PaymentStrategy {
+  constructor(private cardNumber: string) {}
+  
+  pay(amount: number): void {
+    console.log(`💳 Paiement de ${amount}€ par carte ${this.cardNumber}`);
+  }
+}
+
+class PayPalPayment implements PaymentStrategy {
+  constructor(private email: string) {}
+  
+  pay(amount: number): void {
+    console.log(`🅿️ Paiement de ${amount}€ via PayPal (${this.email})`);
+  }
+}
+
+class CryptoPayment implements PaymentStrategy {
+  constructor(private wallet: string) {}
+  
+  pay(amount: number): void {
+    console.log(`₿ Paiement de ${amount}€ en crypto (${this.wallet})`);
+  }
+}
+
 class ShoppingCart {
   private strategy: PaymentStrategy;
   
@@ -1027,8 +1965,9 @@ class ShoppingCart {
   }
 }
 
-// Utilisation
+// Étape 5 : Utilisation - changer de stratégie dynamiquement
 const cart = new ShoppingCart();
+
 cart.setPaymentStrategy(new CreditCardPayment("1234-5678"));
 cart.checkout(100);
 
@@ -1036,11 +1975,17 @@ cart.setPaymentStrategy(new PayPalPayment("user@example.com"));
 cart.checkout(50);
 ```
 
+````
+
 </div>
 
 <!--
-Strategy permet de changer d'algorithme dynamiquement.
-C'est comme choisir un moyen de transport : voiture, vélo, train...
+La progression montre comment :
+1. On définit l'interface de stratégie
+2. On crée une première stratégie concrète
+3. On ajoute d'autres stratégies alternatives
+4. On crée le contexte qui utilise les stratégies
+5. On change de stratégie dynamiquement à l'exécution
 -->
 
 ---
@@ -1061,14 +2006,83 @@ Encapsuler une requête comme un objet
 
 <div v-click class="mt-4">
 
-```typescript {1-4|6-18|20-32|34-44|all}
-// Interface Command
+```mermaid
+classDiagram
+    direction LR
+    class Client
+    class Invoker {
+        -commands: Command[]
+        +executeCommand(Command)
+        +undo()
+    }
+    class Command {
+        <<interface>>
+        +execute()
+        +undo()
+    }
+    class ConcreteCommand {
+        -receiver: Receiver
+        +execute()
+        +undo()
+    }
+    class Receiver {
+        +action()
+    }
+    
+    Client --> Invoker
+    Client --> ConcreteCommand
+    Invoker o-- Command
+    Command <|.. ConcreteCommand
+    ConcreteCommand --> Receiver
+```
+
+</div>
+
+<!--
+Command transforme les actions en objets.
+Cela permet de les stocker, les annuler, les rejouer...
+-->
+
+---
+
+# Command - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface Command
+interface Command {
+  execute(): void;
+  undo(): void;
+}
+```
+
+```typescript
 interface Command {
   execute(): void;
   undo(): void;
 }
 
-// Receiver (celui qui fait le travail)
+// Étape 2 : Receiver (celui qui fait le travail)
+class Light {
+  on(): void {
+    console.log("💡 Lumière allumée");
+  }
+  
+  off(): void {
+    console.log("🌑 Lumière éteinte");
+  }
+}
+```
+
+```typescript
+interface Command {
+  execute(): void;
+  undo(): void;
+}
+
 class Light {
   on(): void {
     console.log("💡 Lumière allumée");
@@ -1079,7 +2093,48 @@ class Light {
   }
 }
 
-// Commandes concrètes
+// Étape 3 : Commandes concrètes
+class LightOnCommand implements Command {
+  constructor(private light: Light) {}
+  
+  execute(): void {
+    this.light.on();
+  }
+  
+  undo(): void {
+    this.light.off();
+  }
+}
+
+class LightOffCommand implements Command {
+  constructor(private light: Light) {}
+  
+  execute(): void {
+    this.light.off();
+  }
+  
+  undo(): void {
+    this.light.on();
+  }
+}
+```
+
+```typescript
+interface Command {
+  execute(): void;
+  undo(): void;
+}
+
+class Light {
+  on(): void {
+    console.log("💡 Lumière allumée");
+  }
+  
+  off(): void {
+    console.log("🌑 Lumière éteinte");
+  }
+}
+
 class LightOnCommand implements Command {
   constructor(private light: Light) {}
   
@@ -1104,7 +2159,62 @@ class LightOffCommand implements Command {
   }
 }
 
-// Invoker (télécommande)
+// Étape 4 : Invoker (télécommande)
+class RemoteControl {
+  private history: Command[] = [];
+  
+  executeCommand(command: Command): void {
+    command.execute();
+    this.history.push(command);
+  }
+  
+  undo(): void {
+    const command = this.history.pop();
+    if (command) command.undo();
+  }
+}
+```
+
+```typescript
+interface Command {
+  execute(): void;
+  undo(): void;
+}
+
+class Light {
+  on(): void {
+    console.log("💡 Lumière allumée");
+  }
+  
+  off(): void {
+    console.log("🌑 Lumière éteinte");
+  }
+}
+
+class LightOnCommand implements Command {
+  constructor(private light: Light) {}
+  
+  execute(): void {
+    this.light.on();
+  }
+  
+  undo(): void {
+    this.light.off();
+  }
+}
+
+class LightOffCommand implements Command {
+  constructor(private light: Light) {}
+  
+  execute(): void {
+    this.light.off();
+  }
+  
+  undo(): void {
+    this.light.on();
+  }
+}
+
 class RemoteControl {
   private history: Command[] = [];
   
@@ -1119,7 +2229,7 @@ class RemoteControl {
   }
 }
 
-// Utilisation
+// Étape 5 : Utilisation avec undo/redo
 const light = new Light();
 const remote = new RemoteControl();
 
@@ -1128,11 +2238,646 @@ remote.executeCommand(new LightOffCommand(light)); // 🌑 Lumière éteinte
 remote.undo(); // 💡 Lumière allumée (annulation)
 ```
 
+````
+
 </div>
 
 <!--
-Command transforme les actions en objets.
-Cela permet de les stocker, les annuler, les rejouer...
+La progression montre comment :
+1. On définit l'interface Command
+2. On crée le Receiver qui exécute les actions
+3. On encapsule les actions dans des commandes concrètes
+4. On crée l'Invoker qui gère l'historique
+5. On utilise le pattern avec undo/redo
+-->
+
+---
+
+# Chaîne de responsabilité
+
+<div class="text-xl mb-4">
+Faire passer une requête le long d'une chaîne de gestionnaires
+</div>
+
+<v-clicks>
+
+- 🎯 **Problème** : Plusieurs objets peuvent traiter une requête
+- ✅ **Solution** : Chaîner les gestionnaires, chacun décide s'il traite ou passe
+- 📦 **Cas d'usage** : Middleware, validation, logging, gestion d'événements
+
+</v-clicks>
+
+<div v-click class="mt-4">
+
+```mermaid {scale: 0.6}
+classDiagram
+    class Handler {
+        <<interface>>
+        -next: Handler
+        +setNext(Handler)
+        +handle(request)
+    }
+    class ConcreteHandlerA {
+        +handle(request)
+    }
+    class ConcreteHandlerB {
+        +handle(request)
+    }
+    class ConcreteHandlerC {
+        +handle(request)
+    }
+    
+    Handler <|.. ConcreteHandlerA
+    Handler <|.. ConcreteHandlerB
+    Handler <|.. ConcreteHandlerC
+    Handler o-- Handler : next
+```
+
+</div>
+
+<!--
+La Chaîne de responsabilité permet de découpler l'émetteur du récepteur.
+C'est comme un système de support client avec plusieurs niveaux d'escalade.
+-->
+
+---
+
+# Chaîne de responsabilité - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface Handler
+interface SupportHandler {
+  setNext(handler: SupportHandler): SupportHandler;
+  handle(request: string): void;
+}
+```
+
+```typescript
+interface SupportHandler {
+  setNext(handler: SupportHandler): SupportHandler;
+  handle(request: string): void;
+}
+
+// Étape 2 : Handler abstrait
+abstract class AbstractSupportHandler implements SupportHandler {
+  private nextHandler: SupportHandler | null = null;
+  
+  setNext(handler: SupportHandler): SupportHandler {
+    this.nextHandler = handler;
+    return handler;
+  }
+  
+  handle(request: string): void {
+    if (this.nextHandler) {
+      this.nextHandler.handle(request);
+    }
+  }
+}
+```
+
+```typescript
+interface SupportHandler {
+  setNext(handler: SupportHandler): SupportHandler;
+  handle(request: string): void;
+}
+
+abstract class AbstractSupportHandler implements SupportHandler {
+  private nextHandler: SupportHandler | null = null;
+  
+  setNext(handler: SupportHandler): SupportHandler {
+    this.nextHandler = handler;
+    return handler;
+  }
+  
+  handle(request: string): void {
+    if (this.nextHandler) {
+      this.nextHandler.handle(request);
+    }
+  }
+}
+
+// Étape 3 : Handlers concrets
+class Level1Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    if (request === "simple") {
+      console.log("✅ Level 1: Problème résolu");
+    } else {
+      console.log("⏭️ Level 1: Escalade au niveau 2");
+      super.handle(request);
+    }
+  }
+}
+
+class Level2Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    if (request === "medium") {
+      console.log("✅ Level 2: Problème résolu");
+    } else {
+      console.log("⏭️ Level 2: Escalade au niveau 3");
+      super.handle(request);
+    }
+  }
+}
+
+class Level3Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    console.log("✅ Level 3: Problème complexe résolu");
+  }
+}
+```
+
+```typescript
+interface SupportHandler {
+  setNext(handler: SupportHandler): SupportHandler;
+  handle(request: string): void;
+}
+
+abstract class AbstractSupportHandler implements SupportHandler {
+  private nextHandler: SupportHandler | null = null;
+  
+  setNext(handler: SupportHandler): SupportHandler {
+    this.nextHandler = handler;
+    return handler;
+  }
+  
+  handle(request: string): void {
+    if (this.nextHandler) {
+      this.nextHandler.handle(request);
+    }
+  }
+}
+
+class Level1Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    if (request === "simple") {
+      console.log("✅ Level 1: Problème résolu");
+    } else {
+      console.log("⏭️ Level 1: Escalade au niveau 2");
+      super.handle(request);
+    }
+  }
+}
+
+class Level2Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    if (request === "medium") {
+      console.log("✅ Level 2: Problème résolu");
+    } else {
+      console.log("⏭️ Level 2: Escalade au niveau 3");
+      super.handle(request);
+    }
+  }
+}
+
+class Level3Support extends AbstractSupportHandler {
+  handle(request: string): void {
+    console.log("✅ Level 3: Problème complexe résolu");
+  }
+}
+
+// Étape 4 : Utilisation - construire la chaîne
+const level1 = new Level1Support();
+const level2 = new Level2Support();
+const level3 = new Level3Support();
+
+level1.setNext(level2).setNext(level3);
+
+level1.handle("simple");  // ✅ Level 1: Problème résolu
+level1.handle("medium");  // ⏭️ Level 1 → ✅ Level 2: Problème résolu
+level1.handle("complex"); // ⏭️ Level 1 → ⏭️ Level 2 → ✅ Level 3
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit l'interface Handler
+2. On crée un handler abstrait avec la logique de chaînage
+3. On implémente les handlers concrets
+4. On construit et utilise la chaîne
+-->
+
+---
+
+# Médiateur
+
+<div class="text-xl mb-4">
+Centraliser les communications entre objets
+</div>
+
+<v-clicks>
+
+- 🎯 **Problème** : Communications complexes entre plusieurs objets
+- ✅ **Solution** : Objet médiateur qui centralise les interactions
+- 📦 **Cas d'usage** : Chat rooms, contrôleurs MVC, systèmes de dialogue
+
+</v-clicks>
+
+<div v-click class="mt-4">
+
+```mermaid
+classDiagram
+    direction LR
+    class Mediator {
+        <<interface>>
+        +notify(sender, event)
+    }
+    class ConcreteMediator {
+        -componentA: ComponentA
+        -componentB: ComponentB
+        +notify(sender, event)
+    }
+    class Component {
+        -mediator: Mediator
+        +setMediator(Mediator)
+    }
+    
+    Mediator <|.. ConcreteMediator
+    Component --> Mediator
+    ConcreteMediator --> Component
+```
+
+</div>
+
+<!--
+Le Médiateur réduit les dépendances entre objets communicants.
+C'est comme un contrôleur aérien qui coordonne les avions.
+-->
+
+---
+
+# Médiateur - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface Mediator
+interface ChatMediator {
+  sendMessage(message: string, user: User): void;
+  addUser(user: User): void;
+}
+```
+
+```typescript
+interface ChatMediator {
+  sendMessage(message: string, user: User): void;
+  addUser(user: User): void;
+}
+
+// Étape 2 : Composant (User)
+class User {
+  constructor(
+    private name: string,
+    private mediator: ChatMediator
+  ) {
+    this.mediator.addUser(this);
+  }
+  
+  send(message: string): void {
+    console.log(`${this.name} envoie: ${message}`);
+    this.mediator.sendMessage(message, this);
+  }
+  
+  receive(message: string): void {
+    console.log(`${this.name} reçoit: ${message}`);
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+}
+```
+
+```typescript
+interface ChatMediator {
+  sendMessage(message: string, user: User): void;
+  addUser(user: User): void;
+}
+
+class User {
+  constructor(
+    private name: string,
+    private mediator: ChatMediator
+  ) {
+    this.mediator.addUser(this);
+  }
+  
+  send(message: string): void {
+    console.log(`${this.name} envoie: ${message}`);
+    this.mediator.sendMessage(message, this);
+  }
+  
+  receive(message: string): void {
+    console.log(`${this.name} reçoit: ${message}`);
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+}
+
+// Étape 3 : Médiateur concret
+class ChatRoom implements ChatMediator {
+  private users: User[] = [];
+  
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+  
+  sendMessage(message: string, sender: User): void {
+    this.users.forEach(user => {
+      if (user !== sender) {
+        user.receive(message);
+      }
+    });
+  }
+}
+```
+
+```typescript
+interface ChatMediator {
+  sendMessage(message: string, user: User): void;
+  addUser(user: User): void;
+}
+
+class User {
+  constructor(
+    private name: string,
+    private mediator: ChatMediator
+  ) {
+    this.mediator.addUser(this);
+  }
+  
+  send(message: string): void {
+    console.log(`${this.name} envoie: ${message}`);
+    this.mediator.sendMessage(message, this);
+  }
+  
+  receive(message: string): void {
+    console.log(`${this.name} reçoit: ${message}`);
+  }
+  
+  getName(): string {
+    return this.name;
+  }
+}
+
+class ChatRoom implements ChatMediator {
+  private users: User[] = [];
+  
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+  
+  sendMessage(message: string, sender: User): void {
+    this.users.forEach(user => {
+      if (user !== sender) {
+        user.receive(message);
+      }
+    });
+  }
+}
+
+// Étape 4 : Utilisation
+const chatRoom = new ChatRoom();
+
+const alice = new User("Alice", chatRoom);
+const bob = new User("Bob", chatRoom);
+const charlie = new User("Charlie", chatRoom);
+
+alice.send("Bonjour tout le monde !");
+// Bob reçoit: Bonjour tout le monde !
+// Charlie reçoit: Bonjour tout le monde !
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit l'interface Mediator
+2. On crée les composants qui communiquent via le médiateur
+3. On implémente le médiateur concret
+4. On utilise le pattern pour coordonner les communications
+-->
+
+---
+
+# Itérateur
+
+<div class="text-xl mb-4">
+Parcourir une collection sans exposer sa structure interne
+</div>
+
+<v-clicks>
+
+- 🎯 **Problème** : Accéder aux éléments d'une collection de manière uniforme
+- ✅ **Solution** : Interface d'itération indépendante de la structure
+- 📦 **Cas d'usage** : Parcours de collections, arbres, graphes
+
+</v-clicks>
+
+<div v-click class="mt-4">
+
+```mermaid {scale: 0.7}
+classDiagram
+    direction LR
+    class Iterator {
+        <<interface>>
+        +hasNext(): boolean
+        +next(): T
+    }
+    class ConcreteIterator {
+        -collection: Collection
+        -position: number
+        +hasNext(): boolean
+        +next(): T
+    }
+    class Iterable {
+        <<interface>>
+        +createIterator(): Iterator
+    }
+    class ConcreteCollection {
+        +createIterator(): Iterator
+    }
+    
+    Iterator <|.. ConcreteIterator
+    Iterable <|.. ConcreteCollection
+    ConcreteIterator --> ConcreteCollection
+```
+
+</div>
+
+<!--
+L'Itérateur permet de parcourir une collection sans connaître sa structure.
+C'est la base du for...of en JavaScript et des boucles foreach dans d'autres langages.
+-->
+
+---
+
+# Itérateur - Implémentation
+
+<div class="overflow-y-auto" style="max-height: 90%;">
+
+````md magic-move {lines: true}
+
+```typescript
+// Étape 1 : Interface Iterator
+interface Iterator<T> {
+  hasNext(): boolean;
+  next(): T | null;
+}
+```
+
+```typescript
+interface Iterator<T> {
+  hasNext(): boolean;
+  next(): T | null;
+}
+
+// Étape 2 : Interface Iterable
+interface Iterable<T> {
+  createIterator(): Iterator<T>;
+}
+```
+
+```typescript
+interface Iterator<T> {
+  hasNext(): boolean;
+  next(): T | null;
+}
+
+interface Iterable<T> {
+  createIterator(): Iterator<T>;
+}
+
+// Étape 3 : Collection concrète
+class BookCollection implements Iterable<string> {
+  private books: string[] = [];
+  
+  addBook(book: string): void {
+    this.books.push(book);
+  }
+  
+  createIterator(): Iterator<string> {
+    return new BookIterator(this.books);
+  }
+}
+```
+
+```typescript
+interface Iterator<T> {
+  hasNext(): boolean;
+  next(): T | null;
+}
+
+interface Iterable<T> {
+  createIterator(): Iterator<T>;
+}
+
+class BookCollection implements Iterable<string> {
+  private books: string[] = [];
+  
+  addBook(book: string): void {
+    this.books.push(book);
+  }
+  
+  createIterator(): Iterator<string> {
+    return new BookIterator(this.books);
+  }
+}
+
+// Étape 4 : Itérateur concret
+class BookIterator implements Iterator<string> {
+  private position: number = 0;
+  
+  constructor(private books: string[]) {}
+  
+  hasNext(): boolean {
+    return this.position < this.books.length;
+  }
+  
+  next(): string | null {
+    if (this.hasNext()) {
+      return this.books[this.position++];
+    }
+    return null;
+  }
+}
+```
+
+```typescript
+interface Iterator<T> {
+  hasNext(): boolean;
+  next(): T | null;
+}
+
+interface Iterable<T> {
+  createIterator(): Iterator<T>;
+}
+
+class BookCollection implements Iterable<string> {
+  private books: string[] = [];
+  
+  addBook(book: string): void {
+    this.books.push(book);
+  }
+  
+  createIterator(): Iterator<string> {
+    return new BookIterator(this.books);
+  }
+}
+
+class BookIterator implements Iterator<string> {
+  private position: number = 0;
+  
+  constructor(private books: string[]) {}
+  
+  hasNext(): boolean {
+    return this.position < this.books.length;
+  }
+  
+  next(): string | null {
+    if (this.hasNext()) {
+      return this.books[this.position++];
+    }
+    return null;
+  }
+}
+
+// Étape 5 : Utilisation
+const collection = new BookCollection();
+collection.addBook("Design Patterns");
+collection.addBook("Clean Code");
+collection.addBook("Refactoring");
+
+const iterator = collection.createIterator();
+
+while (iterator.hasNext()) {
+  console.log(`📖 ${iterator.next()}`);
+}
+```
+
+````
+
+</div>
+
+<!--
+La progression montre comment :
+1. On définit l'interface Iterator
+2. On définit l'interface Iterable
+3. On crée la collection qui peut être itérée
+4. On implémente l'itérateur concret
+5. On utilise le pattern pour parcourir la collection
 -->
 
 ---
@@ -1151,22 +2896,26 @@ layout: two-cols
 
 - **Adapter** : Compatibilité d'interfaces
 - **Decorator** : Ajout de fonctionnalités
-- **Facade** : Interface simplifiée
+- **Composite** : Structures arborescentes
 
 ::right::
 
 ## 🎭 Comportement
 
-- **Observer** : Notification automatique
+- **État** : Comportement selon l'état
 - **Strategy** : Algorithmes interchangeables
 - **Command** : Requêtes en objets
+- **Chaîne de responsabilité** : Chaîne de gestionnaires
+- **Médiateur** : Communications centralisées
+- **Itérateur** : Parcours de collections
 
-<div v-click class="mt-8 p-4 bg-green-50 dark:bg-orange-700 rounded">
+<div v-click class="mt-8 p-4 bg-green-50 dark:bg-orange-700 rounded text-sm">
 
-### 💡 Conseil
+### 💡 Conseils
 Ne pas sur-utiliser les patterns !
 Utilisez-les quand ils apportent une vraie valeur.
 
+L'essentiel est dans le concept, pas dans l'implémentation ! Les exemples présentés ne représentent qu'une façon parmi d'autres d'implémenter ces patterns. L'important est d'atteindre l'objectif de résolution du problème.
 
 </div>
 

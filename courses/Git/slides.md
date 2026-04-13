@@ -632,4 +632,6 @@ layout: center
 
 [Cheat Sheet](https://git-scm.com/cheat-sheet)
 
+[Git by Bit](https://gitbybit.com/)
+
 [Le jeu "Oh my GIT"](https://ohmygit.org/)

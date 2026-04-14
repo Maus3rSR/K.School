@@ -1,5 +1,5 @@
 {
-  "name": "design-patterns-presentation",
+  "name": "@k.school/design-patterns",
   "version": "1.0.0",
   "description": "Présentation Slidev sur les Design Patterns - Les 3 Catégories",
   "scripts": {
@@ -8,11 +8,9 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^0.49.0",
-    "@slidev/theme-default": "latest",
-    "vue": "^3.4.0"
-  },
-  "devDependencies": {
-    "playwright-chromium": "^1.40.0"
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "playwright-chromium": "catalog:",
+    "vue": "catalog:"
   }
 }

@@ -1,8 +1,11 @@
 ---
-layout: cover
-highlighter: shiki
-monaco: true
 titleTemplate: "%s - Kevin UNFRICHT"
+title: ".NET Core & Blazor - Développement Web"
+layout: cover
+background: https://cover.sli.dev?1
+highlighter: shiki
+lineNumbers: true
+monaco: true
 ---
 
 # Introduction au développement avec .NET Core & Blazor

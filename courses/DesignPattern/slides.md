@@ -1,8 +1,9 @@
 ---
 titleTemplate: "%s - Kevin UNFRICHT"
+title: "Les Design Patterns"
 layout: cover
 background: https://cover.sli.dev
-title: Les Design Patterns
+highlighter: shiki
 lineNumbers: true
 monaco: true
 ---

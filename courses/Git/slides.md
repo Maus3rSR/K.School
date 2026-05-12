@@ -1,9 +1,11 @@
 ---
+titleTemplate: "%s - Kevin UNFRICHT"
+title: "Git - Gestion de Versions"
 layout: cover
 background: https://cover.sli.dev?1
 highlighter: shiki
+lineNumbers: true
 monaco: true
-titleTemplate: "%s - Kevin UNFRICHT"
 ---
 
 # Versionner son code avec

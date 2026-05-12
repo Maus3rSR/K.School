@@ -1,9 +1,11 @@
 ---
+titleTemplate: "%s - Kevin UNFRICHT"
+title: "User Stories - Expression du Besoin"
 layout: cover
 background: whats_your_story.jpg
 highlighter: shiki
+lineNumbers: true
 monaco: true
-titleTemplate: "%s - Kevin UNFRICHT"
 ---
 <style>
 .cover div {

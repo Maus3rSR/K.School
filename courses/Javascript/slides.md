@@ -1,7 +1,11 @@
 ---
-layout: cover
-monaco: true
 titleTemplate: "%s - Kevin UNFRICHT"
+title: "JavaScript - Développement Web"
+layout: cover
+background: https://cover.sli.dev?1
+highlighter: shiki
+lineNumbers: true
+monaco: true
 ---
 
 # Introduction au développement avec JavaScript

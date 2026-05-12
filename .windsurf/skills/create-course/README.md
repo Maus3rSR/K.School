@@ -1,76 +1,60 @@
-# Create Course - Instructions
+# Create Course Skill
 
-## Step 1: Get Course Information
+Windsurf skill to quickly scaffold new K.School training courses with proper Slidev configuration.
 
-Ask the user for the course name in package.json format (lowercase, single word or hyphenated).
+## What it does
 
-Example: `git`, `docker`, `typescript`, `web-fundamentals`
+This skill automates the creation of a new course structure with:
 
-## Step 2: Determine Course Title
+- **Course directory** in `courses/[name]/`
+- **package.json** with Slidev dependencies and scripts
+- **slides.md** with standardized header configuration
+- **Automatic dependency installation** via pnpm
 
-Based on the course name, infer an appropriate course title. If the title cannot be reasonably inferred, ask the user for a descriptive course title.
+## Usage
 
-Examples:
+Simply ask Cascade to create a new course:
 
-- `git` → "Git - Gestion de Versions"
-- `docker` → "Docker - Conteneurisation"
-- `typescript` → "TypeScript - Programmation Typée"
-
-## Step 3: Create Directory Structure
-
-Create the directory: `./courses/[COURSE_NAME]`
-
-## Step 4: Create package.json
-
-Create `./courses/[COURSE_NAME]/package.json` with this content:
-
-```json
-{
-  "name": "@k.school/[COURSE_NAME]",
-  "version": "0.0.1",
-  "private": "true",
-  "type": "module",
-  "scripts": {
-    "build": "slidev build",
-    "dev": "slidev --open",
-    "export": "slidev export"
-  },
-  "dependencies": {
-    "@slidev/cli": "catalog:",
-    "@slidev/theme-default": "catalog:",
-    "vue": "catalog:"
-  }
-}
+```
+Create a new course about React
 ```
 
-Replace `[COURSE_NAME]` with the actual course name.
-
-## Step 5: Create slides.md
-
-Create `./courses/[COURSE_NAME]/slides.md` with this content:
-
-```markdown
----
-titleTemplate: "%s - Kevin UNFRICHT"
-title: "[COURSE_TITLE]"
-layout: cover
-background: https://cover.sli.dev?1
-highlighter: shiki
-lineNumbers: true
-monaco: true
----
+```
+Add a new training module for Python basics
 ```
 
-Replace `[COURSE_TITLE]` with the actual course title.
+The skill will:
 
-## Step 6: Install Dependencies
+1. Ask for the course name (if not clear from context)
+2. Generate an appropriate course title
+3. Create all necessary files
+4. Install dependencies
 
-Run `pnpm install` in the course directory and replace `[COURSE_NAME]` with the actual course name:
+## Course Structure
 
-```bash
-pnpm install --filter @k.school/[COURSE_NAME]
+Each course follows this structure:
+
+```
+courses/
+└── [course-name]/
+    ├── package.json      # Slidev configuration
+    └── slides.md         # Presentation slides
 ```
 
-## Step 7: Confirm Success
+## Configuration
 
-Inform the user that the course has been created successfully and provide the path to the new course.
+All courses use:
+
+- **Slidev** for presentations
+- **Shiki** for syntax highlighting
+- **Monaco** editor for interactive code
+- **Line numbers** enabled by default
+
+## Examples
+
+Created courses include:
+
+- Git - Gestion de Versions
+- Docker - Conteneurisation
+- JavaScript - Développement Web
+- TypeScript - Programmation Typée

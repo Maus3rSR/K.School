@@ -1,23 +1,81 @@
-# Create Course Skill
+---
+name: create-course
+description: Create a new K.School course with proper structure, package.json, slides.md configuration, and dependencies. Use when the user wants to add a new training course or module.
+---
 
-This skill helps create a new course structure for K.School with the proper configuration.
+# Create Course - Agent Instructions
 
-## What it does
+## Step 1: Get Course Information
 
-1. Asks for the course name in package.json format (e.g., `git`, `docker`, `typescript`)
-2. Optionally asks for a course title if needed for clarity
-3. Creates the course directory structure
-4. Generates `package.json` with proper configuration
-5. Creates `slides.md` with the standard header
-6. Runs `pnpm install` to set up dependencies
+Ask the user for the course name in package.json format (lowercase, single word or hyphenated).
 
-## When to use
+Example: `git`, `docker`, `typescript`, `web-fundamentals`
 
-- User asks to create a new course
-- User wants to add a new training module
-- User requests a new presentation setup
+## Step 2: Determine Course Title
 
-## Files created
+Based on the course name, infer an appropriate course title. If the title cannot be reasonably inferred, ask the user for a descriptive course title.
 
-- `courses/[COURSE_NAME]/package.json`
-- `courses/[COURSE_NAME]/slides.md`
+Examples:
+
+- `git` → "Git - Gestion de Versions"
+- `docker` → "Docker - Conteneurisation"
+- `typescript` → "TypeScript - Programmation Typée"
+
+## Step 3: Create Directory Structure
+
+Create the directory: `./courses/[COURSE_NAME]`
+
+## Step 4: Create package.json
+
+Create `./courses/[COURSE_NAME]/package.json` with this content:
+
+```json
+{
+  "name": "@k.school/[COURSE_NAME]",
+  "version": "0.0.1",
+  "private": "true",
+  "type": "module",
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "vue": "catalog:"
+  }
+}
+```
+
+Replace `[COURSE_NAME]` with the actual course name.
+
+## Step 5: Create slides.md
+
+Create `./courses/[COURSE_NAME]/slides.md` with this content:
+
+```markdown
+---
+titleTemplate: "%s - Kevin UNFRICHT"
+title: "[COURSE_TITLE]"
+layout: cover
+background: https://cover.sli.dev?1
+highlighter: shiki
+lineNumbers: true
+monaco: true
+---
+```
+
+Replace `[COURSE_TITLE]` with the actual course title.
+
+## Step 6: Install Dependencies
+
+Run `pnpm install` in the course directory and replace `[COURSE_NAME]` with the actual course name:
+
+```bash
+pnpm install --filter @k.school/[COURSE_NAME]
+```
+
+## Step 7: Confirm Success
+
+Inform the user that the course has been created successfully and provide the path to the new course.

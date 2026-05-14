@@ -9,25 +9,29 @@ description: Create a new K.School course with proper structure, package.json, s
 
 Ask the user for the course name in package.json format (lowercase, single word or hyphenated).
 
-Example: `git`, `docker`, `typescript`, `web-fundamentals`
+Example: `git`, `docker`, `typescript`, `web-fundamentals`, `efficient-dev`
 
-## Step 2: Determine Course Title
+## Step 2: Determine Folder Name and Course Title
 
-Based on the course name, infer an appropriate course title. If the title cannot be reasonably inferred, ask the user for a descriptive course title.
+Based on the course name:
+
+1. **Folder name**: Convert to PascalCase (capitalize first letter of each word, remove hyphens)
+2. **Course title**: Infer an appropriate descriptive title
 
 Examples:
 
-- `git` → "Git - Gestion de Versions"
-- `docker` → "Docker - Conteneurisation"
-- `typescript` → "TypeScript - Programmation Typée"
+- `git` → Folder: `Git`, Title: "Git - Gestion de Versions"
+- `docker` → Folder: `Docker`, Title: "Docker - Conteneurisation"
+- `typescript` → Folder: `Typescript`, Title: "TypeScript - Programmation Typée"
+- `efficient-dev` → Folder: `Efficient-Dev`, Title: "Développement Efficace"
 
 ## Step 3: Create Directory Structure
 
-Create the directory: `./courses/[COURSE_NAME]`
+Create the directory: `./courses/[FOLDER_NAME]` (where FOLDER_NAME is in PascalCase)
 
 ## Step 4: Create package.json
 
-Create `./courses/[COURSE_NAME]/package.json` with this content:
+Create `./courses/[FOLDER_NAME]/package.json` with this content:
 
 ```json
 {
@@ -48,11 +52,11 @@ Create `./courses/[COURSE_NAME]/package.json` with this content:
 }
 ```
 
-Replace `[COURSE_NAME]` with the actual course name.
+Replace `[FOLDER_NAME]` with the PascalCase folder name and `[COURSE_NAME]` with the kebab-case package name.
 
 ## Step 5: Create slides.md
 
-Create `./courses/[COURSE_NAME]/slides.md` with this content:
+Create `./courses/[FOLDER_NAME]/slides.md` with this content:
 
 ```markdown
 ---

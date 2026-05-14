@@ -849,7 +849,35 @@ Le Constructeur
 
 **Initialiser avec des valeurs personnalisées**
 
-```ts {1-11|3-6|8-11|all}{maxHeight:'300px'}
+````md magic-move
+```ts
+class Point {
+  x: number = 0
+  y: number = 0
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+```
+
+```ts {5-8}
+class Point {
+  x: number = 0
+  y: number = 0
+
+  constructor(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+```
+
+```ts {15-17}
 class Point {
   x: number = 0
   y: number = 0
@@ -864,13 +892,11 @@ class Point {
   }
 }
 
-// Créer des points avec des valeurs initiales
 const point1 = new Point(10, 20)
-const point2 = new Point(5, 15)
-
-point1.afficher()
-point2.afficher()
+//                       ↓   ↓
+//                       x   y
 ```
+````
 
 ::right::
 
@@ -888,26 +914,7 @@ point2.afficher()
 
 **Fonctionnement**
 
-```ts
-const point1 = new Point(10, 20)
-//                       ↓   ↓
-//                       x   y
-```
-
-- Les paramètres `(10, 20)` sont passés au constructeur
-- `this.x = x` → `this.x = 10`
-- `this.y = y` → `this.y = 20`
-
-</div>
-
-<div v-click="3">
-
-**Résultat**
-
-```ts
-Point(10, 20)
-Point(5, 15)
-```
+- Les arguments `(10, 20)` sont passés au constructeur
 
 </div>
 

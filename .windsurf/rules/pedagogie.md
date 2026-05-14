@@ -239,7 +239,9 @@ Contenu avec un cas d'usage...
 
 ## Checklist de Validation
 
-### Avant de Publier une Présentation
+TOUJOURS faire cette checklist de validation après avoir fait une slide ou une présentation ou un exercice.
+
+### Avant de Publier une Présentation / un Slide
 
 - [ ] Chaque terme technique est défini
 - [ ] Progression logique et sans saut conceptuel
@@ -292,5 +294,7 @@ Contenu avec un cas d'usage...
 
 **TOUTES** les présentations et exercices créés doivent respecter ces principes.
 En cas de doute, privilégier TOUJOURS la simplicité et la clarté sur la sophistication technique.
+
+**TOUS LES EXERCICES** sont dans un dossier `exercises` et doivent être nommés de manière descriptive. Ne pas mettre d'exercices dans les slides, mais on peut avoir une slide qui indique que nous passons sur un exercice.
 
 **Objectif ultime**: Donner confiance et compétence à des personnes qui changent de vie professionnelle.

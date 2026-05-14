@@ -118,7 +118,7 @@ Problème du Quotidien : Comment organiser les informations d'une application de
 
 **Option 1 : Variables séparées**
 
-```js
+```ts
 let contact1_nom = "Alice"
 let contact1_telephone = "0601020304"
 let contact1_email = "alice@email.com"
@@ -138,7 +138,7 @@ let contact2_email = "bob@email.com"
 
 **Option 2 : Regrouper les informations**
 
-```js
+```ts
 let contact1 = {
   nom: "Alice",
   telephone: "0601020304",
@@ -175,7 +175,7 @@ Avantage 1 : Éviter la Duplication de Code
 
 **❌ Sans POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 let contact1 = { 
     nom: "Alice",
     email: "alice@email.com"
@@ -214,7 +214,7 @@ emailService.send({
 
 **✅ Avec POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 class Contact {
   constructor(nom, email) {
     this.nom = nom
@@ -275,7 +275,7 @@ Avantage 2 : Garantir la Cohérence des Données
 
 **❌ Sans POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 let contact = { 
   nom: "Alice", 
   email: "alice@email.com",
@@ -303,7 +303,7 @@ if (contact.emailVerifie) {
 
 **✅ Avec POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 class Contact {
   #email
   #emailVerifie
@@ -353,7 +353,7 @@ Avantage 3 : Responsabilité Claire
 
 **❌ Sans POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 let contact = { nom: "Alice", email: "alice@email.com" }
 
 // Qui est responsable de formater l'affichage ?
@@ -385,7 +385,7 @@ function exporterContactVersJSON(contact) {
 
 **✅ Avec POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 class Contact {
   constructor(nom, email) {
     this.nom = nom
@@ -441,7 +441,7 @@ Avantage 4 : Abstraction et Simplicité d'Usage
 
 **❌ Sans POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 let contact = {
     nom: "Alice",
     email: "alice@email.com"
@@ -477,7 +477,7 @@ fetch(gravatarUrl)
 
 **✅ Avec POO**
 
-```js {*}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 class Contact {
   constructor(nom, email) {
     this.nom = nom
@@ -678,13 +678,13 @@ classDiagram
 
 ## Composants
 
-**Attributs** (données)
+**Attribut** (données) <small><i>ou propriété, membre, champ</i></small>
 - `marque`, `modele`, `couleur`, `vitesse`
-- Préfixe `-` : attribut <mark>**privé**</mark> (protégé)
+- Préfixe `-` : attribut <mark>**privé**</mark> (protégé de l'extérieur)
 
-**Méthodes** (actions)
+**Méthode** (actions)
 - `demarrer()`, `accelerer()`, `freiner()`, `arreter()`
-- Préfixe `+` : méthode <mark>**publique**</mark> (accessible)
+- Préfixe `+` : méthode <mark>**publique**</mark> (accessible de l'extérieur)
 
 </div>
 
@@ -717,38 +717,202 @@ Créer une Classe Point
 
 ::left::
 
-<div v-click>
-
 ## Le Code
 
-```js {1-7|1|2-3|5-7|all}
+```ts {1-7|1|2-3|5|6|all}
 class Point {
-  x = 0
-  y = 0
+  public x: number = 0
+  public y: number = 0
 
-  afficher() {
+  afficher(): void {
     console.log(`Point(${this.x}, ${this.y})`)
   }
 }
 ```
 
-</div>
-
 ::right::
-
-<div v-click>
 
 ## Décortiquons
 
+<div v-click="1">
+
 - `class Point` : Déclaration de la classe
-- `x = 0` et `y = 0` : <mark>**Attributs**</mark> avec valeurs par défaut
-- `afficher()` : <mark>**Méthode**</mark> pour afficher le point
-- `this` : Référence à l'objet courant
 
 </div>
 
+<div v-click="2">
+
+- `x = 0` et `y = 0` : <mark>**Attributs**</mark> avec valeurs par défaut
+
+</div>
+
+<div v-click="3">
+
+- `afficher()` : <mark>**Méthode**</mark> pour afficher le point
+
+</div>
+
+<div v-click="4">
+
+- `this` : Référence à l'objet courant, ici pour accéder aux attributs `x` et `y`
+
+</div>
 <!--
 Live coding : créer la classe étape par étape
 Expliquer this : "moi-même", l'objet qui appelle la méthode
 Montrer le surlignage progressif du code
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
+
+# Première Implémentation
+
+Instancier des Objets
+
+::left::
+
+**Créer des objets `Points` avec `new`**
+
+```ts {1-9|11-13|15-17|19-21|all}{maxHeight:'300px'}
+class Point {
+  // Par défaut la visibilité est publique
+  x: number = 0
+  y: number = 0
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+
+// Créer deux objets Point
+const point1 = new Point()
+const point2 = new Point()
+
+// Modifier leurs valeurs
+point1.x = 10
+point1.y = 10
+
+// Afficher les points
+point1.afficher()
+point2.afficher()
+```
+
+::right::
+
+<div v-click="1">
+
+- `new Point()` crée une **nouvelle instance** en mémoire
+
+</div>
+
+<div v-click="2">
+
+- Modifier les valeurs des attributs publics
+
+</div>
+
+<div v-click="3">
+
+- Afficher les points avec la méthode `afficher()`
+
+</div>
+
+<div v-click="4">
+
+- Chaque objet a ses **propres valeurs** indépendantes
+```ts
+Point(10, 10) // Valeurs du point 1
+Point(0, 0) // Valeurs du point 2
+```
+
+</div>
+
+<!--
+Montrer que new crée un nouvel objet en mémoire
+Insister : même classe, objets différents avec des valeurs différentes
+Expliquer que point1 et point2 sont deux entités distinctes
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
+
+# Première Implémentation
+
+Le Constructeur
+
+::left::
+
+**Initialiser avec des valeurs personnalisées**
+
+```ts {1-11|3-6|8-11|all}{maxHeight:'300px'}
+class Point {
+  x: number = 0
+  y: number = 0
+
+  constructor(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+
+// Créer des points avec des valeurs initiales
+const point1 = new Point(10, 20)
+const point2 = new Point(5, 15)
+
+point1.afficher()
+point2.afficher()
+```
+
+::right::
+
+<div v-click="1">
+
+**Qu'est-ce qu'un constructeur ?**
+
+- Méthode spéciale appelée automatiquement lors de la création d'un objet avec `new`
+- Permet d'<mark>**initialiser**</mark> les attributs avec des valeurs personnalisées
+- Nom obligatoire : `constructor`
+
+</div>
+
+<div v-click="2">
+
+**Fonctionnement**
+
+```ts
+const point1 = new Point(10, 20)
+//                       ↓   ↓
+//                       x   y
+```
+
+- Les paramètres `(10, 20)` sont passés au constructeur
+- `this.x = x` → `this.x = 10`
+- `this.y = y` → `this.y = 20`
+
+</div>
+
+<div v-click="3">
+
+**Résultat**
+
+```ts
+Point(10, 20)
+Point(5, 15)
+```
+
+</div>
+
+<!--
+Expliquer que le constructeur est appelé automatiquement
+Montrer le lien entre les paramètres et les attributs
+Insister sur this qui fait référence à l'objet en cours de création
 -->

@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - courses/**
   workflow_dispatch:
 
 jobs:

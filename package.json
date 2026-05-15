@@ -4,7 +4,10 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "export": "turbo run export"
+    "export": "turbo run export",
+    "vscode:dev": "turbo run dev --filter @k.school/vscode",
+    "vscode:ex:navigation": "pnpm --filter @k.school/exercices-vscode run:navigation",
+    "vscode:ex:dirty-code": "pnpm --filter @k.school/exercices-vscode run:dirty-code"
   },
   "devDependencies": {
     "turbo": "^2.3.3"

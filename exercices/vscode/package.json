@@ -1,0 +1,18 @@
+{
+  "name": "@k.school/exercices-vscode",
+  "version": "0.0.1",
+  "description": "Exercices pratiques VS Code pour les cours K.School",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run:navigation": "tsx 01-navigation/index.ts",
+    "run:dirty-code": "tsx 02-refactoring/dirty-code.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.0",
+    "lodash": "^4.18.1",
+    "@types/lodash": "^4.17.24"
+  }
+}

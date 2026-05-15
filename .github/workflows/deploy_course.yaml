@@ -47,7 +47,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-turbo-
 
@@ -58,11 +58,9 @@ jobs:
             [ -f "$course_dir/package.json" ] || continue
             
             course_name="$(basename "$course_dir")"
-            echo "Building $course_name with base path /${{ github.event.repository.name }}/$course_name/"
+            echo "Building $course_name..."
             
-            cd "$course_dir"
-            pnpm build --base "/${{ github.event.repository.name }}/$course_name/"
-            cd ../..
+            pnpm turbo run build --filter="@k.school/$course_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$course_name/"
           done
 
       - name: 📦 Assemble Pages dist + index

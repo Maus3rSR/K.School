@@ -57,10 +57,11 @@ jobs:
             [ -d "$course_dir" ] || continue
             [ -f "$course_dir/package.json" ] || continue
             
-            course_name="$(basename "$course_dir")"
-            echo "Building $course_name..."
+            folder_name="$(basename "$course_dir")"
+            package_name="$(jq -r '.name' "$course_dir/package.json")"
+            echo "Building $package_name (folder: $folder_name)..."
             
-            pnpm turbo run build --filter="@k.school/$course_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$course_name/"
+            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$folder_name/"
           done
 
       - name: 📦 Assemble Pages dist + index

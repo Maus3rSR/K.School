@@ -647,6 +647,116 @@ Cas d'usage courants :
 
 # Édition
 
+Insérer une ligne
+
+<div class="grid grid-cols-2 gap-8 mt-6">
+
+<div v-click>
+
+## ⬇️ Insérer une ligne en-dessous
+
+<Shortcut>Ctrl + Enter</Shortcut>
+
+- Insère une nouvelle ligne **sous** le curseur
+- Peu importe où vous êtes sur la ligne
+- Pas besoin d'aller à la fin de la ligne !
+
+</div>
+
+<div v-click>
+
+## ⬆️ Insérer une ligne au-dessus
+
+<Shortcut>Ctrl + Shift + Enter</Shortcut>
+
+- Insère une nouvelle ligne **au-dessus** du curseur
+- Idéal pour ajouter un import oublié
+- Le curseur se place sur la nouvelle ligne
+
+</div>
+
+</div>
+
+<Alert v-click class="mt-4">
+
+Fini le <Shortcut size="sm">End</Shortcut> → <Shortcut size="sm">Enter</Shortcut> pour aller à la ligne !
+
+</Alert>
+
+<!--
+Démonstration live :
+- Se placer au milieu d'une ligne
+- Ctrl+Enter pour insérer en-dessous
+- Ctrl+Shift+Enter pour insérer au-dessus
+- Comparer avec la méthode classique (End → Enter)
+
+Points pédagogiques :
+- Shift = "au-dessus" (comme pour dupliquer)
+- Gain de temps énorme sur le long terme
+- Fonctionne dans tous les éditeurs modernes
+-->
+
+---
+layout: two-cols-header
+---
+
+# Édition
+
+Supprimer une ligne
+
+::left::
+
+<div v-click>
+
+## 🗑️ Supprimer la ligne entière
+
+<Shortcut>Ctrl + Shift + K</Shortcut>
+
+- Supprime toute la ligne d'un coup
+- Pas besoin de sélectionner
+- Fonctionne aussi sur plusieurs lignes sélectionnées
+
+</div>
+
+::right::
+
+<div v-click>
+
+## 🔄 Alternative : Couper sans sélection
+
+<Shortcut>Ctrl + X</Shortcut> (sans sélection)
+
+- Coupe la ligne entière
+- Utile si vous voulez la coller ailleurs
+- Comportement par défaut de VS Code
+
+</div>
+
+::bottom::
+
+<Alert v-click type="warning">
+
+&nbsp; <Shortcut size="sm">Ctrl + Shift + K</Shortcut> = supprimer | <Shortcut size="sm">Ctrl + X</Shortcut> = couper (récupérable) mais écrase le press-papier
+
+</Alert>
+
+<!--
+Démonstration live :
+- Écrire quelques lignes de code
+- Ctrl+Shift+K pour supprimer une ligne
+- Ctrl+X sans sélection pour couper une ligne
+- Montrer la différence : K = supprime, X = coupe (dans le presse-papier)
+
+Points pédagogiques :
+- K = "Kill" (supprimer définitivement)
+- X = couper classique, mais sur toute la ligne si pas de sélection
+- Très utile pour nettoyer du code rapidement
+-->
+
+---
+
+# Édition
+
 Indentation et formatage
 
 <div class="grid grid-cols-2 gap-8 mt-6">
@@ -656,7 +766,7 @@ Indentation et formatage
 ## ➡️ Indentation manuelle
 
 <Shortcut>Ctrl + ]</Shortcut> Indenter
-
+<br/>
 <Shortcut>Ctrl + [</Shortcut> Désindenter
 
 - Fonctionne sur la ligne ou la sélection

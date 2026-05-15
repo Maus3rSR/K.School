@@ -1,5 +1,4 @@
 {
-  "editor.defaultFormatter": null,
   "slidev.preview-sync": true,
   "slidev.port": 3030,
   "[markdown]": {

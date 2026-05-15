@@ -22,6 +22,40 @@ Points clés pour le présentateur :
 -->
 
 ---
+layout: two-cols-header
+---
+
+# Ressources pour ce cours
+
+::left::
+
+## Liens utiles
+
+📚 [VSCode](https://code.visualstudio.com/docs/configure/keybindings) - Documentation raccourcis clavier
+
+📖 [Shortcut Masters](https://shortcutmasters.com) - Apprentissage & Pratique
+
+🎮 [Shortcut Foo](https://shortcutfoo.com) - Jeux interactifs
+
+::right::
+
+## Références de raccourcis
+
+🪟 [Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
+
+🍎 [Mac](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+
+🐧 [Linux](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf)
+
+<!--
+Points pédagogiques :
+- La documentation officielle est la source la plus fiable
+- Elle est mise à jour à chaque version de VS Code
+- Les vidéos sont courtes et pratiques
+- La cheat sheet PDF est un must-have
+-->
+
+---
 layout: cover
 background: https://cover.sli.dev?2
 ---
@@ -32,7 +66,6 @@ background: https://cover.sli.dev?2
 Transition importante :
 - Poser la question rhétorique : "Pourquoi se former aux raccourcis ?"
 - Anticiper la réticence : "J'ai toujours fait comme ça..."
-- Annoncer des chiffres concrets qui vont surprendre
 -->
 
 ---
@@ -70,6 +103,12 @@ Le coût de l'inefficacité
 </div>
 
 ::bottom::
+
+<div v-click class="text-center">
+
+## ⏱️ Combien de temps pensez-vous perdre dans vos manipulation ?
+
+</div>
 
 <!--
 Analogie pédagogique :
@@ -123,10 +162,10 @@ Démonstration : Même tâche, deux approches
 
 **Même tâche** : Renommer `user` en `customer`
 
-1. `Ctrl/Cmd + Shift + H` (Find & Replace)
+1. <Shortcut size="sm">Ctrl + Shift + H</Shortcut> (Find & Replace)
 2. Taper `user`
 3. Taper `customer`
-4. `Ctrl/Cmd + Alt + Enter` (Replace all)
+4. <Shortcut size="sm">Ctrl + Alt + Enter</Shortcut> (Replace all)
 
 <div class="mt-4 text-xl font-bold text-green-500">
 
@@ -221,49 +260,6 @@ Transition :
 -->
 
 ---
-
-# Navigation
-
-La Palette de Commandes : votre GPS
-
-<div v-click class="mt-8 text-center">
-
-<kbd class="text-3xl px-6 py-3 bg-gray-800 text-white rounded-lg">Ctrl/Cmd + Shift + P</kbd>
-
-</div>
-
-<div v-click class="mt-8">
-
-## Qu'est-ce que c'est ?
-
-Un **accès universel** à toutes les fonctionnalités de VS Code
-
-- Pas besoin de mémoriser où se trouve chaque menu
-- Tapez ce que vous voulez faire en langage naturel
-- VS Code comprend et propose
-
-</div>
-
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm text-center">
-
-💡 **Règle d'or** : "Si tu ne sais pas comment faire, ouvre la palette !"
-
-</div>
-
-<!--
-Démonstration live :
-- Ouvrir la palette et taper "format" → montrer les options
-- Taper "theme" → changer le thème en live
-- Taper "settings" → accéder aux paramètres
-- Insister : c'est le raccourci le plus important de tous
-- Si vous n'en retenez qu'un seul, c'est celui-ci !
-
-Mnémotechnique :
-- P = Palette (facile à retenir)
-- Shift = "je veux quelque chose de spécial"
--->
-
----
 layout: two-cols-header
 ---
 
@@ -273,9 +269,9 @@ Ouvrir des fichiers rapidement
 
 ::left::
 
-<div v-click class="text-center">
+<div v-click>
 
-<kbd class="text-2xl px-4 py-2 bg-gray-800 text-white rounded-lg">Ctrl/Cmd + P</kbd>
+<Shortcut size="lg">Ctrl + P</Shortcut>
 
 </div>
 
@@ -303,11 +299,13 @@ Ouvrir des fichiers rapidement
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
+::bottom::
 
-💡 Les lettres n'ont pas besoin d'être consécutives !
+<Alert v-click class="mt-3">
 
-</div>
+Les lettres n'ont pas besoin d'être consécutives !
+
+</Alert>
 
 <!--
 Démonstration live :
@@ -326,6 +324,49 @@ Différence avec Ctrl+Shift+P :
 
 # Navigation
 
+La Palette de Commandes : votre GPS
+
+<div v-click>
+
+<Shortcut size="xl">Ctrl + Shift + P</Shortcut>
+
+</div>
+
+<div v-click class="mt-8">
+
+## Qu'est-ce que c'est ?
+
+Un **accès universel** à toutes les fonctionnalités de VS Code
+
+- Pas besoin de mémoriser où se trouve chaque menu
+- Tapez ce que vous voulez faire en langage naturel
+- VS Code comprend et propose
+
+</div>
+
+<Alert v-click class="mt-4">
+
+**Règle d'or** : "Si tu ne sais pas comment faire, ouvre la palette !"
+
+</Alert>
+
+<!--
+Démonstration live :
+- Ouvrir la palette et taper "format" → montrer les options
+- Taper "theme" → changer le thème en live
+- Taper "settings" → accéder aux paramètres
+- Insister : c'est le raccourci le plus important de tous
+- Si vous n'en retenez qu'un seul, c'est celui-ci !
+
+Mnémotechnique :
+- P = Palette (facile à retenir)
+- Shift = "je veux quelque chose de spécial"
+-->
+
+---
+
+# Navigation
+
 Naviguer dans le code
 
 <div class="grid grid-cols-2 gap-8 mt-6">
@@ -334,11 +375,7 @@ Naviguer dans le code
 
 ## 🎯 Aller à la définition
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + Clic</kbd>
-
-ou
-
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">F12</kbd>
+<Shortcut>Ctrl + Clic</Shortcut> ou <Shortcut>F12</Shortcut>
 
 Cliquez sur une fonction ou variable → VS Code vous emmène à sa définition
 
@@ -348,13 +385,11 @@ Cliquez sur une fonction ou variable → VS Code vous emmène à sa définition
 
 ## ↩️ Revenir en arrière
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Alt + ←</kbd>
+<Shortcut>Alt + ←</Shortcut> Retour à la position précédente
 
-Retour à la position précédente
+<br/>
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Alt + →</kbd>
-
-Avancer dans l'historique
+<Shortcut>Alt + →</Shortcut> Avancer dans l'historique
 
 </div>
 
@@ -364,7 +399,7 @@ Avancer dans l'historique
 
 ## 🔍 Aller à un symbole
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + Shift + O</kbd>
+<Shortcut>Ctrl + Shift + O</Shortcut>
 
 Liste toutes les fonctions, classes, variables du fichier actuel
 
@@ -400,15 +435,17 @@ Peek Definition : voir sans quitter
 
 - `F12` vous emmène dans un autre fichier
 - Vous perdez le contexte
-- Il faut revenir avec `Alt + ←`
+- Il faut revenir avec <Shortcut>Alt + ←</Shortcut>
 
 </div>
 
-<div v-click class="mt-4">
+::right::
+
+<div v-click>
 
 ## ✅ La solution : Peek
 
-<kbd class="px-2 py-1 bg-gray-800 text-white rounded text-lg">Alt + F12</kbd>
+<Shortcut size="lg">Alt + F12</Shortcut>
 
 - Aperçu **inline** de la définition
 - Vous restez dans votre fichier
@@ -416,13 +453,13 @@ Peek Definition : voir sans quitter
 
 </div>
 
-::right::
+::bottom::
 
-<div v-click class="p-3 bg-gray-100 rounded text-sm">
+<Alert v-click>
 
-💡 **Cas d'usage** : Vérifier les paramètres d'une fonction avant de l'appeler
+Cas d'usage : Vérifier les paramètres d'une fonction avant de l'appeler
 
-</div>
+</Alert>
 
 <!--
 Démonstration live :
@@ -459,24 +496,24 @@ Naviguer dans 5 fichiers **sans souris**
 
 ## 📋 Instructions
 
-1. Ouvrir `index.ts` → <kbd>Ctrl/Cmd + P</kbd>
-2. Fonction `main` → <kbd>Ctrl/Cmd + Shift + O</kbd>
-3. Définition `UserService` → <kbd>F12</kbd>
-4. Retour → <kbd>Alt + ←</kbd>
-5. Peek `createUser` → <kbd>Alt + F12</kbd>
+1. Ouvrir `index.ts` → <Shortcut size="sm">Ctrl + P</Shortcut>
+2. Fonction `main` → <Shortcut size="sm">Ctrl + Shift + O</Shortcut>
+3. Définition `UserService` → <Shortcut size="sm">F12</Shortcut>
+4. Retour → <Shortcut size="sm">Alt + ←</Shortcut>
+5. Peek `createUser` → <Shortcut size="sm">Alt + F12</Shortcut>
 
 </div>
 
 ::right::
 
-<div v-click class="p-3 bg-gray-100 rounded text-sm">
+<Alert v-click type="success">
 
-## ✅ Critères de réussite
+### Critères de réussite
 
-- [ ] Aucun clic de souris
-- [ ] Temps : < 30 secondes
+- [ ] &nbsp; Aucun clic de souris
+- [ ] &nbsp; Temps : < 30 secondes
 
-</div>
+</Alert>
 
 <!--
 Instructions pour le formateur :
@@ -520,7 +557,7 @@ Sélection intelligente
 
 ## 🎯 Sélectionner l'occurrence suivante
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + D</kbd>
+<Shortcut>Ctrl + D</Shortcut>
 
 - Sélectionne le mot sous le curseur
 - Appuyez à nouveau → sélectionne la prochaine occurrence
@@ -532,19 +569,13 @@ Sélection intelligente
 
 ## 🌍 Sélectionner toutes les occurrences
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + Shift + L</kbd>
+<Shortcut>Ctrl + Shift + L</Shortcut>
 
 - Sélectionne **toutes** les occurrences d'un coup
 - Modifiez une fois → toutes changent
 - Puissant mais attention aux effets de bord !
 
 </div>
-
-</div>
-
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
-
-⚠️ `Ctrl/Cmd + D` = **progressive** | `Ctrl/Cmd + Shift + L` = **toutes**
 
 </div>
 
@@ -573,9 +604,9 @@ Déplacer et dupliquer des lignes
 
 ## ↕️ Déplacer une ligne
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Alt + ↑</kbd> Monter
+<Shortcut>Alt + ↑</Shortcut> Monter
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Alt + ↓</kbd> Descendre
+<Shortcut>Alt + ↓</Shortcut> Descendre
 
 - Pas besoin de couper-coller
 - Fonctionne aussi avec une sélection de plusieurs lignes
@@ -587,21 +618,15 @@ Déplacer et dupliquer des lignes
 
 ## 📋 Dupliquer une ligne
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Shift + Alt + ↑</kbd> Copier au-dessus
+<Shortcut>Shift + Alt + ↑</Shortcut> Copier au-dessus
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Shift + Alt + ↓</kbd> Copier en-dessous
+<Shortcut>Shift + Alt + ↓</Shortcut> Copier en-dessous
 
 - Crée une copie instantanée
 - Idéal pour créer des variations
 - Fonctionne aussi sur plusieurs lignes
 
 </div>
-
-</div>
-
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm text-center">
-
-💡 Alt = déplacer | Shift+Alt = dupliquer
 
 </div>
 
@@ -630,9 +655,9 @@ Indentation et formatage
 
 ## ➡️ Indentation manuelle
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + ]</kbd> Indenter
+<Shortcut>Ctrl + ]</Shortcut> Indenter
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + [</kbd> Désindenter
+<Shortcut>Ctrl + [</Shortcut> Désindenter
 
 - Fonctionne sur la ligne ou la sélection
 - Utile pour ajuster rapidement le niveau
@@ -643,7 +668,7 @@ Indentation et formatage
 
 ## ✨ Formatage automatique
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Shift + Alt + F</kbd>
+<Shortcut>Shift + Alt + F</Shortcut>
 
 - Reformate **tout le document**
 - Respecte les règles du projet (Prettier, ESLint...)
@@ -653,11 +678,13 @@ Indentation et formatage
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
+<Alert v-click class="mt-4">
 
-💡 **Format on Save** : `"editor.formatOnSave": true`
+**Configuration dans vos préférences utilisateur**
 
-</div>
+Format on Save : `"editor.formatOnSave": true`
+
+</Alert>
 
 <!--
 Démonstration live :
@@ -684,7 +711,7 @@ Commenter rapidement
 
 ## 💬 Commentaire ligne
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + /</kbd>
+<Shortcut>Ctrl + /</Shortcut>
 
 - Toggle : commente ou décommente
 - Fonctionne sur la ligne ou la sélection
@@ -696,7 +723,7 @@ Commenter rapidement
 
 ## 📦 Commentaire bloc
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Shift + Alt + A</kbd>
+<Shortcut>Shift + Alt + A</Shortcut>
 
 - Crée un bloc `/* ... */`
 - Idéal pour commenter plusieurs lignes
@@ -754,9 +781,9 @@ Transition :
 
 Renommer un symbole partout
 
-<div v-click class="mt-8 text-center">
+<div v-click class="mt-8">
 
-<kbd class="text-3xl px-6 py-3 bg-gray-800 text-white rounded-lg">F2</kbd>
+<Shortcut size="xl">F2</Shortcut>
 
 </div>
 
@@ -772,11 +799,11 @@ Renommer un symbole partout
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm text-center">
+<Alert v-click class="mt-4">
 
-💡 **F2 est intelligent** : renomme la variable, pas le texte
+**F2 est intelligent** : renomme la variable, pas le texte
 
-</div>
+</Alert>
 
 <!--
 Démonstration live :
@@ -793,14 +820,18 @@ Points pédagogiques :
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Refactoring Intelligent
 
 Extraire une fonction
 
-<div v-click class="mt-8 text-center">
+::left::
 
-<kbd class="text-3xl px-6 py-3 bg-gray-800 text-white rounded-lg">Ctrl/Cmd + Shift + R</kbd>
+<div v-click class="mt-8">
+
+<Shortcut size="xl">Ctrl + Shift + R</Shortcut>
 
 </div>
 
@@ -809,18 +840,20 @@ Extraire une fonction
 ## Comment ça marche ?
 
 1. Sélectionnez un bloc de code
-2. Appuyez sur `Ctrl/Cmd + Shift + R`
+2. Appuyez sur <Shortcut size="sm">Ctrl + Shift + R</Shortcut>
 3. Choisissez "Extract to function"
 4. Donnez un nom explicite
 5. VS Code crée la fonction et l'appel automatiquement !
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
+::right::
+
+<Alert v-click class="mt-4">
 
 **Avant** : `const total = items.reduce(...)` (5 lignes) → **Après** : `calculateFinalPrice(items)`
 
-</div>
+</Alert>
 
 <!--
 Démonstration live :
@@ -837,14 +870,18 @@ Points pédagogiques :
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Refactoring Intelligent
 
 Quick Fix : les actions rapides
 
-<div v-click class="mt-8 text-center">
+::left::
 
-<kbd class="text-3xl px-6 py-3 bg-gray-800 text-white rounded-lg">Ctrl/Cmd + .</kbd>
+<div v-click class="mt-8">
+
+<Shortcut size="xl">Ctrl + .</Shortcut>
 
 </div>
 
@@ -854,7 +891,7 @@ Quick Fix : les actions rapides
 
 Quand VS Code détecte une amélioration possible, une ampoule apparaît.
 
-`Ctrl/Cmd + .` ouvre le menu des actions disponibles :
+<Shortcut size="sm">Ctrl + .</Shortcut> ouvre le menu des actions disponibles :
 
 - Importer automatiquement un module manquant
 - Corriger une erreur de syntaxe
@@ -864,11 +901,13 @@ Quand VS Code détecte une amélioration possible, une ampoule apparaît.
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm text-center">
+::right::
 
-💡 Erreur rouge + `Ctrl/Cmd + .` = VS Code propose la solution !
+<Alert v-click class="mt-4">
 
-</div>
+Erreur rouge + <Shortcut size="sm">Ctrl + .</Shortcut> = VS Code propose la solution !
+
+</Alert>
 
 <!--
 Démonstration live :
@@ -885,12 +924,16 @@ Points pédagogiques :
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Refactoring Intelligent
 
 💡 Exercice : Refactoriser un fichier
 
-<div v-click class="mt-6">
+::left::
+
+<div v-click>
 
 ## 🎯 Objectif
 
@@ -902,23 +945,25 @@ Améliorer un fichier "sale" en utilisant uniquement les raccourcis
 
 ## 📋 Instructions
 
-1. Renommer `x` en `totalPrice` avec <kbd>F2</kbd>
-2. Renommer `y` en `taxAmount` avec <kbd>F2</kbd>
-3. Extraire le calcul de taxe en fonction avec <kbd>Ctrl/Cmd + Shift + R</kbd>
-4. Corriger l'import manquant avec <kbd>Ctrl/Cmd + .</kbd>
-5. Formater le fichier avec <kbd>Shift + Alt + F</kbd>
+1. Renommer `x` en `totalPrice` avec <Shortcut size="sm">F2</Shortcut>
+2. Renommer `y` en `taxAmount` avec <Shortcut size="sm">F2</Shortcut>
+3. Extraire le calcul de taxe en fonction avec <Shortcut size="sm">Ctrl + Shift + R</Shortcut>
+4. Corriger l'import manquant avec <Shortcut size="sm">Ctrl + .</Shortcut>
+5. Formater le fichier avec <Shortcut size="sm">Shift + Alt + F</Shortcut>
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
+::right::
 
-## ✅ Critères de réussite
+<Alert v-click type="success">
 
-- [ ] Variables nommées explicitement
-- [ ] Fonction `calculateTax` extraite
-- [ ] Aucune erreur
+### Critères de réussite
 
-</div>
+- [ ] &nbsp; Variables nommées explicitement
+- [ ] &nbsp; Fonction `calculateTax` extraite
+- [ ] &nbsp; Aucune erreur
+
+</Alert>
 
 <!--
 Instructions pour le formateur :
@@ -966,11 +1011,11 @@ Qu'est-ce que le multi-curseur ?
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
+<Alert v-click class="mt-4">
 
-💡 Exemple : `apple|` `banana|` `cherry|` → tapez `, ` → `apple, |` `banana, |` `cherry, |`
+**Exemple** : `apple|` `banana|` `cherry|` → tapez `, ` → `apple, |` `banana, |` `cherry, |`
 
-</div>
+</Alert>
 
 <!--
 Points pédagogiques :
@@ -992,7 +1037,7 @@ Ajouter des curseurs
 
 ## 🖱️ Avec la souris
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Alt + Clic</kbd>
+<Shortcut>Alt + Clic</Shortcut>
 
 - Cliquez où vous voulez un curseur
 - Répétez pour ajouter d'autres curseurs
@@ -1004,9 +1049,9 @@ Ajouter des curseurs
 
 ## ⌨️ Avec le clavier
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + Alt + ↑</kbd>
+<Shortcut>Ctrl + Alt + ↑</Shortcut>
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + Alt + ↓</kbd>
+<Shortcut>Ctrl + Alt + ↓</Shortcut>
 
 - Ajoute un curseur sur la ligne au-dessus/dessous
 - Parfait pour des lignes consécutives
@@ -1016,11 +1061,11 @@ Ajouter des curseurs
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm text-center">
+<Alert v-click type="warning" class="mt-4">
 
-⚠️ Annuler : <kbd>Ctrl/Cmd + U</kbd> | Tout annuler : <kbd>Échap</kbd>
+Annuler : <Shortcut size="sm">Ctrl + U</Shortcut> | Tout annuler : <Shortcut size="sm">Échap</Shortcut>
 
-</div>
+</Alert>
 
 <!--
 Démonstration live :
@@ -1048,8 +1093,8 @@ Sélection par motif
 
 | Raccourci | Action |
 |-----------|--------|
-| <kbd>Ctrl/Cmd + D</kbd> | Sélectionne l'occurrence suivante |
-| <kbd>Ctrl/Cmd + Shift + L</kbd> | Sélectionne toutes les occurrences |
+| <Shortcut size="sm">Ctrl + D</Shortcut> | Sélectionne l'occurrence suivante |
+| <Shortcut size="sm">Ctrl + Shift + L</Shortcut> | Sélectionne toutes les occurrences |
 
 </div>
 
@@ -1063,11 +1108,11 @@ Tapez → toutes les sélections changent en même temps !
 
 </div>
 
-<div v-click class="mt-4 p-2 bg-gray-100 rounded text-sm">
+<Alert v-click class="mt-4">
 
-💡 Sélectionnez `item` avec Ctrl+D (3×) → tapez `product` → tout change !
+Sélectionnez `item` avec Ctrl+D (3×) → tapez `product` → tout change !
 
-</div>
+</Alert>
 
 <!--
 Démonstration live :
@@ -1085,6 +1130,7 @@ Points pédagogiques :
 
 ---
 layout: two-cols-header
+layoutClass: gap-x-4
 ---
 
 # Multi-Curseur
@@ -1119,11 +1165,13 @@ const fruits = ["pomme", "banane", "cerise", "orange", "kiwi"];
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm">
+::bottom::
 
-💡 <kbd>Ctrl/Cmd + Alt + ↓</kbd> (5×) → <kbd>Home</kbd> → `"` → <kbd>End</kbd> → `",`
+<Alert v-click class="mt-3">
 
-</div>
+&nbsp; <Shortcut size="sm">Ctrl + Alt + ↓</Shortcut> (5×) → <Shortcut size="sm">Home</Shortcut> → `"` → <Shortcut size="sm">End</Shortcut> → `",`
+
+</Alert>
 
 <!--
 Instructions pour le formateur :
@@ -1195,10 +1243,14 @@ Points pédagogiques :
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Snippets
 
 Utiliser les snippets intégrés
+
+::left::
 
 <div v-click class="mt-6">
 
@@ -1206,31 +1258,38 @@ Utiliser les snippets intégrés
 
 1. Tapez le préfixe du snippet (ex: `log`)
 2. VS Code propose le snippet dans l'autocomplétion
-3. Appuyez sur <kbd>Tab</kbd> ou <kbd>Entrée</kbd>
+3. Appuyez sur <Shortcut size="sm">Tab</Shortcut> ou <Shortcut size="sm">Entrée</Shortcut>
 4. Le code s'insère avec le curseur bien placé !
 
 </div>
 
+::right::
+
 <div v-click class="mt-6">
 
 ## Snippets JavaScript/TypeScript courants
+
+<div class="text-xs">
 
 | Préfixe | Résultat |
 |---------|----------|
 | `log` | `console.log()` |
 | `if` | Structure if complète |
 | `for` | Boucle for |
-| `foreach` | `array.forEach()` |
 | `fn` | Déclaration de fonction |
 | `afn` | Arrow function |
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
-
-💡 <kbd>Ctrl/Cmd + Espace</kbd> pour forcer les suggestions
-
 </div>
+
+::bottom::
+
+<Alert v-click class="mt-3">
+
+&nbsp; <Shortcut size="sm">Ctrl + Espace</Shortcut> pour forcer les suggestions
+
+</Alert>
 
 <!--
 Démonstration live :
@@ -1248,6 +1307,7 @@ Points pédagogiques :
 
 ---
 layout: two-cols-header
+layoutClass: gap-x-4
 ---
 
 # Snippets
@@ -1260,15 +1320,15 @@ Créer son premier snippet
 
 ## Accéder
 
-`Ctrl/Cmd + Shift + P` → "Configure User Snippets"
+<Shortcut size="sm">Ctrl + Shift + P</Shortcut> → "Configure User Snippets"
 
 </div>
 
-<div v-click class="mt-2 p-2 bg-gray-100 rounded text-sm">
+<Alert v-click class="mt-2">
 
 `$1`, `$2`... = positions curseur (Tab)
 
-</div>
+</Alert>
 
 ::right::
 
@@ -1299,10 +1359,15 @@ Points pédagogiques :
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
 
 # Snippets
 
 Snippets d'équipe
+
+::left::
 
 <div v-click class="mt-6">
 
@@ -1320,6 +1385,8 @@ mon-projet/
 
 </div>
 
+::right::
+
 <div v-click class="mt-6">
 
 ## Avantages
@@ -1331,11 +1398,13 @@ mon-projet/
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
+::bottom::
 
-💡 Créez des snippets pour vos patterns récurrents !
+<Alert v-click class="mt-3">
 
-</div>
+Créez des snippets pour vos patterns récurrents !
+
+</Alert>
 
 <!--
 Points pédagogiques :
@@ -1369,7 +1438,7 @@ Keybindings personnalisés
 
 ## Accéder aux raccourcis
 
-<kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + K</kbd> puis <kbd class="px-3 py-1 bg-gray-800 text-white rounded">Ctrl/Cmd + S</kbd>
+<Shortcut>Ctrl + K</Shortcut> puis <Shortcut>Ctrl + S</Shortcut>
 
 Ouvre l'éditeur de raccourcis clavier
 
@@ -1386,11 +1455,11 @@ Ouvre l'éditeur de raccourcis clavier
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm">
+<Alert v-click type="warning" class="mt-3">
 
-⚠️ Évitez de modifier les raccourcis standards | Restez cohérent | Documentez
+Évitez de modifier les raccourcis standards | Restez cohérent | Documentez
 
-</div>
+</Alert>
 
 <!--
 Points pédagogiques :
@@ -1492,11 +1561,11 @@ Apprendre progressivement
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
+<Alert v-click class="mt-3">
 
-💡 **En 2 mois** : ~25 raccourcis = **2x plus rapide** !
+**En 2 mois** : ~25 raccourcis = **2x plus rapide** !
 
-</div>
+</Alert>
 
 <!--
 Points pédagogiques :
@@ -1539,11 +1608,11 @@ Si oui → apprenez-le **maintenant**
 
 </div>
 
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
+<Alert v-click class="mt-3">
 
 🧠 21 jours = habitude | 66 jours = ancrée
 
-</div>
+</Alert>
 
 <!--
 Points pédagogiques :
@@ -1555,266 +1624,14 @@ Points pédagogiques :
 
 ---
 layout: cover
-background: https://cover.sli.dev?11
----
-
-# Chapitre 10 - Ressources & Pratique
-
-<!--
-Transition :
-- "Pour continuer à progresser après cette formation"
-- Ressources pour aller plus loin
-- La pratique régulière est la clé
--->
-
----
-
-# Ressources & Pratique
-
-Documentation officielle
-
-<div v-click class="mt-6">
-
-## 📚 Site officiel VS Code
-
-**code.visualstudio.com/docs**
-
-- Documentation complète et à jour
-- Tutoriels interactifs
-- Vidéos de démonstration
-- Changelog des nouvelles fonctionnalités
-
-</div>
-
-<div v-click class="mt-6">
-
-## ⌨️ Keyboard Shortcuts Reference
-
-`Ctrl/Cmd + K` puis `Ctrl/Cmd + R`
-
-Ouvre la **cheat sheet PDF** officielle dans le navigateur
-
-</div>
-
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
-
-💡 Imprimez la cheat sheet et affichez-la près de votre écran !
-
-</div>
-
-<!--
-Points pédagogiques :
-- La documentation officielle est la source la plus fiable
-- Elle est mise à jour à chaque version de VS Code
-- Les vidéos sont courtes et pratiques
-- La cheat sheet PDF est un must-have
--->
-
----
-
-# Ressources & Pratique
-
-Outils de pratique
-
-<div class="grid grid-cols-2 gap-4 mt-4 text-xs">
-
-<div v-click>
-
-## 🎮 Shortcut Foo
-
-**shortcutfoo.com** - Jeux interactifs
-
-</div>
-
-<div v-click>
-
-## 🧩 VS Code Can Do That
-
-**vscodecandothat.com** - Astuces cachées
-
-</div>
-
-<div v-click>
-
-## 📺 YouTube
-
-Fireship, Traversy Media
-
-</div>
-
-<div v-click>
-
-## 🏋️ Kata quotidien
-
-5 min/jour sans souris
-
-</div>
-
-</div>
-
-<!--
-Points pédagogiques :
-- La pratique régulière est plus efficace que les sessions intensives
-- Gamifier l'apprentissage aide à rester motivé
-- Les vidéos courtes sont idéales pour découvrir de nouvelles astuces
-- Le kata quotidien ancre les habitudes
--->
-
----
-
-# Ressources & Pratique
-
-Votre plan d'action
-
-<div v-click class="mt-6">
-
-## 📋 Cette semaine
-
-- [ ] Imprimer la cheat sheet VS Code
-- [ ] Choisir 3 raccourcis à maîtriser
-- [ ] Désactiver la souris 15 min/jour
-- [ ] Configurer Format on Save
-
-</div>
-
-<div v-click class="mt-6">
-
-## 📅 Ce mois-ci
-
-- [ ] Maîtriser les 10 raccourcis prioritaires
-- [ ] Créer 2 snippets personnalisés
-- [ ] Installer et configurer ESLint + Prettier
-- [ ] Explorer une nouvelle extension
-
-</div>
-
-<div v-click class="mt-3 p-2 bg-gray-100 rounded text-sm text-center">
-
-🎯 **Objectif** : Dans 30 jours, vous serez **2x plus efficace**
-
-</div>
-
-<!--
-Points pédagogiques :
-- Un plan concret aide à passer à l'action
-- Les objectifs sont réalistes et mesurables
-- Encourager les apprenants à personnaliser leur plan
-- Proposer un suivi en groupe si possible
--->
-
----
-layout: cover
 background: https://cover.sli.dev?12
 ---
 
-# Conclusion
+# Merci ! 💻
 
-<!--
-Transition :
-- "Récapitulons ce que nous avons appris"
-- Moment de synthèse et de célébration
--->
+Vous êtes maintenant prêt à coder efficacement avec VS Code !
 
----
-
-# Conclusion
-
-Ce que vous avez appris
-
-<div class="grid grid-cols-3 gap-4 mt-4 text-xs">
-
-<div v-click>
-
-## 🧭 Navigation
-- Palette de commandes
-- Quick Open
-- Go to Definition
-- Peek Definition
-
-</div>
-
-<div v-click>
-
-## ✏️ Édition
-- Sélection intelligente
-- Déplacer/Dupliquer
-- Formatage automatique
-- Commentaires rapides
-
-</div>
-
-<div v-click>
-
-## 🔧 Refactoring
-- Rename Symbol (F2)
-- Extract Function
-- Quick Fix
-
-</div>
-
-<div v-click>
-
-## 👆 Multi-curseur
-- Alt + Clic
-- Ctrl + Alt + ↑/↓
-- Ctrl + D
-
-</div>
-
-<div v-click>
-
-## 📝 Snippets
-- Utiliser les snippets intégrés
-- Créer ses propres snippets
-
-</div>
-
-<div v-click>
-
-## ⚙️ Configuration
-- Extensions essentielles
-- Settings Sync
-- Tasks & Launch
-
-</div>
-
-</div>
-
-<!--
-Points pédagogiques :
-- Récapitulatif visuel de tout ce qui a été couvert
-- Rassurer : pas besoin de tout retenir d'un coup
-- Les slides restent disponibles comme référence
--->
-
----
-layout: center
-class: text-center
----
-
-# 🚀 Codez à la Vitesse de la Pensée
-
-<div v-click class="mt-8 text-2xl">
-
-> "La maîtrise des outils libère l'esprit pour la créativité"
-
-</div>
-
-<div v-click class="mt-8">
-
-## Votre premier pas dès maintenant
-
-<kbd class="text-2xl px-6 py-3 bg-gray-800 text-white rounded-lg">Ctrl/Cmd + Shift + P</kbd>
-
-Ouvrez la palette et explorez !
-
-</div>
-
-<div v-click class="mt-8 text-xl">
-
-**Merci et bonne pratique !** 🎉
-
-</div>
+Questions ?
 
 <!--
 Message final :

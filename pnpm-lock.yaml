@@ -16,7 +16,7 @@ catalogs:
       specifier: ^1.51.0
       version: 1.51.0
     tsx:
-      specifier: ^4.19.0
+      specifier: 4.19.2
       version: 4.19.2
     typescript:
       specifier: ^5.4.0

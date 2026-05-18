@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: When working into exercices folder
 ---
 
 # Règles pour les Exercices K.School

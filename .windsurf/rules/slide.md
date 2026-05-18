@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: When working on courses slides markdown files
 ---
 
 # Règles de Mise en Œuvre Technique pour les présentations

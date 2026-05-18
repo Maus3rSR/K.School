@@ -1,5 +1,6 @@
 ---
-trigger: always_on
+trigger: model_decision
+description: When working on courses and exercices folders
 ---
 
 # Ingénierie Pédagogique - Public Débutant en Reconversion

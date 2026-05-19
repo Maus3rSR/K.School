@@ -51,35 +51,7 @@ exercices/
 
 ## Structure d'un Exercice
 
-Chaque exercice doit contenir un `README.md` suivant ce template :
-
-```markdown
-# Exercice : [Titre Descriptif]
-
-## 🎯 Objectif
-
-Ce que l'apprenant va accomplir.
-
-## 📚 Prérequis
-
-- Concept 1 (lien vers la leçon si applicable)
-- Concept 2
-
-## 📋 Instructions
-
-1. **Étape 1** : Description claire
-2. **Étape 2** : Description claire
-...
-
-## ✅ Critères de réussite
-
-- [ ] Critère 1
-- [ ] Critère 2
-
-## ⏱️ Temps estimé
-
-X minutes
-```
+Chaque exercice doit contenir un `README.md` avec : Objectif, Prérequis, Instructions étape par étape, Critères de réussite, Temps estimé.
 
 ## Scripts dans package.json
 
@@ -103,44 +75,11 @@ Chaque package de cours a ses propres scripts dans `exercices/<cours>/package.js
 
 ## Types d'Exercices
 
-### 1. Exercices IDE (VS Code)
-
-- Fichiers à manipuler directement dans l'IDE
-- Script qui affiche les instructions d'ouverture
-- Pas d'exécution automatique
-
-### 2. Exercices Script (Git, Shell)
-
-- Scripts bash/shell à exécuter
-- Génèrent un environnement d'exercice
-- Peuvent s'autodétruire après exécution
-
-### 3. Exercices Code (TypeScript, etc.)
-
-- Fichiers de code à compléter/corriger
-- Tests automatisés pour validation
-- Script `typecheck` pour vérification
+**IDE** : Manipulation directe | **Script** : Génération d'environnement | **Code** : Complétion avec tests automatisés
 
 ## Lien avec les Slides
 
-Dans les présentations Slidev, **ne pas inclure les exercices directement**. Utiliser une slide de transition :
-
-```markdown
----
-layout: center
----
-
-# 🎯 Exercice Pratique
-
-Passons à l'exercice **[Nom de l'exercice]**
-
-```bash
-cd exercices/<cours>
-pnpm <exercice>
-```
-
-Suivez les instructions du README.md
-```
+**Ne pas inclure les exercices dans les slides**. Utiliser une slide de transition avec la commande `pnpm <exercice>` et référence au README.md.
 
 ## Checklist de Validation
 

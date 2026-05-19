@@ -1,12 +1,10 @@
 {
   "name": "@k.school/exercices-ts",
   "version": "0.0.1",
-  "description": "Exercices pratiques VS Code pour les cours K.School",
   "private": true,
-  "type": "module",
   "scripts": {
-    "run:navigation": "tsx 01-navigation/index.ts",
-    "run:demo": "tsx demo/hello.ts",
+    "dev": "npx tsx --watch demo/hello.ts",
+    "build": "tsc demo/hello.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -1109,11 +1109,11 @@ layoutClass: gap-x-4
 
 # Encapsulation
 
-Visibilité : public, private, protected
+Modificateurs d'Accès
 
 ::left::
 
-```ts
+```ts {1-16|3-4|6-7|9-10|all}
 class CompteBancaire {
   // Public : accessible partout
   public titulaire: string
@@ -1134,18 +1134,24 @@ class CompteBancaire {
 
 ::right::
 
-<div v-click>
 
-## Modificateurs d'Accès
+<div v-click="1">
 
-**`public`** (par défaut)
+**`public`** _(par défaut)_
 - Accessible de partout
 - Utilisé pour l'interface publique
+
+</div>
+
+<div v-click="2">
 
 **`private`**
 - Accessible uniquement dans la classe
 - Protège les données sensibles
-- Notation TypeScript : `#attribut` ou `private`
+
+</div>
+
+<div v-click="3">
 
 **`protected`**
 - Accessible dans la classe et ses classes enfants
@@ -1170,7 +1176,56 @@ Getters et Setters
 
 ::left::
 
+````md magic-move
 ```ts
+class CompteBancaire {
+  private solde: number
+
+  constructor(soldeInitial: number) {
+    this.solde = soldeInitial
+  }
+}
+```
+
+```ts {8-11}
+class CompteBancaire {
+  private solde: number
+
+  constructor(soldeInitial: number) {
+    this.solde = soldeInitial
+  }
+
+  // Getter : lire le solde
+  getSolde(): number {
+    return this.solde
+  }
+}
+```
+
+```ts {13-18}
+class CompteBancaire {
+  private solde: number
+
+  constructor(soldeInitial: number) {
+    this.solde = soldeInitial
+  }
+
+  // Getter : lire le solde
+  getSolde(): number {
+    return this.solde
+  }
+
+  // Setter : modifier le solde avec validation
+  deposer(montant: number): void {
+    if (montant <= 0) {
+      throw new Error("Montant invalide")
+    }
+    this.solde += montant
+  }
+}
+```
+
+```ts {20-25}
 class CompteBancaire {
   private solde: number
 
@@ -1199,20 +1254,29 @@ class CompteBancaire {
   }
 }
 ```
+````
 
 ::right::
 
-<div v-click>
-
 ## Pourquoi des Getters/Setters ?
+
+<div v-click="1">
 
 **Contrôle d'accès**
 - Validation des données
 - Règles métier appliquées
 
+</div>
+
+<div v-click="2">
+
 **Lecture seule**
 - Getter sans setter
 - Données protégées en écriture
+
+</div>
+
+<div v-click="3">
 
 **Calculs dynamiques**
 - Valeur calculée à la demande
@@ -1220,7 +1284,7 @@ class CompteBancaire {
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="4" class="mt-4">
 
 ```ts
 const compte = new CompteBancaire(100)
@@ -1248,7 +1312,7 @@ Exemple Pratique - Classe CompteBancaire Complète
 
 ::left::
 
-```ts {*}{maxHeight:'400px'}
+```ts {2-4|16-18|38-41|all}{maxHeight:'400px'}
 class CompteBancaire {
   private solde: number
   private historique: string[]
@@ -1298,7 +1362,7 @@ class CompteBancaire {
 
 ::right::
 
-<div v-click>
+<div v-click="4">
 
 ```ts
 const compte = new CompteBancaire("Alice", 1000)
@@ -1316,12 +1380,22 @@ compte.afficherHistorique()
 
 </div>
 
-<div v-click class="mt-4">
-
 ## Points Clés
 
+<div v-click="1">
+
 - `solde` et `historique` : **privés**
+
+</div>
+
+<div v-click="2">
+
 - `titulaire` : **public readonly** (lecture seule)
+
+</div>
+
+<div v-click="3">
+
 - Méthodes publiques : interface contrôlée
 - Méthode privée : `ajouterHistorique()`
 
@@ -1751,7 +1825,7 @@ Exemple Pratique - Hiérarchie Animal
 
 ::left::
 
-```ts {*}{maxHeight:'400px'}
+```ts {2-3|23-24,40-41|13-16,30-33,47-50|all}{maxHeight:'400px'}
 class Animal {
   protected nom: string
   protected age: number
@@ -1807,7 +1881,7 @@ class Chien extends Animal {
 
 ::right::
 
-<div v-click>
+<div v-click="4">
 
 ```ts
 const chat = new Chat("Minou", 3, "gris")
@@ -1825,12 +1899,22 @@ chien.sePresenter() // Surchargé
 
 </div>
 
-<div v-click class="mt-4">
-
 ## Points Clés
 
+<div v-click="1">
+
 - `protected` : accessible dans les enfants
+
+</div>
+
+<div v-click="2">
+
 - Chaque enfant a ses propres attributs
+
+</div>
+
+<div v-click="3">
+
 - Méthodes héritées réutilisées
 - Méthode `sePresenter()` surchargée
 
@@ -1987,7 +2071,7 @@ Polymorphisme par Héritage
 
 ::left::
 
-```ts
+```ts {1-8|10-14|16-20|22-26|all}
 class Animal {
   nom: string
 
@@ -2021,7 +2105,7 @@ class Vache extends Animal {
 
 ::right::
 
-<div v-click>
+<div v-click="5">
 
 ```ts
 // Tableau d'animaux de types différents
@@ -2044,9 +2128,9 @@ animaux.forEach(animal => {
 
 </div>
 
-<div v-click class="mt-4">
-
 ## Points Clés
+
+<div v-click="6">
 
 - Type déclaré : `Animal`
 - Types réels : `Chat`, `Chien`, `Vache`
@@ -2072,7 +2156,7 @@ Interfaces et Contrats
 
 ::left::
 
-```ts
+```ts {2-5|7-18|20-31|all}
 // Interface : contrat à respecter
 interface Payable {
   effectuerPaiement(montant: number): void
@@ -2114,7 +2198,7 @@ class PayPal implements Payable {
 
 ::right::
 
-<div v-click>
+<div v-click="4">
 
 ```ts
 function traiterPaiement(
@@ -2136,7 +2220,7 @@ traiterPaiement(paypal, 50)
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="5" class="mt-4">
 
 ## Interface vs Classe
 
@@ -2168,7 +2252,7 @@ Exemple Pratique - Système de Paiement
 
 ::left::
 
-```ts {*}{maxHeight:'400px'}
+```ts {1-6|8-30|32-56|all}{maxHeight:'400px'}
 interface MoyenPaiement {
   payer(montant: number): boolean
   obtenirNom(): string
@@ -2226,9 +2310,9 @@ class Crypto implements MoyenPaiement {
 
 ::right::
 
-<div v-click>
+<div v-click="4">
 
-```ts
+```ts {maxHeight:'300px'}
 class Caisse {
   private moyensPaiement: MoyenPaiement[]
 
@@ -2369,11 +2453,11 @@ Classes Abstraites vs Interfaces
 
 ::left::
 
-<div v-click>
-
 ## Classe Abstraite
 
-```ts
+<div v-click="1">
+
+```ts {1-12|14-17|19-21|all}
 abstract class Forme {
   protected couleur: string
 
@@ -2415,11 +2499,11 @@ class Rectangle extends Forme {
 
 ::right::
 
-<div v-click>
-
 ## Interface
 
-```ts
+<div v-click="2">
+
+```ts {1-4|6-8|10|all}
 interface Dessinable {
   dessiner(): void
   effacer(): void
@@ -2526,7 +2610,7 @@ Exemple Pratique - Combinaison des Deux
 
 ::left::
 
-```ts {*}{maxHeight:'400px'}
+```ts {2-5|7-24|26-28|all}{maxHeight:'400px'}
 // Interface : capacité
 interface Volant {
   voler(): void
@@ -2575,9 +2659,9 @@ class Oiseau extends Animal implements Volant {
 
 ::right::
 
-<div v-click>
+<div v-click="4">
 
-```ts
+```ts {maxHeight:'300px'}
 class Chauve_Souris extends Animal implements Volant {
   constructor(nom: string, age: number) {
     super(nom, age)
@@ -2610,12 +2694,22 @@ volants.forEach(v => {
 
 </div>
 
-<div v-click class="mt-4">
-
 ## Points Clés
 
-- `Animal` : classe abstraite (base commune)
+<div v-click="1">
+
 - `Volant` : interface (capacité)
+
+</div>
+
+<div v-click="2">
+
+- `Animal` : classe abstraite (base commune)
+
+</div>
+
+<div v-click="3">
+
 - `Oiseau` et `Chauve_Souris` : héritent + implémentent
 - Polymorphisme sur `Volant`
 

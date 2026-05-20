@@ -159,7 +159,7 @@ Il faut l'utiliser avec parcimonie car il peut créer des dépendances cachées.
 
 # Singleton - Implémentation
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Classe de base
@@ -288,7 +288,7 @@ C'est très utile quand on veut étendre le système avec de nouveaux types.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface du produit
@@ -494,7 +494,7 @@ On peut créer des objets avec seulement les propriétés nécessaires.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : La classe produit
@@ -826,7 +826,7 @@ il permet de brancher un appareil sur une prise incompatible.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Système existant (ancien)
@@ -989,7 +989,7 @@ On peut combiner les décorateurs comme on veut, dans l'ordre qu'on veut.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface de base
@@ -1206,7 +1206,7 @@ C'est comme un système de fichiers : un fichier ou un dossier peuvent être man
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface commune
@@ -1448,7 +1448,7 @@ C'est comme un distributeur automatique qui change de comportement selon son ét
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface State
@@ -1827,7 +1827,7 @@ C'est comme choisir un moyen de transport : voiture, vélo, train...
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface de stratégie
@@ -2050,7 +2050,7 @@ Cela permet de les stocker, les annuler, les rejouer...
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface Command
@@ -2307,7 +2307,7 @@ C'est comme un système de support client avec plusieurs niveaux d'escalade.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface Handler
@@ -2517,7 +2517,7 @@ C'est comme un contrôleur aérien qui coordonne les avions.
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface Mediator
@@ -2729,7 +2729,7 @@ C'est la base du for...of en JavaScript et des boucles foreach dans d'autres lan
 
 <div class="overflow-y-auto" style="max-height: 90%;">
 
-````md magic-move {lines: true}
+````md magic-move
 
 ```typescript
 // Étape 1 : Interface Iterator

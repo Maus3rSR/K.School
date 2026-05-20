@@ -1362,24 +1362,6 @@ class CompteBancaire {
 
 ::right::
 
-<div v-click="4">
-
-```ts
-const compte = new CompteBancaire("Alice", 1000)
-
-compte.deposer(500)
-compte.retirer(200)
-
-console.log(compte.getSolde()) // 1300
-
-compte.afficherHistorique()
-// [2026-05-18...] Création compte: 1000€
-// [2026-05-18...] Dépôt: +500€
-// [2026-05-18...] Retrait: -200€
-```
-
-</div>
-
 ## Points Clés
 
 <div v-click="1">
@@ -1398,6 +1380,24 @@ compte.afficherHistorique()
 
 - Méthodes publiques : interface contrôlée
 - Méthode privée : `ajouterHistorique()`
+
+</div>
+
+<div v-click="4">
+
+```ts
+const compte = new CompteBancaire("Alice", 1000)
+
+compte.deposer(500)
+compte.retirer(200)
+
+console.log(compte.getSolde()) // 1300
+
+compte.afficherHistorique()
+// [2026-05-18...] Création compte: 1000€
+// [2026-05-18...] Dépôt: +500€
+// [2026-05-18...] Retrait: -200€
+```
 
 </div>
 
@@ -1617,7 +1617,7 @@ Appel du Constructeur Parent avec `super()`
 
 ::left::
 
-```ts
+```ts {maxHeight:'300px'}
 class Animal {
   nom: string
   age: number
@@ -1688,7 +1688,7 @@ Surcharge de Méthodes (Override)
 
 ::left::
 
-```ts
+```ts {maxHeight:'300px'}
 class Animal {
   nom: string
 
@@ -1881,24 +1881,6 @@ class Chien extends Animal {
 
 ::right::
 
-<div v-click="4">
-
-```ts
-const chat = new Chat("Minou", 3, "gris")
-chat.manger()      // Hérité
-chat.miauler()     // Propre
-chat.sePresenter() // Surchargé
-// "Minou, chat gris de 3 ans"
-
-const chien = new Chien("Rex", 5, "Labrador")
-chien.manger()      // Hérité
-chien.aboyer()      // Propre
-chien.sePresenter() // Surchargé
-// "Rex, chien Labrador de 5 ans"
-```
-
-</div>
-
 ## Points Clés
 
 <div v-click="1">
@@ -1917,6 +1899,24 @@ chien.sePresenter() // Surchargé
 
 - Méthodes héritées réutilisées
 - Méthode `sePresenter()` surchargée
+
+</div>
+
+<div v-click="4">
+
+```ts
+const chat = new Chat("Minou", 3, "gris")
+chat.manger()      // Hérité
+chat.miauler()     // Propre
+chat.sePresenter() // Surchargé
+// "Minou, chat gris de 3 ans"
+
+const chien = new Chien("Rex", 5, "Labrador")
+chien.manger()      // Hérité
+chien.aboyer()      // Propre
+chien.sePresenter() // Surchargé
+// "Rex, chien Labrador de 5 ans"
+```
 
 </div>
 
@@ -2071,7 +2071,7 @@ Polymorphisme par Héritage
 
 ::left::
 
-```ts {1-8|10-14|16-20|22-26|all}
+```ts {1-8|10-14|16-20|22-26|all}{maxHeight:'300px'}
 class Animal {
   nom: string
 
@@ -2105,7 +2105,18 @@ class Vache extends Animal {
 
 ::right::
 
+## Points Clés
+
 <div v-click="5">
+
+- Type déclaré : `Animal`
+- Types réels : `Chat`, `Chien`, `Vache`
+- Méthode appelée selon le type réel
+- **Un seul code** pour plusieurs types
+
+</div>
+
+<div v-click="6">
 
 ```ts
 // Tableau d'animaux de types différents
@@ -2128,17 +2139,6 @@ animaux.forEach(animal => {
 
 </div>
 
-## Points Clés
-
-<div v-click="6">
-
-- Type déclaré : `Animal`
-- Types réels : `Chat`, `Chien`, `Vache`
-- Méthode appelée selon le type réel
-- **Un seul code** pour plusieurs types
-
-</div>
-
 <!--
 Montrer le polymorphisme en action
 Même interface, comportements différents
@@ -2156,7 +2156,7 @@ Interfaces et Contrats
 
 ::left::
 
-```ts {2-5|7-18|20-31|all}
+```ts {2-5|7-18|20-31|all}{maxHeight:'300px'}
 // Interface : contrat à respecter
 interface Payable {
   effectuerPaiement(montant: number): void
@@ -2457,7 +2457,7 @@ Classes Abstraites vs Interfaces
 
 <div v-click="1">
 
-```ts {1-12|14-17|19-21|all}
+```ts {1-12|14-17|19-21|all}{maxHeight:'300px'}
 abstract class Forme {
   protected couleur: string
 
@@ -2503,7 +2503,7 @@ class Rectangle extends Forme {
 
 <div v-click="2">
 
-```ts {1-4|6-8|10|all}
+```ts {1-4|6-8|10|all}{maxHeight:'300px'}
 interface Dessinable {
   dessiner(): void
   effacer(): void
@@ -2659,6 +2659,27 @@ class Oiseau extends Animal implements Volant {
 
 ::right::
 
+## Points Clés
+
+<div v-click="1">
+
+- `Volant` : interface (capacité)
+
+</div>
+
+<div v-click="2">
+
+- `Animal` : classe abstraite (base commune)
+
+</div>
+
+<div v-click="3">
+
+- `Oiseau` et `Chauve_Souris` : héritent + implémentent
+- Polymorphisme sur `Volant`
+
+</div>
+
 <div v-click="4">
 
 ```ts {maxHeight:'300px'}
@@ -2691,27 +2712,6 @@ volants.forEach(v => {
   v.atterrir()
 })
 ```
-
-</div>
-
-## Points Clés
-
-<div v-click="1">
-
-- `Volant` : interface (capacité)
-
-</div>
-
-<div v-click="2">
-
-- `Animal` : classe abstraite (base commune)
-
-</div>
-
-<div v-click="3">
-
-- `Oiseau` et `Chauve_Souris` : héritent + implémentent
-- Polymorphisme sur `Volant`
 
 </div>
 

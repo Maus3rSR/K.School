@@ -80,6 +80,16 @@ Run `pnpm install` in the course directory and replace `[COURSE_NAME]` with the 
 pnpm install --filter @k.school/[COURSE_NAME]
 ```
 
-## Step 7: Confirm Success
+## Step 7: Add Dev Script to Root package.json
+
+Add a new dev script to the root `package.json` file in the scripts section. Follow the naming pattern `[COURSE_NAME]:dev` and place it alphabetically among the course-specific dev scripts.
+
+Example for a React course:
+
+```json
+"react:dev": "turbo run dev --filter @k.school/react"
+```
+
+## Step 8: Confirm Success
 
 Inform the user that the course has been created successfully and provide the path to the new course.

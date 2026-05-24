@@ -96,12 +96,24 @@
 ## Architecture des Slides
 
 ```markdown
-1. Slide d'accroche: Problème concret du quotidien
-2. Slide de contexte: Pourquoi c'est important
-3. Slides de contenu: Concept → Exemple → Application
-4. Slide de synthèse: Points clés à retenir
-5. Slide de transition: Lien avec le concept suivant
+1. Slide de couverture: Titre du cours
+2. Slide de ressources: Liens utiles et références (OBLIGATOIRE - immédiatement après la couverture)
+3. Slide d'accroche: Problème concret du quotidien
+4. Slide de contexte: Pourquoi c'est important
+5. Slides de contenu: Concept → Exemple → Application
+6. Slide de synthèse: Points clés à retenir
+7. Slide de transition: Lien avec le concept suivant
 ```
+
+### Positionnement des Ressources
+
+**RÈGLE IMPORTANTE** : La slide "Ressources pour ce cours" doit toujours être placée **immédiatement après la slide de couverture**, avant le premier chapitre.
+
+**Justification pédagogique** :
+- Les apprenants ont accès aux ressources dès le début
+- Ils peuvent consulter la documentation pendant toute la formation
+- Évite d'attendre la fin du cours pour découvrir les ressources
+- Facilite la prise de notes et l'apprentissage autonome
 
 ## Structure d'un Exercice Complet
 

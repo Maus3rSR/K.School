@@ -9,6 +9,47 @@ description: When working on courses slides markdown files
 
 Utiliser `<div v-click>` pour révélation progressive. Ajouter notes HTML `<!-- -->` avec anecdotes et pièges courants.
 
+## Structure du Cours
+
+### Positionnement des Ressources
+
+**OBLIGATOIRE** : La slide "Ressources pour ce cours" doit être placée **immédiatement après la slide de couverture** (slide de titre), **avant le premier chapitre**.
+
+**Format standard** :
+```md
+---
+layout: two-cols-header
+---
+
+# Ressources pour ce cours
+
+::left::
+
+<div v-click>
+
+## Liens utiles
+
+📚 [Titre](URL) - Description
+
+📖 [Titre](URL) - Description
+
+</div>
+
+::right::
+
+<div v-click>
+
+## Références complémentaires
+
+🔗 [Titre](URL) - Description
+
+🔗 [Titre](URL) - Description
+
+</div>
+```
+
+**Objectif** : Avoir les ressources directement accessibles au début du cours, pas à la fin. Les apprenants peuvent ainsi les consulter pendant toute la formation.
+
 ## Composants Pédagogiques
 
 > Référence : `skills/slidev/references/`

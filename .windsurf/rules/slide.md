@@ -11,6 +11,31 @@ Utiliser `<div v-click>` pour révélation progressive. Ajouter notes HTML `<!--
 
 ## Structure du Cours
 
+### Organisation en Fichiers Externes
+
+**Sous-découper un chapitre** si **≥ 2 critères** sur 4 :
+
+| Critère | Seuil |
+|---------|-------|
+| Nombre de slides | ≥ 12 slides |
+| Concepts distincts | ≥ 3 concepts majeurs |
+| Sections `layout: section` | ≥ 3 sections |
+| Exercices pratiques | ≥ 2 exercices |
+
+**Structure recommandée** :
+```
+sections/
+├── 02-chapitre-nom/
+│   ├── index.md              # Imports des sous-sections
+│   ├── 01-concept-1.md
+│   ├── 02-concept-2.md
+│   └── 03-exercice.md
+```
+
+**Nommage** : `[numéro]-[concept-principal].md` (ex: `01-jsx-intro.md`)
+
+**Ne PAS sous-découper** : < 10 slides, 1-2 concepts, durée < 30 min
+
 ### Positionnement des Ressources
 
 **OBLIGATOIRE** : La slide "Ressources pour ce cours" doit être placée **immédiatement après la slide de couverture** (slide de titre), **avant le premier chapitre**.

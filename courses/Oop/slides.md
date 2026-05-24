@@ -1312,7 +1312,7 @@ Exemple Pratique - Classe CompteBancaire Complète
 
 ::left::
 
-```ts {2-4|16-18|38-41|all}{maxHeight:'400px'}
+```ts {2-4|16-18|38-41|all}{maxHeight:'300px'}
 class CompteBancaire {
   private solde: number
   private historique: string[]
@@ -1825,7 +1825,7 @@ Exemple Pratique - Hiérarchie Animal
 
 ::left::
 
-```ts {2-3|23-24,40-41|13-16,30-33,47-50|all}{maxHeight:'400px'}
+```ts {2-3|23-24,40-41|13-16,30-33,47-50|all}{maxHeight:'300px'}
 class Animal {
   protected nom: string
   protected age: number
@@ -2252,7 +2252,7 @@ Exemple Pratique - Système de Paiement
 
 ::left::
 
-```ts {1-6|8-30|32-56|all}{maxHeight:'400px'}
+```ts {1-6|8-30|32-56|all}{maxHeight:'300px'}
 interface MoyenPaiement {
   payer(montant: number): boolean
   obtenirNom(): string
@@ -2610,7 +2610,7 @@ Exemple Pratique - Combinaison des Deux
 
 ::left::
 
-```ts {2-5|7-24|26-28|all}{maxHeight:'400px'}
+```ts {2-5|7-24|26-28|all}{maxHeight:'300px'}
 // Interface : capacité
 interface Volant {
   voler(): void

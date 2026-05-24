@@ -1,0 +1,13 @@
+{
+  "name": "wishflix",
+  "version": "1.0.0",
+  "description": "WishFlix - Plateforme de catalogue de jeux vidéo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["wishflix", "gaming", "catalog"],
+  "author": "",
+  "license": "ISC"
+}

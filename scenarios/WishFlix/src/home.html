@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WishFlix - Accueil</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <div class="wishflix-shell">
+      <header
+        class="navbar wishflix-shell__navbar"
+        aria-label="Navigation principale"
+      >
+        <div class="navbar-start">
+          <a class="wishflix-shell__brand" href="/">WishFlix</a>
+          <span class="wishflix-shell__tagline">Gaming catalog</span>
+        </div>
+
+        <nav
+          class="navbar-center wishflix-shell__menu"
+          aria-label="Liens principaux"
+        >
+          <a class="wishflix-shell__link wishflix-shell__link--active" href="/">
+            Accueil
+          </a>
+          <a class="wishflix-shell__link" href="wishlist.html">
+            Wishlist
+            <span class="badge badge-secondary badge-sm">3</span>
+          </a>
+        </nav>
+
+        <div class="navbar-end wishflix-shell__user">
+          <span class="wishflix-shell__user-label">Invité</span>
+          <a class="btn btn-primary btn-sm" href="login.html">Se connecter</a>
+        </div>
+      </header>
+
+      <main class="wishflix-main" id="contenu-principal">
+        <section class="hero wishflix-hero" aria-labelledby="hero-title">
+          <figure class="wishflix-hero__backdrop">
+            <img
+              src="https://via.assets.so/game.png?id=1&q=95&w=1600&h=900&fit=cover"
+              alt="Image de couverture de The Witcher 3"
+              width="1600"
+              height="900"
+            />
+          </figure>
+          <div class="wishflix-hero__veil" aria-hidden="true"></div>
+
+          <div class="hero-content wishflix-hero__content">
+            <div class="wishflix-hero__text">
+              <p class="wishflix-hero__kicker">Nouveaute WishFlix</p>
+              <div class="wishflix-hero__meta">
+                <span class="badge badge-primary">A la une</span>
+                <span class="badge badge-ghost">RPG</span>
+                <span class="badge badge-outline">PC, PS5, Xbox</span>
+              </div>
+
+              <h1 id="hero-title" class="wishflix-hero__title">
+                The Witcher 3
+              </h1>
+              <p class="wishflix-hero__description">
+                Incarnez Geralt de Riv, un chasseur de monstres professionnel,
+                dans un monde ouvert fantastique rempli de quêtes épiques et de
+                choix moraux difficiles.
+              </p>
+              <p class="wishflix-hero__details">2015 | 4.8/5 | 100h de jeu</p>
+
+              <div class="wishflix-hero__actions">
+                <a class="btn btn-primary btn-lg" href="game-detail.html"
+                  >Voir la fiche</a
+                >
+                <button class="btn btn-outline btn-lg">
+                  Ajouter a la wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wish-section" aria-labelledby="catalogue-title">
+          <header class="wish-section__header">
+            <div>
+              <h2 class="wish-section__title" id="catalogue-title">
+                Catalogue
+              </h2>
+              <p class="wish-section__subtitle">
+                Filtres, navigation et cards dynamiques
+              </p>
+            </div>
+            <div class="wish-section__actions">
+              <div class="wish-home__filters">
+                <label class="form-control wish-home__search" for="game-search">
+                  <span class="label-text">Rechercher</span>
+                  <input
+                    id="game-search"
+                    type="search"
+                    class="input input-bordered"
+                    placeholder="Titre ou mot-cle"
+                  />
+                </label>
+
+                <label class="form-control" for="game-category">
+                  <span class="label-text">Categorie</span>
+                  <select id="game-category" class="select select-bordered">
+                    <option value="all">Toutes</option>
+                    <option value="RPG">RPG</option>
+                    <option value="Action">Action</option>
+                    <option value="Aventure">Aventure</option>
+                  </select>
+                </label>
+
+                <button class="btn btn-secondary">
+                  Disponibles uniquement
+                </button>
+              </div>
+            </div>
+          </header>
+
+          <div class="wish-section__stats">
+            <div
+              class="stats shadow wish-home__stats"
+              role="group"
+              aria-label="Statistiques catalogue"
+            >
+              <div class="stat">
+                <div class="stat-title">Jeux disponibles</div>
+                <div class="stat-value text-primary">12</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-title">Resultats filtres</div>
+                <div class="stat-value text-secondary">12</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-title">Ma wishlist</div>
+                <div class="stat-value text-accent">3</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wish-section__content">
+            <div class="wish-home__grid">
+              <article
+                class="card movie-card game-card"
+                aria-label="Jeu The Witcher 3"
+              >
+                <figure class="game-card__cover">
+                  <img
+                    src="https://via.assets.so/game.png?id=1&q=95&w=300&h=450&fit=cover"
+                    alt="Affiche de The Witcher 3"
+                    width="300"
+                    height="450"
+                  />
+                </figure>
+
+                <div class="card-body game-card__body">
+                  <div class="game-card__badges">
+                    <span class="badge badge-secondary">RPG</span>
+                    <span class="badge badge-success">Disponible</span>
+                  </div>
+
+                  <h3 class="card-title game-card__title">The Witcher 3</h3>
+                  <p class="game-card__meta">2015 - PC, PS5, Xbox</p>
+
+                  <div class="game-card__rating" aria-label="Note moyenne">
+                    <span class="game-card__rating-value">4.8</span>
+                    <span class="game-card__rating-max">/5</span>
+                  </div>
+
+                  <p class="game-card__synopsis">
+                    Incarnez Geralt de Riv, un chasseur de monstres
+                    professionnel, dans un monde ouvert fantastique.
+                  </p>
+
+                  <div class="card-actions game-card__actions">
+                    <a
+                      class="btn btn-sm btn-ghost"
+                      href="game-detail.html"
+                      aria-label="Voir les details de The Witcher 3"
+                    >
+                      Details
+                    </a>
+                    <button class="btn btn-sm btn-outline">Wishlist</button>
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="card movie-card game-card"
+                aria-label="Jeu Elden Ring"
+              >
+                <figure class="game-card__cover">
+                  <img
+                    src="https://via.assets.so/game.png?id=2&q=95&w=300&h=450&fit=cover"
+                    alt="Affiche de Elden Ring"
+                    width="300"
+                    height="450"
+                  />
+                </figure>
+
+                <div class="card-body game-card__body">
+                  <div class="game-card__badges">
+                    <span class="badge badge-secondary">Action</span>
+                    <span class="badge badge-success">Disponible</span>
+                  </div>
+
+                  <h3 class="card-title game-card__title">Elden Ring</h3>
+                  <p class="game-card__meta">2022 - PC, PS5, Xbox</p>
+
+                  <div class="game-card__rating" aria-label="Note moyenne">
+                    <span class="game-card__rating-value">4.9</span>
+                    <span class="game-card__rating-max">/5</span>
+                  </div>
+
+                  <p class="game-card__synopsis">
+                    Un RPG d'action en monde ouvert développé par FromSoftware
+                    et George R.R. Martin.
+                  </p>
+
+                  <div class="card-actions game-card__actions">
+                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                      Details
+                    </a>
+                    <button class="btn btn-sm btn-secondary">Retirer</button>
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="card movie-card game-card"
+                aria-label="Jeu Cyberpunk 2077"
+              >
+                <figure class="game-card__cover">
+                  <img
+                    src="https://via.assets.so/game.png?id=3&q=95&w=300&h=450&fit=cover"
+                    alt="Affiche de Cyberpunk 2077"
+                    width="300"
+                    height="450"
+                  />
+                </figure>
+
+                <div class="card-body game-card__body">
+                  <div class="game-card__badges">
+                    <span class="badge badge-secondary">RPG</span>
+                    <span class="badge badge-success">Disponible</span>
+                  </div>
+
+                  <h3 class="card-title game-card__title">Cyberpunk 2077</h3>
+                  <p class="game-card__meta">2020 - PC, PS5, Xbox</p>
+
+                  <div class="game-card__rating" aria-label="Note moyenne">
+                    <span class="game-card__rating-value">4.5</span>
+                    <span class="game-card__rating-max">/5</span>
+                  </div>
+
+                  <p class="game-card__synopsis">
+                    Plongez dans Night City, une mégalopole obsédée par le
+                    pouvoir, le glamour et les modifications corporelles.
+                  </p>
+
+                  <div class="card-actions game-card__actions">
+                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                      Details
+                    </a>
+                    <button class="btn btn-sm btn-outline">Wishlist</button>
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="card movie-card game-card"
+                aria-label="Jeu Red Dead Redemption 2"
+              >
+                <figure class="game-card__cover">
+                  <img
+                    src="https://via.assets.so/game.png?id=4&q=95&w=300&h=450&fit=cover"
+                    alt="Affiche de Red Dead Redemption 2"
+                    width="300"
+                    height="450"
+                  />
+                </figure>
+
+                <div class="card-body game-card__body">
+                  <div class="game-card__badges">
+                    <span class="badge badge-secondary">Aventure</span>
+                    <span class="badge badge-success">Disponible</span>
+                  </div>
+
+                  <h3 class="card-title game-card__title">
+                    Red Dead Redemption 2
+                  </h3>
+                  <p class="game-card__meta">2018 - PC, PS5, Xbox</p>
+
+                  <div class="game-card__rating" aria-label="Note moyenne">
+                    <span class="game-card__rating-value">4.7</span>
+                    <span class="game-card__rating-max">/5</span>
+                  </div>
+
+                  <p class="game-card__synopsis">
+                    L'épopée de hors-la-loi Arthur Morgan et de la bande de
+                    Dutch van der Linde.
+                  </p>
+
+                  <div class="card-actions game-card__actions">
+                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                      Details
+                    </a>
+                    <button class="btn btn-sm btn-secondary">Retirer</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="wishflix-footer" aria-label="Pied de page">
+        <p class="wishflix-footer__text">WishFlix - Gaming Catalog</p>
+      </footer>
+    </div>
+  </body>
+</html>

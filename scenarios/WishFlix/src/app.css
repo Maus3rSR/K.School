@@ -1,0 +1,234 @@
+:root {
+  --wishflix-bg-dark: #141414;
+  --wishflix-bg-card: #1f1f1f;
+  --wishflix-accent: #e50914;
+  --wishflix-text: #ffffff;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--wishflix-bg-dark);
+  color: var(--wishflix-text);
+}
+
+.wishflix-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wishflix-shell__navbar {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 20;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  background: linear-gradient(180deg, rgb(3 3 6 / 78%) 0%, rgb(3 3 6 / 30%) 70%, transparent 100%);
+  backdrop-filter: blur(4px);
+}
+
+.wishflix-shell__brand {
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #e50914;
+}
+
+.wishflix-shell__menu {
+  display: none;
+  gap: 0.75rem;
+}
+
+.wishflix-shell__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  color: rgb(255 255 255 / 75%);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.wishflix-shell__link:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.wishflix-shell__link--active {
+  color: #fff;
+  background: rgb(255 255 255 / 14%);
+}
+
+.wishflix-shell__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wishflix-shell__user-label {
+  font-size: 0.85rem;
+  color: rgb(255 255 255 / 80%);
+}
+
+.wishflix-shell__tagline {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.wishflix-main {
+  flex: 1;
+  width: min(100%, 80rem);
+  margin-inline: auto;
+  padding: 6rem 1rem 1.5rem;
+}
+
+.wishflix-footer {
+  margin-top: 1rem;
+  padding: 2rem 1rem 2.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-base-content) 12%, transparent);
+}
+
+.wishflix-footer__text {
+  margin: 0;
+  text-align: center;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.wish-section {
+  margin-top: 1.25rem;
+}
+
+.wish-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.wish-section__title {
+  margin: 0;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+}
+
+.wish-section__subtitle {
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.wish-section__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wish-section__stats {
+  margin-top: 1rem;
+}
+
+.wish-section__content {
+  margin-top: 1rem;
+}
+
+.stat-title {
+  color: rgb(255 255 255 / 70%);
+}
+
+.game-card {
+  border: 1px solid color-mix(in srgb, var(--color-base-content) 12%, transparent);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+  overflow: hidden;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 30%);
+}
+
+.game-card__cover {
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.game-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.22s ease;
+}
+
+.game-card:hover .game-card__cover img {
+  transform: scale(1.06);
+}
+
+.game-card__body {
+  padding: 1rem;
+}
+
+.game-card__badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.game-card__title {
+  margin-top: 0.35rem;
+}
+
+.game-card__meta {
+  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+.game-card__rating {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.game-card__rating-value {
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.game-card__rating-max {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.game-card__synopsis {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.game-card__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 52rem) {
+  .wishflix-shell__menu {
+    display: inline-flex;
+  }
+}

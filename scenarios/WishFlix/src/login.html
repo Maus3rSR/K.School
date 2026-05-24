@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WishFlix - Connexion</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="wishflix-shell">
+      <header
+        class="navbar wishflix-shell__navbar"
+        aria-label="Navigation principale"
+      >
+        <div class="navbar-start">
+          <a class="wishflix-shell__brand" href="/">WishFlix</a>
+          <span class="wishflix-shell__tagline">Gaming catalog</span>
+        </div>
+
+        <nav
+          class="navbar-center wishflix-shell__menu"
+          aria-label="Liens principaux"
+        >
+          <a class="wishflix-shell__link" href="/"> Accueil </a>
+          <a class="wishflix-shell__link" href="wishlist.html">
+            Wishlist
+            <span class="badge badge-secondary badge-sm">3</span>
+          </a>
+        </nav>
+
+        <div class="navbar-end wishflix-shell__user">
+          <span class="wishflix-shell__user-label">Invité</span>
+          <a class="btn btn-primary btn-sm" href="login.html">Se connecter</a>
+        </div>
+      </header>
+
+      <main class="wishflix-main" id="contenu-principal">
+        <section class="wish-login" aria-labelledby="login-title">
+          <div class="card wish-login__card">
+            <div class="card-body">
+              <h1 id="login-title" class="card-title">Connexion</h1>
+              <p class="wish-login__intro">
+                Connectez-vous pour proteger votre wishlist.
+              </p>
+
+              <form class="wish-login__form" novalidate>
+                <label class="form-control" for="email">
+                  <span class="label-text">Email</span>
+                  <input id="email" type="email" class="input input-bordered" />
+                </label>
+
+                <label class="form-control" for="password">
+                  <span class="label-text">Mot de passe</span>
+                  <input
+                    id="password"
+                    type="password"
+                    class="input input-bordered"
+                  />
+                </label>
+
+                <button class="btn btn-primary" type="submit">
+                  Se connecter
+                </button>
+              </form>
+
+              <div class="divider"></div>
+
+              <p class="wish-login__demo-title">Compte demo</p>
+              <p><strong>Email:</strong> demo@wishflix.com</p>
+              <p><strong>Mot de passe:</strong> demo1234</p>
+
+              <a class="link link-primary" href="/">Retour au catalogue</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="wishflix-footer" aria-label="Pied de page">
+        <p class="wishflix-footer__text">WishFlix - Gaming Catalog</p>
+      </footer>
+    </div>
+  </body>
+</html>

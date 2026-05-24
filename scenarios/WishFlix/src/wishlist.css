@@ -1,0 +1,20 @@
+.wish-wishlist {
+  display: grid;
+  gap: 1rem;
+}
+
+.wish-wishlist__header h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+}
+
+.wish-wishlist__header p {
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.wish-wishlist__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}

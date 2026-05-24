@@ -1,0 +1,29 @@
+.wish-login {
+  min-height: 70svh;
+  display: grid;
+  place-items: center;
+  padding-block: 1rem;
+}
+
+.wish-login__card {
+  width: min(100%, 28rem);
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: linear-gradient(135deg, rgb(15 18 29 / 90%), rgb(13 16 26 / 75%));
+}
+
+.wish-login__intro {
+  margin-top: 0.25rem;
+  opacity: 0.85;
+}
+
+.wish-login__form {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.wish-login__demo-title {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}

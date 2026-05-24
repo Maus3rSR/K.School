@@ -1,6 +1,7 @@
 packages:
   - courses/*
   - exercices/*
+  - scenarios/*
 
 catalog:
   "@slidev/cli": ^52.14.2

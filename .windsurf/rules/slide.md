@@ -59,7 +59,44 @@ Utiliser `<div v-click>` pour révélation progressive. Ajouter notes HTML `<!--
 
 Évolution progressive du code. Syntaxe : 4 backticks `````md magic-move`.
 
-**Bonnes pratiques** : Une étape = un concept | Line highlighting `{5-8}` pour changements | Commentaires guidants
+**Bonnes pratiques** : 
+- Une étape = un concept clairement identifié
+- Line highlighting `{5-8}` pour mettre en évidence les changements
+- Commentaires guidants dans le code
+- **OBLIGATOIRE** : Chaque étape du Magic Move doit avoir un `<div v-click="N">` correspondant avec explication
+
+**Exemple correct** :
+````md
+````md magic-move
+```ts
+class Point {
+  x: number = 0
+  y: number = 0
+}
+```
+
+```ts {5-8}
+class Point {
+  x: number = 0
+  y: number = 0
+
+  constructor(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+}
+```
+````
+
+::right::
+
+<div v-click="1">
+
+**Ajout du constructeur**
+- Initialise les attributs avec des valeurs personnalisées
+
+</div>
+````
 
 ### Line Highlighting
 
@@ -67,13 +104,81 @@ Décortiquer un code ligne par ligne. Syntaxe : `{lignes|lignes|all}` avec `|` p
 
 **Valeurs** : `hide`, `none`, `all` | **Pratique** : Contexte global → Détails → Vue d'ensemble
 
+**RÈGLE CRITIQUE** : **Synchronisation obligatoire entre highlighting et v-click**
+- Chaque étape de highlighting (`|`) doit correspondre à un `<div v-click>` ou `<div v-click="N">`
+- Le contenu du v-click doit expliquer **exactement** les lignes surlignées
+- **INTERDIT** : Avoir un v-click qui parle de lignes non surlignées à cette étape
+
+**Exemple correct** :
+```ts
+::left::
+
+```ts {1-7|1|2-3|5|6|all}
+class Point {
+  public x: number = 0
+  public y: number = 0
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+```
+
+::right::
+
+<div v-click="1">
+
+- `class Point` : Déclaration de la classe
+
+</div>
+
+<div v-click="2">
+
+- `x = 0` et `y = 0` : **Attributs** avec valeurs par défaut
+
+</div>
+
+<div v-click="3">
+
+- `afficher()` : **Méthode** pour afficher le point
+
+</div>
+
+<div v-click="4">
+
+- `this` : Référence à l'objet courant
+
+</div>
+```
+
+**Exemple INCORRECT** :
+```ts
+// ❌ MAUVAIS : v-click parle de méthodes alors que seuls les attributs sont surlignés
+```ts {2-3}
+class Point {
+  x: number = 0
+  y: number = 0
+
+  afficher(): void {
+    console.log(`Point(${this.x}, ${this.y})`)
+  }
+}
+```
+
+<div v-click>
+
+- La méthode `afficher()` permet d'afficher le point  ❌ INCOHÉRENT
+
+</div>
+```
+
 ### Quand utiliser quoi ?
 
-| Situation | Outil |
-|-----------|-------|
-| Montrer l'évolution du code (ajout, refactoring) | **Magic Move** |
-| Expliquer un code existant ligne par ligne | **Line Highlighting** |
-| Combiner les deux | Magic Move avec Line Highlighting dans chaque étape |
+| Situation | Outil | Synchronisation v-click |
+|-----------|-------|------------------------|
+| Montrer l'évolution du code (ajout, refactoring) | **Magic Move** | 1 v-click par étape du Magic Move |
+| Expliquer un code existant ligne par ligne | **Line Highlighting** | 1 v-click par segment de highlighting (`\|`) |
+| Combiner les deux | Magic Move avec Line Highlighting dans chaque étape | v-click pour Magic Move + highlighting dans chaque étape |
 
 ### Limitation de Hauteur des Codeblocks
 

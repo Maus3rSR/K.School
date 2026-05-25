@@ -42,6 +42,22 @@ Concept spécifique
 
 1. Accroche (problème concret) → 2. Contexte → 3. Concept/Exemple/Application → 4. Synthèse → 5. Transition
 
+### Slide de Lexique Technique (OBLIGATOIRE)
+
+Chaque support de cours doit inclure une slide "Lexique" positionnée **immédiatement après la slide "Ressources pour ce cours"**, au début du cours.
+
+**Objectifs** :
+- Mémorisation des termes techniques précis
+- Référence rapide pour les apprenants
+- Renforcement du vocabulaire professionnel
+
+**Format** :
+- Termes en **anglais** (langue technique de référence)
+- Traduction/équivalent français en texte secondaire
+    - Ne pas traduire s'il n'existe rien de pertinent
+- Ordre **alphabétique** strict
+- Définition concise (1 ligne maximum)
+
 ## Règles Essentielles pour les Exercices
 
 ### Taxonomie de Bloom

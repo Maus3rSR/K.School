@@ -258,3 +258,64 @@ class Point {
 
 **Combinaison** : `{1-5|7-10|all}{maxHeight:'300px'}` (line highlighting + maxHeight) ou `{*}{maxHeight:'300px'}`
 
+## Slide de Lexique Technique
+
+### Positionnement
+
+**OBLIGATOIRE** : La slide "Lexique" doit être placée **immédiatement après la slide "Ressources pour ce cours"**, au début du cours, avant le premier chapitre.
+
+### Format Standard
+
+```md
+---
+layout: two-cols-header
+---
+
+# Lexique
+
+::left::
+
+<div v-click>
+
+**API** <small class="opacity-50">(Interface de Programmation)</small>
+Interface permettant la communication entre applications
+
+**Callback** <small class="opacity-50">(Fonction de rappel)</small>
+Fonction passée en paramètre et exécutée plus tard
+
+**Dependency** <small class="opacity-50">(Dépendance)</small>
+Bibliothèque externe requise par le projet
+
+</div>
+
+::right::
+
+<div v-click>
+
+**Framework** <small class="opacity-50">(Cadre de travail)</small>
+Structure logicielle réutilisable pour développer
+
+**Payload** <small class="opacity-50">(Charge utile)</small>
+Données transmises dans une requête
+
+**Runtime** <small class="opacity-50">(Environnement d'exécution)</small>
+Environnement dans lequel le code s'exécute
+
+</div>
+```
+
+### Règles de Contenu
+
+- **Termes en anglais** : Toujours utiliser le terme technique anglais en gras
+- **Traduction française** : Entre parenthèses en `<small class="opacity-50">` si elle existe
+- **Ordre alphabétique** : Strict, réparti équitablement entre les deux colonnes
+- **Définition** : 1 ligne maximum, claire et accessible
+- **Sélection** : Uniquement les termes techniques clés du cours (8-12 termes recommandés)
+
+### Objectifs Pédagogiques
+
+- Renforcer la mémorisation du vocabulaire technique
+- Fournir une référence rapide pendant et après le cours
+- Familiariser avec la terminologie professionnelle anglaise
+- Faciliter la transition vers la documentation technique
+

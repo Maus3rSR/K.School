@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "export": "turbo run export",
+    "docker:dev": "turbo run dev --filter @k.school/docker",
     "oop:dev": "turbo run dev --filter @k.school/oop",
     "react:dev": "turbo run dev --filter @k.school/react",
     "vscode:dev": "turbo run dev --filter @k.school/vscode",

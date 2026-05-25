@@ -13,7 +13,9 @@ Utiliser `<div v-click>` pour révélation progressive. Ajouter notes HTML `<!--
 
 ### Organisation en Fichiers Externes
 
-**Sous-découper un chapitre** si **≥ 2 critères** sur 4 :
+**Principe de base** : Les chapitres sont **toujours découpés** en fichiers séparés dans `sections/`.
+
+**Sous-découper un chapitre en sous-sections** si **≥ 2 critères** sur 4 :
 
 | Critère | Seuil |
 |---------|-------|
@@ -22,7 +24,7 @@ Utiliser `<div v-click>` pour révélation progressive. Ajouter notes HTML `<!--
 | Sections `layout: section` | ≥ 3 sections |
 | Exercices pratiques | ≥ 2 exercices |
 
-**Structure recommandée** :
+**Structure avec sous-découpage** :
 ```
 sections/
 ├── 02-chapitre-nom/
@@ -32,9 +34,15 @@ sections/
 │   └── 03-exercice.md
 ```
 
+**Structure sans sous-découpage** :
+```
+sections/
+├── 02-chapitre-nom.md        # Chapitre complet dans un seul fichier
+```
+
 **Nommage** : `[numéro]-[concept-principal].md` (ex: `01-jsx-intro.md`)
 
-**Ne PAS sous-découper** : < 10 slides, 1-2 concepts, durée < 30 min
+**Ne PAS sous-découper un chapitre** : < 10 slides, 1-2 concepts, durée < 30 min
 
 ### Positionnement des Ressources
 

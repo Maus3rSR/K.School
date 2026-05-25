@@ -13,6 +13,80 @@ monaco: true
 Objectif de ce parcours : Découvrir les bases du développement Web
 
 ---
+layout: two-cols-header
+---
+
+# Ressources pour ce cours
+
+::left::
+
+<div v-click>
+
+## Liens utiles
+
+📚 [.NET Documentation](https://learn.microsoft.com/fr-fr/dotnet/) - Documentation officielle
+
+📖 [Blazor](https://learn.microsoft.com/fr-fr/aspnet/core/blazor/) - Guide Blazor
+
+🎮 [Blazor University](https://blazor-university.com/) - Tutoriels interactifs
+
+</div>
+
+::right::
+
+<div v-click>
+
+## Références complémentaires
+
+🔗 [WebAssembly](https://webassembly.org/) - Standard WebAssembly
+
+🔗 [Razor Syntax](https://learn.microsoft.com/fr-fr/aspnet/core/mvc/views/razor) - Syntaxe Razor
+
+</div>
+
+---
+layout: two-cols-header
+---
+
+# Lexique
+
+::left::
+
+<div v-click>
+
+**.NET** <small class="opacity-50">(Plateforme de développement)</small>
+Plateforme unifiée pour développer des applications multi-plateformes
+
+**CLR** <small class="opacity-50">(Common Language Runtime)</small>
+Environnement d'exécution gérant la mémoire et la sécurité
+
+**Razor** <small class="opacity-50">(Syntaxe de template)</small>
+Syntaxe combinant HTML et C# pour les vues
+
+**Blazor** <small class="opacity-50">(Framework UI)</small>
+Framework pour créer des interfaces web interactives en C#
+
+</div>
+
+::right::
+
+<div v-click>
+
+**WebAssembly** <small class="opacity-50">(WASM)</small>
+Standard web binaire pour exécuter du code à performance native
+
+**SSR** <small class="opacity-50">(Server-Side Rendering)</small>
+Rendu côté serveur des pages web
+
+**CSR** <small class="opacity-50">(Client-Side Rendering)</small>
+Rendu côté client dans le navigateur
+
+**Component** <small class="opacity-50">(Composant)</small>
+Bloc d'UI autonome et réutilisable
+
+</div>
+
+---
 layout: center
 class: text-center
 ---
@@ -54,7 +128,7 @@ image: https://cover.sli.dev?4
 <!-- 
 Historique du .NET Framework
 
-    Le .NET Framework a été lancé par Microsoft en 2002 pour simplifier le développement d’applications Windows, avec une prise en charge de plusieurs langages (C#, VB.NET, etc.) et une gestion centralisée de la mémoire, de la sécurité et des exceptions via le Common Language Runtime (CLR)
+    Le .NET Framework a été lancé par Microsoft en 2002 pour simplifier le développement d'applications Windows, avec une prise en charge de plusieurs langages (C#, VB.NET, etc.) et une gestion centralisée de la mémoire, de la sécurité et des exceptions via le Common Language Runtime (CLR)
 
 Les versions majeures ont apporté des évolutions importantes :
     .NET 1.0 (2002) : Première version, support multi-langages, Windows uniquement.
@@ -64,7 +138,7 @@ Les versions majeures ont apporté des évolutions importantes :
 
 Limites du .NET Framework
     Plateforme uniquement Windows.
-    Difficulté à suivre l’évolution rapide des technologies (cloud, mobile, IoT).
+    Difficulté à suivre l'évolution rapide des technologies (cloud, mobile, IoT).
     Complexité croissante avec la multiplication des frameworks (Xamarin, .NET Core, etc.)
  -->
 
@@ -78,7 +152,7 @@ image: https://cover.sli.dev?5
 <v-clicks class="pt-8">
 
   * .NET Core est apparu en 2016 pour répondre aux besoins de développement multiplateforme (Windows, Linux, macOS)
-  * En 2020, Microsoft a lancé .NET 5, fusionnant .NET Framework, .NET Core et Xamarin en une plateforme unifiée appelée simplement “.NET”
+  * En 2020, Microsoft a lancé .NET 5, fusionnant .NET Framework, .NET Core et Xamarin en une plateforme unifiée appelée simplement ".NET"
   * Les nouvelles versions de .NET ont continuer avec des améliorations en performance, sécurité et support multiplateforme
   * Actuellement en version .NET 9 (2024)
 
@@ -92,18 +166,18 @@ image: https://cover.sli.dev?5
 
 Unification avec .NET 5 et versions ultérieures
 
-    En 2020, Microsoft a lancé .NET 5, fusionnant .NET Framework, .NET Core et Xamarin en une plateforme unifiée appelée simplement “.NET”
+    En 2020, Microsoft a lancé .NET 5, fusionnant .NET Framework, .NET Core et Xamarin en une plateforme unifiée appelée simplement ".NET"
 
-Objectif : une expérience de développement cohérente pour tous les types d’applications (web, desktop, mobile, cloud, IoT).
+Objectif : une expérience de développement cohérente pour tous les types d'applications (web, desktop, mobile, cloud, IoT).
 
 .NET 6 (2021), .NET 7, .NET 8 (2023) et .NET 9 (2024) poursuivent cette unification, avec des améliorations continues en performance, sécurité et support multiplateforme
 
-.NET aujourd’hui (2025)
+.NET aujourd'hui (2025)
     Plateforme unique, moderne, open source, performante et sécurisée.
     Supporte le développement sur Windows, Linux, macOS, Android, iOS, et le cloud.
     Utilisé dans des secteurs variés (banque, IoT, applications web, etc.) grâce à sa flexibilité et son écosystème riche
 
-Les dernières versions (jusqu’à .NET 9 en 2024) apportent des mises à jour régulières de sécurité et de fonctionnalités
+Les dernières versions (jusqu'à .NET 9 en 2024) apportent des mises à jour régulières de sécurité et de fonctionnalités
  -->
 
 ---
@@ -253,7 +327,9 @@ Bien que parfois présenté comme un "JavaScript nouvelle génération", WASM es
 
 [Documentation](https://learn.microsoft.com/fr-fr/aspnet/core/blazor/?view=aspnetcore-9.0)
 
- ```razor
+::left::
+
+```razor {1-7|9|11-17|all}
 @* Fichier Counter.razor *@
 <PageTitle>Counter</PageTitle>
 
@@ -271,24 +347,87 @@ Bien que parfois présenté comme un "JavaScript nouvelle génération", WASM es
         currentCount++;
     }
 }
- ```
+```
+
+::right::
+
+<div v-click="1">
+
+**Structure du fichier**
+- Directive `@*` pour les commentaires
+- Balises HTML classiques
+- `@currentCount` affiche la valeur
+
+</div>
+
+<div v-click="2">
+
+**Événements**
+- `@onclick` lie l'événement au clic
+- Méthode C# appelée automatiquement
+
+</div>
+
+<div v-click="3">
+
+**Code C#**
+- Bloc `@code` contient la logique
+- Variables privées et méthodes
+- Mise à jour automatique de l'UI
+
+</div>
 
 <!-- 
 
-Les applications Blazor sont basées sur des composants. Dans Blazor, un composant est un élément d’IU, par exemple une page, une boîte de dialogue ou un formulaire d’entrée de données.
+Les applications Blazor sont basées sur des composants. Dans Blazor, un composant est un élément d'IU, par exemple une page, une boîte de dialogue ou un formulaire d'entrée de données.
 
 Les composants sont des classes C# .NET intégrées dans des assemblys .NET qui :
 
-    Définissent la logique de rendu de l’interface utilisateur flexible.
-    Gèrent les événements de l’utilisateur.
+    Définissent la logique de rendu de l'interface utilisateur flexible.
+    Gèrent les événements de l'utilisateur.
     Peuvent être imbriqués et réutilisés.
     Peuvent être partagés et distribués en tant que bibliothèques de classes Razor ou en tant que packages NuGet.
 
-La classe de composant est généralement écrite sous la forme d’une page de balises Razor avec l’extension de fichier .razor. Dans Blazor, les composants sont appelés officiellement composants Razor, et officieusement composants Blazor. Razor est une syntaxe qui combine des balises HTML à du code C# destiné à améliorer la productivité des développeurs. Razor vous permet de basculer entre les balises HTML et C# dans le même fichier tout en bénéficiant du support IntelliSense pour la programmation dans Visual Studio.
+La classe de composant est généralement écrite sous la forme d'une page de balises Razor avec l'extension de fichier .razor. Dans Blazor, les composants sont appelés officiellement composants Razor, et officieusement composants Blazor. Razor est une syntaxe qui combine des balises HTML à du code C# destiné à améliorer la productivité des développeurs. Razor vous permet de basculer entre les balises HTML et C# dans le même fichier tout en bénéficiant du support IntelliSense pour la programmation dans Visual Studio.
 
-Blazor utilise des balises HTML naturelles pour la composition de l’IU. Les balises Razor suivantes illustrent un composant qui incrémente un compteur lorsque l’utilisateur sélectionne un bouton.
+Blazor utilise des balises HTML naturelles pour la composition de l'IU. Les balises Razor suivantes illustrent un composant qui incrémente un compteur lorsque l'utilisateur sélectionne un bouton.
 
  -->
+
+---
+
+# Exercice Pratique - Créer un Composant
+
+**Créer un composant `Greeting.razor` avec :**
+
+<div v-click>
+
+1. **Paramètre** :
+   - `Name` (string)
+
+</div>
+
+<div v-click>
+
+2. **Affichage** :
+   - "Bonjour {Name} !"
+   - Bouton "Changer de nom"
+
+</div>
+
+<div v-click>
+
+3. **Comportement** :
+   - Au clic, demander un nouveau nom
+   - Mettre à jour l'affichage
+
+</div>
+
+<div v-click>
+
+**Durée estimée** : 10 minutes
+
+</div>
 
 ---
 

@@ -1,5 +1,3 @@
----
-
 # Navigation
 
 La Palette de Commandes : votre GPS

@@ -1,5 +1,3 @@
----
-
 # VS Code et Productivité
 
 Les 3 piliers du développement efficace

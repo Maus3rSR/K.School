@@ -1,5 +1,3 @@
----
-
 # Navigation
 
 Naviguer dans le code

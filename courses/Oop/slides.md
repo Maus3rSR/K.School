@@ -17,6 +17,14 @@ Objectif : Comprendre les concepts fondamentaux de la POO et créer ses premièr
 -->
 
 ---
+src: ./sections/00-ressources.md
+---
+
+---
+src: ./sections/00-lexique.md
+---
+
+---
 src: ./sections/00-introduction.md
 ---
 

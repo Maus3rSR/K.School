@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "npx tsx --watch demo/hello.ts",
-    "build": "tsc demo/hello.ts",
+    "dev": "npx tsx --watch demo/index.ts",
+    "build": "tsc demo/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

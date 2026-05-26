@@ -40,10 +40,9 @@ Votre système doit respecter ces contraintes :
 
 ## 🏗️ Partie 1 : Modéliser les Données de Base
 
-### Étape 1.1 : Les types unions pour les états
+### Étape 1.1 : Les types unions
 
-Créez trois types union pour représenter :
-- `StatutStock` : les états possibles d'un produit (`"en_stock"`, `"rupture"`, `"commande"`)
+Créez deux types union pour représenter :
 - `Rarete` : les niveaux de rareté (`"commune"`, `"rare"`, `"epique"`)
 - `ModePaiement` : les moyens de paiement acceptés (`"especes"`, `"carte"`, `"echange"`)
 
@@ -57,7 +56,7 @@ Créez une interface `Produit` avec :
 - `nom` : le nom du produit
 - `prix` : le prix en pièces d'or
 
-**💡 Pourquoi ?** Cette interface servira de base réutilisable.
+**💡 Pourquoi ?** Cette interface servira de base réutilisable pour tous les types de produits de la boutique (objets magiques, ingrédients, etc.).
 
 ---
 
@@ -65,7 +64,6 @@ Créez une interface `Produit` avec :
 
 Créez une interface `ObjetMagique` qui **étend** `Produit` et ajoute :
 - `effet` : description de l'effet magique
-- `statut` : le statut actuel (utilisez le type `StatutStock`)
 - `rarete` : le niveau de rareté (utilisez le type `Rarete`)
 
 **💡 Pourquoi ?** L'extension d'interface permet de composer des types complexes à partir de bases simples.
@@ -119,59 +117,82 @@ const stock: Stock = {
 ```
 
 Créez ensuite 3 objets magiques :
-- Une potion de soin (15 pièces, commune)
-- Un élixir de mana (20 pièces, rare)
-- Un parchemin de feu (35 pièces, épique)
+- Une potion de soin (15 pièces, commune, effet : "Restaure 20 points de vie")
+- Un élixir de mana (20 pièces, rare, effet : "Régénère 50 points de mana")
+- Un parchemin de feu (35 pièces, épique, effet : "Inflige 100 dégâts de feu")
 
-Regroupez-les dans un tableau `catalogue`.
+Regroupez-les dans un tableau `catalogue: ObjetMagique[]`.
 
 ---
 
 ## 🏗️ Partie 3 : Les Types Utilitaires
 
-### Étape 3.1 : Pick pour créer un résumé
+### Étape 3.1 : Pick pour créer un résumé catalogue
 
-Créez un type `ResumeObjet` en utilisant `Pick<ObjetMagique, "nom" | "prix" | "rarete">`.
+Créez un type `ResumeProduit` en utilisant `Pick<ObjetMagique, "nom" | "prix" | "rarete">`.
 
-**💡 Pourquoi ?** Pour afficher un catalogue simplifié sans tous les détails.
+**💡 Pourquoi ?** Pour afficher un catalogue simplifié sans tous les détails (effet, statut). Ce type est générique et pourrait s'appliquer à d'autres produits.
 
-**Défi** : Créez une fonction `creerResume(objet: ObjetMagique): ResumeObjet` qui extrait ces 3 propriétés.
+**Terminologie** : Un **résumé** est une vue partielle pour l'affichage catalogue.
+
+**Défi** : Créez une fonction `creerResume(objet: ObjetMagique): ResumeProduit` qui extrait ces 3 propriétés.
 
 ---
 
-### Étape 3.2 : Omit pour une vue simplifiée
+### Étape 3.2 : Omit pour exclure une propriété
 
-Créez un type `ObjetSansStatut` en utilisant `Omit<ObjetMagique, "statut">`.
+Créez un type `ProduitSansRarete` en utilisant `Omit<ObjetMagique, "rarete">`.
 
-**💡 Pourquoi ?** Pour créer une fiche produit avant qu'il ne soit mis en stock (le statut sera ajouté après).
+**💡 Pourquoi ?** Pour créer une vue simplifiée d'un produit sans sa rareté (utile pour un affichage basique ou un export).
+
+**Défi** : Créez une fonction `simplifierProduit(objet: ObjetMagique): ProduitSansRarete` qui retourne l'objet sans la propriété `rarete`.
 
 ---
 
 ### Étape 3.3 : Partial pour les mises à jour
 
-Créez un type `MiseAJourObjet` en utilisant `Partial<ObjetMagique>`.
+Créez un type `MiseAJourProduit` en utilisant `Partial<ObjetMagique>`.
 
-**💡 Pourquoi ?** Pour permettre de modifier seulement certaines propriétés d'un objet (par exemple, changer uniquement le prix).
+**💡 Pourquoi ?** Pour permettre de modifier seulement certaines propriétés d'un produit (par exemple, changer uniquement le prix ou l'effet). Utile pour les ajustements sans recréer tout l'objet.
 
-**Défi** : Créez une fonction `appliquerMiseAJour(objet: ObjetMagique, maj: MiseAJourObjet): ObjetMagique` qui fusionne les modifications.
+**Défi** : Créez une fonction `appliquerMiseAJour(objet: ObjetMagique, maj: MiseAJourProduit): ObjetMagique` qui fusionne les modifications.
 
 ---
 
 ### Étape 3.4 : Readonly pour protéger les données
 
-Créez un type `ObjetImmuable` en utilisant `Readonly<ObjetMagique>`.
+Créez un type `ProduitImmuable` en utilisant `Readonly<ObjetMagique>`.
 
-**💡 Pourquoi ?** Pour créer une version en lecture seule d'un objet (utile pour l'historique des ventes).
+**💡 Pourquoi ?** Pour créer une version en lecture seule d'un produit (utile pour l'historique des ventes). Une fois vendu, le produit ne doit plus être modifié.
 
 ---
 
 ## 🏗️ Partie 4 : La Logique Métier
 
-### Étape 4.1 : Fonction d'affichage
+### Étape 4.1 : Fonctions utilitaires
 
-Créez une fonction `afficherObjet(objet: ObjetMagique): string` qui retourne une description formatée.
+**A) Fonction de calcul de statut**
 
-**Exemple de retour** : `"Potion de soin coûte 15 pièces d'or. Effet : Restaure 20 points de vie."`
+Créez une fonction `obtenirStatut(nomProduit: string, stock: Stock): "en_stock" | "rupture"` qui :
+- Retourne `"en_stock"` si `stock[nomProduit] > 0`
+- Retourne `"rupture"` sinon
+
+**💡 Pourquoi ?** Cette fonction centralise la logique de calcul du statut depuis le stock.
+
+**B) Fonction de calcul de prix avec rareté**
+
+Créez une fonction `calculerPrixAvecRarete(prixBase: number, rarete: Rarete): number` qui applique un multiplicateur :
+- `"commune"` : ×1.0
+- `"rare"` : ×1.5
+- `"epique"` : ×2.0
+
+**💡 Pourquoi ?** Cela donne une utilité concrète au type `Rarete` dans la logique métier.
+
+**C) Fonction d'affichage**
+
+Créez une fonction `afficherObjet(objet: ObjetMagique, stock: Stock): string` qui retourne une description formatée incluant le statut calculé dynamiquement.
+
+**Exemple de retour** : `"Potion de soin (commune) - 15 pièces d'or - EN STOCK. Effet : Restaure 20 points de vie."`
 
 ---
 
@@ -179,12 +200,12 @@ Créez une fonction `afficherObjet(objet: ObjetMagique): string` qui retourne un
 
 Créez un type `Vente` qui enregistre :
 - `vendeur` : qui a effectué la vente
-- `objet` : quel objet a été vendu (en lecture seule avec `Readonly<ObjetMagique>`)
+- `objet` : quel objet a été vendu (utilisez `ProduitImmuable`)
 - `modePaiement` : comment le client a payé
 - `montant` : le montant de la transaction
 - `timestamp` : la date de la vente (type `Date`)
 
-**💡 Pourquoi ?** L'objet vendu doit être en lecture seule pour éviter de modifier l'historique.
+**💡 Pourquoi ?** L'objet vendu doit être immuable pour éviter de modifier l'historique. C'est ici qu'on utilise `ProduitImmuable` !
 
 ---
 
@@ -204,12 +225,13 @@ function vendreObjet(
 
 **Logique à implémenter** :
 1. Vérifier que la boutique est ouverte (sinon retourner `null`)
-2. Vérifier que l'objet est en stock (quantité > 0, sinon retourner `null`)
-3. Vérifier que le statut n'est pas `"rupture"` (sinon retourner `null`)
+2. Vérifier que l'objet est en stock avec `obtenirStatut()` (si `"rupture"`, retourner `null`)
+3. Calculer le prix final avec le bonus de rareté (utilisez `calculerPrixAvecRarete`)
 4. Décrémenter le stock de 1
-5. Ajouter le prix à la caisse
-6. Si le stock atteint 0, mettre le statut de l'objet à `"rupture"`
-7. Retourner un objet `Vente` avec toutes les informations
+5. Ajouter le prix final à la caisse
+6. Retourner un objet `Vente` avec toutes les informations (objet en `ProduitImmuable`)
+
+**💡 Pourquoi ?** Plus besoin de mettre à jour un champ `statut` ! Le statut est toujours calculé depuis le stock, garantissant la cohérence.
 
 **💡 Pourquoi ?** Cette fonction centralise toute la logique métier et garantit la cohérence des données.
 
@@ -217,9 +239,8 @@ function vendreObjet(
 
 ### Étape 4.4 : Fonction de réapprovisionnement
 
-Créez une fonction `reapprovisionner(nomObjet: string, quantite: number, stock: Stock, objet: ObjetMagique): void` qui :
+Créez une fonction `reapprovisionner(nomObjet: string, quantite: number, stock: Stock): void` qui :
 1. Ajoute la quantité au stock
-2. Si le statut était `"rupture"`, le repasse à `"en_stock"`
 
 ---
 
@@ -230,9 +251,11 @@ Votre système doit :
 - [ ] Empêcher les ventes quand la boutique est fermée
 - [ ] Empêcher les ventes d'objets en rupture
 - [ ] Mettre à jour automatiquement le stock et la caisse
-- [ ] Changer le statut en `"rupture"` quand le stock atteint 0
+- [ ] Calculer dynamiquement le statut depuis le stock
 - [ ] Enregistrer toutes les informations d'une vente
-- [ ] Utiliser tous les types utilitaires de façon pertinente
+- [ ] Utiliser tous les types utilitaires de façon pertinente dans le code final
+- [ ] Exploiter le type `Rarete` dans la logique métier (calcul de prix)
+- [ ] Démontrer l'immutabilité avec `ProduitImmuable`
 
 ---
 
@@ -241,45 +264,75 @@ Votre système doit :
 Testez votre système avec ce scénario :
 
 ```typescript
-// Afficher le catalogue
-catalogue.forEach(objet => console.log(afficherObjet(objet)));
+// Test 1 : Créer un résumé catalogue
+const resumePotion = creerResume(potion);
+console.log("Résumé:", resumePotion); // Devrait avoir seulement nom, prix, rarete
 
-// Vente 1 : Potion (devrait réussir)
+// Test 2 : Simplifier un produit (sans rareté)
+const potionSimple = simplifierProduit(potion);
+console.log("Potion simplifiée:", potionSimple); // Sans la propriété rarete
+
+// Test 3 : Vérifier les statuts dynamiques
+console.log("Statut potion:", obtenirStatut("Potion de soin", stock)); // "en_stock"
+console.log("Statut parchemin:", obtenirStatut("Parchemin de feu", stock)); // "en_stock"
+
+// Test 4 : Afficher le catalogue avec statuts
+catalogue.forEach(objet => console.log(afficherObjet(objet, stock)));
+
+// Test 5 : Vente 1 - Potion (devrait réussir)
 const vente1 = vendreObjet(vendeur, potion, stock, caisse, "carte");
 console.log("Vente 1:", vente1);
-console.log("Stock potion:", stock["Potion de soin"]);
-console.log("Caisse:", caisse.montant);
+console.log("Stock potion:", stock["Potion de soin"]); // 11
+console.log("Statut potion:", obtenirStatut("Potion de soin", stock)); // "en_stock"
+console.log("Caisse:", caisse.montant); // 120 + (15 × 1.0) = 135
 
-// Vente 2 : Parchemin (devrait réussir)
+// Test 6 : Vente 2 - Parchemin épique (devrait réussir avec bonus rareté)
 const vente2 = vendreObjet(vendeur, parchemin, stock, caisse, "especes");
 console.log("Vente 2:", vente2);
-console.log("Stock parchemin:", stock["Parchemin de feu"]);
-console.log("Statut parchemin:", parchemin.statut); // Devrait être "rupture"
+console.log("Stock parchemin:", stock["Parchemin de feu"]); // 0
+console.log("Statut parchemin:", obtenirStatut("Parchemin de feu", stock)); // "rupture" (calculé automatiquement !)
+console.log("Caisse:", caisse.montant); // 135 + (35 × 2.0) = 205
 
-// Vente 3 : Parchemin à nouveau (devrait échouer)
+// Test 7 : Vente 3 - Parchemin à nouveau (devrait échouer, rupture)
 const vente3 = vendreObjet(vendeur, parchemin, stock, caisse, "carte");
-console.log("Vente 3:", vente3); // Devrait être null
+console.log("Vente 3:", vente3); // null (statut calculé = "rupture")
 
-// Fermer la boutique
+// Test 8 : Mise à jour de prix
+const majPrix: MiseAJourProduit = { prix: 18 };
+const potionMaj = appliquerMiseAJour(potion, majPrix);
+console.log("Prix potion après MAJ:", potionMaj.prix); // 18
+
+// Test 9 : Fermer la boutique
 vendeur.boutiqueOuverte = false;
 
-// Vente 4 : Élixir (devrait échouer, boutique fermée)
+// Test 10 : Vente 4 - Élixir (devrait échouer, boutique fermée)
 const vente4 = vendreObjet(vendeur, mana, stock, caisse, "especes");
-console.log("Vente 4:", vente4); // Devrait être null
+console.log("Vente 4:", vente4); // null
 
-// Réapprovisionner
+// Test 11 : Réapprovisionner
 vendeur.boutiqueOuverte = true;
-reapprovisionner("Parchemin de feu", 5, stock, parchemin);
-console.log("Stock parchemin après réappro:", stock["Parchemin de feu"]);
-console.log("Statut parchemin après réappro:", parchemin.statut); // Devrait être "en_stock"
+reapprovisionner("Parchemin de feu", 5, stock);
+console.log("Stock parchemin après réappro:", stock["Parchemin de feu"]); // 5
+console.log("Statut parchemin après réappro:", obtenirStatut("Parchemin de feu", stock)); // "en_stock" (calculé automatiquement !)
+
+// Test 12 : Vérifier l'immutabilité de l'historique
+if (vente1) {
+  console.log("Objet dans vente1:", vente1.objet);
+  // vente1.objet.prix = 999; // ❌ Erreur TypeScript : readonly!
+}
 ```
 
 **Résultats attendus** :
-- Vente 1 : succès, stock passe à 11, caisse à 135
-- Vente 2 : succès, stock passe à 0, statut à "rupture", caisse à 170
-- Vente 3 : échec (null)
-- Vente 4 : échec (null)
-- Réapprovisionnement : stock à 5, statut à "en_stock"
+- Test 1 : `resumePotion` contient uniquement `nom`, `prix`, `rarete`
+- Test 2 : `potionSimple` sans la propriété `rarete`
+- Test 3 : Statuts calculés dynamiquement = `"en_stock"`
+- Test 5 : Vente 1 réussie, stock → 11, statut calculé = `"en_stock"`, caisse → 135
+- Test 6 : Vente 2 réussie, stock → 0, statut calculé = `"rupture"`, caisse → 205
+- Test 7 : Vente 3 échouée (null, rupture détectée)
+- Test 8 : Prix potion → 18
+- Test 10 : Vente 4 échouée (null, boutique fermée)
+- Test 11 : Stock → 5, statut calculé = `"en_stock"`
+- Test 12 : Erreur de compilation si on tente de modifier `vente1.objet`
 
 ---
 

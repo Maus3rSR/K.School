@@ -72,4 +72,3 @@ Un **paradigme** = une façon de penser et d'organiser le code
 - Chaque paradigme a ses avantages selon le contexte
 - La POO est particulièrement adaptée pour modéliser des systèmes complexes
 -->
-

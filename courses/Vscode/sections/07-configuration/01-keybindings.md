@@ -1,5 +1,3 @@
----
-
 # Configuration Avancée
 
 Keybindings personnalisés

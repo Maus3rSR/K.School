@@ -1,5 +1,3 @@
----
-
 # Édition
 
 Déplacer et dupliquer des lignes

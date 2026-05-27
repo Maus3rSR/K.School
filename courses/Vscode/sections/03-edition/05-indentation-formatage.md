@@ -1,5 +1,3 @@
----
-
 # Édition
 
 Indentation et formatage

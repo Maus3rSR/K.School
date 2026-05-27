@@ -1,5 +1,3 @@
----
-
 # Multi-Curseur
 
 Ajouter des curseurs

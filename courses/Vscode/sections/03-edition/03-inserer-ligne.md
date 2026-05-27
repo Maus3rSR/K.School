@@ -1,5 +1,3 @@
----
-
 # Édition
 
 Insérer une ligne

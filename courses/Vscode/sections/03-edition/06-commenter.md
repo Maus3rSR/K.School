@@ -1,5 +1,3 @@
----
-
 # Édition
 
 Commenter rapidement

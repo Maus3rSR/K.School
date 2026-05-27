@@ -1,5 +1,3 @@
----
-
 # Bonnes Pratiques
 
 Apprendre progressivement

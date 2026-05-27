@@ -45,6 +45,7 @@ Create `./courses/[FOLDER_NAME]/package.json` with this content:
     "export": "slidev export"
   },
   "dependencies": {
+    "@k.school/slidev-addon-ui": "catalog:",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
     "vue": "catalog:"
@@ -67,6 +68,8 @@ background: https://cover.sli.dev?1
 highlighter: shiki
 lineNumbers: true
 monaco: true
+addons:
+  - "@k.school/slidev-addon-ui"
 ---
 ```
 

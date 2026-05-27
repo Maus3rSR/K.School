@@ -126,24 +126,32 @@ Exemples SPA : Gmail, Google Maps, Figma.
 -->
 
 ---
-layout: center
-class: text-center
----
 
 # Introduction à React
-MPA vs SPA — En image
+JavaScript existait déjà... pourquoi React ?
 
-```
-MPA :  [Page 1] → clic → [Page 2 entière] → clic → [Page 3 entière]
-         ↑ rechargement complet à chaque fois
+<v-clicks>
 
-SPA :  [Shell HTML] → clic → [mise à jour partielle] → clic → [mise à jour partielle]
-         ↑ chargé une seule fois, React gère le reste
-```
+- **JavaScript permettait déjà l'interactivité** (jQuery, vanilla JS) — menus déroulants, sliders, etc.
+- **Problème** : Sur une **application complexe** (type Facebook), le code devenait un **cauchemar à maintenir**
+- **Le vrai besoin** : Gérer des **interfaces dynamiques à grande échelle** sans que le code ne devienne ingérable
+
+</v-clicks>
+
+<v-click>
+
+## La solution de React (et Vue, Angular)
+
+- **Composants** : Découper l'UI en briques **réutilisables** et **indépendantes**
+- **Virtual DOM** : Mettre à jour uniquement ce qui a changé, **sans manipuler directement le DOM**
+- **Data binding unidirectionnel** : Flux de données prévisible, bugs plus faciles à tracer
+
+</v-click>
 
 <!--
-Si possible, montrer en live : ouvrir Gmail et inspecter le réseau — très peu de rechargements complets.
-Comparer avec un site classique WordPress.
+Piège à éviter : "JavaScript ne suffisait pas" → FAUX. Il suffisait pour de l'interactivité simple.
+Mais React a révolutionné la façon d'organiser le code sur des apps complexes.
+Analogie : JavaScript = tournevis. React = perceuse-visseuse avec embouts interchangeables.
 -->
 
 ---

@@ -19,7 +19,7 @@ Les outils — Vue d'ensemble
 
 <TermCard term="npm" translation="(Node Package Manager)" definition="Gestionnaire de paquets par défaut de Node.js" />
 
-<TermCard term="pnpm" definition="Gestionnaire de paquets alternatif à npm, plus rapide et économe en espace disque" />
+<TermCard term="pnpm" translation="(Perfomant Node Package Manager)" definition="Gestionnaire de paquets alternatif à npm, plus rapide et économe en espace disque" />
 
 ::right::
 
@@ -44,7 +44,6 @@ Node.js — Le moteur
 - **Node.js** = JavaScript qui tourne **en dehors du navigateur**
 - Permet d'exécuter les outils de développement : Vite, compilateur TS, gestionnaire de paquets...
 - **Pas utilisé directement** dans vos composants React — c'est l'infrastructure
-- Version recommandée : **Node 18+** (LTS)
 
 </v-clicks>
 
@@ -95,16 +94,17 @@ npm run build
 
 ::right::
 
-## npx — Exécuter sans installer
+## npx — Exécuter des binaires sans installer
 
 ```bash
-# Créer un projet sans installer l'outil globalement
+# Exécuter un outil temporairement sans l'installer globalement
 npx create-vite mon-app
+npx tsc --init
 ```
 
 <v-click>
 
-> `npx` = exécute un paquet **temporairement** sans le garder installé
+> `npx` = exécute le **binaire** d'un paquet : d'abord dans `node_modules` local, sinon télécharge temporairement
 
 </v-click>
 
@@ -165,11 +165,16 @@ pnpm dlx = équivalent de npx pour pnpm.
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
 
 # L'écosystème React
-`package.json` — La carte d'identité du projet
+`package.json` — La carte d'identité d'un projet NodeJS
 
-```json {all|2-4|5-9|10-14|15-18}
+::left::
+
+```json {all|2-4|5-9|10-13|14-18}
 {
   "name": "mon-app",
   "version": "0.0.1",
@@ -191,16 +196,54 @@ pnpm dlx = équivalent de npx pour pnpm.
 }
 ```
 
+::right::
+
+<div v-click="1" class="text-sm">
+
+**Métadonnées**
+- Nom, version
+- `private: true` → évite pub accidentelle
+
+</div>
+
+<div v-click="2" class="text-sm">
+
+**Scripts**
+- Raccourcis commandes
+- `pnpm dev` = `"vite"`
+
+</div>
+
+<div v-click="3" class="text-sm">
+
+**Dependencies**
+- Paquets **nécessaires en production**
+- Envoyés au navigateur des utilisateurs
+
+</div>
+
+<div v-click="4" class="text-sm">
+
+**DevDependencies**
+- Outils de **développement uniquement**
+- Restent sur la machine du dev (build, tests...)
+
+</div>
+
 <!--
-dependencies = paquets nécessaires en production (React lui-même).
-devDependencies = paquets nécessaires seulement en développement (TypeScript, Vite...).
-scripts = raccourcis de commandes. "pnpm dev" exécute la valeur de "dev".
+Chaque highlight correspond à un v-click explicatif.
+Bien distinguer dependencies (prod) vs devDependencies (dev uniquement).
 -->
 
+---
+layout: two-cols-header
+layoutClass: gap-x-4
 ---
 
 # L'écosystème React
 `tsconfig.json` — La configuration TypeScript
+
+::left::
 
 ```json {all|2|3-5|6-10}
 {
@@ -208,9 +251,8 @@ scripts = raccourcis de commandes. "pnpm dev" exécute la valeur de "dev".
     "target": "ES2020",
     "lib": ["ES2020", "DOM"],
     "module": "ESNext",
-    "strict": true,
-    "jsx": "react-jsx",
     "moduleResolution": "bundler",
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
@@ -218,18 +260,38 @@ scripts = raccourcis de commandes. "pnpm dev" exécute la valeur de "dev".
 }
 ```
 
-<v-clicks>
+::right::
 
-- **`strict: true`** — active tous les contrôles TypeScript stricts (recommandé)
-- **`jsx: "react-jsx"`** — permet d'utiliser JSX/TSX dans les fichiers React
-- **`include: ["src"]`** — TypeScript surveille uniquement le dossier `src/`
+<div v-click="1" class="text-sm">
 
-</v-clicks>
+**`compilerOptions`**
+- Conteneur des options de compilation (TS > JS)
+
+</div>
+
+<div v-click="2" class="text-sm">
+
+**Options de base**
+- `target` : version JS cible
+- `lib` : APIs disponibles (DOM...)
+- `module` : système de modules
+- `moduleResolution` : comment résoudre les imports
+- etc.
+
+</div>
+
+<div v-click="3" class="text-sm">
+
+**Options React & qualité**
+- `strict` : contrôles stricts de TypeScript
+- `noUnused*` : détecte variables inutilisées
+- etc.
+
+</div>
 
 <!--
 Ne pas s'attarder trop longtemps ici — ce fichier est généré automatiquement par Vite.
 Les apprenants n'ont pas à le modifier pendant la formation.
-Juste savoir qu'il existe et à quoi il sert.
 📚 Référence : https://www.typescriptlang.org/tsconfig
 -->
 

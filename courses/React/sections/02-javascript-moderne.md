@@ -3,16 +3,16 @@ layout: cover
 background: https://cover.sli.dev?3
 ---
 
-# Chapitre 02 - JavaScript Moderne
+# Chapitre 02 - Rappels JavaScript Moderne
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 ES6+ — Pourquoi en parler ?
 
 <v-clicks>
 
-- React est écrit **avec** JavaScript moderne (ES6+)
+- JavaScript moderne (ES6+) est devenu le **standard incontournable** pour écrire du code React (et en dehors de React)
 - Le code React que vous lirez/écrirez utilise **ces syntaxes en permanence**
 - ES6 = ECMAScript 2015 — grosse mise à jour du langage
 - Ce n'est pas du "nouveau" JS — c'est le JS **standard aujourd'hui**
@@ -26,18 +26,23 @@ Rassurer : pas besoin de tout mémoriser maintenant, vous allez les voir des cen
 
 ---
 layout: two-cols-header
+layoutClass: 'gap-5'
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 `const` et `let` — Finies les `var`
-
-::left::
 
 ## Avant (à éviter)
 ```js
 var nom = "Alice"
 var nom = "Bob"   // ré-déclaration OK 😬
 ```
+
+<br/>
+
+## Aujourd'hui (préférable)
+
+::left::
 
 ## `let` — variable modifiable
 ```js
@@ -53,6 +58,8 @@ const PI = 3.14
 PI = 3            // ❌ Erreur ! const ne change pas
 ```
 
+::bottom::
+
 <v-click>
 
 > 💡 **Règle pratique** : utilisez toujours `const` par défaut, `let` si vous avez besoin de modifier.
@@ -67,7 +74,7 @@ Piège classique : confondre "const objet ne peut pas être réassigné" avec "s
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Arrow functions — Fonctions fléchées
 
 ```js
@@ -85,11 +92,11 @@ const direBonjour = (prenom) => {
 const direBonjour = (prenom) => "Bonjour " + prenom
 ```
 
-<v-click>
+<div v-click class="mt-5">
 
 > En React, **tous les composants** sont des fonctions. Les arrow functions sont omniprésentes.
 
-</v-click>
+</div>
 
 <!--
 Ne pas aborder `this` pour l'instant, c'est hors sujet pour la séance 1.
@@ -98,7 +105,7 @@ Insister sur la version courte : on la verra constamment dans les composants Rea
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Template literals — Chaînes de caractères modernes
 
 ```js
@@ -128,7 +135,7 @@ Très utilisés dans React pour les classes CSS dynamiques, les URLs, les messag
 layout: two-cols-header
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Destructuring — Déstructuration
 
 ::left::
@@ -174,7 +181,7 @@ Le destructuring est PARTOUT en React :
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Spread operator — L'opérateur `...`
 
 ```js
@@ -204,7 +211,7 @@ On verra ça en détail à la séance 4 avec useState.
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Modules — `import` / `export`
 
 ```js
@@ -233,7 +240,7 @@ Différence named export vs default export : important pour l'organisation du pr
 
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Méthodes de tableaux essentielles
 
 ```js
@@ -268,7 +275,7 @@ On utilisera map() dès la séance 5 pour afficher des listes.
 layout: default
 ---
 
-# JavaScript Moderne
+# Rappels JavaScript Moderne
 Récapitulatif
 
 <v-clicks>

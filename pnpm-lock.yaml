@@ -171,6 +171,8 @@ importers:
         specifier: 'catalog:'
         version: 5.9.3
 
+  scenarios/WishFlix: {}
+
 packages:
 
   '@antfu/install-pkg@1.1.0':

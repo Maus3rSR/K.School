@@ -312,6 +312,44 @@ layoutClass: gap-x-6
 - **Sélection** : Uniquement les termes techniques clés du cours (8-12 termes recommandés)
 - **Pas de `v-click`** sur les `<TermCard>` : les termes apparaissent directement
 
+### Lexiques Longs (> 12 termes)
+
+Quand le lexique dépasse 12 termes, le contenu risque de déborder de la slide. **Utiliser `maxHeight` avec overflow** sur les colonnes.
+
+**Syntaxe** : Envelopper chaque colonne dans une `<div>` avec classe `overflow-y-auto` et hauteur fixe.
+
+**Exemple avec overflow** :
+```md
+::left::
+
+<div class="h-[420px] overflow-y-auto pr-2">
+
+<TermCard term="API" translation="(Interface de Programmation)" definition="Interface permettant la communication entre applications" />
+
+<TermCard term="Callback" translation="(Fonction de rappel)" definition="Fonction passée en paramètre et exécutée plus tard" />
+
+<!-- ... autres TermCards ... -->
+
+</div>
+
+::right::
+
+<div class="h-[420px] overflow-y-auto pr-2">
+
+<TermCard term="Framework" translation="(Cadre de travail)" definition="Structure logicielle réutilisable pour développer" />
+
+<TermCard term="Payload" translation="(Charge utile)" definition="Données transmises dans une requête" />
+
+<!-- ... autres TermCards ... -->
+
+</div>
+```
+
+**Règles** :
+- **> 12 termes** → Ajouter `h-[420px] overflow-y-auto` sur chaque colonne
+- **≤ 12 termes** → Pas besoin de hauteur fixe (comportement naturel)
+- **`pr-2`** : Padding-right pour éviter que la scrollbar ne chevauche le contenu
+
 ### Objectifs Pédagogiques
 
 - Renforcer la mémorisation du vocabulaire technique

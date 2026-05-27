@@ -122,6 +122,9 @@ importers:
 
   courses/React:
     dependencies:
+      '@k.school/slidev-addon-ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@slidev/cli':
         specifier: 'catalog:'
         version: 52.14.2(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@nuxt/kit@3.15.1(rollup@4.60.1))(@types/markdown-it@14.1.2)(@types/node@22.19.17)(@vue/compiler-sfc@3.5.32)(markdown-it@14.1.1)(playwright-chromium@1.51.0)(postcss@8.5.9)(rollup@4.60.1)(tsx@4.19.2)

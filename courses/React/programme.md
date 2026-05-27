@@ -7,7 +7,7 @@
 - Rappels JavaScript moderne (ES6+, destructuring, arrow functions, modules)
 - SPA vs MPA, présentation d'une application web
 - Introduction TypeScript (types de base, pourquoi TS)
-- Créer une application React avec TypeScript (Vite + template `react-ts`)
+- Créer une application React avec TypeScript (Vite+ (https://viteplus.dev/) + template `react-ts`)
 - Structure d'un projet React
 
 ### **Séance 2 — JSX et premiers composants**

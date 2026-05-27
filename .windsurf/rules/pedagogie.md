@@ -52,11 +52,17 @@ Chaque support de cours doit inclure une slide "Lexique" positionnée **immédia
 - Renforcement du vocabulaire professionnel
 
 **Format** :
-- Termes en **anglais** (langue technique de référence)
-- Traduction/équivalent français en texte secondaire
-    - Ne pas traduire s'il n'existe rien de pertinent
-- Ordre **alphabétique** strict
+- Terme en **anglais** en premier (langue technique de référence)
+- Traduction française entre parenthèses `(fr)` **uniquement si différente** — ne pas dupliquer si identique
+- Ordre **alphabétique** strict sur le terme anglais
 - Définition concise (1 ligne maximum)
+
+**Exemples** :
+```
+**Inheritance** <small class="opacity-50">(Héritage)</small>   ← termes différents : traduction
+**Abstraction**                                                 ← identique : pas de traduction
+**Instance** <small class="opacity-50">(Objet)</small>         ← synonyme français pertinent
+```
 
 ## Règles Essentielles pour les Exercices
 

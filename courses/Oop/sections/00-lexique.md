@@ -8,19 +8,19 @@ layout: two-cols-header
 
 <div v-click>
 
-**Abstraction** <small class="opacity-50">(Abstraction)</small>
+**Abstraction**
 Simplifier la complexité en cachant les détails d'implémentation
 
-**Attribut** <small class="opacity-50">(Propriété, Membre, Champ)</small>
+**Attribute** <small class="opacity-50">(Attribut, Propriété)</small>
 Variable appartenant à une classe, stockant l'état d'un objet
 
-**Classe** <small class="opacity-50">(Class)</small>
+**Class** <small class="opacity-50">(Classe)</small>
 Modèle définissant la structure et le comportement d'objets
 
-**Constructeur** <small class="opacity-50">(Constructor)</small>
+**Constructor** <small class="opacity-50">(Constructeur)</small>
 Méthode spéciale appelée lors de la création d'un objet
 
-**Encapsulation** <small class="opacity-50">(Encapsulation)</small>
+**Encapsulation**
 Principe de cacher les détails internes et contrôler l'accès
 
 </div>
@@ -29,19 +29,19 @@ Principe de cacher les détails internes et contrôler l'accès
 
 <div v-click>
 
-**Héritage** <small class="opacity-50">(Inheritance)</small>
+**Inheritance** <small class="opacity-50">(Héritage)</small>
 Mécanisme permettant à une classe de réutiliser une autre classe
 
 **Instance** <small class="opacity-50">(Objet)</small>
 Réalisation concrète d'une classe en mémoire
 
-**Interface** <small class="opacity-50">(Interface)</small>
+**Interface**
 Contrat définissant des méthodes à implémenter
 
-**Méthode** <small class="opacity-50">(Method)</small>
+**Method** <small class="opacity-50">(Méthode)</small>
 Fonction appartenant à une classe, définissant un comportement
 
-**Polymorphisme** <small class="opacity-50">(Polymorphism)</small>
+**Polymorphism** <small class="opacity-50">(Polymorphisme)</small>
 Capacité à traiter différents types d'objets de manière uniforme
 
 </div>

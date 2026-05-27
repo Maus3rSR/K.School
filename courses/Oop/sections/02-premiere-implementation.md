@@ -278,15 +278,14 @@ Cas d'usage : valeurs par défaut sensées
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Première Implémentation
 
 Exercice Pratique - Créer une Classe Rectangle
 
-<!--
-Objectif : Appliquer les concepts vus (classe, attributs, constructeur, méthodes)
-Durée estimée : 15 minutes
--->
+::left::
 
 **Créer une classe `Rectangle` avec :**
 
@@ -298,6 +297,8 @@ Durée estimée : 15 minutes
    - Accepte `largeur` et `hauteur` en paramètres
    - Valeurs par défaut : 1 pour les deux
 
+::right::
+
 3. **Méthodes** :
    - `calculerAire()` : retourne largeur × hauteur
    - `calculerPerimetre()` : retourne 2 × (largeur + hauteur)
@@ -308,6 +309,9 @@ Durée estimée : 15 minutes
    - Afficher son aire et son périmètre
 
 <!--
+Objectif : Appliquer les concepts vus (classe, attributs, constructeur, méthodes)
+Durée estimée : 15 minutes
+
 Solution à préparer dans les exercices
 Critères de réussite : code compile, tests passent, méthodes correctes
 -->

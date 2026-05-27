@@ -133,33 +133,7 @@ Getters et Setters
 
 ::left::
 
-````md magic-move
-```ts
-class CompteBancaire {
-  private solde: number
-
-  constructor(soldeInitial: number) {
-    this.solde = soldeInitial
-  }
-}
-```
-
-```ts {8-11}
-class CompteBancaire {
-  private solde: number
-
-  constructor(soldeInitial: number) {
-    this.solde = soldeInitial
-  }
-
-  // Getter : lire le solde
-  getSolde(): number {
-    return this.solde
-  }
-}
-```
-
-```ts {13-18}
+```ts {1-7|8-11|13-25|all}
 class CompteBancaire {
   private solde: number
 
@@ -172,30 +146,7 @@ class CompteBancaire {
     return this.solde
   }
 
-  // Setter : modifier le solde avec validation
-  deposer(montant: number): void {
-    if (montant <= 0) {
-      throw new Error("Montant invalide")
-    }
-    this.solde += montant
-  }
-}
-```
-
-```ts {20-25}
-class CompteBancaire {
-  private solde: number
-
-  constructor(soldeInitial: number) {
-    this.solde = soldeInitial
-  }
-
-  // Getter : lire le solde
-  getSolde(): number {
-    return this.solde
-  }
-
-  // Setter : modifier le solde avec validation
+  // Setters : modifier le solde avec validation
   deposer(montant: number): void {
     if (montant <= 0) {
       throw new Error("Montant invalide")
@@ -211,7 +162,6 @@ class CompteBancaire {
   }
 }
 ```
-````
 
 ::right::
 
@@ -219,29 +169,22 @@ class CompteBancaire {
 
 <div v-click="1">
 
-**Contrôle d'accès**
-- Validation des données
-- Règles métier appliquées
+**Getter pour lire**
+- Accès contrôlé aux données privées
+- Lecture sans modification possible
 
 </div>
 
 <div v-click="2">
 
-**Lecture seule**
-- Getter sans setter
-- Données protégées en écriture
+**Setters contrôlés**
+- Pas de setter direct `setSolde()`
+- Méthodes métier spécifiques (`deposer`, `retirer`)
+- Validation et règles métier appliquées
 
 </div>
 
-<div v-click="3">
-
-**Calculs dynamiques**
-- Valeur calculée à la demande
-- Pas stockée en attribut
-
-</div>
-
-<div v-click="4" class="mt-4">
+<div v-click="3" class="mt-4">
 
 ```ts
 const compte = new CompteBancaire(100)

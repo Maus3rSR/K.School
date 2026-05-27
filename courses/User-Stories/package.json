@@ -9,6 +9,7 @@
     "export": "slidev export --dark"
   },
   "dependencies": {
+    "@k.school/slidev-addon-ui": "workspace:*",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
     "playwright-chromium": "catalog:",

@@ -6,7 +6,7 @@ layout: two-cols-header
 
 ::left::
 
-<div v-click>
+<div>
 
 ## Liens utiles
 
@@ -20,7 +20,7 @@ layout: two-cols-header
 
 ::right::
 
-<div v-click>
+<div>
 
 ## Références complémentaires
 
@@ -29,42 +29,5 @@ layout: two-cols-header
 🔗 [Dockerfile Best Practices](https://docs.docker.com/develop/dev-best-practices/) - Bonnes pratiques
 
 🔗 [CNCF Landscape](https://landscape.cncf.io/) - Écosystème Cloud Native
-
-</div>
-
----
-layout: two-cols-header
----
-
-# Lexique
-
-::left::
-
-<div v-click>
-
-**Container** <small class="opacity-50">(Conteneur)</small>
-Unité standardisée pour le développement logiciel
-
-**Image** : Template immuable pour créer des conteneurs
-
-**Layer** <small class="opacity-50">(Couche)</small>
-Strate de l'image Docker en lecture seule
-
-**Volume** : Système de persistance des données
-
-</div>
-
-::right::
-
-<div v-click>
-
-**Port Mapping** : Redirection de ports entre hôte et conteneur
-
-**Dockerfile** : Fichier de description pour construire une image
-
-**Docker Compose** : Outil d'orchestration multi-conteneurs
-
-**Registry** <small class="opacity-50">(Registre)</small>
-Service de stockage d'images (ex: Docker Hub)
 
 </div>

@@ -6,7 +6,7 @@ layout: two-cols-header
 
 ::left::
 
-<div v-click>
+<div>
 
 ## Liens utiles
 
@@ -20,7 +20,7 @@ layout: two-cols-header
 
 ::right::
 
-<div v-click>
+<div>
 
 ## Références de raccourcis
 

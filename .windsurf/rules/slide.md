@@ -58,7 +58,7 @@ layout: two-cols-header
 
 ::left::
 
-<div v-click>
+<div>
 
 ## Liens utiles
 
@@ -70,7 +70,7 @@ layout: two-cols-header
 
 ::right::
 
-<div v-click>
+<div>
 
 ## Références complémentaires
 
@@ -80,6 +80,8 @@ layout: two-cols-header
 
 </div>
 ```
+
+**Pas de `v-click`** sur les ressources : elles doivent être visibles immédiatement, pas révélées progressivement.
 
 **Objectif** : Avoir les ressources directement accessibles au début du cours, pas à la fin. Les apprenants peuvent ainsi les consulter pendant toute la formation.
 
@@ -274,51 +276,41 @@ class Point {
 
 ### Format Standard
 
+Utiliser le composant `<TermCard>` de l'addon `@k.school/slidev-addon-ui` (auto-enregistré, pas d'import nécessaire).
+
 ```md
 ---
 layout: two-cols-header
+layoutClass: gap-x-6
 ---
 
 # Lexique
 
 ::left::
 
-<div v-click>
+<TermCard term="API" translation="(Interface de Programmation)" definition="Interface permettant la communication entre applications" />
 
-**API** <small class="opacity-50">(Interface de Programmation)</small>
-Interface permettant la communication entre applications
+<TermCard term="Callback" translation="(Fonction de rappel)" definition="Fonction passée en paramètre et exécutée plus tard" />
 
-**Callback** <small class="opacity-50">(Fonction de rappel)</small>
-Fonction passée en paramètre et exécutée plus tard
-
-**Dependency** <small class="opacity-50">(Dépendance)</small>
-Bibliothèque externe requise par le projet
-
-</div>
+<TermCard term="Dependency" translation="(Dépendance)" definition="Bibliothèque externe requise par le projet" />
 
 ::right::
 
-<div v-click>
+<TermCard term="Framework" translation="(Cadre de travail)" definition="Structure logicielle réutilisable pour développer" />
 
-**Framework** <small class="opacity-50">(Cadre de travail)</small>
-Structure logicielle réutilisable pour développer
+<TermCard term="Payload" translation="(Charge utile)" definition="Données transmises dans une requête" />
 
-**Payload** <small class="opacity-50">(Charge utile)</small>
-Données transmises dans une requête
-
-**Runtime** <small class="opacity-50">(Environnement d'exécution)</small>
-Environnement dans lequel le code s'exécute
-
-</div>
+<TermCard term="Runtime" translation="(Environnement d'exécution)" definition="Environnement dans lequel le code s'exécute" />
 ```
 
 ### Règles de Contenu
 
-- **Termes en anglais** : Toujours utiliser le terme technique anglais en gras
-- **Traduction française** : Entre parenthèses en `<small class="opacity-50">` si elle existe
-- **Ordre alphabétique** : Strict, réparti équitablement entre les deux colonnes
-- **Définition** : 1 ligne maximum, claire et accessible
+- **`term`** : Terme technique **en anglais** (langue de référence)
+- **`translation`** : Traduction française entre parenthèses — **omettre si identique** à l'anglais (ex: `Abstraction`, `Interface`)
+- **`definition`** : 1 ligne maximum, claire et accessible
+- **Ordre alphabétique** : Strict sur le terme anglais, réparti équitablement entre les deux colonnes
 - **Sélection** : Uniquement les termes techniques clés du cours (8-12 termes recommandés)
+- **Pas de `v-click`** sur les `<TermCard>` : les termes apparaissent directement
 
 ### Objectifs Pédagogiques
 

@@ -6,7 +6,7 @@ layout: two-cols-header
 
 ::left::
 
-<div v-click>
+<div>
 
 ## Documentation officielle
 
@@ -20,7 +20,7 @@ layout: two-cols-header
 
 ::right::
 
-<div v-click>
+<div>
 
 ## Ressources complémentaires
 

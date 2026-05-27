@@ -2,6 +2,11 @@ packages:
   - courses/*
   - exercices/*
   - scenarios/*
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+  playwright-chromium: true
 
 catalog:
   "@slidev/cli": ^52.14.2

@@ -6,6 +6,8 @@ background: https://cover.sli.dev
 highlighter: shiki
 lineNumbers: true
 monaco: true
+addons:
+  - '@k.school/slidev-addon-ui'
 ---
 
 # Les Design Patterns
@@ -19,6 +21,10 @@ Nous allons explorer les trois grandes catégories de patterns de conception.
 
 ---
 src: ./sections/00-ressources.md
+---
+
+---
+src: ./sections/00-lexique.md
 ---
 
 ---

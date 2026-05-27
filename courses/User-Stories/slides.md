@@ -6,6 +6,8 @@ background: whats_your_story.jpg
 highlighter: shiki
 lineNumbers: true
 monaco: true
+addons:
+  - '@k.school/slidev-addon-ui'
 ---
 <style>
 .cover div {
@@ -18,6 +20,10 @@ L'expression du besoin utilisateur au sein d'un produit logiciel
 
 ---
 src: ./sections/00-ressources.md
+---
+
+---
+src: ./sections/00-lexique.md
 ---
 
 ---

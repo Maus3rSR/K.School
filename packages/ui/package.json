@@ -1,0 +1,26 @@
+{
+  "name": "@k.school/slidev-addon-ui",
+  "version": "1.0.0",
+  "description": "Slidev addon providing reusable UI components for K.School courses",
+  "keywords": [
+    "slidev-addon",
+    "slidev",
+    "ui-components"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./components/*": "./components/*"
+  },
+  "files": [
+    "index.ts",
+    "components"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "slidev": ">=0.49.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

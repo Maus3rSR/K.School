@@ -6,6 +6,8 @@ background: https://cover.sli.dev?1
 highlighter: shiki
 lineNumbers: true
 monaco: true
+addons:
+  - '@k.school/slidev-addon-ui'
 ---
 
 # Raccourcis clavier VS Code

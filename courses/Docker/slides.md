@@ -6,6 +6,8 @@ background: https://cover.sli.dev?1
 highlighter: shiki
 lineNumbers: true
 monaco: true
+addons:
+  - '@k.school/slidev-addon-ui'
 ---
 
 # Utiliser des conteneurs avec Docker 🐳
@@ -14,6 +16,10 @@ Découvrez comment containeriser vos applications
 
 ---
 src: ./sections/00-ressources.md
+---
+
+---
+src: ./sections/00-lexique.md
 ---
 
 ---

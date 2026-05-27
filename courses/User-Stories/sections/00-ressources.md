@@ -6,7 +6,7 @@ layout: two-cols-header
 
 ::left::
 
-<div v-click>
+<div>
 
 ## Liens utiles
 
@@ -20,49 +20,12 @@ layout: two-cols-header
 
 ::right::
 
-<div v-click>
+<div>
 
 ## Références complémentaires
 
 🔗 [Behavior-Driven Development](https://cucumber.io/docs/bdd/) - BDD avec Cucumber
 
 🔗 [Agile Alliance](https://www.agilealliance.org/glossary/user-stories/) - Glossaire Agile
-
-</div>
-
----
-layout: two-cols-header
----
-
-# Lexique
-
-::left::
-
-<div v-click>
-
-**User Story** <small class="opacity-50">(Récit Utilisateur)</small>
-Description simple d'une fonctionnalité du point de vue utilisateur
-
-**Persona** : Archétype d'utilisateur avec besoins spécifiques
-
-**Acceptance Criteria** <small class="opacity-50">(Critères d'Acceptation)</small>
-Conditions pour considérer une US comme terminée
-
-**INVEST** : Acronyme pour valider la qualité d'une US
-
-</div>
-
-::right::
-
-<div v-click>
-
-**BDD** <small class="opacity-50">(Behaviour-Driven Development)</small>
-Développement guidé par le comportement
-
-**Given/When/Then** : Format de scénario BDD
-
-**Example Mapping** : Atelier collaboratif pour clarifier les US
-
-**Product Owner** : Responsable de la vision produit et du backlog
 
 </div>

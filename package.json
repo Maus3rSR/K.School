@@ -8,6 +8,7 @@
     "docker:dev": "turbo run dev --filter @k.school/docker",
     "oop:dev": "turbo run dev --filter @k.school/oop",
     "react:dev": "turbo run dev --filter @k.school/react",
+    "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",
     "vscode:dev": "turbo run dev --filter @k.school/vscode",
     "vscode:ex:navigation": "pnpm --filter @k.school/exercices-vscode run:navigation",
     "vscode:ex:dirty-code": "pnpm --filter @k.school/exercices-vscode run:dirty-code"

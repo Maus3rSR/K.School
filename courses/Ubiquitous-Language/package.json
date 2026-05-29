@@ -1,0 +1,17 @@
+{
+  "name": "@k.school/ubiquitous-language",
+  "version": "0.0.1",
+  "private": "true",
+  "type": "module",
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@k.school/slidev-addon-ui": "catalog:",
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "vue": "catalog:"
+  }
+}

@@ -8,7 +8,7 @@ Commenter rapidement
 
 ## 💬 Commentaire ligne
 
-<Shortcut>Ctrl + /</Shortcut>
+<Shortcut>Ctrl + :</Shortcut>
 
 - Toggle : commente ou décommente
 - Fonctionne sur la ligne ou la sélection

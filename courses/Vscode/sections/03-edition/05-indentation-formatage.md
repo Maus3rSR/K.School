@@ -8,9 +8,9 @@ Indentation et formatage
 
 ## ➡️ Indentation manuelle
 
-<Shortcut>Ctrl + ]</Shortcut> Indenter
+<Shortcut>Ctrl + ^</Shortcut> Indenter
 <br/>
-<Shortcut>Ctrl + [</Shortcut> Désindenter
+<Shortcut>Ctrl + )</Shortcut> Désindenter
 
 - Fonctionne sur la ligne ou la sélection
 - Utile pour ajuster rapidement le niveau

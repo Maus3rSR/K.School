@@ -1,8 +1,13 @@
+---
+layout: two-cols-header
+layoutClass: gap-4
+---
+
 # Édition
 
 Commenter rapidement
 
-<div class="grid grid-cols-2 gap-8 mt-6">
+::left::
 
 <div v-click>
 
@@ -16,21 +21,9 @@ Commenter rapidement
 
 </div>
 
+::right::
+
 <div v-click>
-
-## 📦 Commentaire bloc
-
-<Shortcut>Shift + Alt + A</Shortcut>
-
-- Crée un bloc `/* ... */`
-- Idéal pour commenter plusieurs lignes
-- Utile pour la documentation
-
-</div>
-
-</div>
-
-<div v-click class="mt-8">
 
 ## Cas d'usage
 

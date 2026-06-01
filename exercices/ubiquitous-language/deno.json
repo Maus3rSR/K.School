@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "01-refactoring-nommage": "deno task --cwd 01-refactoring-nommage start"
+  }
+}

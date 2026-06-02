@@ -6,7 +6,7 @@ Exercices pratiques du cours **Ubiquitous Language**.
 
 | Script | Dossier | Sujet |
 |--------|---------|-------|
-| `deno task 01-refactoring-nommage` | `01-refactoring-nommage/` | Refactoring de nommage sur une screaming architecture |
+| `deno task 01-station-spatiale` | `01-station-spatiale/` | Refactoring de nommage sur un système de gestion de station spatiale |
 
 ## Prérequis
 

@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "slidev build",
-    "dev": "slidev --open",
-    "export": "slidev export"
+    "dev": "slidev --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:",

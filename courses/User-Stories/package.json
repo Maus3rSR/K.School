@@ -5,14 +5,12 @@
   "type": "module",
   "scripts": {
     "build": "slidev build",
-    "dev": "slidev --open",
-    "export": "slidev export --dark"
+    "dev": "slidev --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
-    "playwright-chromium": "catalog:",
     "vue": "catalog:"
   }
 }

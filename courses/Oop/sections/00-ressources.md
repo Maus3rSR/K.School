@@ -10,11 +10,9 @@ layout: two-cols-header
 
 ## Documentation officielle
 
-📚 [TypeScript Handbook](https://www.typescriptlang.org/docs/) - Documentation complète de TypeScript
-
 📖 [MDN - Classes JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Classes) - Référence des classes en JavaScript/TypeScript
 
-🎓 [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/) - Guide approfondi de TypeScript
+📚 [Wikipedia - Programmation orientée objet](https://fr.wikipedia.org/wiki/Programmation_orient%C3%A9e_objet) - Concepts théoriques de la POO
 
 </div>
 

@@ -312,7 +312,7 @@ class Crypto implements MoyenPaiement {
 
 <div v-click="4">
 
-```ts {maxHeight:'300px'}
+```ts {*}{maxHeight:'400px'}
 class Caisse {
   private moyensPaiement: MoyenPaiement[]
 

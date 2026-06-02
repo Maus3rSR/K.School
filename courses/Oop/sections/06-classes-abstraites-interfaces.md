@@ -250,7 +250,7 @@ class Oiseau extends Animal implements Volant {
 
 <div v-click="4">
 
-```ts {maxHeight:'300px'}
+```ts {*}{maxHeight:'400px'}
 class Chauve_Souris extends Animal implements Volant {
   constructor(nom: string, age: number) {
     super(nom, age)

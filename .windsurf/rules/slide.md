@@ -260,13 +260,13 @@ class Point {
 
 **Appliquer `maxHeight`** quand le code dépasse **~20 lignes** pour éviter le débordement visuel.
 
-**Syntaxe** : `{maxHeight:'300px'}`
+**Syntaxe** : `{*}{maxHeight:'300px'}`
 
 **Règles** :
 - **> 20 lignes** → `maxHeight:'300px'`
 - **< 20 lignes** → Pas de maxHeight (laisser naturel)
 
-**Combinaison** : `{1-5|7-10|all}{maxHeight:'300px'}` (line highlighting + maxHeight) ou `{*}{maxHeight:'300px'}`
+**Combinaison** : `{1-5|7-10|all}{maxHeight:'300px'}`
 
 ## Slide de Lexique Technique
 

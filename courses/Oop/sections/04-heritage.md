@@ -137,7 +137,7 @@ Appel du Constructeur Parent avec `super()`
 
 ::left::
 
-```ts {maxHeight:'300px'}
+```ts {*}{maxHeight:'400px'}
 class Animal {
   nom: string
   age: number
@@ -208,7 +208,7 @@ Surcharge de Méthodes (Override)
 
 ::left::
 
-```ts {maxHeight:'300px'}
+```ts {*}{maxHeight:'400px'}
 class Animal {
   nom: string
 
@@ -250,9 +250,6 @@ chat.sePresenter()
 // "Je suis Minou, un chat gris"
 ```
 
-</div>
-
-<div v-click class="mt-4">
 
 ## Surcharge (Override)
 
@@ -334,117 +331,6 @@ Flèche triangulaire vide
 Plusieurs enfants possibles
 -->
 
----
-layout: two-cols-header
-layoutClass: gap-x-4
----
-
-# Héritage
-
-Exemple Pratique - Hiérarchie Animal
-
-::left::
-
-```ts {2-3|23-24,40-41|13-16,30-33,47-50|all}{maxHeight:'300px'}
-class Animal {
-  protected nom: string
-  protected age: number
-
-  constructor(nom: string, age: number) {
-    this.nom = nom
-    this.age = age
-  }
-
-  manger(): void {
-    console.log(`${this.nom} mange`)
-  }
-
-  sePresenter(): void {
-    console.log(`${this.nom}, ${this.age} ans`)
-  }
-}
-
-class Chat extends Animal {
-  private couleur: string
-
-  constructor(nom: string, age: number, couleur: string) {
-    super(nom, age)
-    this.couleur = couleur
-  }
-
-  miauler(): void {
-    console.log(`${this.nom} fait miaou`)
-  }
-
-  sePresenter(): void {
-    console.log(`${this.nom}, chat ${this.couleur} de ${this.age} ans`)
-  }
-}
-
-class Chien extends Animal {
-  private race: string
-
-  constructor(nom: string, age: number, race: string) {
-    super(nom, age)
-    this.race = race
-  }
-
-  aboyer(): void {
-    console.log(`${this.nom} fait wouf`)
-  }
-
-  sePresenter(): void {
-    console.log(`${this.nom}, chien ${this.race} de ${this.age} ans`)
-  }
-}
-```
-
-::right::
-
-## Points Clés
-
-<div v-click="1">
-
-- `protected` : accessible dans les enfants
-
-</div>
-
-<div v-click="2">
-
-- Chaque enfant a ses propres attributs
-
-</div>
-
-<div v-click="3">
-
-- Méthodes héritées réutilisées
-- Méthode `sePresenter()` surchargée
-
-</div>
-
-<div v-click="4">
-
-```ts
-const chat = new Chat("Minou", 3, "gris")
-chat.manger()      // Hérité
-chat.miauler()     // Propre
-chat.sePresenter() // Surchargé
-// "Minou, chat gris de 3 ans"
-
-const chien = new Chien("Rex", 5, "Labrador")
-chien.manger()      // Hérité
-chien.aboyer()      // Propre
-chien.sePresenter() // Surchargé
-// "Rex, chien Labrador de 5 ans"
-```
-
-</div>
-
-<!--
-Exemple complet avec protected
-Montrer l'héritage en action
-Réutilisation + spécialisation
--->
 
 ---
 layout: two-cols-header

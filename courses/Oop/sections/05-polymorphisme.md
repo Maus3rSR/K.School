@@ -71,7 +71,7 @@ Polymorphisme par Héritage
 
 ::left::
 
-```ts {1-8|10-14|16-20|22-26|all}{maxHeight:'300px'}
+```ts {1-11|8-10|13-17|19-23|25-29|all}{maxHeight:'300px'}
 class Animal {
   nom: string
 
@@ -107,18 +107,55 @@ class Vache extends Animal {
 
 ## Points Clés
 
-<div v-click="5">
+<div v-click="1">
 
-- Type déclaré : `Animal`
-- Types réels : `Chat`, `Chien`, `Vache`
-- Méthode appelée selon le type réel
-- **Un seul code** pour plusieurs types
+- `Animal` : classe parent, `faireDuBruit()` par défaut
 
 </div>
 
+<div v-click="2">
+
+- `Chat` **surcharge** `faireDuBruit()` → miaou
+
+</div>
+
+<div v-click="3">
+
+- `Chien` **surcharge** `faireDuBruit()` → wouf
+
+</div>
+
+<div v-click="4">
+
+- `Vache` **surcharge** `faireDuBruit()` → meuh
+
+</div>
+
+<div v-click="5">
+
+- Type déclaré `Animal`, méthode appelée selon le **type réel**
+
+</div>
+
+::bottom::
+
 <div v-click="6">
 
-```ts
+**Un seul code** pour plusieurs types
+
+</div>
+<!--
+Chaque étape révèle une classe et son explication
+Dispatch dynamique : méthode appelée selon le type réel
+-->
+
+---
+
+# Polymorphisme
+
+Polymorphisme par Héritage - En action
+
+```ts {maxHeight:'320px'}
 // Tableau d'animaux de types différents
 const animaux: Animal[] = [
   new Chat("Minou"),
@@ -137,12 +174,15 @@ animaux.forEach(animal => {
 // "Marguerite fait meuh"
 ```
 
+<div class="mt-2">
+
+**Un seul code** itère sur des types différents — chaque objet exécute **sa** version de `faireDuBruit()` (dispatch dynamique).
+
 </div>
 
 <!--
-Montrer le polymorphisme en action
-Même interface, comportements différents
-Dispatch dynamique : méthode appelée selon le type réel
+Le même code fonctionne pour tous les types
+Le dispatch dynamique choisit la bonne méthode à l'exécution
 -->
 
 ---
@@ -156,7 +196,7 @@ Interfaces et Contrats
 
 ::left::
 
-```ts {2-5|7-18|20-31|all}{maxHeight:'300px'}
+```ts {all|2-5|7-21|23-37|all}{maxHeight:'300px'}
 // Interface : contrat à respecter
 interface Payable {
   effectuerPaiement(montant: number): void
@@ -198,9 +238,48 @@ class PayPal implements Payable {
 
 ::right::
 
+## Points Clés
+
+<div v-click="1">
+
+- `Payable` : **interface** = contrat (2 méthodes à implémenter)
+
+</div>
+
+<div v-click="2">
+
+- `CarteBancaire` **implements** `Payable`
+
+</div>
+
+<div v-click="3">
+
+- `PayPal` **implements** `Payable` (autre implémentation)
+
+</div>
+
 <div v-click="4">
 
-```ts
+## Interface vs Classe
+
+**Interface** : contrat sans implémentation, multiple
+**Classe** : structure + implémentation, héritage simple
+
+</div>
+
+<!--
+Chaque étape révèle l'interface puis ses implémentations
+Contrat sans implémentation
+Différence avec l'héritage
+-->
+
+---
+
+# Polymorphisme
+
+Interfaces - Code Polymorphe
+
+```ts {maxHeight:'320px'}
 function traiterPaiement(
   moyenPaiement: Payable,
   montant: number
@@ -218,27 +297,15 @@ traiterPaiement(carte, 100)
 traiterPaiement(paypal, 50)
 ```
 
-</div>
+<div v-click class="mt-2">
 
-<div v-click="5" class="mt-4">
-
-## Interface vs Classe
-
-**Interface**
-- Définit un **contrat** (méthodes à implémenter)
-- Pas d'implémentation
-- Une classe peut implémenter plusieurs interfaces
-
-**Classe**
-- Définit structure + implémentation
-- Héritage simple uniquement
+La fonction `traiterPaiement()` accepte **n'importe quel** `Payable` sans connaître l'implémentation concrète.
 
 </div>
 
 <!--
-Expliquer les interfaces
-Contrat sans implémentation
-Différence avec l'héritage
+Le code client dépend de l'interface, pas des classes concrètes
+Extensibilité : ajouter un nouveau Payable sans rien changer
 -->
 
 ---
@@ -252,7 +319,7 @@ Exemple Pratique - Système de Paiement
 
 ::left::
 
-```ts {1-6|8-30|32-56|all}{maxHeight:'300px'}
+```ts {1-4|6-28|30-53|all}{maxHeight:'300px'}
 interface MoyenPaiement {
   payer(montant: number): boolean
   obtenirNom(): string
@@ -310,7 +377,49 @@ class Crypto implements MoyenPaiement {
 
 ::right::
 
+## Points Clés
+
+<div v-click="1">
+
+- `MoyenPaiement` : interface commune (`payer`, `obtenirNom`)
+
+</div>
+
+<div v-click="2">
+
+- `CarteBancaire` : vérifie le **solde** avant de payer
+
+</div>
+
+<div v-click="3">
+
+- `Crypto` : convertit en **BTC**, même interface
+
+</div>
+
 <div v-click="4">
+
+- Deux implémentations **interchangeables** via `MoyenPaiement`
+- **Extensible** : nouveau moyen sans modifier le code client
+
+</div>
+
+<!--
+Chaque étape révèle l'interface puis une implémentation
+Polymorphisme avec interfaces
+Extensibilité : ajouter de nouveaux moyens de paiement
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
+
+# Polymorphisme
+
+Système de Paiement - La Caisse
+
+::left::
 
 ```ts {*}{maxHeight:'400px'}
 class Caisse {
@@ -350,14 +459,26 @@ caisse.ajouterMoyenPaiement(
 caisse.effectuerAchat(100)
 ```
 
+::right::
+
+<div v-click>
+
+## Polymorphisme en action
+
+- `Caisse` manipule des `MoyenPaiement[]`
+- Elle **ignore** s'il s'agit de carte ou crypto
+- `moyen.payer()` appelle la **bonne** implémentation
+- Ajouter un moyen = **zéro** modification de `Caisse`
+
 </div>
 
 <!--
-Exemple complet et réaliste
-Polymorphisme avec interfaces
-Extensibilité : ajouter de nouveaux moyens de paiement
+La Caisse dépend de l'interface, pas des classes concrètes
+Polymorphisme : extensibilité maximale
 -->
 
+---
+layout: two-cols-header
 ---
 
 # Polymorphisme
@@ -368,6 +489,8 @@ Exercice - Implémenter une Interface
 Objectif : Créer des classes implémentant une interface commune
 Durée estimée : 20 minutes
 -->
+
+::left::
 
 **Créer un système de notification polymorphe :**
 
@@ -384,6 +507,8 @@ Durée estimée : 20 minutes
    - Attribut `telephone` (private)
    - Implémente `envoyerNotification()` : affiche "SMS envoyé au [telephone]: [message]"
    - Implémente `obtenirDestination()` : retourne le téléphone
+
+::right::
 
 4. **Fonction `envoyerAlertes()`** :
    - Accepte un tableau de `Notifiable[]`

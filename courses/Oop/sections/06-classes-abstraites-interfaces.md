@@ -25,7 +25,7 @@ Classes Abstraites vs Interfaces
 
 <div v-click="1">
 
-```ts {1-12|14-17|19-21|all}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 abstract class Forme {
   protected couleur: string
 
@@ -47,7 +47,11 @@ class Rectangle extends Forme {
   private largeur: number
   private hauteur: number
 
-  constructor(couleur: string, largeur: number, hauteur: number) {
+  constructor(
+    couleur: string,
+    largeur: number,
+    hauteur: number
+  ) {
     super(couleur)
     this.largeur = largeur
     this.hauteur = hauteur
@@ -71,7 +75,7 @@ class Rectangle extends Forme {
 
 <div v-click="2">
 
-```ts {1-4|6-8|10|all}{maxHeight:'300px'}
+```ts {*}{maxHeight:'300px'}
 interface Dessinable {
   dessiner(): void
   effacer(): void
@@ -178,7 +182,7 @@ Exemple Pratique - Combinaison des Deux
 
 ::left::
 
-```ts {2-5|7-24|26-28|all}{maxHeight:'300px'}
+```ts {all|2-5|7-22|24-44|all}{maxHeight:'300px'}
 // Interface : capacité
 interface Volant {
   voler(): void

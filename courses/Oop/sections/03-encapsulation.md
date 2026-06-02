@@ -212,7 +212,7 @@ Exemple Pratique - Classe CompteBancaire Complète
 
 ::left::
 
-```ts {2-4|16-18|38-41|all}{maxHeight:'300px'}
+```ts {all|2-3|4|13-44|all}{maxHeight:'300px'}
 class CompteBancaire {
   private solde: number
   private historique: string[]

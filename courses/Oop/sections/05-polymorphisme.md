@@ -319,7 +319,7 @@ Exemple Pratique - Système de Paiement
 
 ::left::
 
-```ts {1-4|6-28|30-53|all}{maxHeight:'300px'}
+```ts {all|1-4|6-28|30-53|all}{maxHeight:'300px'}
 interface MoyenPaiement {
   payer(montant: number): boolean
   obtenirNom(): string
@@ -417,7 +417,7 @@ layoutClass: gap-x-4
 
 # Polymorphisme
 
-Système de Paiement - La Caisse
+Exemple Pratique - Système de Paiement - La Caisse
 
 ::left::
 

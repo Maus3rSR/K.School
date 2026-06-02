@@ -447,40 +447,41 @@ Réutilisation + spécialisation
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Héritage
 
 Exercice - Créer une Hiérarchie de Formes
 
+::left::
+
+**Classe parent `Forme`** :
+- Attribut `couleur` (string, protected)
+- Constructeur acceptant la couleur
+- Méthode abstraite `calculerAire()`
+- Méthode `afficher()` qui affiche la couleur
+
+**Classe enfant `Rectangle`** :
+- Attributs `largeur` et `hauteur` (private)
+- Constructeur acceptant couleur, largeur, hauteur
+- Implémente `calculerAire()` : largeur × hauteur
+
+::right::
+
+**Classe enfant `Cercle`** :
+- Attribut `rayon` (private)
+- Constructeur acceptant couleur et rayon
+- Implémente `calculerAire()` : π × rayon²
+
+**Test** :
+- Créer un rectangle rouge de 5×3
+- Créer un cercle bleu de rayon 4
+- Afficher leurs aires
+
 <!--
 Objectif : Appliquer l'héritage sur des formes géométriques
 Durée estimée : 25 minutes
--->
-
-**Créer une hiérarchie de classes pour des formes géométriques :**
-
-1. **Classe parent `Forme`** :
-   - Attribut `couleur` (string, protected)
-   - Constructeur acceptant la couleur
-   - Méthode abstraite `calculerAire()` (à implémenter dans les enfants)
-   - Méthode `afficher()` qui affiche la couleur
-
-2. **Classe enfant `Rectangle`** :
-   - Attributs `largeur` et `hauteur` (private)
-   - Constructeur acceptant couleur, largeur, hauteur
-   - Implémente `calculerAire()` : largeur × hauteur
-
-3. **Classe enfant `Cercle`** :
-   - Attribut `rayon` (private)
-   - Constructeur acceptant couleur et rayon
-   - Implémente `calculerAire()` : π × rayon²
-
-4. **Test** :
-   - Créer un rectangle rouge de 5×3
-   - Créer un cercle bleu de rayon 4
-   - Afficher leurs aires
-
-<!--
 Solution à préparer dans les exercices
 Utiliser Math.PI pour le cercle
 -->

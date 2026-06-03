@@ -215,25 +215,16 @@ Juste montrer que TS dans React = erreurs détectées tôt = moins de bugs.
 -->
 
 ---
-layout: default
+layout: center
+class: text-center
 ---
 
 # Introduction à TypeScript
-Récapitulatif
+&nbsp;
 
-<v-clicks>
-
-- ✅ TypeScript = JavaScript avec un système de **types**
-- ✅ Détecte les erreurs **avant** l'exécution, dans l'éditeur
-- ✅ Types de base : `string`, `number`, `boolean`, `tableau[]`
-- ✅ **Fonctions typées** : paramètres + type de retour
-- ✅ **Interfaces** : décrire la forme d'un objet
-- ✅ Propriétés **optionnelles** avec `?`
-- ✅ TS est **standard** sur les projets React professionnels
-
-</v-clicks>
+> 💬 Vous avez vu TypeScript signaler une erreur en direct. Est-ce que vous imaginez une situation dans votre code où ça vous **aurait évité un bug** ?
 
 <!--
-Rassurer : TS peut sembler intimidant au début, mais VSCode vous guide avec l'autocomplétion.
+Rassurer : TS peut sembler intimidant au début, mais VSCode guide avec l'autocomplétion.
 On va tout de suite créer notre premier projet React + TypeScript.
 -->

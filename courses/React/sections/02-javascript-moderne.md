@@ -272,26 +272,17 @@ On utilisera map() dès la séance 5 pour afficher des listes.
 -->
 
 ---
-layout: default
+layout: center
+class: text-center
 ---
 
 # Rappels JavaScript Moderne
-Récapitulatif
+&nbsp;
 
-<v-clicks>
-
-- ✅ `const` / `let` — déclarer des variables sans `var`
-- ✅ **Arrow functions** — `(x) => x * 2`
-- ✅ **Template literals** — `` `Bonjour ${nom}` ``
-- ✅ **Destructuring** — `const { nom } = user`
-- ✅ **Spread operator** — `{ ...objet, propriete: valeur }`
-- ✅ **Modules** — `import` / `export`
-- ✅ **map / filter** — transformer des tableaux sans les modifier
-
-</v-clicks>
+> 💬 Parmi les syntaxes qu'on vient de voir — laquelle vous semblait **la plus étrange** avant aujourd'hui ? Est-ce que ça fait plus sens maintenant ?
 
 <!--
-Ces 7 concepts apparaîtront dans CHAQUE séance du cours.
-Ne pas stresser si tout n'est pas acquis aujourd'hui — la pratique ancre les connaissances.
+Ces syntaxes apparaîtront dans CHAQUE séance du cours.
+Rassurer : la pratique ancre les connaissances bien plus que la mémorisation.
 Transition : maintenant on va voir TypeScript, qui ajoute les types par-dessus tout ça.
 -->

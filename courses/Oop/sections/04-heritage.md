@@ -373,32 +373,19 @@ Utiliser Math.PI pour le cercle
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Héritage
+&nbsp;
 
-Récapitulatif Chapitre 04
+> 💬 Si vous avez `Chat extends Animal` et `Chien extends Animal` — comment feriez-vous pour appeler `faireDuBruit()` sur les deux **sans savoir lequel c'est** ?
 
-<div v-click>
-
-## ✅ Ce qu'on a appris
-
-- **Héritage** : réutiliser et étendre une classe
-- **`extends`** : syntaxe pour hériter
-- **`super()`** : appeler le constructeur parent
-- **Surcharge** : redéfinir une méthode parent
-- **`protected`** : accessible dans les enfants
-- **Hiérarchie** : relation parent-enfant
-- **Relation "est un"** : Chat est un Animal
-
-</div>
-
-<div v-click class="mt-8">
-
-## 🎯 Prochaine étape
-
-**Chapitre 05 - Polymorphisme** : Utiliser des objets de types différents de manière uniforme
-
-</div>
+<!--
+Question de transition qui plante le problème du polymorphisme.
+Laisser le groupe chercher, puis enchaîner : "C'est exactement ce que le polymorphisme résout."
+-->
 
 <!--
 Synthèse de l'héritage

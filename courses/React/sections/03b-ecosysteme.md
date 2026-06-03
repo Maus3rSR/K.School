@@ -296,30 +296,16 @@ Les apprenants n'ont pas à le modifier pendant la formation.
 -->
 
 ---
-layout: default
+layout: center
+class: text-center
 ---
 
 # L'écosystème React
-Récapitulatif — Les outils de votre quotidien
+&nbsp;
 
-<v-clicks>
-
-- ✅ **Node.js** — moteur JS côté machine, indispensable pour les outils front-end
-- ✅ **npm** — gestionnaire de paquets par défaut, commandes `install` / `run` / `npx`
-- ✅ **pnpm** — alternative rapide et économe, on l'utilise dans ce cours
-- ✅ **package.json** — manifeste du projet : dépendances + scripts
-- ✅ **TypeScript** — JS avec types, détecte les erreurs à l'écriture
-- ✅ **tsconfig.json** — règles du compilateur TypeScript, généré automatiquement
-
-</v-clicks>
-
-<v-click>
-
-> Tous ces fichiers seront **déjà configurés** quand on crée un projet avec Vite 👉
-
-</v-click>
+> 💬 En regardant `package.json` — est-ce que vous **reconnaissez** tous les outils listés ? Lequel vous paraît encore le plus flou ?
 
 <!--
-Transition naturelle vers le chapitre suivant : on va créer le projet et tous ces fichiers
-apparaîtront automatiquement. Les apprenants pourront les reconnaître.
+Transition naturelle vers le premier projet : on va créer le projet avec Vite et tous ces fichiers
+apparaîtront automatiquement. Les apprenants pourront les reconnaître au fur et à mesure.
 -->

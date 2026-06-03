@@ -41,35 +41,12 @@ Insister sur l'étape 4 : proposer PLUSIEURS noms force à comparer et à choisi
 -->
 
 ---
-
-# Exercice guidé
-Le contexte métier
-
-Vous intégrez une équipe qui gère une **plateforme de réservation de créneaux de formation**.
-
-- Un formateur propose des **créneaux** (date, heure, durée)
-- Un candidat peut **réserver** un créneau s'il est disponible et à venir
-- L'équipe a besoin d'un moyen de **lister les créneaux réservables**
-
-<div v-click>
-<br/>
-
-> On vous remet le code existant. À vous de jouer.
-
-</div>
-
-<!--
-Poser le contexte oralement avant d'afficher la slide suivante.
-Le groupe doit garder ce vocabulaire en tête : créneau, disponible, à venir, réservable.
--->
-
----
 layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
 # Exercice guidé
-Étude de cas : un extrait à analyser
+Étude de cas — plateforme de réservation de créneaux de formation
 
 ::left::
 
@@ -88,6 +65,11 @@ class Manager {
 ```
 
 ::right::
+
+**Le contexte métier**
+- Un formateur propose des **créneaux** (date, heure, durée)
+- Un candidat peut **réserver** un créneau disponible et à venir
+- Objectif : **lister les créneaux réservables**
 
 <div v-click="1">
 
@@ -109,8 +91,9 @@ class Manager {
 </div>
 
 <!--
-Domaine sous-jacent : réservation de créneaux.
-s === 1 = statut "disponible", dt = date du créneau.
+Poser le contexte oralement avant d'afficher la slide.
+Le groupe doit garder ce vocabulaire en tête : créneau, disponible, à venir, réservable.
+Domaine sous-jacent : s === 1 = statut "disponible", dt = date du créneau.
 Laisser le groupe deviner sans donner la réponse tout de suite.
 -->
 

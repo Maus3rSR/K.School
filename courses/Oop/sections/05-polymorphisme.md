@@ -524,31 +524,19 @@ Montrer le polymorphisme en action
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Polymorphisme
+&nbsp;
 
-Récapitulatif Chapitre 05
+> 💬 Quelle différence voyez-vous entre une **interface** et une **classe abstraite** ? Intuitivement, quand choisiriez-vous l'une plutôt que l'autre ?
 
-<div v-click>
-
-## ✅ Ce qu'on a appris
-
-- **Polymorphisme** : traiter des objets différents de manière uniforme
-- **Interface commune** : même méthodes, implémentations différentes
-- **`implements`** : implémenter une interface
-- **Flexibilité** : code qui fonctionne avec plusieurs types
-- **Extensibilité** : ajouter de nouveaux types facilement
-- **Dispatch dynamique** : méthode appelée selon le type réel
-
-</div>
-
-<div v-click class="mt-8">
-
-## 🎯 Prochaine étape
-
-**Chapitre 06 - Classes Abstraites et Interfaces** : Approfondir les concepts d'abstraction
-
-</div>
+<!--
+Question de transition qui amorce la réflexion du chapitre 06.
+Toutes les réponses sont valides — l'objectif est d'activer la curiosité avant d'apporter la distinction.
+-->
 
 <!--
 Synthèse du polymorphisme

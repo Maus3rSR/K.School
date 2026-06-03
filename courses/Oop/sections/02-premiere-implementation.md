@@ -317,32 +317,19 @@ Critères de réussite : code compile, tests passent, méthodes correctes
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Première Implémentation
+&nbsp;
 
-Récapitulatif Chapitre 02
+> 💬 Vous venez de créer votre première classe. Qu'est-ce qui vous **surprend** ou vous **pose question** dans ce que vous avez écrit ?
 
-<div v-click>
-
-## ✅ Ce qu'on a appris
-
-- **Créer une classe** avec `class NomClasse { }`
-- **Déclarer des attributs** : données de la classe
-- **Créer des méthodes** : comportements de la classe
-- **Utiliser `this`** : référence à l'objet courant
-- **Instancier des objets** avec `new`
-- **Le constructeur** : méthode spéciale pour initialiser
-- **Paramètres optionnels** : valeurs par défaut
-
-</div>
-
-<div v-click class="mt-8">
-
-## 🎯 Prochaine étape
-
-**Chapitre 03 - Encapsulation** : Protéger les données et contrôler l'accès
-
-</div>
+<!--
+Question de transition ouverte. Laisser 1-2 réponses, puis enchaîner vers l'encapsulation.
+Prochain chapitre : protéger les données en contrôlant l'accès aux attributs.
+-->
 
 <!--
 Synthèse des concepts clés

@@ -175,16 +175,16 @@ Le langage ubiquitaire est le fil rouge de toute la séance.
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Nommer l'intention métier
-Récapitulatif
+&nbsp;
 
-- **Principe** : nommer <span v-mark.underline.red>l'intention métier</span>, pas l'implémentation
-- Sur les **variables** : des <span v-mark.underline.red>concepts</span>
-- Sur les **fonctions** : des <span v-mark.underline.red>verbes métier</span>
-- Sur les **classes** : des <span v-mark.underline.red>entités du domaine</span>
-- **Langage ubiquitaire** : <span v-mark.underline.red>les mots du métier dans le code</span>
+> 💬 En regardant votre propre code ou un projet que vous connaissez — repérez-vous un nom qui **trahit** le métier plutôt que de l'exprimer ?
 
 <!--
-Transition : passons à la pratique avec un premier exercice d'analyse.
+Question de transition vers l'exercice guidé.
+Laisser 1-2 personnes répondre, puis enchaîner : "C'est exactement ce qu'on va analyser ensemble maintenant."
 -->

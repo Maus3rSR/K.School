@@ -294,31 +294,19 @@ Polymorphisme sur l'interface
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Classes Abstraites et Interfaces
+&nbsp;
 
-Récapitulatif Chapitre 06
+> 💬 Parmi les 4 piliers vus dans ce cours — encapsulation, héritage, polymorphisme, abstraction — lequel vous semble le plus **utile au quotidien** ? Pourquoi ?
 
-<div v-click>
-
-## ✅ Ce qu'on a appris
-
-- **Classe abstraite** : base commune avec implémentation partielle
-- **Interface** : contrat pur sans implémentation
-- **`abstract`** : méthode à implémenter obligatoirement
-- **Classe abstraite** : relation "est un", héritage simple
-- **Interface** : capacité, multi-implémentation
-- **Combinaison** : hériter d'une classe abstraite + implémenter des interfaces
-
-</div>
-
-<div v-click class="mt-8">
-
-## 🎯 Prochaine étape
-
-**Conclusion** : Récapitulatif général et les 4 piliers de la POO
-
-</div>
+<!--
+Question de clôture du dernier chapitre technique.
+Permet aux apprenants de prendre du recul sur l'ensemble du cours avant la conclusion.
+-->
 
 <!--
 Synthèse des classes abstraites et interfaces

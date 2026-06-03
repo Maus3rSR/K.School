@@ -240,32 +240,17 @@ pnpm build = quand on veut déployer l'application.
 -->
 
 ---
-layout: default
+layout: center
+class: text-center
 ---
 
 # Premier Projet React
-Récapitulatif de la séance
+&nbsp;
 
-<v-clicks>
-
-- ✅ **React** = bibliothèque pour créer des interfaces en composants
-- ✅ **SPA** = une page HTML, mise à jour dynamique par JavaScript
-- ✅ **ES6+** = syntaxes modernes indispensables en React
-- ✅ **TypeScript** = JS avec types, détection d'erreurs à l'écriture
-- ✅ **Vite** = outil de build rapide avec template `react-ts`
-- ✅ Structure d'un projet : `main.tsx` → `App.tsx` → composants
-
-</v-clicks>
-
-<v-click>
-
-## Prochaine séance 👉
-JSX/TSX en profondeur et création de nos premiers composants
-
-</v-click>
+> 💬 Votre projet tourne dans le navigateur. Qu'est-ce qui vous a **surpris** pendant l'installation ? Qu'est-ce qui vous **donne envie** de continuer ?
 
 <!--
-Féliciter les apprenants — ils ont installé leur premier projet React !
+Féliciter les apprenants — ils ont créé leur premier projet React !
 Homework suggéré : modifier App.tsx pour afficher leur nom et une couleur préférée.
-Questions de clôture : "Qu'est-ce qui vous a surpris ?", "Un point flou ?"
+Prochaine séance : JSX/TSX en profondeur et création de nos premiers composants.
 -->

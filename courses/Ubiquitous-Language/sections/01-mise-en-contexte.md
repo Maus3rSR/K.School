@@ -138,19 +138,16 @@ On ne garde aujourd'hui que l'essence : le langage ubiquitaire.
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Mise en contexte
-Récapitulatif
+&nbsp;
 
-<v-clicks>
-
-- ✅ On lit le code bien plus qu'on ne l'écrit : **les noms comptent**
-- ✅ Nommage **technique** = la machine, nommage **métier** = le domaine
-- ✅ Le **DDD** cherche à faire transpirer le métier dans le code
-- ✅ Objectif du jour : un **langage partagé** technique ↔ métier
-
-</v-clicks>
+> 💬 Si vous deviez **choisir un seul mot** pour décrire ce que le code doit refléter en priorité — lequel serait-il ?
 
 <!--
-Pause questions. Transition : maintenant, les principes concrets d'un bon nommage.
+Question ouverte pour amorcer la transition vers le chapitre 02.
+Réponse attendue : "métier", "intention", "domaine"… tout est valide pour enchaîner sur le principe de nommage.
 -->

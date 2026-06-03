@@ -181,23 +181,16 @@ Pièges fréquents : "Le Virtual DOM c'est pas magique, c'est juste une optimisa
 -->
 
 ---
-layout: default
+layout: center
+class: text-center
 ---
 
 # Introduction à React
-Récapitulatif
+&nbsp;
 
-<v-clicks>
-
-- ✅ React = **bibliothèque JavaScript** pour créer des interfaces
-- ✅ Créée par **Facebook en 2013**, très demandée en entreprise
-- ✅ Basée sur des **composants** réutilisables
-- ✅ Permet de créer des **SPA** : navigation rapide, expérience fluide
-- ✅ Utilise un **Virtual DOM** pour optimiser les mises à jour
-
-</v-clicks>
+> 💬 Avant de passer à la pratique — qu'est-ce qui vous **attire** le plus dans React, et qu'est-ce qui vous **inquiète** le plus ?
 
 <!--
-Pause de 2 minutes. Questions ?
+Pause de 2 minutes. Laisser s'exprimer sans corriger.
 Transition : maintenant qu'on sait POURQUOI React, voyons les prérequis JS modernes.
 -->

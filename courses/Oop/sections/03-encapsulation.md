@@ -347,31 +347,19 @@ Validation email : regex simple ou includes('@')
 -->
 
 ---
+layout: center
+class: text-center
+---
 
 # Encapsulation
+&nbsp;
 
-Récapitulatif Chapitre 03
+> 💬 Dans votre classe `Compte`, que se passerait-il si `solde` restait `public` et qu'un autre développeur lui assignait `-99999` directement ?
 
-<div v-click>
-
-## ✅ Ce qu'on a appris
-
-- **Encapsulation** : cacher les détails, contrôler l'accès
-- **Modificateurs d'accès** : `public`, `private`, `protected`
-- **Getters** : lire des données protégées
-- **Setters** : modifier avec validation
-- **`readonly`** : attribut en lecture seule
-- **Méthodes privées** : logique interne cachée
-
-</div>
-
-<div v-click class="mt-8">
-
-## 🎯 Prochaine étape
-
-**Chapitre 04 - Héritage** : Réutiliser et étendre des classes existantes
-
-</div>
+<!--
+Question de transition concrète. Faire verbaliser le risque, puis enchaîner vers l'héritage.
+Prochain chapitre : réutiliser et étendre des classes existantes avec extends.
+-->
 
 <!--
 Synthèse de l'encapsulation

@@ -27,35 +27,12 @@ Règle absolue : on ne change JAMAIS le comportement, seulement les noms et la s
 -->
 
 ---
-
-# Pratique : refactoring de nommage
-Le contexte métier
-
-Vous travaillez sur une **application e-commerce**. Le service de validation de panier calcule le montant total à payer.
-
-- Une commande contient plusieurs **lignes** (article + quantité)
-- Chaque ligne a un **prix unitaire** et une **quantité**
-- Certaines lignes sont **remisées** : elles bénéficient d'une réduction de 20 %
-
-<div v-click>
-<br/>
-
-> On vous remet le code existant. C'est parti.
-
-</div>
-
-<!--
-Poser le contexte oralement. Le groupe doit retenir : ligne, prix, quantité, remise.
-Ce sont exactement les noms qui émergent lors du refactoring.
--->
-
----
 layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
 # Pratique : refactoring de nommage
-Le code de départ
+Le code de départ — application e-commerce, validation de panier
 
 ::left::
 
@@ -75,6 +52,11 @@ function process(data: any[]): number {
 
 ::right::
 
+**Le contexte métier**
+- Une commande : plusieurs **lignes** (article + quantité)
+- Chaque ligne : un **prix unitaire** et une **quantité**
+- Certaines lignes sont **remisées** (− 20 %)
+
 <div v-click="1">
 
 **Les symptômes**
@@ -86,13 +68,15 @@ function process(data: any[]): number {
 <div v-click="2">
 
 **Aucune trace du métier**
-- Impossible de deviner le domaine sans deviner `p`, `q`, `t`, `r`
+- Que signifient `p`, `q`, `t`, `r` ?
 
 </div>
 
 <!--
-Domaine : validation de panier. p = prix, q = quantité, t = type, 'r' = remisé.
-Laisser le groupe formuler des hypothèses sur le métier.
+Poser le contexte oralement avant d'afficher la slide.
+Le groupe doit retenir : ligne, prix, quantité, remise — ce sont exactement les noms qui émergent lors du refactoring.
+Domaine : p = prix, q = quantité, t = type, 'r' = remisé.
+Laisser le groupe formuler des hypothèses.
 -->
 
 ---

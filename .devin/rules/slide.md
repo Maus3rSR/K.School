@@ -48,42 +48,7 @@ sections/
 
 **OBLIGATOIRE** : La slide "Ressources pour ce cours" doit être placée **immédiatement après la slide de couverture** (slide de titre), **avant le premier chapitre**.
 
-**Format standard** :
-```md
----
-layout: two-cols-header
----
-
-# Ressources pour ce cours
-
-::left::
-
-<div>
-
-## Liens utiles
-
-📚 [Titre](URL) - Description
-
-📖 [Titre](URL) - Description
-
-</div>
-
-::right::
-
-<div>
-
-## Références complémentaires
-
-🔗 [Titre](URL) - Description
-
-🔗 [Titre](URL) - Description
-
-</div>
-```
-
-**Pas de `v-click`** sur les ressources : elles doivent être visibles immédiatement, pas révélées progressivement.
-
-**Objectif** : Avoir les ressources directement accessibles au début du cours, pas à la fin. Les apprenants peuvent ainsi les consulter pendant toute la formation.
+> Règles complètes de format et de qualité du contenu : `.devin/rules/ressources.md`
 
 ## Composants Pédagogiques
 
@@ -128,6 +93,72 @@ layout: two-cols-header
 - Police < 16px pour tout faire rentrer
 - Plus de 8 points de liste sur une slide
 - Paragraphes de plus de 6 lignes
+
+## Anti-patterns à éviter
+
+### Slides de récapitulatif verbatim (INTERDIT)
+
+**INTERDIT** : Créer une slide « Récapitulatif » qui recopie mot pour mot les bullets des slides précédentes.
+
+> ❌ Mauvais : une slide finale de chapitre qui liste à nouveau les 4 points déjà présentés un par un.
+
+**Alternative obligatoire** : Terminer un chapitre par une **question de transition ouverte** (`layout: center`) qui invite les apprenants à reformuler, ou par une note de speaker sans slide dédiée.
+
+**Format standard de transition** :
+```md
+---
+layout: center
+class: text-center
+---
+
+# Titre du Chapitre
+&nbsp;
+
+> 💬 [Question ouverte qui connecte ce chapitre au suivant]
+
+<!--
+Notes de transition pour le présentateur.
+-->
+```
+
+**Exception** : Une synthèse est acceptable **uniquement** si elle croise ou reformule des points de chapitres **différents** (ex : synthèse finale de cours).
+
+### Slide de contexte métier isolée (INTERDIT)
+
+**INTERDIT** : Créer une slide dédiée uniquement à poser le contexte métier d'un exercice, suivie immédiatement d'une slide avec le code.
+
+**À faire à la place** : Intégrer le contexte dans la **colonne droite** du layout `two-cols-header` de la slide qui affiche le code, avec les `v-click` pour les analyses symptomatiques.
+
+```md
+---
+layout: two-cols-header
+layoutClass: gap-x-4
+---
+
+# Titre
+Contexte résumé en sous-titre (5-8 mots max)
+
+::left::
+
+```ts
+// code ici
+```
+
+::right::
+
+**Le contexte métier**
+- Concept A : **terme clé**
+- Concept B : **terme clé**
+
+<div v-click="1">
+
+**Analyse**
+- ...
+
+</div>
+```
+
+---
 
 ## Code
 

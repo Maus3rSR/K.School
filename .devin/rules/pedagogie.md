@@ -34,7 +34,7 @@ Concept spécifique
 - **Vocabulaire accessible** : Définir chaque terme technique
 - **Analogies concrètes** : Relier au quotidien
 - **Pas de sauts conceptuels** : Éviter "évidemment", "simplement"
-- **Récapitulatifs fréquents** : Tous les 3-5 concepts
+- **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir règle Anti-patterns dans `slide.md`)
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
 
@@ -46,23 +46,7 @@ Concept spécifique
 
 Chaque support de cours doit inclure une slide "Lexique" positionnée **immédiatement après la slide "Ressources pour ce cours"**, au début du cours.
 
-**Objectifs** :
-- Mémorisation des termes techniques précis
-- Référence rapide pour les apprenants
-- Renforcement du vocabulaire professionnel
-
-**Format** :
-- Terme en **anglais** en premier (langue technique de référence)
-- Traduction française entre parenthèses `(fr)` **uniquement si différente** — ne pas dupliquer si identique
-- Ordre **alphabétique** strict sur le terme anglais
-- Définition concise (1 ligne maximum)
-
-**Exemples** :
-```
-**Inheritance** <small class="opacity-50">(Héritage)</small>   ← termes différents : traduction
-**Abstraction**                                                 ← identique : pas de traduction
-**Instance** <small class="opacity-50">(Objet)</small>         ← synonyme français pertinent
-```
+> Règles complètes de format, sélection des termes et qualité du contenu : `.devin/rules/lexique.md`
 
 ## Règles Essentielles pour les Exercices
 

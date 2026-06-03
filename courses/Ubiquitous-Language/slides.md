@@ -38,5 +38,5 @@ src: ./sections/04-pratique-refactoring.md
 ---
 
 ---
-src: ./sections/05-debrief.md
+src: ./sections/05-conclusion.md
 ---

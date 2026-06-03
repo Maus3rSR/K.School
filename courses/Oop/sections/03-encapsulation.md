@@ -360,8 +360,3 @@ class: text-center
 Question de transition concrète. Faire verbaliser le risque, puis enchaîner vers l'héritage.
 Prochain chapitre : réutiliser et étendre des classes existantes avec extends.
 -->
-
-<!--
-Synthèse de l'encapsulation
-Transition vers l'héritage
--->

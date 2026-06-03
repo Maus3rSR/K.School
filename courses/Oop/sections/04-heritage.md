@@ -386,8 +386,3 @@ class: text-center
 Question de transition qui plante le problème du polymorphisme.
 Laisser le groupe chercher, puis enchaîner : "C'est exactement ce que le polymorphisme résout."
 -->
-
-<!--
-Synthèse de l'héritage
-Transition vers le polymorphisme
--->

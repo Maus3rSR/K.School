@@ -307,8 +307,3 @@ class: text-center
 Question de clôture du dernier chapitre technique.
 Permet aux apprenants de prendre du recul sur l'ensemble du cours avant la conclusion.
 -->
-
-<!--
-Synthèse des classes abstraites et interfaces
-Transition vers la conclusion
--->

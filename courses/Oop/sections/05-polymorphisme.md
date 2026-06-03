@@ -537,8 +537,3 @@ class: text-center
 Question de transition qui amorce la réflexion du chapitre 06.
 Toutes les réponses sont valides — l'objectif est d'activer la curiosité avant d'apporter la distinction.
 -->
-
-<!--
-Synthèse du polymorphisme
-Transition vers les classes abstraites
--->

@@ -35,7 +35,7 @@ Récapitulatif Général
 **Chapitre 05 - Polymorphisme**
 - Interfaces, `implements`, Flexibilité
 
-**Chapitre 06 - Classes Abstraites**
+**Chapitre 06 - Classes Abstraites et Interfaces**
 - `abstract`, Différence avec interfaces
 
 </div>

@@ -330,8 +330,3 @@ class: text-center
 Question de transition ouverte. Laisser 1-2 réponses, puis enchaîner vers l'encapsulation.
 Prochain chapitre : protéger les données en contrôlant l'accès aux attributs.
 -->
-
-<!--
-Synthèse des concepts clés
-Transition vers l'encapsulation
--->

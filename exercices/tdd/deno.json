@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "01-pig-latin": "deno task --cwd 01-pig-latin start",
+    "02-string-calculator": "deno task --cwd 02-string-calculator start",
+    "03-roman-numerals": "deno task --cwd 03-roman-numerals start",
+    "04-pendu": "deno task --cwd 04-pendu start"
+  }
+}

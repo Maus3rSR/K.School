@@ -10,11 +10,11 @@ layout: two-cols-header
 
 ## Liens utiles
 
-📚 [VSCode](https://code.visualstudio.com/docs/configure/keybindings) - Documentation raccourcis clavier
+📚 [VS Code Docs — Key Bindings](https://code.visualstudio.com/docs/configure/keybindings) - Configuration et personnalisation des raccourcis clavier dans VS Code
 
-📖 [Shortcut Masters](https://shortcutmasters.com) - Apprentissage & Pratique
+📖 [Shortcut Masters](https://shortcutmasters.com) - Plateforme d'apprentissage des raccourcis clavier par la pratique
 
-🎮 [Shortcut Foo](https://shortcutfoo.com) - Jeux interactifs
+🎮 [ShortcutFoo](https://shortcutfoo.com) - Entraînement interactif aux raccourcis clavier sous forme de jeu
 
 </div>
 
@@ -24,11 +24,11 @@ layout: two-cols-header
 
 ## Références de raccourcis
 
-🪟 [Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
+🪟 [Raccourcis VS Code — Windows (PDF)](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf) - Feuille de référence officielle des raccourcis sous Windows
 
-🍎 [Mac](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+🍎 [Raccourcis VS Code — macOS (PDF)](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf) - Feuille de référence officielle des raccourcis sous macOS
 
-🐧 [Linux](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf)
+🐧 [Raccourcis VS Code — Linux (PDF)](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf) - Feuille de référence officielle des raccourcis sous Linux
 
 </div>
 

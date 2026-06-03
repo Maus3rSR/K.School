@@ -10,11 +10,11 @@ layout: two-cols-header
 
 ## Liens utiles
 
-📚 [User Story Guide](https://www.atlassian.com/agile/project-management/user-stories) - Guide Atlassian
+📚 [Atlassian — User Stories](https://www.atlassian.com/agile/project-management/user-stories) - Guide complet pour écrire, estimer et prioriser des User Stories
 
-📖 [INVEST Criteria](https://agileforall.com/new-to-agile-invest-in-good-user-stories/) - Critères INVEST
+📖 [Agile for All — Critères INVEST](https://agileforall.com/new-to-agile-invest-in-good-user-stories/) - Les 6 critères INVEST pour évaluer la qualité d'une User Story
 
-🎮 [Example Mapping](https://cucumber.io/blog/bdd/example-mapping-introduction/) - Introduction Example Mapping
+🎮 [Cucumber — Example Mapping](https://cucumber.io/blog/bdd/example-mapping-introduction/) - Introduction à la technique Example Mapping pour clarifier les règles métier
 
 </div>
 
@@ -24,8 +24,8 @@ layout: two-cols-header
 
 ## Références complémentaires
 
-🔗 [Behavior-Driven Development](https://cucumber.io/docs/bdd/) - BDD avec Cucumber
+🔗 [Cucumber Docs — BDD](https://cucumber.io/docs/bdd/) - Comprendre le Behavior-Driven Development et les scénarios Gherkin
 
-🔗 [Agile Alliance](https://www.agilealliance.org/glossary/user-stories/) - Glossaire Agile
+🔗 [Agile Alliance — User Story](https://www.agilealliance.org/glossary/user-stories/) - Définition officielle de l'User Story par l'Agile Alliance
 
 </div>

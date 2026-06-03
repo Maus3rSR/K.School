@@ -8,13 +8,13 @@ layout: two-cols-header
 
 <div>
 
-## Liens utiles
+## Documentation officielle
 
-📚 [Documentation officielle](https://docs.docker.com/) - Documentation complète Docker
+📚 [Docker Docs](https://docs.docker.com/) - Documentation officielle : commandes, Dockerfile, volumes, réseaux
 
-📖 [Docker Hub](https://hub.docker.com/) - Registre d'images Docker
+📖 [Docker Hub](https://hub.docker.com/) - Registre d'images publiques : trouver et utiliser des images officielles
 
-🎮 [Play with Docker](https://labs.play-with-docker.com/) - Environnement de test en ligne
+🎮 [Play with Docker](https://labs.play-with-docker.com/) - Environnement Docker en ligne, sans installation
 
 </div>
 
@@ -24,10 +24,13 @@ layout: two-cols-header
 
 ## Références complémentaires
 
-🔗 [Docker Compose](https://docs.docker.com/compose/) - Orchestration multi-conteneurs
+🔗 [Docker Compose (docs.docker.com)](https://docs.docker.com/compose/) - Orchestrer plusieurs conteneurs avec un fichier YAML
 
-🔗 [Dockerfile Best Practices](https://docs.docker.com/develop/dev-best-practices/) - Bonnes pratiques
-
-🔗 [CNCF Landscape](https://landscape.cncf.io/) - Écosystème Cloud Native
+🔗 [Dockerfile Best Practices (docs.docker.com)](https://docs.docker.com/develop/dev-best-practices/) - Bonnes pratiques pour écrire des Dockerfiles efficaces
 
 </div>
+
+<!--
+Docker Docs est LA référence : tout y est, bien structuré.
+Play with Docker permet de tester sans rien installer en local.
+-->

@@ -10,9 +10,9 @@ layout: two-cols-header
 
 ## Liens utiles
 
-📚 [Ubiquitous Language](https://martinfowler.com/bliki/UbiquitousLanguage.html) - Martin Fowler, le vocabulaire partagé entre développeurs et experts métier
+📚 [Martin Fowler — Ubiquitous Language](https://martinfowler.com/bliki/UbiquitousLanguage.html) - Le concept de vocabulaire partagé entre développeurs et experts métier
 
-📚 [Naming as a Process](https://www.digdeeproots.com/articles/on/naming-process/) - Dig Deep Roots, le nommage comme outil de conception
+📚 [Dig Deep Roots — Naming as a Process](https://www.digdeeproots.com/articles/on/naming-process/) - Le nommage comme processus de conception itératif
 
 </div>
 
@@ -22,9 +22,9 @@ layout: two-cols-header
 
 ## Références complémentaires
 
-🔗 [Comprendre le DDD](https://sensiolabs.com/fr/blog/2024/comprendre-le-domain-driven-design) - SensioLabs, le modèle et le vocabulaire
+🔗 [SensioLabs — Comprendre le DDD](https://sensiolabs.com/fr/blog/2024/comprendre-le-domain-driven-design) - Introduction au Domain-Driven Design : modèle et vocabulaire
 
-🔗 [La pratique du DDD au quotidien](https://www.elao.com/blog/dev/ddd-practice) - Elao, refactoring pour révéler le domaine
+🔗 [Elao — La pratique du DDD au quotidien](https://www.elao.com/blog/dev/ddd-practice) - Refactoring concret pour révéler le vocabulaire du domaine dans le code
 
 </div>
 

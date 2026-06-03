@@ -7,13 +7,13 @@ layoutClass: gap-x-6
 
 ::left::
 
-<TermCard term="Container" translation="(Conteneur)" definition="Unité standardisée et isolée pour exécuter une application" />
-
-<TermCard term="Dockerfile" definition="Fichier de script pour construire une image Docker" />
+<TermCard term="Container" definition="Unité standardisée et isolée pour exécuter une application" />
 
 <TermCard term="Docker Compose" definition="Outil d'orchestration de plusieurs conteneurs en YAML" />
 
-<TermCard term="Image" translation="(Image)" definition="Template immuable servant de base à la création de conteneurs" />
+<TermCard term="Dockerfile" definition="Fichier de script pour construire une image Docker" />
+
+<TermCard term="Image" definition="Template immuable servant de base à la création de conteneurs" />
 
 ::right::
 

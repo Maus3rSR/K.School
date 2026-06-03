@@ -11,15 +11,15 @@ layoutClass: gap-x-6
 
 <TermCard term="Arrow function" translation="(Fonction fléchée)" definition="Syntaxe ES6 compacte pour déclarer une fonction anonyme" />
 
-<TermCard term="Component" translation="(Composant)" definition="Bloc réutilisable qui encapsule de l'UI et de la logique" />
+<TermCard term="Component" definition="Bloc réutilisable qui encapsule de l'UI et de la logique" />
 
-<TermCard term="Destructuring" translation="(Déstructuration)" definition="Syntaxe ES6 pour extraire des valeurs depuis un objet ou tableau" />
+<TermCard term="Destructuring" definition="Syntaxe ES6 pour extraire des valeurs depuis un objet ou tableau" />
 
 <TermCard term="ES6+" definition="Versions modernes de JavaScript (ES2015 et ultérieures)" />
 
-<TermCard term="Module" definition="Fichier JS/TS isolé qui exporte et importe des fonctionnalités" />
-
 <TermCard term="MPA" translation="(Application Multi-Pages)" definition="Site web classique où chaque page est un HTML chargé depuis le serveur" />
+
+<TermCard term="Module" definition="Fichier JS/TS isolé qui exporte et importe des fonctionnalités" />
 
 <TermCard term="Node.js" definition="Environnement d'exécution JavaScript côté serveur, nécessaire pour les outils front-end" />
 

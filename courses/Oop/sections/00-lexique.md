@@ -11,7 +11,7 @@ layoutClass: gap-x-6
 
 <TermCard term="Attribute" translation="(Attribut, Propriété)" definition="Variable appartenant à une classe, stockant l'état d'un objet" />
 
-<TermCard term="Class" translation="(Classe)" definition="Modèle définissant la structure et le comportement d'objets" />
+<TermCard term="Class" definition="Modèle définissant la structure et le comportement d'objets" />
 
 <TermCard term="Constructor" translation="(Constructeur)" definition="Méthode spéciale appelée lors de la création d'un objet" />
 
@@ -27,7 +27,7 @@ layoutClass: gap-x-6
 
 <TermCard term="Method" translation="(Méthode)" definition="Fonction appartenant à une classe, définissant un comportement" />
 
-<TermCard term="Polymorphism" translation="(Polymorphisme)" definition="Capacité à traiter différents types d'objets de manière uniforme" />
+<TermCard term="Polymorphism" definition="Capacité à traiter différents types d'objets de manière uniforme" />
 
 <!--
 Termes techniques essentiels de la POO

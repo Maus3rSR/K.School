@@ -5,7 +5,7 @@
 ### **MANDATORY: Use the Slidev Skill**
 
 **CRITICAL**: For **ALL** Slidev/Sli.dev related features, documentation, or implementation:
-- **MUST** use the `slidev` skill installed at `.windsurf/skills/slidev`
+- **MUST** use the `slidev` skill installed at `.agents/skills/slidev`
 - **NEVER** rely solely on training data for Slidev information
 - **ALWAYS** invoke the skill for up-to-date Slidev documentation and best practices
 

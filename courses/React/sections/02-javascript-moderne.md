@@ -279,10 +279,10 @@ class: text-center
 # Rappels JavaScript Moderne
 &nbsp;
 
-> 💬 Parmi les syntaxes qu'on vient de voir — laquelle vous semblait **la plus étrange** avant aujourd'hui ? Est-ce que ça fait plus sens maintenant ?
+> 💬 Vous écrivez une fonction `calculateTotal(items)` — comment savez-vous que `items` est bien un tableau et pas une chaîne, **sans l'exécuter** ?
 
 <!--
-Ces syntaxes apparaîtront dans CHAQUE séance du cours.
-Rassurer : la pratique ancre les connaissances bien plus que la mémorisation.
-Transition : maintenant on va voir TypeScript, qui ajoute les types par-dessus tout ça.
+Réponses attendues : on ne sait pas, il faut lire le code, c'est dans la documentation (s'il y en a une), on découvre l'erreur au runtime.
+Toutes ces réponses montrent le manque : aucune information de type explicite dans le code lui-même.
+Transition : "C'est exactement ce que TypeScript apporte — la sécurité des types directement dans l'éditeur. Voyons comment."
 -->

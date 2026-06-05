@@ -301,9 +301,9 @@ class: text-center
 # Classes Abstraites et Interfaces
 &nbsp;
 
-> 💬 Parmi les 4 piliers vus dans ce cours — encapsulation, héritage, polymorphisme, abstraction — lequel vous semble le plus **utile au quotidien** ? Pourquoi ?
+> 💬 Demain, vous reprenez un code existant mal structuré. Parmi les 4 piliers, lequel vous servira **en premier** pour améliorer la qualité sans tout réécrire ?
 
 <!--
-Question de clôture du dernier chapitre technique.
-Permet aux apprenants de prendre du recul sur l'ensemble du cours avant la conclusion.
+Question de clôture orientée action. Les réponses varient selon le contexte (encapsulation pour sécuriser, abstraction pour clarifier).
+Transition : "Peu importe votre choix — l'essentiel est de reconnaître ces patterns dans votre code quotidien. Voyons comment les identifier."
 -->

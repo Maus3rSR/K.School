@@ -324,9 +324,10 @@ class: text-center
 # Première Implémentation
 &nbsp;
 
-> 💬 Vous venez de créer votre première classe. Qu'est-ce qui vous **surprend** ou vous **pose question** dans ce que vous avez écrit ?
+> 💬 Votre classe expose ses attributs directement (`compte.solde = ...`). Que se passe-t-il si un autre développeur assigne une valeur incohérente — négative, trop grande, ou invalide ?
 
 <!--
-Question de transition ouverte. Laisser 1-2 réponses, puis enchaîner vers l'encapsulation.
-Prochain chapitre : protéger les données en contrôlant l'accès aux attributs.
+Réponses attendues : le compte est dans un état incohérent, on ne peut pas empêcher la modification, le code qui utilise la classe doit vérifier lui-même.
+Toutes ces réponses pointent vers le même besoin : contrôler l'accès aux données pour garantir leur validité.
+Transition : "C'est exactement le rôle de l'encapsulation — protéger l'intégrité des données. Voyons comment."
 -->

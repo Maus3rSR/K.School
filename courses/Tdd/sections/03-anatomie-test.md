@@ -524,10 +524,10 @@ class: text-center
 
 &nbsp;
 
-> 💬 "Dans la démo, pourquoi a-t-on écrit `String(n)` et pas directement la logique complète dès le premier test ?"
+> 💬 Le code `String(n)` est minimal mais un peu « moche ». Que se passe-t-il si on essaye de **l'améliorer maintenant** sans tests supplémentaires ?
 
 <!--
-Réponse attendue : on ne code que ce que le test demande — pas d'anticipation, pas de surcodage.
-Laisser 2-3 réponses s'exprimer, valoriser celles qui mentionnent "baby steps" ou "minimum pour faire passer le test".
-Enchaîner directement vers le bloc refactoring — le code de la démo est le point de départ.
+Réponses attendues : on risque de casser quelque chose, on n'est pas sûr que ça marche encore, on doit retester manuellement.
+Toutes ces réponses pointent vers la même peur : modifier du code sans filet de sécurité.
+Transition : "Cette peur est normale — et c'est exactement pourquoi le refactoring existe dans le cycle TDD. Voyons comment refactorer avec confiance."
 -->

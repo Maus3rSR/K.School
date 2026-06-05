@@ -303,9 +303,10 @@ class: text-center
 # L'écosystème React
 &nbsp;
 
-> 💬 En regardant `package.json` — est-ce que vous **reconnaissez** tous les outils listés ? Lequel vous paraît encore le plus flou ?
+> 💬 Vous clonez un projet React existant. À quel moment savez-vous que tous les outils sont correctement installés et que vous pouvez coder sereinement ?
 
 <!--
-Transition naturelle vers le premier projet : on va créer le projet avec Vite et tous ces fichiers
-apparaîtront automatiquement. Les apprenants pourront les reconnaître au fur et à mesure.
+Réponses attendues : quand npm install finit sans erreur, quand npm run dev démarre, quand on voit l'application dans le navigateur.
+Cette question prépare l'importance du premier lancement réussi du projet.
+Transition : "C'est exactement ce qu'on va faire maintenant — créer un projet propre, le lancer, et vérifier que tout fonctionne ensemble."
 -->

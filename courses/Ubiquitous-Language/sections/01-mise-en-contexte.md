@@ -145,9 +145,10 @@ class: text-center
 # Mise en contexte
 &nbsp;
 
-> 💬 Si vous deviez **choisir un seul mot** pour décrire ce que le code doit refléter en priorité — lequel serait-il ?
+> 💬 Vous rejoignez une équipe et découvrez une classe nommée `DataManager`. Sans lire le code, que pouvez-vous deviner de ce qu'elle fait réellement dans le métier ?
 
 <!--
-Question ouverte pour amorcer la transition vers le chapitre 02.
-Réponse attendue : "métier", "intention", "domaine"… tout est valide pour enchaîner sur le principe de nommage.
+Réponses attendues : rien du tout, ça pourrait être n'importe quoi, il faut lire le code pour comprendre.
+Toutes ces réponses soulignent le problème : un nom vague cache l'intention métier derrière une abstraction technique.
+Transition : "C'est exactement le symptôme qu'on va apprendre à diagnostiquer — et à corriger avec l'Ubiquitous Language."
 -->

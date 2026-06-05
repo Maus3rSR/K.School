@@ -170,10 +170,10 @@ class: text-center
 # Introduction
 &nbsp;
 
-> 💬 Selon vous, quel est le moment idéal pour écrire un test — avant ou après avoir écrit le code ?
+> 💬 Vous devez ajouter une fonctionnalité à un code existant sans test. Comment savez-vous **quand vous avez fini** et que tout fonctionne encore ?
 
 <!--
-Laisser 2-3 réponses s'exprimer, ne pas trancher encore.
-Accueillir les deux points de vue sans les corriger — la suite du cours le fera naturellement.
-Enchaîner vers le cycle Red-Green-Refactor en détail.
+Réponses attendues : quand ça marche à la main, quand je teste dans le navigateur, quand je n'ai plus d'erreurs visibles.
+Toutes ces réponses partagent le même problème : elles sont manuelles, non reproductibles, et fragiles.
+Transition : "Le TDD répond à cette question avec une règle simple — on a fini quand tous les tests passent. Voyons ce cycle en détail."
 -->

@@ -222,9 +222,10 @@ class: text-center
 # Introduction à TypeScript
 &nbsp;
 
-> 💬 Vous avez vu TypeScript signaler une erreur en direct. Est-ce que vous imaginez une situation dans votre code où ça vous **aurait évité un bug** ?
+> 💬 TypeScript a signalé une erreur sans exécuter le code. Mais comment l'éditeur sait-il quels types attendre — et où sont-ils définis ?
 
 <!--
-Rassurer : TS peut sembler intimidant au début, mais VSCode guide avec l'autocomplétion.
-On va tout de suite créer notre premier projet React + TypeScript.
+Réponses attendues : dans le code, dans des fichiers séparés, dans la configuration du projet.
+Cette question prépare l'exploration de la configuration TypeScript et du fichier tsconfig.json.
+Transition : "Les types sont définis dans notre code et notre configuration — voyons comment React + TypeScript s'organisent dans un vrai projet."
 -->

@@ -11,6 +11,15 @@ Adultes en reconversion professionnelle, débutants, apprentissage intensif avec
 
 ## Règles Essentielles pour les Slides
 
+### Terminologie — Qui parle dans les slides ?
+
+Dans les supports de cours, on utilise cette convention :
+
+- **Le formateur** : L'instructeur qui présente le cours (celui qui parle à l'oral, référencé comme "je" ou "le formateur" dans les slides)
+- **Les apprenants** : Les personnes qui suivent la formation (le public, référencé comme "vous" ou "les apprenants")
+
+Cette distinction doit être claire lors des phases de démonstration ou d'exercice.
+
 ### Organisation par Chapitres (OBLIGATOIRE)
 
 Chaque slide reprend le titre du chapitre en H1, suivi du concept spécifique :
@@ -19,10 +28,13 @@ Chaque slide reprend le titre du chapitre en H1, suivi du concept spécifique :
 ---
 layout: cover
 ---
+
 # Chapitre XX - Titre
 
 ---
+
 # Titre du Chapitre
+
 Concept spécifique
 ```
 
@@ -67,12 +79,14 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 ## Checklist de Validation
 
 ### Slides
+
 - [ ] Termes techniques définis
 - [ ] Progression logique
 - [ ] Exemples concrets variés
 - [ ] Notes présentateur complètes
 
 ### Exercices
+
 - [ ] Objectif clair
 - [ ] Instructions étape par étape
 - [ ] Indices à 3 niveaux

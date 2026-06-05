@@ -29,10 +29,10 @@ Le mot est fourni par un **Stub** — une fonction qui retourne toujours le mêm
 C'est ce qui rend les tests indépendants d'un vrai dictionnaire.
 
 ```ts
-// Stub : fournit toujours "CHEVAL" pour les tests
-const wordStub = () => "CHEVAL"
+// Provider : fournit toujours "CHEVAL" pour les tests
+const wordProvider = () => "CHEVAL"
 
-const game = createGame(wordStub)
+const game = createGame(wordProvider)
 // game.word === "CHEVAL"
 // game.maskedWord === ["_", "_", "_", "_", "_", "_"]
 // game.remainingLives === 6
@@ -68,10 +68,24 @@ const updated = playLetter(game, "Z")
 ### Étape 5 — Lettre déjà jouée (25 min)
 Rejeter une lettre déjà tentée sans pénalité (vies et masque inchangés).
 
+**Astuce** : Pour tester une lettre déjà jouée, tu as besoin d'une partie où une lettre a déjà été tentée. Crée une fonction helper pour éviter de répéter ce setup :
+
 ```ts
-// Fixture : partie avec "C" déjà joué
-const gameWithC = playLetter(createGame(() => "CHEVAL"), "C")
-const updated = playLetter(gameWithC, "C")
+// Helper : crée une partie avec des lettres déjà jouées
+function createGameWithPlayedLetters(
+  wordProvider: () => string,
+  ...letters: string[]
+) {
+  let game = createGame(wordProvider)
+  for (const letter of letters) {
+    game = playLetter(game, letter)
+  }
+  return game
+}
+
+// Test : rejouer "C" ne pénalise pas
+const game = createGameWithPlayedLetters(() => "CHEVAL", "C")
+const updated = playLetter(game, "C")
 // updated.remainingLives === 6     (pas de pénalité)
 // updated.guessedLetters === ["C"] (pas de doublon)
 ```
@@ -85,6 +99,6 @@ deno task start
 ## Consignes TDD
 
 1. Implémenter **une étape à la fois** — ne pas lire l'étape suivante avant que les tests de l'étape actuelle passent
-2. À l'étape 1, nommer le concept : *"cette fonction `wordStub`, c'est un Stub"*
-3. À l'étape 5, factoriser le setup répété dans une fixture
+2. À l'étape 1, nommer le concept : *"cette fonction `wordProvider`, c'est un Stub"*
+3. À l'étape 5, utiliser une **fonction helper** pour créer l'état initial des tests (voir exemple dans l'étape)
 4. Refactorer après chaque étape verte

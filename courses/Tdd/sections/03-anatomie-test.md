@@ -70,7 +70,7 @@ layoutClass: gap-x-4
 
 # Anatomie d'un test
 
-Arrange — Act — Assert
+Arrange — Act — Assert (AAA)
 
 ::left::
 

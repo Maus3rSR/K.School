@@ -199,16 +199,13 @@ Démo live — FizzBuzz en TDD
 
 <div v-click class="mt-6">
 
-Le formateur va coder les 4 cas en TDD, un par un.
-
-Les apprenants **observent** — ils ne codent pas encore.
+Les slides suivantes montrent le code pas à pas — **observez** et suivez, vous ne codez pas encore.
 
 </div>
 
 <!--
-Ouvrir l'éditeur, créer fizzbuzz.ts et fizzbuzz.test.ts vides côte à côte.
-Mentionner explicitement : "Je vais volontairement nommer les variables de façon minimaliste — `n` pour le paramètre, `r` pour le résultat. Ce n'est pas un oubli : le refactoring sera le sujet du prochain bloc."
-Lancer `deno test --watch` dans le terminal pour que les apprenants voient le rouge/vert en temps réel.
+Les slides suivantes affichent le code — pas besoin d'ouvrir l'éditeur en direct.
+Mentionner explicitement : "Les variables `n` et `r` sont volontairement minimalistes — ce n'est pas un oubli : le refactoring sera le sujet du prochain bloc."
 -->
 
 ---

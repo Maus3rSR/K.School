@@ -13,12 +13,16 @@ Adultes en reconversion professionnelle, débutants, apprentissage intensif avec
 
 ### Terminologie — Qui parle dans les slides ?
 
-Dans les supports de cours, on utilise cette convention :
+Les slides sont lus à la fois par le formateur (support de présentation) ET par les apprenants (support de cours).
 
-- **Le formateur** : L'instructeur qui présente le cours (celui qui parle à l'oral, référencé comme "je" ou "le formateur" dans les slides)
-- **Les apprenants** : Les personnes qui suivent la formation (le public, référencé comme "vous" ou "les apprenants")
+**Règle stricte :**
 
-Cette distinction doit être claire lors des phases de démonstration ou d'exercice.
+- **Dans le contenu visible des slides** → s'adresser directement aux apprenants à la 2e personne : "vous", "observez", "demandez de l'aide"
+- **Dans les notes du présentateur** (`<!-- -->`) → "formateur" et "apprenants" sont autorisés
+- **Dans les documents internes** (planning, programme.md…) → pas de restriction
+
+❌ Références au formateur ou aux apprenants en tant que tiers dans le contenu visible
+✅ Texte qui a du sens lu seul, sans savoir qui est en train de présenter
 
 ### Organisation par Chapitres (OBLIGATOIRE)
 
@@ -47,6 +51,7 @@ Concept spécifique
 - **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir skill `slides-kschool`)
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
+- **Adresse directe** : Le contenu visible s'adresse au lecteur — pas de méta-référence au formateur ou aux apprenants (réservé aux notes `<!-- -->`)
 
 ### Architecture Type
 

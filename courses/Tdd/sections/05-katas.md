@@ -22,7 +22,7 @@ Les regles de la session
 - Travailler **seul** — chacun fait son propre cycle RGR
 - **Un test a la fois** — ne pas lire les cas suivants avant que le test actuel passe
 - Lancer `deno test --watch` et garder le terminal visible
-- Pas de copier-coller de solution — si bloque, demander au formateur
+- Pas de copier-coller de solution — si vous bloquez, demandez de l'aide
 
 </div>
 
@@ -223,7 +223,6 @@ layout: center
 
 C'est parti — `deno task 01-pig-latin`
 
-Le formateur passe dans les rangs. Correction collective a la fin de chaque kata.
 
 <!--
 Ne pas rester sur cette slide — lancer les apprenants immediatement

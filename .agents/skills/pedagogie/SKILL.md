@@ -1,11 +1,9 @@
 ---
-trigger: model_decision
-description: When working on courses and exercices folders
+name: pedagogie
+description: Guide d'ingénierie pédagogique K.School pour créer des cours et exercices destinés à des adultes en reconversion professionnelle. Invoquer quand on travaille sur les dossiers courses/ ou exercices/.
 ---
 
 # Ingénierie Pédagogique - Public Débutant en Reconversion
-
-> **Référence complète**: `.windsurf/docs/pedagogie-reference.md`
 
 ## Public Cible
 
@@ -34,8 +32,7 @@ Concept spécifique
 - **Vocabulaire accessible** : Définir chaque terme technique
 - **Analogies concrètes** : Relier au quotidien
 - **Pas de sauts conceptuels** : Éviter "évidemment", "simplement"
-- **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir règle Anti-patterns dans `slide.md`)
-  - **Format obligatoire** : les slides de transition avec question doivent utiliser `> 💬` avant le texte de la question pour un repère visuel cohérent
+- **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir skill `slides-kschool`)
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
 
@@ -47,7 +44,7 @@ Concept spécifique
 
 Chaque support de cours doit inclure une slide "Lexique" positionnée **immédiatement après la slide "Ressources pour ce cours"**, au début du cours.
 
-> Règles complètes de format, sélection des termes et qualité du contenu : `.devin/rules/lexique.md`
+> Règles complètes de format, sélection des termes et qualité du contenu : skill `slides-kschool`
 
 ## Règles Essentielles pour les Exercices
 

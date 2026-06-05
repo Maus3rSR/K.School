@@ -1,6 +1,6 @@
 ---
-trigger: model_decision
-description: When working into exercices folder
+name: exercices
+description: Règles de structure et de contenu pour créer des exercices K.School dans le dossier exercices/. Invoquer quand on travaille sur le dossier exercices/ ou qu'on crée/modifie un exercice de cours.
 ---
 
 # Règles pour les Exercices K.School
@@ -23,10 +23,10 @@ exercices/
 │   ├── package.json          # Package du cours
 │   ├── tsconfig.json         # Config TypeScript (si applicable)
 │   └── README.md             # Documentation du package
-├── git/                      # Package exercices Git
+├── git/
 │   ├── init_multiverse.sh
 │   └── package.json
-└── typescript/               # Package exercices TypeScript
+└── typescript/
     └── ...
 ```
 
@@ -37,6 +37,8 @@ exercices/
 - **Dossier cours** : Nom du cours en lowercase kebab-case (ex: `vscode`, `git`, `typescript`)
 - **Dossier exercice** : Préfixe numéroté `XX-` suivi du nom en kebab-case (ex: `01-navigation`, `02-refactoring`)
 - **README.md** : Obligatoire dans chaque exercice
+
+---
 
 ## Contenu des Fichiers d'Exercice
 
@@ -49,9 +51,18 @@ exercices/
 
 **Raison** : L'apprenant doit consulter le README.md pour les instructions. Les fichiers de code doivent ressembler à du code réel de production.
 
+---
+
 ## Structure d'un Exercice
 
-Chaque exercice doit contenir un `README.md` avec : Objectif, Prérequis, Instructions étape par étape, Critères de réussite, Temps estimé.
+Chaque exercice doit contenir un `README.md` avec :
+- Objectif
+- Prérequis
+- Instructions étape par étape
+- Critères de réussite
+- Temps estimé
+
+---
 
 ## Scripts dans package.json
 
@@ -66,30 +77,40 @@ Chaque package de cours a ses propres scripts dans `exercices/<cours>/package.js
 }
 ```
 
-**Convention** : Le nom du script correspond au nom du dossier de l'exercice (ex: `01-navigation`, `02-refactoring`).
+**Convention** : Le nom du script correspond au nom du dossier de l'exercice.
 
 **Exemples** :
 - `exercices/vscode/package.json` → `"01-navigation"`, `"02-refactoring"`
 - `exercices/git/package.json` → `"01-multiverse"`
 - `exercices/typescript/package.json` → `"01-types"`
 
+---
+
 ## Types d'Exercices
 
-**IDE** : Manipulation directe | **Script** : Génération d'environnement | **Code** : Complétion avec tests automatisés
+| Type | Description |
+|------|-------------|
+| **IDE** | Manipulation directe dans l'éditeur |
+| **Script** | Génération d'environnement via script shell |
+| **Code** | Complétion de code avec tests automatisés |
+
+---
 
 ## Lien avec les Slides
 
 **Ne pas inclure les exercices dans les slides**. Utiliser une slide de transition avec la commande `pnpm <exercice>` et référence au README.md.
+
+---
 
 ## Checklist de Validation
 
 Avant de publier un exercice :
 
 - [ ] Placé dans `exercices/<cours>/<XX-nom>/`
-- [ ] README.md avec structure complète
+- [ ] README.md avec structure complète (objectif, prérequis, instructions, critères, temps)
 - [ ] Script ajouté dans `exercices/<cours>/package.json`
 - [ ] Instructions claires et étape par étape
 - [ ] Critères de réussite mesurables
 - [ ] Temps estimé indiqué
 - [ ] Testé et fonctionnel
-
+- [ ] Fichiers de code sans consignes intégrées

@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?6
 ---
 
-# Chapitre 04 - Katas
+# Chapitre 05 - Katas
 
 <!--
 90 min de pratique autonome — 20 min Pig Latin, 25 min String Calculator, 35 min Roman Numerals + 10 min correction collective

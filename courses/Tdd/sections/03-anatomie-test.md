@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?4
 ---
 
-# Chapitre 02 - Anatomie d'un test
+# Chapitre 03 - Anatomie d'un test
 
 <!--
 Durée : 35 min — 15 min anatomie + 20 min démo FizzBuzz live

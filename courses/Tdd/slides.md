@@ -27,25 +27,25 @@ src: ./sections/00-lexique.md
 ---
 
 ---
-src: ./sections/00-introduction.md
+src: ./sections/01-introduction.md
 ---
 
 ---
-src: ./sections/01-red-green-refactor.md
+src: ./sections/02-red-green-refactor.md
 ---
 
 ---
-src: ./sections/02-anatomie-test.md
+src: ./sections/03-anatomie-test.md
 ---
 
 ---
-src: ./sections/03-refactoring.md
+src: ./sections/04-refactoring.md
 ---
 
 ---
-src: ./sections/04-katas.md
+src: ./sections/05-katas.md
 ---
 
 ---
-src: ./sections/05-conclusion.md
+src: ./sections/06-conclusion.md
 ---

@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?5
 ---
 
-# Chapitre 03 - Refactoring
+# Chapitre 04 - Refactoring
 
 <!--
 Durée : 15 minutes

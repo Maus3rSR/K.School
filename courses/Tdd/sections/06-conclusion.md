@@ -22,7 +22,7 @@ Ce que vous avez appris aujourd'hui
 
 <div v-click>
 
-**Chapitre 00 - Introduction**
+**Chapitre 01 - Introduction**
 - TDD ≠ ecrire des tests apres
 - Test-first comme outil de conception
 
@@ -30,7 +30,7 @@ Ce que vous avez appris aujourd'hui
 
 <div v-click class="mt-4">
 
-**Chapitre 01 - Red. Green. Refactor.**
+**Chapitre 02 - Red. Green. Refactor.**
 - Le cycle fondamental
 - Baby steps intentionnels
 
@@ -40,7 +40,7 @@ Ce que vous avez appris aujourd'hui
 
 <div v-click>
 
-**Chapitre 02 - Anatomie d'un test**
+**Chapitre 03 - Anatomie d'un test**
 - Structure AAA
 - Nommage expressif
 - Deno test en pratique
@@ -49,9 +49,17 @@ Ce que vous avez appris aujourd'hui
 
 <div v-click class="mt-4">
 
-**Chapitre 03 - Refactoring**
+**Chapitre 04 - Refactoring**
 - Tests comme filet de securite
 - Rename, extract, DRY sur FizzBuzz
+
+</div>
+
+<div v-click class="mt-4">
+
+**Chapitre 05 - Katas**
+- Pratique sur String Calculator et Pig Latin
+- Discipline TDD sur des problèmes isolés
 
 </div>
 

@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?2
 ---
 
-# Chapitre 00 - Introduction
+# Chapitre 01 - Introduction
 
 <!--
 Durée : 25 minutes
@@ -93,47 +93,6 @@ layoutClass: gap-x-4
 Insister sur le mot "conception" — c'est le point central de cette slide.
 TDD force à réfléchir à l'interface avant l'implémentation : comment je veux utiliser ce code ?
 La distinction "test after" vs "test first" est fondamentale pour la suite du cours.
--->
-
----
-
-# Introduction
-
-Red. Green. Refactor.
-
-<div v-click>
-
-## RED — Écrire un test qui échoue
-
-Le test décrit le comportement attendu. Il n'existe pas encore de code pour le faire passer.
-
-</div>
-
-<div v-click class="mt-4">
-
-## GREEN — Écrire le minimum de code pour le faire passer
-
-Pas d'optimisation, pas de perfectionnisme. Juste ce qu'il faut pour que le test soit vert.
-
-</div>
-
-<div v-click class="mt-4">
-
-## REFACTOR — Améliorer le code en sécurité
-
-Le test passe. On peut nettoyer, simplifier, restructurer — sans craindre de casser quelque chose.
-
-</div>
-
-<div v-click class="mt-8">
-
-**Ce cycle, répété des dizaines de fois par heure, est la discipline fondamentale du TDD.**
-
-</div>
-
-<!--
-Ne pas détailler chaque étape — le prochain chapitre décortique Red, Green, Refactor en profondeur.
-L'objectif ici est de planter le décor : TDD, c'est un rythme, une cadence, pas une règle ponctuelle.
 -->
 
 ---

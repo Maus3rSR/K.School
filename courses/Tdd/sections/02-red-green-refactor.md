@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?3
 ---
 
-# Chapitre 01 - Red. Green. Refactor.
+# Chapitre 02 - Red. Green. Refactor.
 
 <!--
 Durée : 15 minutes
@@ -183,7 +183,7 @@ class: text-center
 # Red. Green. Refactor.
 &nbsp;
 
-> "Quelle étape vous paraît la plus difficile a respecter — écrire le test en premier, s'arreter au minimum, ou ne refactorer que quand c'est vert ?"
+> 💬 Quelle étape vous paraît la plus difficile a respecter — écrire le test en premier, s'arreter au minimum, ou ne refactorer que quand c'est vert ?
 
 <!--
 Objectif : nommer les résistances naturelles avant la démo.

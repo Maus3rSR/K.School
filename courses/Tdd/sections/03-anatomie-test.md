@@ -22,7 +22,7 @@ Deno.test — la syntaxe de base
 
 ::left::
 
-```ts {1|3|4|5|all}
+```ts {all|1|3|4|5}
 import { assertEquals } from "jsr:@std/assert"
 
 Deno.test("should return 1 when given 1", () => {
@@ -33,25 +33,25 @@ Deno.test("should return 1 when given 1", () => {
 
 ::right::
 
-<div v-click>
+<div v-click="1">
 
 `import { assertEquals }` — l'assertion qui compare résultat et attendu
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="2" class="mt-4">
 
 `Deno.test("nom du test", () => {...})` — déclarer un test nommé
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="3" class="mt-4">
 
 `fizzbuzz(1)` — appeler le code à tester (Act)
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="4" class="mt-4">
 
 `assertEquals(result, "1")` — vérifier le résultat (Assert)
 
@@ -74,7 +74,7 @@ Arrange — Act — Assert
 
 ::left::
 
-```ts {1-3|5-6|8-9|all}
+```ts {none|1-3|5-6|8-9|all}
 Deno.test("should return Fizz when divisible by 3", () => {
   // Arrange — préparer les données
   const input = 3
@@ -89,25 +89,25 @@ Deno.test("should return Fizz when divisible by 3", () => {
 
 ::right::
 
-<div v-click>
+<div v-click="1">
 
 **Arrange** : Préparer l'état initial et les données d'entrée
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="2" class="mt-4">
 
 **Act** : Appeler une seule fois le code testé
 
 </div>
 
-<div v-click class="mt-4">
+<div v-click="3" class="mt-4">
 
 **Assert** : Vérifier une seule chose — le résultat attendu
 
 </div>
 
-<div v-click class="mt-6">
+<div v-click="4" class="mt-6">
 
 Règle d'or : **un test = une assertion principale**
 

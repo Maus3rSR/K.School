@@ -42,6 +42,8 @@ sections/
 
 **Nommage** : `[numéro]-[concept-principal].md` (ex: `01-jsx-intro.md`)
 
+**Numérotation des chapitres** : Les chapitres **doivent commencer à 01**, jamais à 00. Un fichier `00-` est réservé aux éléments hors chapitre (lexique, ressources).
+
 **Ne PAS sous-découper un chapitre** : < 10 slides, 1-2 concepts, durée < 30 min
 
 ### Positionnement des Ressources

@@ -35,6 +35,7 @@ Concept spécifique
 - **Analogies concrètes** : Relier au quotidien
 - **Pas de sauts conceptuels** : Éviter "évidemment", "simplement"
 - **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir règle Anti-patterns dans `slide.md`)
+  - **Format obligatoire** : les slides de transition avec question doivent utiliser `> 💬` avant le texte de la question pour un repère visuel cohérent
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
 

@@ -13,14 +13,15 @@ description: Règles de mise en oeuvre technique des slides K.School avec Slidev
 
 **Sous-découper un chapitre en sous-sections** si **≥ 2 critères** sur 4 :
 
-| Critère | Seuil |
-|---------|-------|
-| Nombre de slides | ≥ 12 slides |
-| Concepts distincts | ≥ 3 concepts majeurs |
-| Sections `layout: section` | ≥ 3 sections |
-| Exercices pratiques | ≥ 2 exercices |
+| Critère                    | Seuil                |
+| -------------------------- | -------------------- |
+| Nombre de slides           | ≥ 12 slides          |
+| Concepts distincts         | ≥ 3 concepts majeurs |
+| Sections `layout: section` | ≥ 3 sections         |
+| Exercices pratiques        | ≥ 2 exercices        |
 
 **Structure avec sous-découpage** :
+
 ```
 sections/
 ├── 02-chapitre-nom/
@@ -31,6 +32,7 @@ sections/
 ```
 
 **Structure sans sous-découpage** :
+
 ```
 sections/
 ├── 02-chapitre-nom.md        # Chapitre complet dans un seul fichier
@@ -69,28 +71,33 @@ sections/
 ### Longueur de Texte par Layout
 
 **Layout normal (default)** :
+
 - **Titre** : 1 ligne courte (max 60 caractères)
 - **Contenu principal** : 3-6 points de liste OU 2-3 paragraphes courts (max 4-5 lignes chacun)
 - **Texte total** : ~150-300 mots maximum
 - **Règle d'or** : Si plus de 6 points ou 300 mots → diviser en plusieurs slides
 
 **Layout `two-cols-header`** :
+
 - **Header** : Titre + sous-titre optionnel (1-2 lignes)
 - **Chaque colonne** : 3-4 points de liste OU 1-2 paragraphes courts (max 3-4 lignes)
 - **Texte par colonne** : ~80-150 mots maximum
 - **Règle d'or** : Équilibrer les colonnes, éviter qu'une colonne soit 2× plus longue que l'autre
 
 **Layout `two-cols` (sans header)** :
+
 - **Chaque colonne** : 4-5 points de liste OU 2-3 paragraphes courts
 - **Texte par colonne** : ~100-180 mots maximum
 - **Règle d'or** : Utiliser pour comparaisons (avant/après, avantages/inconvénients)
 
 **Layouts spéciaux** :
+
 - **`center`** : Texte minimal, 1-3 lignes centrées, impact visuel
 - **`image-right/left`** : Texte réduit (3-4 points), laisser l'image respirer
 - **`quote`** : Citation courte (max 2-3 lignes) + attribution
 
 **Indicateurs de contenu trop long** :
+
 - Besoin de scroll sur la slide
 - Texte qui déborde visuellement
 - Police < 16px pour tout faire rentrer
@@ -110,6 +117,7 @@ sections/
 **Alternative obligatoire** : Terminer un chapitre par une **question de transition ouverte** (`layout: center`) qui invite les apprenants à reformuler, ou par une note de speaker sans slide dédiée.
 
 **Format standard de transition** :
+
 ```md
 ---
 layout: center
@@ -117,6 +125,7 @@ class: text-center
 ---
 
 # Titre du Chapitre
+
 &nbsp;
 
 > 💬 [Question ouverte qui connecte ce chapitre au suivant]
@@ -134,13 +143,14 @@ Notes de transition pour le présentateur.
 
 **À faire à la place** : Intégrer le contexte dans la **colonne droite** du layout `two-cols-header` de la slide qui affiche le code, avec les `v-click` pour les analyses symptomatiques.
 
-```md
+````md
 ---
 layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
 # Titre
+
 Contexte résumé en sous-titre (5-8 mots max)
 
 ::left::
@@ -148,16 +158,19 @@ Contexte résumé en sous-titre (5-8 mots max)
 ```ts
 // code ici
 ```
+````
 
 ::right::
 
 **Le contexte métier**
+
 - Concept A : **terme clé**
 - Concept B : **terme clé**
 
 <div v-click="1">
 
 **Analyse**
+
 - ...
 
 </div>
@@ -172,6 +185,7 @@ Contexte résumé en sous-titre (5-8 mots max)
 Évolution progressive du code. Syntaxe : 4 backticks `````md magic-move`.
 
 **Bonnes pratiques** :
+
 - Une étape = un concept clairement identifié
 - Line highlighting `{5-8}` pour mettre en évidence les changements
 - Commentaires guidants dans le code
@@ -179,21 +193,94 @@ Contexte résumé en sous-titre (5-8 mots max)
 
 ### Line Highlighting
 
-Décortiquer un code ligne par ligne. Syntaxe : `{lignes|lignes|all}` avec `|` pour séparer les clicks.
+Décortiquer un code ligne par ligne. Syntaxe : `{état_initial|lignes|lignes|all}` avec `|` pour séparer les clicks.
 
-**Valeurs** : `hide`, `none`, `all` | **Pratique** : Contexte global → Détails → Vue d'ensemble
+#### États initiaux (click 0 — sans clic utilisateur)
 
-**RÈGLE CRITIQUE** : **Synchronisation obligatoire entre highlighting et v-click**
-- Chaque étape de highlighting (`|`) doit correspondre à un `<div v-click>` ou `<div v-click="N">`
+`all` et `none` placés en **premier segment** sont des **états initiaux** : ils s'affichent dès l'arrivée sur la slide, sans consommer de click utilisateur.
+
+| Premier segment                   | Affichage initial            | Usage pédagogique                                        |
+| --------------------------------- | ---------------------------- | -------------------------------------------------------- |
+| `all`                             | Tout le code highlighté      | Montrer le bloc complet avant de le décortiquer          |
+| `none`                            | Code visible sans highlight  | Laisser le code "neutre" avant la découverte progressive |
+| `{1-3\|...}` (aucun état initial) | Lignes 1-3 déjà highlightées | À éviter — crée un décalage avec les v-click             |
+
+**RÈGLE** : Toujours commencer par `all` ou `none` pour avoir un état initial propre.
+
+#### Synchronisation avec v-click
+
+Les `v-click` **doivent être numérotés explicitement** (`v-click="N"`) pour garantir la synchronisation.
+
+- État initial (`all` ou `none`) = click 0 → **aucun v-click**
+- Premier segment après l'état initial = click 1 → `v-click="1"`
+- Deuxième segment = click 2 → `v-click="2"`, etc.
+
+**Exemple correct** (`all` initial + décorticage) :
+
+````md
+::left::
+
+```ts {all|1|3|4|5}
+import { assertEquals } from "jsr:@std/assert";
+
+Deno.test("nom", () => {
+  const result = fn(1);
+  assertEquals(result, "1");
+});
+```
+````
+
+::right::
+
+<div v-click="1">
+
+`import { assertEquals }` — l'assertion
+
+</div>
+
+<div v-click="2">
+
+`Deno.test(...)` — déclarer un test nommé
+
+</div>
+```
+
+**Exemple correct** (`none` initial + découverte progressive) :
+
+````md
+```ts {none|1-3|5-6|8-9|all}
+
+```
+````
+
+→ click 1 = lignes 1-3 + `v-click="1"`, click 2 = lignes 5-6 + `v-click="2"`, etc.
+
+#### Pattern all final (OBLIGATOIRE avant slide suivante)
+
+Quand la dernière étape est un **texte de synthèse ou une règle**, ajouter `all` en dernier segment pour récapituler visuellement le code entier.
+
+````md
+```ts {none|1-3|5-6|8-9|all}
+
+```
+````
+
+→ Le `all` final se synchronise avec le v-click de la règle/synthèse.
+
+#### RÈGLE CRITIQUE : Synchronisation obligatoire
+
+- Chaque segment de highlighting (sauf l'état initial) = **un `v-click="N"` exactement**
 - Le contenu du v-click doit expliquer **exactement** les lignes surlignées
+- **INTERDIT** : `v-click` sans numéro explicite quand du line highlighting est présent
 - **INTERDIT** : Avoir un v-click qui parle de lignes non surlignées à cette étape
 
 ### Quand utiliser quoi ?
 
-| Situation | Outil |
-|-----------|-------|
-| Montrer l'évolution du code (ajout, refactoring) | **Magic Move** |
-| Expliquer un code existant ligne par ligne | **Line Highlighting** |
+| Situation                                        | Outil                                       | Pattern                                                  |
+| ------------------------------------------------ | ------------------------------------------- | -------------------------------------------------------- |
+| Montrer l'évolution du code (ajout, refactoring) | **Magic Move**                              | 1 `v-click="N"` par étape                                |
+| Expliquer un code existant ligne par ligne       | **Line Highlighting**                       | `{all\|lignes\|...\|all}` ou `{none\|lignes\|...\|all}`  |
+| Combiner les deux                                | Magic Move + highlighting dans chaque étape | `v-click` pour Magic Move + `{lignes}` dans chaque étape |
 
 ---
 
@@ -240,16 +327,16 @@ Notes pour le présentateur sur comment utiliser ces ressources en cours.
 
 **Le titre doit refléter la source, pas la catégorie** :
 
-| ❌ INTERDIT | ✅ CORRECT |
-|------------|-----------|
-| `[Documentation](https://...)` | `[MDN Web Docs](https://...)` |
-| `[Tutoriel](https://...)` | `[React Tutorial officiel](https://...)` |
+| ❌ INTERDIT                    | ✅ CORRECT                               |
+| ------------------------------ | ---------------------------------------- |
+| `[Documentation](https://...)` | `[MDN Web Docs](https://...)`            |
+| `[Tutoriel](https://...)`      | `[React Tutorial officiel](https://...)` |
 
 **La description doit correspondre exactement au contenu de la page** :
 
-| ❌ INTERDIT | ✅ CORRECT |
-|------------|-----------|
-| `- Guide Atlassian` | `- Comment écrire et prioriser des User Stories` |
+| ❌ INTERDIT                | ✅ CORRECT                                              |
+| -------------------------- | ------------------------------------------------------- |
+| `- Guide Atlassian`        | `- Comment écrire et prioriser des User Stories`        |
 | `- Documentation complète` | `- Référence officielle des commandes et configuration` |
 
 **Équilibre** : 2-4 ressources par colonne (max 8 au total). Colonne gauche = références directes, droite = complémentaires.
@@ -300,13 +387,14 @@ Notes présentateur : termes centraux à souligner, ordre de présentation recom
 **Ordre alphabétique strict** (par terme anglais) — chaque colonne triée indépendamment, ensemble global alphabétique.
 
 **Terme en anglais, traduction uniquement si pertinente** :
+
 - `term` = toujours le terme **anglais**
 - `translation` = uniquement si la traduction française apporte de la clarté et est différente du terme anglais
 
 ```md
 ✅ <TermCard term="Inheritance" translation="(Héritage)" definition="..." />
-✅ <TermCard term="Abstraction" definition="..." />          ← même mot, pas de traduction
-❌ <TermCard term="Module" translation="(Module)" definition="..." />   ← identique, inutile
+✅ <TermCard term="Abstraction" definition="..." /> ← même mot, pas de traduction
+❌ <TermCard term="Module" translation="(Module)" definition="..." /> ← identique, inutile
 ```
 
 **Définition : une ligne, 10-15 mots maximum** — répondre à "Qu'est-ce que c'est dans le contexte de ce cours ?"

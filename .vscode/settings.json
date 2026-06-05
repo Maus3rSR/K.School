@@ -3,5 +3,10 @@
   "slidev.port": 3030,
   "[markdown]": {
     "editor.formatOnSave": false
-  }
+  },
+  "deno.enable": false,
+  "deno.enablePaths": [
+    "exercices/tdd",
+    "exercices/ubiquitous-language"
+  ]
 }

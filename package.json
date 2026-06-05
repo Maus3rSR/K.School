@@ -12,7 +12,11 @@
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",
     "vscode:dev": "turbo run dev --filter @k.school/vscode",
     "vscode:ex:navigation": "pnpm --filter @k.school/exercices-vscode run:navigation",
-    "vscode:ex:dirty-code": "pnpm --filter @k.school/exercices-vscode run:dirty-code"
+    "vscode:ex:dirty-code": "pnpm --filter @k.school/exercices-vscode run:dirty-code",
+    "tdd:ex:pig-latin": "deno task --cwd exercices/tdd 01-pig-latin",
+    "tdd:ex:string-calculator": "deno task --cwd exercices/tdd 02-string-calculator",
+    "tdd:ex:roman-numerals": "deno task --cwd exercices/tdd 03-roman-numerals",
+    "tdd:ex:pendu": "deno task --cwd exercices/tdd 04-pendu"
   },
   "devDependencies": {
     "turbo": "^2.3.3"

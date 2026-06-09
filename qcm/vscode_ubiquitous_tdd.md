@@ -87,7 +87,7 @@ Règle d'or : un test = une assertion principale. Act doit contenir un seul appe
 ### Commentaire de correction
 Shift+Alt+↓ = dupliquer vers le bas. Alt+↓ = déplacer la ligne.
 
-## Vous avez sélectionné 3 occurrences du mot `item` avec `Ctrl+D`. Que se passe-t-il ensuite quand vous tapez `product` ? (choix multiples)
+## Vous avez sélectionné 3 occurrences du mot `item` avec `Ctrl+D`. Que se passe-t-il ensuite quand vous tapez `product` ? 
 -[x] Les 3 occurrences sélectionnées sont remplacées par `product`
 -[x] Chaque sélection a son propre curseur qui tape simultanément
 -[ ] Seule la dernière occurrence sélectionnée est modifiée
@@ -95,7 +95,7 @@ Shift+Alt+↓ = dupliquer vers le bas. Alt+↓ = déplacer la ligne.
 ### Commentaire de correction
 Ctrl+D crée un curseur sur chaque occurrence sélectionnée. Taper 'product' modifie toutes les sélections simultanément.
 
-## Quelles actions sont accessibles via Quick Fix (`Ctrl+.`)? (choix multiples)
+## Quelles actions sont accessibles via Quick Fix (`Ctrl+.`)? 
 -[x] Importer automatiquement un module manquant
 -[x] Convertir en arrow function
 -[ ] Ouvrir Quick Open pour chercher un fichier
@@ -111,7 +111,7 @@ Quick Fix (Ctrl+.) propose des actions contextuelles : imports, conversions, ajo
 ### Commentaire de correction
 $1, $2... = positions du curseur. Tab permet de naviguer entre ces positions dans le snippet.
 
-## Quels noms de classes sont identifiés comme "signal d'alarme" dans le cours ? (choix multiples)
+## Quels noms de classes sont identifiés comme "signal d'alarme" dans le cours ? 
 -[x] `DataManager`
 -[x] `Helper`
 -[ ] `DossierCandidat`
@@ -127,7 +127,7 @@ Manager, Helper, Utils = noms fourre-tout qui cachent souvent un concept métier
 ### Commentaire de correction
 0.8 = taux après remise de 20%. Nombre magique transformé en constante nommée TAUX_REMISE.
 
-## Quelles transformations appartiennent à la "Passe 2" du refactoring (Regrouper) ? (choix multiples)
+## Quelles transformations appartiennent à la "Passe 2" du refactoring (Regrouper) ? 
 -[ ] Renommer `data` en `lignes`
 -[x] Extraire `sousTotalLigne(ligne)` comme fonction
 -[x] Transformer `0.8` en constante nommée `TAUX_REMISE`
@@ -151,7 +151,7 @@ Le code 'sale' (n, r, duplication conceptuelle) est volontaire pour montrer le r
 ### Commentaire de correction
 isFizz nomme l'intention métier (condition Fizz) et rend la logique lisible : 'if isFizz && isBuzz'
 
-## Quand est-il autorisé de refactorer dans le cycle TDD ? (choix multiples)
+## Quand est-il autorisé de refactorer dans le cycle TDD ? 
 -[x] Seulement quand les tests sont verts
 -[ ] Pendant l'étape RED, pour préparer le code
 -[ ] Pendant l'étape GREEN, en même temps que l'implémentation
@@ -175,7 +175,7 @@ Stub = valeur fixe. Fake = implémentation simplifiée mais fonctionnelle (ex: b
 ### Commentaire de correction
 Test de comportement = vérifie le résultat, pas le 'comment'. Survit aux refactorings car l'assertion reste valide.
 
-## Vous devez renommer la variable `user` dans un projet. Elle apparaît 30 fois, et le mot `username` apparaît 15 fois. Quelles approches sont SÛRES ? (choix multiples)
+## Vous devez renommer la variable `user` dans un projet. Elle apparaît 30 fois, et le mot `username` apparaît 15 fois. Quelles approches sont SÛRES ? 
 -[x] `F2` sur la variable `user` — ne touche pas à `username`
 -[ ] `Ctrl+Shift+L` sur `user` — sélectionne toutes les occurrences du texte
 -[ ] Find & Replace `user` → `customer` dans tout le projet
@@ -183,7 +183,7 @@ Test de comportement = vérifie le résultat, pas le 'comment'. Survit aux refac
 ### Commentaire de correction
 F2 = intelligent, contexte sémantique. Ctrl+D = sélection manuelle progressive. Ctrl+Shift+L et Find & Replace = dangereux (toucherait username).
 
-## Quelles affirmations sur `Ctrl+Shift+O` sont correctes ? (choix multiples)
+## Quelles affirmations sur `Ctrl+Shift+O` sont correctes ? 
 -[x] Il liste toutes les fonctions, classes et variables du fichier actuel
 -[ ] Il ouvre un fichier par son nom
 -[x] Le "O" correspond à "Outline" (structure du fichier)
@@ -191,7 +191,7 @@ F2 = intelligent, contexte sémantique. Ctrl+D = sélection manuelle progressive
 ### Commentaire de correction
 Ctrl+Shift+O = Outline (structure du fichier courant). O = Outline. Ne remplace pas Ctrl+P (Quick Open).
 
-## Pour extraire un bloc de 6 lignes en une fonction nommée, quelles étapes sont correctes ? (choix multiples)
+## Pour extraire un bloc de 6 lignes en une fonction nommée, quelles étapes sont correctes ? 
 -[x] Sélectionner le bloc puis `Ctrl+Shift+R`
 -[x] VS Code détecte automatiquement les paramètres nécessaires
 -[ ] Il faut d'abord créer la fonction manuellement puis couper-coller
@@ -199,7 +199,7 @@ Ctrl+Shift+O = Outline (structure du fichier courant). O = Outline. Ne remplace 
 ### Commentaire de correction
 Ctrl+Shift+R = menu refactoring. VS Code détecte les paramètres. Nom explicite obligatoire.
 
-## Dans le code d'accroche du cours, quels éléments empêchent la compréhension ? (choix multiples)
+## Dans le code d'accroche du cours, quels éléments empêchent la compréhension ? 
 ```ts
 class Handler {
   do(obj: any, opts: any): number {
@@ -218,7 +218,7 @@ class Handler {
 ### Commentaire de correction
 Handler, do, obj, opts, r, i, s, v = noms sans intention. Aucun concept métier visible. reduce n'est pas le problème.
 
-## Quels principes du cours s'appliquent au renommage de fonctions ? (choix multiples)
+## Quels principes du cours s'appliquent au renommage de fonctions ? 
 -[x] Une fonction fait une action → son nom doit être un verbe du domaine métier
 -[x] Si on n'arrive pas à nommer une fonction, c'est qu'elle fait peut-être trop de choses
 -[ ] Un nom court est toujours préférable à un nom long
@@ -226,7 +226,7 @@ Handler, do, obj, opts, r, i, s, v = noms sans intention. Aucun concept métier 
 ### Commentaire de correction
 Verbe métier, nom = intention (pourquoi), pas implémentation (comment). Nom court ≠ mieux.
 
-## Dans la Passe 3 du refactoring du panier, la fonction `estRemisee(ligne)` est créée. Quelles affirmations sont correctes ? (choix multiples)
+## Dans la Passe 3 du refactoring du panier, la fonction `estRemisee(ligne)` est créée. Quelles affirmations sont correctes ? 
 -[x] Elle exprime une règle du domaine métier
 -[x] Le code se lit ensuite comme une phrase : "le total du panier = somme des sous-totaux"
 -[ ] Elle change le comportement du programme (la remise passe de 20% à 30%)
@@ -234,7 +234,7 @@ Verbe métier, nom = intention (pourquoi), pas implémentation (comment). Nom co
 ### Commentaire de correction
 estRemisee() = règle métier nommée. Le code raconte le métier. Comportement inchangé (refactoring).
 
-## Pendant la démo FizzBuzz, l'implémentation évolue en 4 étapes GREEN. Quelles affirmations sont vraies ? (choix multiples)
+## Pendant la démo FizzBuzz, l'implémentation évolue en 4 étapes GREEN. Quelles affirmations sont vraies ? 
 -[x] Le cas FizzBuzz (divisible par 15) doit être testé AVANT les cas Fizz et Buzz dans l'implémentation
 -[x] Chaque étape GREEN n'ajoute que la condition exigée par le nouveau test
 -[ ] L'implémentation finale est écrite dès le premier test pour gagner du temps
@@ -242,7 +242,7 @@ estRemisee() = règle métier nommée. Le code raconte le métier. Comportement 
 ### Commentaire de correction
 FizzBuzz (cas 15) avant les autres dans l'ordre des conditions. Chaque GREEN = code minimal. Condition 15 au 4ème test.
 
-## Un test qui casse systématiquement après chaque refactoring indique que : (choix multiples)
+## Un test qui casse systématiquement après chaque refactoring indique que : 
 -[x] Le test est couplé à l'implémentation, pas au comportement
 -[ ] Le refactoring a introduit un bug
 -[x] Le test a probablement été écrit après le code (test-after, pas TDD)
@@ -250,7 +250,7 @@ FizzBuzz (cas 15) avant les autres dans l'ordre des conditions. Chaque GREEN = c
 ### Commentaire de correction
 Test fragile = couplé à l'implémentation. Signe d'un test-after (écrit après le code) plutôt que TDD.
 
-## Quelles conditions doivent être réunies pour que le refactoring soit "sûr" selon le cours ? (choix multiples)
+## Quelles conditions doivent être réunies pour que le refactoring soit "sûr" selon le cours ? 
 -[x] Les tests sont tous verts AVANT de commencer
 -[x] On ne change jamais le comportement externe du code
 -[x] Si un test repasse au rouge, on annule immédiatement le changement

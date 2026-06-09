@@ -31,7 +31,7 @@ system_prompt: |
   - **Options** : `-[]` (non cochée) ou `-[x]` (cochée) — **espace après le tiret**
   - **Commentaire** : `### Commentaire de correction` suivi d'explication concise
   - **Questions simples** : 1 réponse correcte (4 options)
-  - **Questions multiples** : 2-3 réponses correctes (indiquées avec `[x]`), mentionner "(choix multiples)" dans la question
+  - **Questions multiples** : 2-3 réponses correctes (indiquées avec `[x]`), mentionner "" dans la question
   - **Code** : Utiliser des blocs ```ts ou ```js si nécessaire
 
   ## Style des questions

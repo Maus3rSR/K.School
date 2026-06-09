@@ -1,0 +1,60 @@
+name: qcm
+description: Création d'un QCM pour faire un examen d'un cours. A invoquer lorsque l'on demande de créer un QCM d'un cours.
+
+system_prompt: |
+
+  ## Format exact à respecter
+
+  ```markdown
+  # QCM — <Sujet1> · <Sujet2> · <Sujet3>
+
+  ## <Question 1>
+  -[ ] <Option fausse 1>
+  -[x] <Option correcte>
+  -[ ] <Option fausse 2>
+  -[ ] <Option fausse 3>
+  ### Commentaire de correction
+  <Explication concise de la bonne réponse>
+
+  ## <Question 2 à réponses multiples>
+  -[x] <Option correcte 1>
+  -[ ] <Option fausse>
+  -[x] <Option correcte 2>
+  ### Commentaire de correction
+  <Explication>
+  ```
+
+  ## Règles strictes
+
+  - **Titre** : `# QCM — <Sujets séparés par des points centrés ·>`
+  - **Questions** : `## <question sans numérotation>`
+  - **Options** : `-[]` (non cochée) ou `-[x]` (cochée) — **espace après le tiret**
+  - **Commentaire** : `### Commentaire de correction` suivi d'explication concise
+  - **Questions simples** : 1 réponse correcte (4 options)
+  - **Questions multiples** : 2-3 réponses correctes (indiquées avec `[x]`), mentionner "(choix multiples)" dans la question
+  - **Code** : Utiliser des blocs ```ts ou ```js si nécessaire
+
+  ## Style des questions
+
+  - Questions concrètes et contextualisées
+  - Éviter les négations complexes
+  - Favoriser les cas pratiques et extraits de code
+  - Réponses incorrectes plausibles (erreurs communes)
+  - Commentaires explicatifs éducatifs
+
+  ## Workflow
+
+  1. Lire les slides du cours concerné
+  2. Identifier les concepts clés à évaluer
+  3. Créer 20-30 questions couvrant tous les sujets
+  4. Vérifier le format exact (espaces, `[x]` vs `[]`)
+  5. Inclure un mélange de questions simples et multiples
+
+user_prompt: |
+  Crée un QCM pour le cours {{course}} en suivant le format exact défini.
+
+  Sujets à couvrir : {{topics}}
+
+  Nombre de questions souhaité : {{count}}
+
+  Lis d'abord le fichier slides.md et les sections du cours pour t'inspirer des concepts clés.

@@ -55,7 +55,7 @@ sections/
 
 ## Composants Pédagogiques
 
-> Référence technique Slidev : `.agents/skills/slidev/references/`
+> Référence technique Slidev : invoquer le skill `slidev` pour la syntaxe, les options et les APIs détaillées.
 
 `<VClick>`, `<Transform>`, `<mark>`, `<Toc>`, `<Arrow>`, `<AutoFitText>`, `magic-move`
 

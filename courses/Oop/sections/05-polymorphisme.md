@@ -503,20 +503,17 @@ Durée estimée : 20 minutes
    - Implémente `envoyerNotification()` : affiche "Email envoyé à [email]: [message]"
    - Implémente `obtenirDestination()` : retourne l'email
 
+::right::
+
 3. **Classe `NotificationSMS`** :
    - Attribut `telephone` (private)
    - Implémente `envoyerNotification()` : affiche "SMS envoyé au [telephone]: [message]"
    - Implémente `obtenirDestination()` : retourne le téléphone
 
-::right::
-
 4. **Fonction `envoyerAlertes()`** :
    - Accepte un tableau de `Notifiable[]`
    - Envoie le même message à tous
-
-5. **Test** :
-   - Créer un email et un SMS
-   - Envoyer une alerte aux deux
+   - Tester en envoyant une alert par email & SMS
 
 <!--
 Solution à préparer dans les exercices
@@ -531,9 +528,9 @@ class: text-center
 # Polymorphisme
 &nbsp;
 
-> 💬 Quelle différence voyez-vous entre une **interface** et une **classe abstraite** ? Intuitivement, quand choisiriez-vous l'une plutôt que l'autre ?
+> 💬 On a vu que le polymorphisme repose sur un contrat commun entre les classes. Comment forcer plusieurs classes à **respecter ce contrat** sans dupliquer de code ?
 
 <!--
-Question de transition qui amorce la réflexion du chapitre 06.
-Toutes les réponses sont valides — l'objectif est d'activer la curiosité avant d'apporter la distinction.
+Question de transition vers le chapitre 06 (Classes Abstraites et Interfaces).
+Les apprenants ont vu le polymorphisme via l'héritage et les interfaces — ils peuvent intuiter qu'il faut un mécanisme de "garantie". L'objectif est d'activer la curiosité avant d'introduire les deux réponses : classe abstraite et interface.
 -->

@@ -261,7 +261,7 @@ class Chauve_Souris extends Animal implements Volant {
 
 ```ts {*}{maxHeight:'400px'}
 // Utilisation polymorphe
-const volants: Volant[] = [
+const animauxVolants: Array<Volant & Animal> = [
   new Oiseau("Piou", 2, 30),
   new Chauve_Souris("Batman", 3)
 ]
@@ -275,26 +275,26 @@ const volants: Volant[] = [
 
 ````md magic-move
 ```ts
-volants.forEach(v => {
+animauxVolants.forEach(v => {
 
 })
 ```
 
 ```ts
-volants.forEach(v => {
+animauxVolants.forEach(v => {
   v.manger()       // Implémentation Parent
 })
 ```
 
 ```ts
-volants.forEach(v => {
+animauxVolants.forEach(v => {
   v.manger()       // Implémentation Parent
   v.faireDuBruit() // Implémentation Enfant
 })
 ```
 
 ```ts
-volants.forEach(v => {
+animauxVolants.forEach(v => {
   v.manger()       // Implémentation Parent
   v.faireDuBruit() // Implémentation Enfant
   v.voler()        // Implémentation contrat d'un Volant

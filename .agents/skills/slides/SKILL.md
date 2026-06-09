@@ -137,6 +137,20 @@ Notes de transition pour le présentateur.
 
 **Exception** : Une synthèse est acceptable **uniquement** si elle croise ou reformule des points de chapitres **différents** (ex : synthèse finale de cours).
 
+### Question de transition référençant un concept non encore vu (INTERDIT)
+
+**INTERDIT** : Poser une question de transition qui demande aux apprenants de comparer ou d'utiliser un concept qui sera introduit **dans le chapitre suivant**.
+
+> ❌ Mauvais : fin du chapitre "Polymorphisme" → « Quelle différence entre une **interface** et une **classe abstraite** ? » alors que les classes abstraites sont introduites au chapitre suivant.
+
+**Règle** : La question de transition doit pouvoir être répondue **uniquement avec les acquis du chapitre en cours et des chapitres précédents**. Elle ouvre une curiosité, elle ne présuppose pas une connaissance future.
+
+**Diagnostic** : Avant d'écrire une question de transition, vérifier que chaque concept mentionné dans la question a déjà été couvert. Si un concept appartient au chapitre suivant → reformuler en partant du problème que ce concept résout.
+
+> ✅ Bon : « On a vu que le polymorphisme repose sur un contrat commun. Comment forcer plusieurs classes à **respecter ce contrat** sans dupliquer de code ? » — les apprenants peuvent raisonner sur la question sans connaître la réponse.
+
+---
+
 ### Slide de contexte métier isolée (INTERDIT)
 
 **INTERDIT** : Créer une slide dédiée uniquement à poser le contexte métier d'un exercice, suivie immédiatement d'une slide avec le code.

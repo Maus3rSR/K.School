@@ -170,7 +170,7 @@ Exemple Pratique - Combinaison des Deux
 
 ::left::
 
-```ts {all|2-5|7-22|24-44|all}{maxHeight:'300px'}
+```ts {all|2-5|7-22|24-62|all}{maxHeight:'300px'}
 // Interface : capacité
 interface Volant {
   voler(): void
@@ -215,6 +215,24 @@ class Oiseau extends Animal implements Volant {
     console.log(`${this.nom} atterrit`)
   }
 }
+
+class Chauve_Souris extends Animal implements Volant {
+  constructor(nom: string, age: number) {
+    super(nom, age)
+  }
+
+  faireDuBruit(): void {
+    console.log(`${this.nom} fait des ultrasons`)
+  }
+
+  voler(): void {
+    console.log(`${this.nom} vole la nuit`)
+  }
+
+  atterrir(): void {
+    console.log(`${this.nom} se suspend`)
+  }
+}
 ```
 
 ::right::
@@ -236,42 +254,53 @@ class Oiseau extends Animal implements Volant {
 <div v-click="3">
 
 - `Oiseau` et `Chauve_Souris` : héritent + implémentent
-- Polymorphisme sur `Volant`
 
 </div>
 
 <div v-click="4">
 
 ```ts {*}{maxHeight:'400px'}
-class Chauve_Souris extends Animal implements Volant {
-  constructor(nom: string, age: number) {
-    super(nom, age)
-  }
-
-  faireDuBruit(): void {
-    console.log(`${this.nom} fait des ultrasons`)
-  }
-
-  voler(): void {
-    console.log(`${this.nom} vole la nuit`)
-  }
-
-  atterrir(): void {
-    console.log(`${this.nom} se suspend`)
-  }
-}
-
 // Utilisation polymorphe
 const volants: Volant[] = [
   new Oiseau("Piou", 2, 30),
   new Chauve_Souris("Batman", 3)
 ]
+```
 
+</div>
+
+::bottom::
+
+<div v-click="5">
+
+````md magic-move
+```ts
 volants.forEach(v => {
-  v.voler()
-  v.atterrir()
+
 })
 ```
+
+```ts
+volants.forEach(v => {
+  v.manger()       // Implémentation Parent
+})
+```
+
+```ts
+volants.forEach(v => {
+  v.manger()       // Implémentation Parent
+  v.faireDuBruit() // Implémentation Enfant
+})
+```
+
+```ts
+volants.forEach(v => {
+  v.manger()       // Implémentation Parent
+  v.faireDuBruit() // Implémentation Enfant
+  v.voler()        // Implémentation contrat d'un Volant
+})
+```
+````
 
 </div>
 

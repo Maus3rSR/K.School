@@ -129,17 +129,11 @@ Quand Utiliser Quoi ?
 
 ## Classe Abstraite
 
-**Utiliser quand :**
-- Vous voulez partager du **code commun** entre classes
-- Vous avez une **relation "est un"** forte
-- Vous voulez définir un **comportement par défaut**
-- Les classes enfants sont **étroitement liées**
+**Quand :** les classes partagent une **origine commune** et du code
 
 **Caractéristiques :**
-- Peut avoir des méthodes concrètes
-- Peut avoir des attributs
-- Peut avoir un constructeur
-- Héritage simple uniquement
+- Méthodes concrètes + attributs + constructeur
+- Héritage simple
 - Mot-clé `abstract`
 
 </div>
@@ -150,16 +144,10 @@ Quand Utiliser Quoi ?
 
 ## Interface
 
-**Utiliser quand :**
-- Vous voulez définir un **contrat** sans implémentation
-- Vous avez une **capacité** à implémenter
-- Plusieurs classes **non liées** partagent un comportement
-- Vous voulez le **multi-implémentation**
+**Quand :** des classes **sans lien** doivent garantir le même comportement
 
 **Caractéristiques :**
-- Pas d'implémentation (contrat pur)
-- Pas d'attributs (seulement signatures)
-- Pas de constructeur
+- Aucune implémentation, aucun attribut
 - Multi-implémentation possible
 - Mot-clé `interface`
 

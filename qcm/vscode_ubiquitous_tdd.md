@@ -257,3 +257,93 @@ Test fragile = couplé à l'implémentation. Signe d'un test-after (écrit aprè
 -[ ] On doit écrire de nouveaux tests spécifiques au refactoring prévu
 ### Commentaire de correction
 Refactoring sûr : tests verts avant, comportement inchangé, annulation si rouge. Pas de nouveaux tests pour le refactoring.
+
+## Vous utilisez `Ctrl+P` pour ouvrir un fichier mais il n'apparaît pas dans la liste. Quelle est la cause la plus probable ?
+-[ ] Il faut d'abord indexer le projet avec `Ctrl+Shift+P` → "Rebuild Index"
+-[ ] `Ctrl+P` ne fonctionne que pour les fichiers TypeScript et JavaScript
+-[x] Le fichier est dans un dossier exclu (`node_modules`, `.gitignore`) ou en dehors du workspace ouvert
+-[ ] Le fichier est trop récent — VS Code n'a pas encore détecté sa création
+### Commentaire de correction
+Ctrl+P (Quick Open) ne liste pas les fichiers ignorés par .gitignore ni ceux hors workspace. Aucune ré-indexation manuelle n'est nécessaire dans VS Code.
+
+## Dans quels cas l'utilisation de `Ctrl+Shift+L` est-elle DANGEREUSE pour un renommage ? 
+-[x] Renommer `order` dans un fichier qui contient aussi `orderItems` et `orderTotal`
+-[ ] Renommer `TAX_RATE` dans un fichier où cette constante n'apparaît qu'à sa déclaration et un seul appel
+-[x] Renommer `get` dans un fichier qui contient `getUser`, `getCart` et `getTotal`
+-[ ] Renommer `cart` dans un fichier où aucun autre mot ne contient la chaîne "cart"
+### Commentaire de correction
+Ctrl+Shift+L sélectionne le texte brut, pas les symboles. Dangereux si l'identifiant est une sous-chaîne d'autres noms. Sans risque si le mot est strictement isolé.
+
+## Un fichier contient la fonction `validateStock` qui n'existe pas encore. Quelles actions VS Code permettent de la créer rapidement ? 
+-[x] `Ctrl+.` sur `validateStock` — VS Code propose "Create function declaration"
+-[ ] `F2` sur `validateStock` — renomme le symbole dans tout le projet
+-[x] Taper le squelette de la fonction via un snippet personnalisé déclenché par un préfixe
+-[ ] `Ctrl+Shift+R` sur `validateStock` — extrait automatiquement le code en fonction
+### Commentaire de correction
+Quick Fix (Ctrl+.) détecte les symboles manquants et propose leur création. F2 = renommage. Ctrl+Shift+R nécessite une sélection de code existant à extraire, pas un symbole inexistant.
+
+## Un développeur écrit 5 tests d'un coup, les fait tous passer dans une seule session de code, puis refactorise. Quel est le problème principal ?
+-[ ] Il n'y a pas de problème — l'important est que tous les tests passent en fin de session
+-[ ] Il aurait dû refactoriser entre chaque test plutôt qu'à la fin
+-[x] Il perd la boucle de feedback : chaque test doit guider un incrément minimal de code, pas être traité en batch
+-[ ] Écrire 5 tests d'un coup est valide si chaque test couvre un cas différent
+### Commentaire de correction
+TDD = boucle RED→GREEN→REFACTOR serrée. Écrire plusieurs tests avant de coder rompt la dynamique de conception incrémentale que TDD cherche à instaurer.
+
+## Quelles pratiques respectent le principe "un test documente un comportement" ? 
+-[x] `it('returns_zero_for_negative_quantity', ...)`
+-[ ] Un test qui vérifie qu'un attribut privé est `null` après initialisation
+-[x] Un test qui reste valide après avoir remplacé une boucle `for` par un `reduce` en interne
+-[ ] Un test qui appelle 3 méthodes de suite pour contrôler un état intermédiaire
+### Commentaire de correction
+Documenter un comportement = nommer le scénario + tester le résultat observable. Accéder à des attributs privés ou contrôler des états intermédiaires = test couplé à l'implémentation.
+
+## Un premier test TDD passe avec ce code :
+```ts
+it('returns 100 for quantity 1', () => {
+  expect(calculateTotal(1, 100)).toBe(100)
+})
+
+function calculateTotal(quantity: number, price: number): number {
+  return 100
+}
+```
+Quelles affirmations sont correctes ? 
+-[x] C'est un GREEN valide — retourner le minimum pour faire passer le test est la règle
+-[ ] Ce code doit être refactorisé immédiatement avant d'écrire le test suivant
+-[x] Un second test `expect(calculateTotal(2, 100)).toBe(200)` forcera une implémentation plus générale
+-[ ] Un GREEN avec du code hardcodé indique que le test est mal conçu
+### Commentaire de correction
+Code hardcodé = GREEN valide et stratégique en TDD. C'est le test suivant qui force la généralisation. REFACTOR vient après GREEN dans le même cycle, pas entre deux cycles.
+
+## Une équipe développe un logiciel pour un cabinet médical. Quel nom de fonction respecte le mieux le langage ubiquitaire ?
+-[ ] `checkAvailability(doctorId: string, date: Date): boolean`
+-[ ] `validateSlot(resourceId: string, timestamp: number): boolean`
+-[x] `isAvailableForConsultation(doctor: Doctor, slot: TimeSlot): boolean`
+-[ ] `getScheduleStatus(entityId: string, timeValue: number): boolean`
+### Commentaire de correction
+Les paramètres révèlent autant que le nom : Doctor/TimeSlot sont des concepts métier. doctorId/timestamp/resourceId/entityId restent techniques ou trop génériques.
+
+## Dans un logiciel de gestion RH, quels noms posent un problème de langage ubiquitaire ? 
+-[x] `function processEntity(obj: any, newData: any): void`
+-[ ] `function validateLeaveRequest(employee: Employee, period: LeavePeriod): boolean`
+-[x] `class DataProcessor { handle(input: Record<string, unknown>): number }`
+-[ ] `const MAX_ANNUAL_LEAVE_DAYS = 25`
+### Commentaire de correction
+processEntity/DataProcessor/handle/obj/newData n'appartiennent à aucun domaine RH. validateLeaveRequest, Employee, LeavePeriod et la constante nommée parlent le langage métier.
+
+## Dans un module e-commerce de gestion de commandes, quels noms sont des "signaux d'alarme" ? 
+-[x] `OrderHandler.handle(data: any)`
+-[ ] `Order.addLine(product: Product, quantity: number)`
+-[x] `Utils.processItems(list: any[])`
+-[ ] `DiscountPolicy.isApplicable(order: Order): boolean`
+### Commentaire de correction
+Handler/Utils/handle/processItems/data sont fourre-tout. Order.addLine et DiscountPolicy.isApplicable parlent directement le métier e-commerce.
+
+## Vous devez ajouter `;` en fin de ligne sur 8 lignes **non consécutives** dans un fichier. Quelle approche VS Code est la plus efficace ?
+-[ ] `Ctrl+Alt+D` sur chaque ligne pour placer un curseur en fin de ligne automatiquement
+-[x] `Alt+Clic` sur chaque ligne concernée pour créer plusieurs curseurs, puis `End` et taper `;`
+-[ ] Find & Replace avec une regex pour ajouter `;` en fin de toutes les lignes du fichier
+-[ ] `Ctrl+Shift+L` sur un texte sélectionné pour aligner les curseurs sur toutes les occurrences
+### Commentaire de correction
+Alt+Clic = multi-curseurs sur des positions arbitraires. End positionne chaque curseur en fin de ligne. Ctrl+Shift+L sélectionne le même texte, pas des positions arbitraires. Ctrl+Alt+D n'existe pas dans VS Code.

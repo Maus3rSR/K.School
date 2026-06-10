@@ -24,13 +24,13 @@ F2 (Rename Symbol) est intelligent : il comprend le scope et ne renomme que la v
 ### Commentaire de correction
 Alt+F12 = Peek Definition (aperçu inline), F12 = aller à la définition (change de fichier)
 
-## Selon le cours, qu'est-ce que le DDD place au centre de la conception ?
--[ ] Les patterns techniques (agrégats, bounded contexts)
--[ ] La performance du code
--[x] Le métier
--[ ] L'architecture logicielle
+## Quelle affirmation capture le mieux l'essence du DDD ?
+-[ ] DDD impose une architecture hexagonale pour isoler le métier du technique
+-[ ] DDD est une collection de patterns (agrégats, bounded contexts, value objects)
+-[x] DDD place la collaboration entre développeurs et experts métier — via un vocabulaire commun — au centre de la conception
+-[ ] DDD est une méthode agile qui organise le code par fonctionnalités livrables
 ### Commentaire de correction
-Domain-Driven Design = placer le métier au centre de la conception du logiciel
+Les patterns sont des outils DDD, pas son essence. L'essence = faire du langage partagé le moteur de conception.
 
 ## Le code suivant est montré comme anti-pattern. Quel est le problème principal ?
 ```ts
@@ -57,11 +57,11 @@ Le test ubiquitaire : un expert métier doit reconnaître le vocabulaire utilis�
 
 ## Selon Kent Beck (cité dans le cours), le TDD est :
 -[ ] Une technique de test automatisé
--[ ] Une technique de debugging avancée
+-[ ] Une méthode pour documenter le comportement attendu du code
 -[x] Une technique de conception
--[ ] Une technique d'optimisation de performance
+-[ ] Un processus pour garantir une couverture de code à 100%
 ### Commentaire de correction
-Kent Beck : "TDD n'est pas une technique de test. C'est une technique de conception."
+Kent Beck : "TDD n'est pas une technique de test. C'est une technique de conception." "Documenter" et "100% coverage" sont des objectifs légitimes mais ne définissent pas le TDD.
 
 ## Quelle est la différence fondamentale entre "écrire des tests APRÈS le code" et le TDD ?
 -[ ] Le TDD utilise des frameworks de test, l'autre approche non
@@ -131,9 +131,9 @@ Manager, Helper, Utils = noms fourre-tout qui cachent souvent un concept métier
 -[ ] Renommer `data` en `lignes`
 -[x] Extraire `sousTotalLigne(ligne)` comme fonction
 -[x] Transformer `0.8` en constante nommée `TAUX_REMISE`
--[ ] Remplacer la boucle `for` par `reduce`
+-[ ] Créer `estRemisee(ligne)` pour exprimer une règle métier
 ### Commentaire de correction
-Passe 2 = regrouper les concepts : extraire des fonctions, nommer les constantes. Passe 1 = renommer.
+Passe 1 = renommer (data → lignes). Passe 2 = regrouper (extraire fonctions, nommer constantes). Passe 3 = révéler le domaine (estRemisee).
 
 ## Pourquoi le code de la démo FizzBuzz utilise-t-il volontairement des variables `r` et `n` peu expressives ?
 -[ ] Par souci de performance
@@ -159,13 +159,13 @@ isFizz nomme l'intention métier (condition Fizz) et rend la logique lisible : '
 ### Commentaire de correction
 Refactoring uniquement quand les tests sont verts, un changement à la fois. Jamais en RED ou pendant GREEN.
 
-## Quelle est la différence entre un Stub et un Fake selon le lexique du cours ?
--[ ] Le Stub est une implémentation complète, le Fake est simplifié
--[x] Le Stub retourne une valeur fixe prédéfinie ; le Fake est une implémentation simplifiée mais fonctionnelle
--[ ] Ils sont synonymes, les deux termes sont interchangeables
--[ ] Le Fake ne fonctionne qu'en production, le Stub en test
+## Vous êtes en phase RED d'un cycle TDD. Votre test attend `15` mais le code retourne `undefined`. Que faites-vous ?
+-[ ] Vous modifiez l'implémentation pour retourner systématiquement `15` à tous les appels
+-[x] Vous écrivez le code minimal pour que ce test passe (même si ce n'est pas la solution finale)
+-[ ] Vous corrigez le test pour qu'il attende `undefined` en attendant mieux
+-[ ] Vous passez directement à la phase REFACTOR pour structurer le code avant de faire passer le test
 ### Commentaire de correction
-Stub = valeur fixe. Fake = implémentation simplifiée mais fonctionnelle (ex: base de données en mémoire).
+GREEN = code minimal pour faire passer le test. Même `return 15` hardcodé est valide temporairement. REFACTOR vient après, jamais avant GREEN.
 
 ## Que signifie qu'un test TDD vérifie le "comportement" plutôt que l'"implémentation" ?
 -[ ] Le test vérifie la vitesse d'exécution du code
@@ -186,10 +186,10 @@ F2 = intelligent, contexte sémantique. Ctrl+D = sélection manuelle progressive
 ## Quelles affirmations sur `Ctrl+Shift+O` sont correctes ? 
 -[x] Il liste toutes les fonctions, classes et variables du fichier actuel
 -[ ] Il ouvre un fichier par son nom
--[x] Le "O" correspond à "Outline" (structure du fichier)
+-[x] Il permet de naviguer directement vers une méthode précise sans scroller dans le fichier
 -[ ] Il remplace `Ctrl+P` pour la recherche de fichiers
 ### Commentaire de correction
-Ctrl+Shift+O = Outline (structure du fichier courant). O = Outline. Ne remplace pas Ctrl+P (Quick Open).
+Ctrl+Shift+O = Outline. Permet navigation rapide dans la structure du fichier courant. Ne remplace pas Ctrl+P (Quick Open).
 
 ## Pour extraire un bloc de 6 lignes en une fonction nommée, quelles étapes sont correctes ? 
 -[x] Sélectionner le bloc puis `Ctrl+Shift+R`

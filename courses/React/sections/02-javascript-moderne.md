@@ -269,13 +269,24 @@ On utilisera map() dès la séance 5 pour afficher des listes.
 
 ---
 layout: center
-class: text-center
 ---
 
 # Rappels JavaScript Moderne
 &nbsp;
 
-> 💬 Vous écrivez une fonction `calculateTotal(items)` — comment savez-vous que `items` est bien un tableau et pas une chaîne, **sans l'exécuter** ?
+> 💬 Vous écrivez une fonction `calculateTotal(items)` — comment savez-vous que `items` est bien un tableau et pas une chaîne, **sans exécuter le code** ?
+
+<br/>
+
+```js
+function calculateTotal(numbers) {
+  return numbers.reduce((total, number) => total + number, 0)
+}
+
+calculateTotal([10, 20])
+calculateTotal(["abc", 3, "def"])
+calculateTotal("oops")
+```
 
 <!--
 Réponses attendues : on ne sait pas, il faut lire le code, c'est dans la documentation (s'il y en a une), on découvre l'erreur au runtime.

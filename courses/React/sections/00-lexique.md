@@ -37,9 +37,9 @@ layoutClass: gap-x-6
 
 <TermCard term="Component" definition="Bloc réutilisable qui encapsule de l'UI et de la logique" />
 
-<TermCard term="MPA" translation="(Application Multi-Pages)" definition="Site web classique où chaque page est un HTML chargé depuis le serveur" />
+<TermCard term="Multi-Page Application - MPA" translation="(Application Multi-Pages)" definition="Site web classique où chaque page est un HTML chargé depuis le serveur" />
 
-<TermCard term="SPA" translation="(Application Mono-Page)" definition="Application web qui charge une seule page HTML et met à jour dynamiquement l'UI" />
+<TermCard term="Single-Page Application - SPA" translation="(Application Mono-Page)" definition="Application web qui charge une seule page HTML et met à jour dynamiquement l'UI" />
 
 **Outils & Écosystème**
 

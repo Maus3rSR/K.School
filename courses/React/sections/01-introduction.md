@@ -63,49 +63,45 @@ Analogie : un composant c'est comme un widget/gadget autonome qu'on peut branche
 -->
 
 ---
-layout: two-cols-header
+layout: image-right
+image: /spa-vs-mpa.jpg
+backgroundSize: contain
 ---
 
 # Introduction à React
-SPA vs MPA — Le problème
-
-::left::
+SPA vs MPA
 
 ## Site classique (MPA)
-<small>Multi-Page Application</small>
 
-<v-clicks>
+<v-click>
 
-- Chaque clic → le navigateur **recharge une page entière**
-- Le serveur envoie un **nouveau HTML complet**
-- Temps de chargement **visible** à chaque navigation
-- URL change complètement
+- Chaque clic → **rechargement complet** de la page
+- Le serveur renvoie un **nouveau HTML** à chaque fois
 
-</v-clicks>
-
-::right::
+</v-click>
 
 ## Application moderne (SPA)
-<small>Single-Page Application</small>
 
-<v-clicks>
+<v-click>
 
 - **Un seul HTML** chargé au départ
-- JavaScript **met à jour** uniquement les parties qui changent
-- Navigation **instantanée**, sensation d'app native
-- React est conçu pour faire des SPA
+- JavaScript (React) met à jour **uniquement ce qui change**
 
-</v-clicks>
+</v-click>
 
-::bottom::
+<div class="text-sm opacity-60 mt-2">
 
- 🔗 [SPA vs MPA : Comparaison complète](https://themindstudios.com/blog/spa-vs-mpa/) - Explication détaillée des différences architecturales entre applications mono-page et multi-pages
+🔗 [SPA vs MPA : Comparaison complète](https://themindstudios.com/blog/spa-vs-mpa/)
+
+</div>
 
 <!--
 Analogie MPA : comme changer de chaîne à la télé — tout l'écran change.
 Analogie SPA : comme une application mobile — l'interface se met à jour sans recharger.
 Exemples MPA : sites e-commerce classiques, Wikipedia.
 Exemples SPA : Gmail, Google Maps, Figma.
+Image : gauche = MPA (cycle requête/réponse complet), droite = SPA (chargement initial unique).
+🔗 Source image : https://themindstudios.com/blog/spa-vs-mpa/
 -->
 
 ---

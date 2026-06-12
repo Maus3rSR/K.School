@@ -192,6 +192,66 @@ Contexte résumé en sous-titre (5-8 mots max)
 
 ---
 
+## Animations — Règles d'utilisation de `v-click` / `v-clicks`
+
+### Listes à puces informatives
+
+**Règle : nombre de blocs sur la slide**
+
+| Situation                             | Comportement attendu                                                          |
+| ------------------------------------- | ----------------------------------------------------------------------------- |
+| **1 seul bloc** de liste à puces      | **Pas de `v-click`** — le contenu apparaît directement                        |
+| **2 blocs ou plus** sur la même slide | **`v-click` par bloc** — chaque bloc apparaît d'un coup (pas ligne par ligne) |
+
+**Bloc = unité sémantique** : une liste à puces, un paragraphe, une citation, un élément complémentaire (lien, note).
+
+```md
+❌ INTERDIT — 1 seul bloc avec v-clicks
+<v-clicks>
+
+- Point A
+- Point B
+- Point C
+  </v-clicks>
+
+✅ CORRECT — 1 seul bloc, pas de v-click
+
+- Point A
+- Point B
+- Point C
+
+✅ CORRECT — 2 blocs, chaque bloc révèle d'un coup
+
+- Point A
+- Point B
+
+<v-click>
+
+## Section complémentaire
+
+- Point C
+- Point D
+
+</v-click>
+```
+
+### Exception : listes ordonnées séquentielles
+
+Une **liste numérotée décrivant un processus étape par étape** (ex : pipeline, cycle de vie) peut utiliser `v-clicks` pour révéler chaque étape progressivement, **même si c'est le seul bloc**, car la progression est pédagogiquement intentionnelle.
+
+```md
+✅ CORRECT — processus séquentiel, révélation étape par étape
+<v-clicks>
+
+1. Étape A
+2. Étape B
+3. Étape C
+
+</v-clicks>
+```
+
+---
+
 ## Code
 
 ### Shiki Magic Move

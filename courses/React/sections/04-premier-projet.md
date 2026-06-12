@@ -25,12 +25,12 @@ Vite = outil de choix en 2024 pour les projets React.
 # Premier Projet React
 Créer le projet
 
+**Note: Allez dans le dossier où vous voulez créer le projet, qui sera nommé 'WishFlix', et ouvrez le dans VSCode**
+
 ```bash
 # Créer un projet React + TypeScript avec Vite
-pnpm create vite@latest mon-app -- --template react-ts
-
-# Se déplacer dans le dossier
-cd mon-app
+# Normalement à la place de '.' on met le nom du projet, mais comme on est déjà dans le dossier, on met '.' pour éviter de créer un sous-dossier
+pnpm create vite@latest .
 
 # Installer les dépendances
 pnpm install
@@ -126,7 +126,7 @@ Le ! après getElementById est une assertion TypeScript ("je garantis que cet é
 # Premier Projet React
 Le fichier `App.tsx`
 
-```tsx {all|1-2|4-6|8-21}
+```tsx
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 
@@ -155,7 +155,6 @@ Montrer que : 1) c'est une fonction, 2) elle retourne du HTML-like, 3) elle est 
 
 ---
 layout: center
-class: text-center
 ---
 
 # Premier Projet React
@@ -196,6 +195,7 @@ Scripts disponibles
 ```bash
 pnpm dev
 ```
+
 - Démarre le serveur local
 - Hot reload automatique
 - Ouvert sur **http://localhost:5173**
@@ -204,6 +204,7 @@ pnpm dev
 ```bash
 pnpm build
 ```
+
 - Optimise et compile le code
 - Crée le dossier `dist/`
 
@@ -213,6 +214,7 @@ pnpm build
 ```bash
 pnpm preview
 ```
+
 - Sert le dossier `dist/` localement
 - Simule le comportement en production
 
@@ -235,7 +237,7 @@ class: text-center
 # Premier Projet React
 &nbsp;
 
-> 💬 Votre projet tourne dans le navigateur. Qu'est-ce qui vous a **surpris** pendant l'installation ? Qu'est-ce qui vous **donne envie** de continuer ?
+> 💬 Votre projet tourne dans le navigateur. Qu'est-ce qui vous a **surpris** pendant l'installation ?
 
 <!--
 Féliciter les apprenants — ils ont créé leur premier projet React !

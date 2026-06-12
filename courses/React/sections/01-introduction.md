@@ -161,19 +161,3 @@ Juste planter la graine : React est intelligent et ne fait que le minimum néces
 Pièges fréquents : "Le Virtual DOM c'est pas magique, c'est juste une optimisation."
 🔗 Source image : https://code-garage.com/blog/qu-est-ce-que-le-virtual-dom
 -->
-
----
-layout: center
-class: text-center
----
-
-# Introduction à React
-&nbsp;
-
-> 💬 React découpe l'interface en petits composants réutilisables. Qu'est-ce qui pourrait devenir **compliqué** si chaque composant devait gérer son propre état sans règle commune ?
-
-<!--
-Réponses attendues : incohérence des données, duplication de logique, difficulté à synchroniser les composants.
-Toutes ces réponses préfigurent le besoin de patterns de gestion d'état et de communication entre composants.
-Transition : "Avant d'aborder ces patterns, assurons-nous d'être à l'aise avec le JavaScript moderne — c'est la fondation de tout React."
--->

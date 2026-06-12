@@ -28,32 +28,11 @@ Analogie : React = LEGO, il fournit les briques, on assemble comme on veut.
 ---
 
 # Introduction à React
-Un peu d'histoire
-
-<v-clicks>
-
-- **2011** — Facebook crée un proto interne pour gérer la complexité du fil d'actualité
-- **2013** — Open-source lors de JSConf US
-- **2015** — React Native pour les applications mobiles
-- **2016** — React 15, adoption massive
-- **2022** — React 18 avec le rendu concurrent
-- **2023** — React.dev remplace reactjs.org
-
-</v-clicks>
-
-<!--
-Insister sur le fait que React existe depuis + de 10 ans et est toujours au top.
-C'est un gage de stabilité et d'employabilité pour la reconversion.
--->
-
----
-
-# Introduction à React
 Pourquoi apprendre React ?
 
 <v-clicks>
 
-- 🏆 **1er framework/bibliothèque front-end** selon Stack Overflow 2023
+- 🏆 **1ère bibliothèque front-end** selon Stack Overflow 2023
 - 💼 **Très demandé** sur le marché de l'emploi
 - 🔄 **Concept réutilisable** : Vue, Angular, Svelte partagent des idées similaires
 - ⚛️ **Composants** : une manière universelle de penser l'UI
@@ -117,6 +96,10 @@ SPA vs MPA — Le problème
 - React est conçu pour faire des SPA
 
 </v-clicks>
+
+::bottom::
+
+ 🔗 [SPA vs MPA : Comparaison complète](https://themindstudios.com/blog/spa-vs-mpa/) - Explication détaillée des différences architecturales entre applications mono-page et multi-pages
 
 <!--
 Analogie MPA : comme changer de chaîne à la télé — tout l'écran change.

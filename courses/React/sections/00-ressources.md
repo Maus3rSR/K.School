@@ -6,8 +6,6 @@ layout: two-cols-header
 
 ::left::
 
-<div>
-
 ## Documentation officielle
 
 📚 [React Docs (react.dev)](https://react.dev/) - Documentation officielle React, moderne et complète
@@ -16,21 +14,17 @@ layout: two-cols-header
 
 ⚡ [Vite Docs](https://vitejs.dev/) - Documentation du build tool utilisé dans ce cours
 
-</div>
-
 ::right::
 
-<div>
-
 ## Pour apprendre React
-
-🛠️ [React DevTools](https://react.dev/learn/react-developer-tools) - Extension navigateur pour inspecter composants et state
 
 🎓 [React — Learn](https://react.dev/learn) - Tutoriel officiel React pas à pas, du composant au state
 
 💭 [Thinking in React](https://react.dev/learn/thinking-in-react) - La méthode React pour décomposer une UI en composants
 
-</div>
+## Outils
+
+🛠️ [React DevTools](https://react.dev/learn/react-developer-tools) - Extension navigateur pour inspecter composants et state
 
 <!--
 Encourager les apprenants à garder ces ressources en favoris.

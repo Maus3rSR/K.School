@@ -10,14 +10,10 @@ background: https://cover.sli.dev?3
 # Rappels JavaScript Moderne
 ES6+ — Pourquoi en parler ?
 
-<v-clicks>
-
 - JavaScript moderne (ES6+) est devenu le **standard incontournable** pour écrire du code React (et en dehors de React)
 - Le code React que vous lirez/écrirez utilise **ces syntaxes en permanence**
 - ES6 = ECMAScript 2015 — grosse mise à jour du langage
 - Ce n'est pas du "nouveau" JS — c'est le JS **standard aujourd'hui**
-
-</v-clicks>
 
 <!--
 ES = ECMAScript, le standard sur lequel JavaScript est basé.

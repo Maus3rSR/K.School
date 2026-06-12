@@ -10,14 +10,10 @@ background: https://cover.sli.dev?4
 # Introduction à TypeScript
 Qu'est-ce que TypeScript ?
 
-<v-clicks>
-
 - **TypeScript = JavaScript + Types**
 - Créé par **Microsoft** en 2012, open-source
 - Votre code TS est **compilé** en JS standard → les navigateurs ne voient que du JS
 - Il ne remplace pas JS, il l'**améliore**
-
-</v-clicks>
 
 <!--
 Analogie : TypeScript c'est comme écrire avec un correcteur orthographique activé.

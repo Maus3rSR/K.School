@@ -10,14 +10,10 @@ background: https://cover.sli.dev?5
 # Premier Projet React
 Vite — L'outil de build moderne
 
-<v-clicks>
-
 - **Vite** (prononcé "vite" 🇫🇷) — créé par Evan You (auteur de Vue.js)
 - Démarre un serveur de développement en **millisecondes**
 - Remplace Create React App (CRA), plus lent et obsolète
 - Fournit des templates prêts à l'emploi, dont **react-ts**
-
-</v-clicks>
 
 <!--
 CRA était l'outil officiel React pendant des années, mais il est trop lent et non maintenu.
@@ -83,16 +79,12 @@ mon-app/
 
 ::right::
 
-<v-clicks>
-
 - **`index.html`** — la seule page HTML (SPA !)
 - **`src/main.tsx`** — point d'entrée de l'app
 - **`src/App.tsx`** — composant racine
 - **`.tsx`** — fichiers React avec TypeScript
 - **`tsconfig.json`** — règles TypeScript
 - **`package.json`** — dépendances et scripts
-
-</v-clicks>
 
 <!--
 Ouvrir le projet dans VSCode en live.
@@ -119,14 +111,10 @@ createRoot(document.getElementById('root')!).render(
 )
 ```
 
-<v-clicks>
-
 - Importe React et les outils de rendu
 - Cible l'élément `#root` dans `index.html`
 - Monte le composant `<App />` dans la page
 - `StrictMode` : active des avertissements utiles en développement
-
-</v-clicks>
 
 <!--
 StrictMode ne change rien en production — il aide à détecter les mauvaises pratiques.

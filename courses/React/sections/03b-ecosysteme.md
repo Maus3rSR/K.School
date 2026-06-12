@@ -39,13 +39,9 @@ Ils seront tous présents dans chaque projet créé pendant la formation.
 # L'écosystème React
 Node.js — Le moteur
 
-<v-clicks>
-
 - **Node.js** = JavaScript qui tourne **en dehors du navigateur**
 - Permet d'exécuter les outils de développement : Vite, compilateur TS, gestionnaire de paquets...
 - **Pas utilisé directement** dans vos composants React — c'est l'infrastructure
-
-</v-clicks>
 
 <v-click>
 
@@ -131,14 +127,10 @@ pnpm — Le remplaçant moderne de npm
 
 ## Avantages vs npm
 
-<v-clicks>
-
 - ⚡ **2-3x plus rapide** que npm
 - 💾 **Économe en espace** : partage les paquets entre projets (store global)
 - 🔒 **Strict** : évite les dépendances fantômes
 - ✅ **Compatible** avec tous les projets npm
-
-</v-clicks>
 
 ::right::
 

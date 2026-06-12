@@ -10,14 +10,10 @@ background: https://cover.sli.dev?2
 # Introduction à React
 Qu'est-ce que React ?
 
-<v-clicks>
-
 - **Bibliothèque JavaScript** créée par Facebook en **2013**
 - Conçue pour construire des **interfaces utilisateur** (UI)
 - Aujourd'hui maintenue par Meta + une large **communauté open-source**
 - Utilisée par Netflix, Airbnb, WhatsApp, Instagram...
-
-</v-clicks>
 
 <!--
 React n'est pas un framework complet (pas de routing, pas de gestion d'état inclus).
@@ -30,15 +26,11 @@ Analogie : React = LEGO, il fournit les briques, on assemble comme on veut.
 # Introduction à React
 Pourquoi apprendre React ?
 
-<v-clicks>
-
 - 🏆 **1ère bibliothèque front-end** selon Stack Overflow 2023
 - 💼 **Très demandé** sur le marché de l'emploi
 - 🔄 **Concept réutilisable** : Vue, Angular, Svelte partagent des idées similaires
 - ⚛️ **Composants** : une manière universelle de penser l'UI
 - 📱 React Native = iOS & Android avec les mêmes connaissances
-
-</v-clicks>
 
 <!--
 Question à poser : "Qui a déjà entendu parler de React ?"
@@ -109,20 +101,18 @@ Image : gauche = MPA (cycle requête/réponse complet), droite = SPA (chargement
 # Introduction à React
 JavaScript existait déjà... pourquoi React ?
 
-<v-clicks>
 
 - **JavaScript permettait déjà l'interactivité** (jQuery, vanilla JS) — menus déroulants, sliders, etc.
 - **Problème** : Sur une **application complexe** (type Facebook), le code devenait un **cauchemar à maintenir**
 - **Le vrai besoin** : Gérer des **interfaces dynamiques à grande échelle** sans que le code ne devienne ingérable
 
-</v-clicks>
 
 <v-click>
 
-## La solution de React (et Vue, Angular)
+## La solution de React <span class="text-sm opacity-70">(et Vue, Angular, etc.)</span>
 
 - **Composants** : Découper l'UI en briques **réutilisables** et **indépendantes**
-- **Virtual DOM** : Mettre à jour uniquement ce qui a changé, **sans manipuler directement le DOM**
+- **Virtual DOM** <span class="text-sm opacity-70">(React & Vue)</span> : Mettre à jour uniquement ce qui a changé, **sans manipuler directement le DOM**
 - **Data binding unidirectionnel** : Flux de données prévisible, bugs plus faciles à tracer
 
 </v-click>
@@ -133,6 +123,10 @@ Mais React a révolutionné la façon d'organiser le code sur des apps complexes
 Analogie : JavaScript = tournevis. React = perceuse-visseuse avec embouts interchangeables.
 -->
 
+---
+layout: image-right
+image: /virtual-dom.jpg
+backgroundSize: contain
 ---
 
 # Introduction à React
@@ -147,16 +141,25 @@ Comment React fonctionne ?
 
 </v-clicks>
 
+<br/>
+
 <v-click>
 
 > ⚡ Résultat : performances optimisées, même sur de grandes applications
 
 </v-click>
 
+<div class="text-sm opacity-60 mt-2">
+
+🔗 [Qu'est-ce que le Virtual DOM ?](https://code-garage.com/blog/qu-est-ce-que-le-virtual-dom)
+
+</div>
+
 <!--
 Ne pas rentrer dans les détails du Virtual DOM maintenant.
 Juste planter la graine : React est intelligent et ne fait que le minimum nécessaire.
 Pièges fréquents : "Le Virtual DOM c'est pas magique, c'est juste une optimisation."
+🔗 Source image : https://code-garage.com/blog/qu-est-ce-que-le-virtual-dom
 -->
 
 ---

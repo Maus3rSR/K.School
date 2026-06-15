@@ -53,18 +53,15 @@ jobs:
 
       - name: 🏗️ Build courses
         run: |
-          repo="${{ github.event.repository.name }}"
-
           for course_dir in courses/*; do
             [ -d "$course_dir" ] || continue
             [ -f "$course_dir/package.json" ] || continue
-
+            
             folder_name="$(basename "$course_dir")"
-            package_name="$(node -e "process.stdout.write(require('./$course_dir/package.json').name)")"
-
-            echo "📦 Building $package_name (folder: $folder_name, base: /$repo/$folder_name/)..."
-            SLIDEV_BASE="/$repo/$folder_name/" \
-              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo
+            package_name="$(jq -r '.name' "$course_dir/package.json")"
+            echo "Building $package_name (folder: $folder_name)..."
+            
+            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$folder_name/"
           done
 
       - name: 📦 Assemble Pages dist + index
@@ -86,29 +83,7 @@ jobs:
             echo "🔍 Found course dist: $course_dir"
 
             mkdir -p "dist/$course_name"
-
-            # Detect multi-entrypoint: dist/ contains sub-dirs with their own index.html
-            subentries=()
-            for subdir in "$course_dir/dist"/*/; do
-              [ -d "$subdir" ] || continue
-              [ -f "${subdir}index.html" ] || continue
-              subentries+=("$(basename "$subdir")")
-            done
-
-            if [ "${#subentries[@]}" -gt 0 ]; then
-              echo "  ↳ Multi-entrypoint: ${subentries[*]}"
-              course_type["$course_name"]="multi"
-              course_subentries["$course_name"]="${subentries[*]}"
-              for entry in "${subentries[@]}"; do
-                echo "    📋 Copying $course_dir/dist/$entry/ → dist/$course_name/$entry/"
-                mkdir -p "dist/$course_name/$entry"
-                cp -r "$course_dir/dist/$entry/." "dist/$course_name/$entry/"
-              done
-            else
-              echo "  ↳ Single-entrypoint → dist/$course_name/"
-              course_type["$course_name"]="single"
-              cp -r "$course_dir/dist/." "dist/$course_name/"
-            fi
+            cp -r "$course_dir/dist/." "dist/$course_name/"
           done
 
           course_names=("${!course_type[@]}")

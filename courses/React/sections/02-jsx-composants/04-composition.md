@@ -254,9 +254,6 @@ layout: center
 class: text-center
 ---
 
-# Chapitre 02 — Composants & JSX
-
-&nbsp;
 
 > 💬 On sait créer des composants et les composer.<br/>
 > Mais comment passer des **données différentes** à un même composant selon le contexte ?

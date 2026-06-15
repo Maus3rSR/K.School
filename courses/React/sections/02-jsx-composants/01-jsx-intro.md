@@ -3,7 +3,7 @@ layout: cover
 background: https://cover.sli.dev?3
 ---
 
-# Chapitre 02
+# Chapitre 01
 JSX et premiers composants
 
 ---

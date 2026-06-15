@@ -10,7 +10,7 @@ addons:
   - '@k.school/slidev-addon-ui'
 ---
 
-# React <em class="text-lg">(+ TypeScript)</em>
+# React
 Composants
 
 

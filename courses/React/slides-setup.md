@@ -11,7 +11,7 @@ addons:
 ---
 
 # React <em class="text-lg">(+ TypeScript)</em>
-Setup & Écosystème
+Introduction à l'Écosystème React
 
 ---
 src: ./sections/01-setup/00-ressources.md

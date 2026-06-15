@@ -60,32 +60,11 @@ jobs:
             [ -f "$course_dir/package.json" ] || continue
 
             folder_name="$(basename "$course_dir")"
-            package_name="$(jq -r '.name' "$course_dir/package.json")"
+            package_name="$(node -e "process.stdout.write(require('./$course_dir/package.json').name)")"
 
-            # Collect build:* scripts and their --out paths (key=outpath, one per line)
-            multi_scripts="$(node -e "
-              const p = require('./$course_dir/package.json');
-              for (const [k, v] of Object.entries(p.scripts || {})) {
-                if (!/^build:.+/.test(k)) continue;
-                const m = v.match(/--out[= ](\S+)/);
-                process.stdout.write(k + '=' + (m ? m[1] : '') + '\n');
-              }
-            ")"
-
-            if [ -n "$multi_scripts" ]; then
-              echo "📦 Multi-entrypoint build for $package_name:"
-              while IFS='=' read -r script_key out_path; do
-                [ -z "$script_key" ] && continue
-                # Extract sub-path from out_path (e.g. dist/setup -> setup)
-                subpath="${out_path##dist/}"
-                base="/$repo/$folder_name/$subpath/"
-                echo "  ▶ $script_key  --base $base  (out: $out_path)"
-                (cd "$course_dir" && pnpm run "$script_key" -- --base "$base")
-              done <<< "$multi_scripts"
-            else
-              echo "📦 Building $package_name (folder: $folder_name, base: /$repo/$folder_name/)..."
-              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
-            fi
+            echo "📦 Building $package_name (folder: $folder_name, base: /$repo/$folder_name/)..."
+            SLIDEV_BASE="/$repo/$folder_name/" \
+              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo
           done
 
       - name: 📦 Assemble Pages dist + index

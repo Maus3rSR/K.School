@@ -4,9 +4,9 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "pnpm run build:setup && pnpm run build:component",
-    "build:setup": "slidev build slides-setup.md --out dist/setup --base ${SLIDEV_BASE}setup/",
-    "build:component": "slidev build slides-component.md --out dist/component --base ${SLIDEV_BASE}component/",
+    "build": "slidev build slides-setup.md # TEMP COMMENT - pnpm run build:setup && pnpm run build:component",
+    "build:setup": "slidev build slides-setup.md --out dist/setup",
+    "build:component": "slidev build slides-component.md --out dist/component",
     "dev": "slidev slides-setup.md --open --port 3030 & slidev slides-component.md --open --port 3031",
     "dev:setup": "slidev slides-setup.md --open",
     "dev:component": "slidev slides-component.md --open"

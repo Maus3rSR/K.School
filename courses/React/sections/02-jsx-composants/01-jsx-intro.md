@@ -15,9 +15,7 @@ class: text-center
 
 &nbsp;
 
-<div class="text-6xl font-mono font-bold text-teal-500 my-8">
-  UI = f(data)
-</div>
+$$UI = f(data)$$
 
 Donne des données à React → il calcule l'interface à afficher
 

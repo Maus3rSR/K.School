@@ -62,8 +62,28 @@ jobs:
             folder_name="$(basename "$course_dir")"
             package_name="$(jq -r '.name' "$course_dir/package.json")"
 
-            echo "Building $package_name (folder: $folder_name)..."
-            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
+            # Collect build:* scripts and their --out paths
+            multi_scripts="$(jq -r '
+              .scripts
+              | to_entries[]
+              | select(.key | test("^build:.+"))
+              | .key + "=" + (.value | capture("--out[ =](?P<out>\\S+)").out // "")
+            ' "$course_dir/package.json")"
+
+            if [ -n "$multi_scripts" ]; then
+              echo "📦 Multi-entrypoint build for $package_name:"
+              while IFS='=' read -r script_key out_path; do
+                [ -z "$script_key" ] && continue
+                # Extract sub-path from out_path (e.g. dist/setup -> setup)
+                subpath="${out_path##dist/}"
+                base="/$repo/$folder_name/$subpath/"
+                echo "  ▶ $script_key  --base $base  (out: $out_path)"
+                (cd "$course_dir" && pnpm run "$script_key" -- --base "$base")
+              done <<< "$multi_scripts"
+            else
+              echo "📦 Building $package_name (folder: $folder_name, base: /$repo/$folder_name/)..."
+              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
+            fi
           done
 
       - name: 📦 Assemble Pages dist + index
@@ -71,47 +91,64 @@ jobs:
         run: |
           mkdir -p dist
 
-          course_names=()
+          # course_entries: array of "name|type|subentries"
+          # type = "single" or "multi"
+          # subentries = space-separated list of sub-dir names (multi only)
+          declare -A course_type
+          declare -A course_subentries
 
           for course_dir in courses/*; do
             [ -d "$course_dir" ] || continue
             [ -d "$course_dir/dist" ] || continue
 
             course_name="$(basename "$course_dir")"
-            course_names+=("$course_name")
+            echo "🔍 Found course dist: $course_dir"
 
             mkdir -p "dist/$course_name"
 
             # Detect multi-entrypoint: dist/ contains sub-dirs with their own index.html
-            has_subentry=false
+            subentries=()
             for subdir in "$course_dir/dist"/*/; do
               [ -d "$subdir" ] || continue
               [ -f "${subdir}index.html" ] || continue
-              has_subentry=true
-              break
+              subentries+=("$(basename "$subdir")")
             done
 
-            if [ "$has_subentry" = true ]; then
-              # Copy each sub-entrypoint into dist/<course>/<entrypoint>/
-              for subdir in "$course_dir/dist"/*/; do
-                [ -d "$subdir" ] || continue
-                [ -f "${subdir}index.html" ] || continue
-                entry_name="$(basename "$subdir")"
-                mkdir -p "dist/$course_name/$entry_name"
-                cp -r "$subdir." "dist/$course_name/$entry_name/"
+            if [ "${#subentries[@]}" -gt 0 ]; then
+              echo "  ↳ Multi-entrypoint: ${subentries[*]}"
+              course_type["$course_name"]="multi"
+              course_subentries["$course_name"]="${subentries[*]}"
+              for entry in "${subentries[@]}"; do
+                echo "    📋 Copying $course_dir/dist/$entry/ → dist/$course_name/$entry/"
+                mkdir -p "dist/$course_name/$entry"
+                cp -r "$course_dir/dist/$entry/." "dist/$course_name/$entry/"
               done
             else
+              echo "  ↳ Single-entrypoint → dist/$course_name/"
+              course_type["$course_name"]="single"
               cp -r "$course_dir/dist/." "dist/$course_name/"
             fi
           done
 
+          course_names=("${!course_type[@]}")
+
           if [ "${#course_names[@]}" -eq 0 ]; then
-            echo "No course build found in courses/*/dist"
+            echo "❌ No course build found in courses/*/dist"
             exit 1
           fi
 
           IFS=$'\n' sorted_courses=($(printf '%s\n' "${course_names[@]}" | sort))
           unset IFS
+
+          echo ""
+          echo "📄 Generating index.html with ${#sorted_courses[@]} course(s):"
+          for c in "${sorted_courses[@]}"; do
+            if [ "${course_type[$c]}" = "multi" ]; then
+              echo "  • $c (multi: ${course_subentries[$c]})"
+            else
+              echo "  • $c (single)"
+            fi
+          done
 
           cat > dist/index.html <<'EOF'
           <!doctype html>
@@ -160,19 +197,21 @@ jobs:
                   display: grid;
                   gap: 12px;
                 }
-                a {
-                  display: block;
-                  text-decoration: none;
-                  color: inherit;
+                .card {
                   background: var(--card);
                   border: 1px solid var(--border);
                   border-radius: 12px;
                   padding: 16px;
                   transition: transform .15s ease, border-color .15s ease;
                 }
-                a:hover {
+                .card:hover {
                   transform: translateY(-2px);
                   border-color: var(--accent);
+                }
+                .card a {
+                  display: block;
+                  text-decoration: none;
+                  color: inherit;
                 }
                 .label {
                   font-weight: 600;
@@ -181,6 +220,30 @@ jobs:
                 .url {
                   color: var(--accent-hover);
                   font-size: .92rem;
+                }
+                .subentries {
+                  margin-top: 10px;
+                  padding-top: 10px;
+                  border-top: 1px solid var(--border);
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 8px;
+                }
+                .subentries a {
+                  display: inline-block;
+                  text-decoration: none;
+                  background: var(--bg);
+                  border: 1px solid var(--border);
+                  border-radius: 8px;
+                  padding: 6px 12px;
+                  font-size: .88rem;
+                  color: var(--accent);
+                  font-weight: 500;
+                  transition: background .15s ease, border-color .15s ease;
+                }
+                .subentries a:hover {
+                  background: #d1fae5;
+                  border-color: var(--accent);
                 }
               </style>
             </head>
@@ -192,7 +255,16 @@ jobs:
           EOF
 
           for course in "${sorted_courses[@]}"; do
-            printf '                  <li><a href="./%s/"><div class="label">%s</div><div class="url">./%s/</div></a></li>\n' "$course" "$course" "$course" >> dist/index.html
+            if [ "${course_type[$course]}" = "multi" ]; then
+              # Card with sub-links, no top-level href
+              printf '                  <li><div class="card"><div class="label">%s</div><div class="subentries">\n' "$course" >> dist/index.html
+              for entry in ${course_subentries[$course]}; do
+                printf '                    <a href="./%s/%s/">%s</a>\n' "$course" "$entry" "$entry" >> dist/index.html
+              done
+              printf '                  </div></div></li>\n' >> dist/index.html
+            else
+              printf '                  <li><div class="card"><a href="./%s/"><div class="label">%s</div><div class="url">./%s/</div></a></div></li>\n' "$course" "$course" "$course" >> dist/index.html
+            fi
           done
 
           cat >> dist/index.html <<'EOF'
@@ -203,6 +275,9 @@ jobs:
           EOF
 
           touch dist/.nojekyll
+          echo ""
+          echo "✅ dist/ assembled. Contents:"
+          find dist -maxdepth 2 -name "index.html" | sort | sed 's/^/  /'
 
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v4

@@ -14,29 +14,17 @@ addons:
 Développement d'interfaces interactives modernes
 
 ---
-src: ./sections/00-ressources.md
+src: ./sections/01-setup/00-ressources.md
 ---
 
 ---
-src: ./sections/00-lexique.md
+src: ./sections/01-setup/00-lexique.md
 ---
 
 ---
-src: ./sections/01-introduction.md
+src: ./sections/01-setup/index.md
 ---
 
 ---
-src: ./sections/02-javascript-moderne.md
----
-
----
-src: ./sections/03-typescript-intro.md
----
-
----
-src: ./sections/03b-ecosysteme.md
----
-
----
-src: ./sections/04-premier-projet.md
+src: ./sections/02-jsx-composants/index.md
 ---

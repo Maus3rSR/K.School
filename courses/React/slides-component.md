@@ -15,7 +15,13 @@ Composants
 
 
 ---
+src: ./sections/02-jsx-composants/00-ressources.md
+---
 
-# Contenu à venir
+---
+src: ./sections/02-jsx-composants/00-lexique.md
+---
 
-Cette section est en cours de rédaction.
+---
+src: ./sections/02-jsx-composants/index.md
+---

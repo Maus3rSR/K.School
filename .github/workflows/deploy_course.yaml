@@ -53,15 +53,29 @@ jobs:
 
       - name: 🏗️ Build courses
         run: |
+          repo="${{ github.event.repository.name }}"
+
           for course_dir in courses/*; do
             [ -d "$course_dir" ] || continue
             [ -f "$course_dir/package.json" ] || continue
-            
+
             folder_name="$(basename "$course_dir")"
             package_name="$(jq -r '.name' "$course_dir/package.json")"
-            echo "Building $package_name (folder: $folder_name)..."
-            
-            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$folder_name/"
+
+            # Detect multi-entrypoint scripts: build:* entries in package.json
+            sub_scripts=$(jq -r '.scripts | to_entries[] | select(.key | startswith("build:")) | .key' "$course_dir/package.json")
+
+            if [ -n "$sub_scripts" ]; then
+              echo "Multi-entrypoint course: $package_name"
+              while IFS= read -r script_key; do
+                entry_name="${script_key#build:}"
+                echo "  Building entrypoint '$entry_name'..."
+                pnpm turbo run "$script_key" --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/$entry_name/"
+              done <<< "$sub_scripts"
+            else
+              echo "Building $package_name (folder: $folder_name)..."
+              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
+            fi
           done
 
       - name: 📦 Assemble Pages dist + index
@@ -79,7 +93,28 @@ jobs:
             course_names+=("$course_name")
 
             mkdir -p "dist/$course_name"
-            cp -r "$course_dir/dist/." "dist/$course_name/"
+
+            # Detect multi-entrypoint: dist/ contains sub-dirs with their own index.html
+            has_subentry=false
+            for subdir in "$course_dir/dist"/*/; do
+              [ -d "$subdir" ] || continue
+              [ -f "${subdir}index.html" ] || continue
+              has_subentry=true
+              break
+            done
+
+            if [ "$has_subentry" = true ]; then
+              # Copy each sub-entrypoint into dist/<course>/<entrypoint>/
+              for subdir in "$course_dir/dist"/*/; do
+                [ -d "$subdir" ] || continue
+                [ -f "${subdir}index.html" ] || continue
+                entry_name="$(basename "$subdir")"
+                mkdir -p "dist/$course_name/$entry_name"
+                cp -r "$subdir." "dist/$course_name/$entry_name/"
+              done
+            else
+              cp -r "$course_dir/dist/." "dist/$course_name/"
+            fi
           done
 
           if [ "${#course_names[@]}" -eq 0 ]; then

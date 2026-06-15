@@ -4,8 +4,12 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "slidev build",
-    "dev": "slidev --open"
+    "build": "pnpm run build:setup && pnpm run build:component",
+    "build:setup": "slidev build slides-setup.md --out dist/setup",
+    "build:component": "slidev build slides-component.md --out dist/component",
+    "dev": "slidev slides-setup.md --open",
+    "dev:setup": "slidev slides-setup.md --open",
+    "dev:component": "slidev slides-component.md --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",

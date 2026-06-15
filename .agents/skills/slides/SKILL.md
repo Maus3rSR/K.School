@@ -371,23 +371,15 @@ layout: two-cols-header
 
 ::left::
 
-<div>
-
 ## [Titre de la colonne gauche]
 
 [emoji] [Titre du lien](URL) - [Description de ce qu'on y trouve réellement]
 
-</div>
-
 ::right::
-
-<div>
 
 ## [Titre de la colonne droite]
 
 [emoji] [Titre du lien](URL) - [Description de ce qu'on y trouve réellement]
-
-</div>
 
 <!--
 Notes pour le présentateur sur comment utiliser ces ressources en cours.

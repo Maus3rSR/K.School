@@ -62,20 +62,8 @@ jobs:
             folder_name="$(basename "$course_dir")"
             package_name="$(jq -r '.name' "$course_dir/package.json")"
 
-            # Detect multi-entrypoint scripts: build:* entries in package.json
-            sub_scripts=$(jq -r '.scripts | to_entries[] | select(.key | startswith("build:")) | .key' "$course_dir/package.json")
-
-            if [ -n "$sub_scripts" ]; then
-              echo "Multi-entrypoint course: $package_name"
-              while IFS= read -r script_key; do
-                entry_name="${script_key#build:}"
-                echo "  Building entrypoint '$entry_name'..."
-                pnpm turbo run "$script_key" --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/$entry_name/"
-              done <<< "$sub_scripts"
-            else
-              echo "Building $package_name (folder: $folder_name)..."
-              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
-            fi
+            echo "Building $package_name (folder: $folder_name)..."
+            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/$repo/$folder_name/"
           done
 
       - name: 📦 Assemble Pages dist + index

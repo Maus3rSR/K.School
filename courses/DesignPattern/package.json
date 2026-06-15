@@ -4,7 +4,7 @@
   "description": "Présentation Slidev sur les Design Patterns - Les 3 Catégories",
   "scripts": {
     "dev": "slidev --open",
-    "build": "slidev build --base ${SLIDEV_BASE}"
+    "build": "slidev build"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",

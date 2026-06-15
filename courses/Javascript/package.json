@@ -4,7 +4,7 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "slidev build --base ${SLIDEV_BASE}",
+    "build": "slidev build",
     "dev": "slidev --open"
   },
   "dependencies": {

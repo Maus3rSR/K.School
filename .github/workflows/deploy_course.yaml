@@ -62,13 +62,15 @@ jobs:
             folder_name="$(basename "$course_dir")"
             package_name="$(jq -r '.name' "$course_dir/package.json")"
 
-            # Collect build:* scripts and their --out paths
-            multi_scripts="$(jq -r '
-              .scripts
-              | to_entries[]
-              | select(.key | test("^build:.+"))
-              | .key + "=" + (.value | capture("--out[ =](?P<out>\\S+)").out // "")
-            ' "$course_dir/package.json")"
+            # Collect build:* scripts and their --out paths (key=outpath, one per line)
+            multi_scripts="$(node -e "
+              const p = require('./$course_dir/package.json');
+              for (const [k, v] of Object.entries(p.scripts || {})) {
+                if (!/^build:.+/.test(k)) continue;
+                const m = v.match(/--out[= ](\S+)/);
+                process.stdout.write(k + '=' + (m ? m[1] : '') + '\n');
+              }
+            ")"
 
             if [ -n "$multi_scripts" ]; then
               echo "📦 Multi-entrypoint build for $package_name:"

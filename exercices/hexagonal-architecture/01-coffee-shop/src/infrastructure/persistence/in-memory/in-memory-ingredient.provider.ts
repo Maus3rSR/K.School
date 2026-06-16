@@ -1,7 +1,7 @@
 // À compléter : Adapter in-memory pour les ingrédients
 // @Injectable()
-// Implémenter : IngredientProvider + CheckStockQuery
-// 
+// Implémenter : IngredientProvider + CheckStock (cas d'utilisation)
+//
 // Données initiales (Map) :
 // - Coffee: 10
 // - Water: 20

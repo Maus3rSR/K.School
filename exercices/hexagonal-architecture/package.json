@@ -4,6 +4,7 @@
   "private": true,
   "description": "Hexagonal Architecture exercises",
   "scripts": {
-    "01-coffee-shop": "cd 01-coffee-shop && npm install && npm run dev"
+    "dev:coffee-shop": "pnpm --filter @k.school/exercice-hexagonal-coffee dev",
+    "test:coffee-shop": "pnpm --filter @k.school/exercice-hexagonal-coffee test:ui"
   }
 }

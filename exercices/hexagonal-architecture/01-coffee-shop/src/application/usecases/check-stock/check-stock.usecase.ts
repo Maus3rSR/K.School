@@ -1,3 +1,3 @@
-// À compléter : Interface Query pour consulter le stock
+// À compléter : Cas d'utilisation pour consulter le stock
 // Méthode à définir :
 // - execute(): Promise<Ingredient[]>

@@ -1,4 +1,4 @@
-// À compléter : Handler pour la commande RestockIngredient
+// À compléter : Handler pour le cas d'utilisation RestockIngredient
 // @Injectable()
 // Injecter le port : IngredientProvider
 // 

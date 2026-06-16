@@ -15,6 +15,8 @@
     "vscode:dev": "turbo run dev --filter @k.school/vscode",
     "vscode:ex:navigation": "pnpm --filter @k.school/exercices-vscode run:navigation",
     "vscode:ex:dirty-code": "pnpm --filter @k.school/exercices-vscode run:dirty-code",
+    "hexa:ex:coffee": "pnpm --filter @k.school/exercices-hexagonal-architecture dev:coffee-shop",
+    "hexa:test:coffee": "pnpm --filter @k.school/exercices-hexagonal-architecture test:coffee-shop",
     "tdd:ex:pig-latin": "deno task --cwd exercices/tdd 01-pig-latin",
     "tdd:ex:string-calculator": "deno task --cwd exercices/tdd 02-string-calculator",
     "tdd:ex:roman-numerals": "deno task --cwd exercices/tdd 03-roman-numerals",

@@ -1,374 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="coffee">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>☕ Coffee Shop Deluxe</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet">
-</head>
-<body class="bg-base-200 min-h-screen p-4 md:p-8">
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-5xl font-bold mb-2">☕ Coffee Shop Deluxe</h1>
-      <p class="text-lg text-base-content/70">Hexagonal Architecture + CQS Live Coding</p>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>☕ Coffee Shop Deluxe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-base-200 min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-5xl font-bold mb-2">☕ Coffee Shop Deluxe</h1>
+        <p class="text-lg text-base-content/70">
+          Hexagonal Architecture + CQS Live Coding
+        </p>
+      </div>
 
-    <!-- Grid Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      
-      <!-- Stock Section -->
+      <!-- Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <!-- Stock Section -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">📦 Stock</h2>
+            <div id="stock" class="space-y-2">
+              <div class="skeleton h-12"></div>
+              <div class="skeleton h-12"></div>
+              <div class="skeleton h-12"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipes Section -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">📋 Available Recipes</h2>
+            <div id="recipes" class="space-y-2">
+              <div class="skeleton h-12"></div>
+              <div class="skeleton h-12"></div>
+              <div class="skeleton h-12"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Section -->
+      <div class="card bg-base-100 shadow-xl mb-6">
+        <div class="card-body">
+          <h2 class="card-title text-2xl mb-6">☕ New Order</h2>
+
+          <div class="form-control gap-4">
+            <div>
+              <label class="label">
+                <span class="label-text font-semibold">Select Recipe</span>
+              </label>
+              <select id="recipeSelect" class="select select-bordered w-full">
+                <option disabled selected>Choose a recipe...</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="label-text font-semibold"
+                  >Amount Paid (cents)</span
+                >
+              </label>
+              <input
+                id="amountInput"
+                type="number"
+                placeholder="e.g., 300"
+                class="input input-bordered w-full"
+                min="0"
+              />
+            </div>
+
+            <button onclick="prepareBeverage()" class="btn btn-primary btn-lg">
+              ☕ Prepare Beverage
+            </button>
+          </div>
+
+          <!-- Result -->
+          <div id="orderResult" class="mt-6"></div>
+        </div>
+      </div>
+
+      <!-- Admin Section -->
+      <div class="card bg-base-100 shadow-xl mb-6">
+        <div class="card-body">
+          <h2 class="card-title text-2xl mb-6">🔧 Admin Panel</h2>
+
+          <div class="form-control gap-4">
+            <div>
+              <label class="label">
+                <span class="label-text font-semibold">Ingredient Name</span>
+              </label>
+              <input
+                id="ingredientInput"
+                type="text"
+                placeholder="e.g., Coffee"
+                class="input input-bordered w-full"
+              />
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="label-text font-semibold">Quantity to Add</span>
+              </label>
+              <input
+                id="quantityInput"
+                type="number"
+                placeholder="e.g., 5"
+                class="input input-bordered w-full"
+                min="1"
+              />
+            </div>
+
+            <button
+              onclick="restockIngredient()"
+              class="btn btn-secondary btn-lg"
+            >
+              📦 Restock Ingredient
+            </button>
+          </div>
+
+          <!-- Restock Result -->
+          <div id="restockResult" class="mt-6"></div>
+        </div>
+      </div>
+
+      <!-- Sales History Section -->
       <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
-          <h2 class="card-title text-2xl mb-4">📦 Stock</h2>
-          <div id="stock" class="space-y-2">
-            <div class="skeleton h-12"></div>
-            <div class="skeleton h-12"></div>
-            <div class="skeleton h-12"></div>
+          <h2 class="card-title text-2xl mb-4">📊 Sales History</h2>
+          <div id="salesHistory" class="overflow-x-auto">
+            <table class="table w-full">
+              <thead>
+                <tr>
+                  <th>Beverage</th>
+                  <th>Price</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody">
+                <tr>
+                  <td colspan="3" class="text-center text-base-content/50">
+                    No sales yet
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
-
-      <!-- Recipes Section -->
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title text-2xl mb-4">📋 Available Recipes</h2>
-          <div id="recipes" class="space-y-2">
-            <div class="skeleton h-12"></div>
-            <div class="skeleton h-12"></div>
-            <div class="skeleton h-12"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Order Section -->
-    <div class="card bg-base-100 shadow-xl mb-6">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-6">☕ New Order</h2>
-        
-        <div class="form-control gap-4">
-          <div>
-            <label class="label">
-              <span class="label-text font-semibold">Select Recipe</span>
-            </label>
-            <select id="recipeSelect" class="select select-bordered w-full">
-              <option disabled selected>Choose a recipe...</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="label">
-              <span class="label-text font-semibold">Amount Paid (cents)</span>
-            </label>
-            <input 
-              id="amountInput" 
-              type="number" 
-              placeholder="e.g., 300" 
-              class="input input-bordered w-full"
-              min="0"
-            >
-          </div>
-
-          <button 
-            onclick="prepareBeverage()" 
-            class="btn btn-primary btn-lg"
-          >
-            ☕ Prepare Beverage
-          </button>
-        </div>
-
-        <!-- Result -->
-        <div id="orderResult" class="mt-6"></div>
-      </div>
-    </div>
-
-    <!-- Admin Section -->
-    <div class="card bg-base-100 shadow-xl mb-6">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-6">🔧 Admin Panel</h2>
-        
-        <div class="form-control gap-4">
-          <div>
-            <label class="label">
-              <span class="label-text font-semibold">Ingredient Name</span>
-            </label>
-            <input 
-              id="ingredientInput" 
-              type="text" 
-              placeholder="e.g., Coffee" 
-              class="input input-bordered w-full"
-            >
-          </div>
-
-          <div>
-            <label class="label">
-              <span class="label-text font-semibold">Quantity to Add</span>
-            </label>
-            <input 
-              id="quantityInput" 
-              type="number" 
-              placeholder="e.g., 5" 
-              class="input input-bordered w-full"
-              min="1"
-            >
-          </div>
-
-          <button 
-            onclick="restockIngredient()" 
-            class="btn btn-secondary btn-lg"
-          >
-            📦 Restock Ingredient
-          </button>
-        </div>
-
-        <!-- Restock Result -->
-        <div id="restockResult" class="mt-6"></div>
-      </div>
-    </div>
-
-    <!-- Sales History Section -->
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-4">📊 Sales History</h2>
-        <div id="salesHistory" class="overflow-x-auto">
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th>Beverage</th>
-                <th>Price</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody id="salesTableBody">
-              <tr>
-                <td colspan="3" class="text-center text-base-content/50">No sales yet</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast toast-top toast-end"></div>
 
-  <!-- Toast Container -->
-  <div id="toastContainer" class="toast toast-top toast-end"></div>
-
-  <script>
-    const API_BASE = '/api/coffee';
-
-    // ============ UTILITIES ============
-
-    function showToast(message, type = 'info') {
-      const toastContainer = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `alert alert-${type} shadow-lg`;
-      toast.innerHTML = `<span>${message}</span>`;
-      toastContainer.appendChild(toast);
-      
-      setTimeout(() => toast.remove(), 3000);
-    }
-
-    function formatTime(date) {
-      return new Date(date).toLocaleTimeString();
-    }
-
-    // ============ LOAD DATA ============
-
-    async function loadStock() {
-      try {
-        const response = await fetch(`${API_BASE}/stock`);
-        if (!response.ok) throw new Error('Failed to load stock');
-        
-        const ingredients = await response.json();
-        const stockDiv = document.getElementById('stock');
-        
-        if (ingredients.length === 0) {
-          stockDiv.innerHTML = '<p class="text-base-content/50">No ingredients in stock</p>';
-          return;
-        }
-
-        stockDiv.innerHTML = ingredients
-          .map(ing => `
-            <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
-              <span class="font-semibold">${ing.name}</span>
-              <span class="badge badge-lg">${ing.quantity} units</span>
-            </div>
-          `)
-          .join('');
-      } catch (error) {
-        console.error('Stock loading error:', error);
-        document.getElementById('stock').innerHTML = 
-          '<p class="text-error">Failed to load stock</p>';
-      }
-    }
-
-    async function loadRecipes() {
-      try {
-        const response = await fetch(`${API_BASE}/recipes`);
-        if (!response.ok) throw new Error('Failed to load recipes');
-        
-        const recipes = await response.json();
-        const recipesDiv = document.getElementById('recipes');
-        const recipeSelect = document.getElementById('recipeSelect');
-
-        if (recipes.length === 0) {
-          recipesDiv.innerHTML = '<p class="text-base-content/50">No recipes available</p>';
-          return;
-        }
-
-        recipesDiv.innerHTML = recipes
-          .map(recipe => `
-            <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
-              <span class="font-semibold">${recipe.name}</span>
-              <span class="badge badge-primary">${recipe.estimatedPrice}¢</span>
-            </div>
-          `)
-          .join('');
-
-        recipeSelect.innerHTML = '<option disabled selected>Choose a recipe...</option>' +
-          recipes
-            .map(recipe => `<option value="${recipe.name}">${recipe.name} (${recipe.estimatedPrice}¢)</option>`)
-            .join('');
-      } catch (error) {
-        console.error('Recipes loading error:', error);
-        document.getElementById('recipes').innerHTML = 
-          '<p class="text-error">Failed to load recipes</p>';
-      }
-    }
-
-    async function loadSalesHistory() {
-      try {
-        const response = await fetch(`${API_BASE}/sales`);
-        if (!response.ok) throw new Error('Failed to load sales');
-        
-        const sales = await response.json();
-        const tableBody = document.getElementById('salesTableBody');
-
-        if (sales.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-base-content/50">No sales yet</td></tr>';
-          return;
-        }
-
-        tableBody.innerHTML = sales
-          .map(sale => `
-            <tr>
-              <td class="font-semibold">${sale.beverage.name}</td>
-              <td>${sale.beverage.price}¢</td>
-              <td>${formatTime(sale.timestamp)}</td>
-            </tr>
-          `)
-          .join('');
-      } catch (error) {
-        console.error('Sales history loading error:', error);
-        document.getElementById('salesTableBody').innerHTML = 
-          '<tr><td colspan="3" class="text-error">Failed to load sales</td></tr>';
-      }
-    }
-
-    // ============ COMMANDS ============
-
-    async function prepareBeverage() {
-      const recipeName = document.getElementById('recipeSelect').value;
-      const amountPaid = parseInt(document.getElementById('amountInput').value);
-
-      if (!recipeName || !amountPaid) {
-        showToast('❌ Please fill in all fields', 'error');
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_BASE}/prepare`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ recipeName, amountPaid }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          showToast(`✅ ${data.beverage.name} prepared! Change: ${data.changeReturned}¢`, 'success');
-          
-          // Clear inputs
-          document.getElementById('recipeSelect').value = '';
-          document.getElementById('amountInput').value = '';
-          
-          // Reload data
-          loadStock();
-          loadSalesHistory();
-          
-          // Show result
-          document.getElementById('orderResult').innerHTML = `
-            <div class="alert alert-success">
-              <span>🎉 ${data.beverage.name} ready! Price: ${data.beverage.price}¢, Change: ${data.changeReturned}¢</span>
-            </div>
-          `;
-        } else {
-          showToast(`❌ ${data.message || 'Failed to prepare beverage'}`, 'error');
-        }
-      } catch (error) {
-        console.error('Prepare error:', error);
-        showToast('❌ Error preparing beverage', 'error');
-      }
-    }
-
-    async function restockIngredient() {
-      const ingredientName = document.getElementById('ingredientInput').value;
-      const quantity = parseInt(document.getElementById('quantityInput').value);
-
-      if (!ingredientName || !quantity) {
-        showToast('❌ Please fill in all fields', 'error');
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_BASE}/restock`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ingredientName, quantity }),
-        });
-
-        if (response.ok) {
-          showToast(`✅ ${ingredientName} restocked (+${quantity})`, 'success');
-          
-          // Clear inputs
-          document.getElementById('ingredientInput').value = '';
-          document.getElementById('quantityInput').value = '';
-          
-          // Reload stock
-          loadStock();
-          
-          // Show result
-          document.getElementById('restockResult').innerHTML = `
-            <div class="alert alert-success">
-              <span>✅ ${ingredientName} restocked successfully</span>
-            </div>
-          `;
-        } else {
-          showToast('❌ Failed to restock ingredient', 'error');
-        }
-      } catch (error) {
-        console.error('Restock error:', error);
-        showToast('❌ Error restocking ingredient', 'error');
-      }
-    }
-
-    // ============ INIT ============
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadStock();
-      loadRecipes();
-      loadSalesHistory();
-
-      // Refresh data every 5 seconds
-      setInterval(() => {
-        loadStock();
-        loadSalesHistory();
-      }, 5000);
-    });
-  </script>
-</body>
+    <script type="module" src="./app.js"></script>
+  </body>
 </html>

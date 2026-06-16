@@ -3,7 +3,7 @@
 ## 📁 Complete File Structure
 
 ```
-01-coffee-shop/
+coffee-shop/
 ├── src/
 │   ├── domain/                                    # Pure business logic
 │   │   ├── models/
@@ -258,8 +258,8 @@ class InMemoryRecipeRepository
 1. **Read** `README.md` for full context
 2. **Follow** `GETTING_STARTED.md` for phase-by-phase guide
 3. **Implement** files in order (domain → application → infrastructure → presentation)
-4. **Test** each phase with `npm run test`
-5. **Run** the app with `npm run dev`
+4. **Test** each phase with `pnpm test`
+5. **Run** the app with `pnpm dev`
 6. **Use** the UI at `http://localhost:3000`
 
 ---

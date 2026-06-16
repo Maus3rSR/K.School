@@ -5,7 +5,7 @@
 ### 1. Install Dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 2. Understand the Structure
@@ -23,7 +23,7 @@ src/
 Each file has comments indicating what to implement:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The API will start on `http://localhost:3000`
@@ -31,13 +31,13 @@ The API will start on `http://localhost:3000`
 ### 4. Run Tests
 
 ```bash
-npm run test
+pnpm test
 ```
 
 Watch mode (auto-rerun on changes):
 
 ```bash
-npm run test -- --watch
+pnpm test -- --watch
 ```
 
 ---
@@ -237,13 +237,13 @@ grep -r "implements.*Port" src/infrastructure/
 ### 3. Test a single file
 
 ```bash
-npm run test -- src/domain/models/ingredient.vo.test.ts
+pnpm test -- src/domain/models/ingredient.vo.test.ts
 ```
 
 ### 4. Watch specific directory
 
 ```bash
-npm run test -- --watch src/application/
+pnpm test -- --watch src/application/
 ```
 
 ---
@@ -252,17 +252,17 @@ npm run test -- --watch src/application/
 
 ```bash
 # Development
-npm run dev              # Start NestJS in watch mode
+pnpm dev                 # Start NestJS in watch mode
 
 # Testing
-npm run test             # Run all tests once
-npm run test -- --watch  # Watch mode
-npm run test:ui          # Open Vitest UI
-npm run test:coverage    # Generate coverage report
+pnpm test                # Run all tests once
+pnpm test -- --watch     # Watch mode
+pnpm test:ui             # Open Vitest UI
+pnpm test:coverage       # Generate coverage report
 
 # Building
-npm run build            # Compile TypeScript
-npm start                # Run compiled app
+pnpm build               # Compile TypeScript
+pnpm start               # Run compiled app
 ```
 
 ---

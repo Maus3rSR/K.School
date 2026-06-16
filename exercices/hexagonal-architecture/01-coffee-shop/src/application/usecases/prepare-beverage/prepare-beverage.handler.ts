@@ -1,4 +1,4 @@
-// À compléter : Handler pour la commande PrepareBeverage
+// À compléter : Handler pour le cas d'utilisation PrepareBeverage
 // @Injectable()
 // Injecter les ports : RecipeRepository, IngredientProvider, SaleRepository
 // 

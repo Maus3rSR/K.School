@@ -3,14 +3,13 @@
   "version": "0.0.1",
   "description": "Live coding exercise: Hexagonal Architecture + CQS with NestJS",
   "main": "dist/main.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
     "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:ui": "vitest --ui"
   },
   "keywords": [
     "hexagonal-architecture",

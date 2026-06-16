@@ -1,7 +1,7 @@
 // À compléter : Adapter in-memory pour les recettes
 // @Injectable()
-// Implémenter : RecipeRepository + ListRecipesQuery
-// 
+// Implémenter : RecipeRepository + ListRecipes (cas d'utilisation)
+//
 // Données initiales :
 // - Espresso : [Ingredient('Coffee', 1), Ingredient('Water', 1)]
 // - Latte : [Ingredient('Coffee', 1), Ingredient('Milk', 2)]

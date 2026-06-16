@@ -1,10 +1,9 @@
 // À compléter : Module NestJS pour l'API Coffee
 // @Module()
-// 
+//
 // Providers à configurer :
-// - Commands (classes avec logique)
-// - Queries (interfaces → implémentations)
+// - Cas d'utilisation (classes avec logique)
 // - Ports (interfaces → adapters)
-// 
+//
 // Controllers :
 // - CoffeeController

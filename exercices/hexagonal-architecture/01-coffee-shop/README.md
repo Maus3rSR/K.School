@@ -155,8 +155,8 @@ Page web statique servie par NestJS (`@nestjs/serve-static`) avec :
 
 ```bash
 npm init -y
-npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata
-npm install --save-dev @types/node typescript ts-node vitest @vitest/ui
+pnpm add @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata
+pnpm add -D @types/node typescript ts-node vitest @vitest/ui
 npx tsc --init
 ```
 
@@ -176,7 +176,7 @@ Définir les exceptions métier :
 - `RecipeNotFoundError`
 - `InsufficientFundsError`
 
-**Checkpoint** : `npm run test` passe avec 0 test (structure OK)
+**Checkpoint** : `pnpm test` passe avec 0 test (structure OK)
 
 ---
 

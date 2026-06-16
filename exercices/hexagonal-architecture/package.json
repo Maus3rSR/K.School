@@ -1,0 +1,9 @@
+{
+  "name": "@k.school/exercices-hexagonal-architecture",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Hexagonal Architecture exercises",
+  "scripts": {
+    "01-coffee-shop": "cd 01-coffee-shop && npm install && npm run dev"
+  }
+}

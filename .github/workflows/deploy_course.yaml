@@ -218,10 +218,6 @@ jobs:
                   padding: 2px 8px;
                   line-height: 1.4;
                 }
-                .url {
-                  color: var(--accent-hover);
-                  font-size: .92rem;
-                }
                 .subentries {
                   margin-top: 10px;
                   padding-top: 10px;
@@ -259,12 +255,11 @@ jobs:
             if [ "${course_type[$course]}" = "multi" ]; then
               printf '                  <li><div class="card"><div class="card-header"><div class="label">%s</div><span class="badge">multi</span></div><div class="subentries">\n' "$course" >> dist/index.html
               for entry in ${course_subentries[$course]}; do
-                capitalized="$(echo "$entry" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')";
-                printf '                    <a href="./%s/%s/">%s</a>\n' "$course" "$entry" "$capitalized" >> dist/index.html
+                printf '                    <a href="./%s/%s/">%s</a>\n' "$course" "$entry" "$entry" >> dist/index.html
               done
               printf '                  </div></div></li>\n' >> dist/index.html
             else
-              printf '                  <li><div class="card"><a href="./%s/"><div class="label">%s</div><div class="url">./%s/</div></a></div></li>\n' "$course" "$course" "$course" >> dist/index.html
+              printf '                  <li><div class="card"><a href="./%s/"><div class="card-header"><div class="label">%s</div></div></a></div></li>\n' "$course" "$course" >> dist/index.html
             fi
           done
 

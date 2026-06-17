@@ -4,5 +4,5 @@ export default function PremierMonstre() {
       {/* 👉 Remplace ce bloc par la carte de ton monstre */}
       <p>Ton premier monstre apparaîtra ici…</p>
     </div>
-  )
+  );
 }

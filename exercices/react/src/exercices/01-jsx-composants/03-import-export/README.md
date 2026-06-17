@@ -27,8 +27,8 @@ Tu vas :
 ## 📂 Fichiers à éditer
 
 ```
-src/exercices/02-jsx-composants/03-import-export/CarteMonstre.tsx   ← le composant réutilisable
-src/exercices/02-jsx-composants/03-import-export/Bestiaire.tsx      ← la galerie qui le compose
+CarteMonstre.tsx   ← le composant réutilisable
+Bestiaire.tsx      ← la galerie qui le compose
 ```
 
 ---

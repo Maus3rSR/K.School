@@ -1,14 +1,14 @@
-import type { ReactNode } from 'react'
-import type { Exercice as ExerciceMeta } from '../exercices'
+import type { ReactNode } from "react";
+import type { Exercice as ExerciceMeta } from "../exercices";
 
 type Props = {
-  meta: ExerciceMeta
-  children: ReactNode
-}
+  meta: ExerciceMeta;
+  children: ReactNode;
+};
 
 /**
- * Cadre commun à tous les exercices : titre, lien vers la doc officielle et
- * rappel du ou des fichiers à éditer. Le rendu de l'apprenant est affiché dans
+ * Cadre commun à tous les exercices : titre, rappel du README et
+ * du ou des fichiers à éditer. Le rendu de l'apprenant est affiché dans
  * la zone « aperçu » via `children`.
  */
 export default function Exercice({ meta, children }: Props) {
@@ -21,18 +21,19 @@ export default function Exercice({ meta, children }: Props) {
         <h1 className="flex items-center gap-3 text-3xl font-bold">
           <span>{meta.emoji}</span> {meta.titre}
         </h1>
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <a
-            href={meta.doc}
-            target="_blank"
-            rel="noreferrer"
-            className="badge badge-primary badge-outline gap-1"
-          >
-            📖 Doc react.dev
-          </a>
+        <div role="alert" className="alert alert-info mt-3 py-2 text-sm">
+          <span>
+            📖 Lis le <strong>README.md</strong> de l&apos;exercice avant de
+            commencer.
+          </span>
+        </div>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           {meta.fichiers.map((f) => (
             <span key={f} className="badge badge-ghost font-mono text-xs">
-              ✏️ {f}
+              ✏️ Editer{" "}
+              <code className="ml-1 rounded bg-base-300 px-1 py-0.5 font-mono text-xs">
+                {f}
+              </code>
             </span>
           ))}
         </div>
@@ -44,5 +45,5 @@ export default function Exercice({ meta, children }: Props) {
         {children}
       </div>
     </div>
-  )
+  );
 }

@@ -15,7 +15,7 @@ une fonction JavaScript qui **retourne du JSX** (le markup à afficher).
 
 ## 🎓 Prérequis
 
-- Avoir lancé le projet avec `pnpm dev` (depuis `exercices/react/`)
+- Avoir lancé le projet avec `pnpm dev`
 - Avoir vu en cours : qu'est-ce que JSX, qu'est-ce qu'un composant
 - Notions JavaScript : fonction, `return`
 
@@ -24,7 +24,7 @@ une fonction JavaScript qui **retourne du JSX** (le markup à afficher).
 ## 📂 Fichier à éditer
 
 ```
-src/exercices/02-jsx-composants/01-premier-monstre/PremierMonstre.tsx
+PremierMonstre.tsx
 ```
 
 L'aperçu se trouve sur la page **« 01 · Ton premier monstre »** (menu de gauche).

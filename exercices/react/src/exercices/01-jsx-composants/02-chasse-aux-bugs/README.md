@@ -25,7 +25,7 @@ piège n°1 quand on débute. Repérer ces erreurs te fera gagner des heures plu
 ## 📂 Fichier à éditer
 
 ```
-src/exercices/02-jsx-composants/02-chasse-aux-bugs/AfficheReparee.tsx
+AfficheReparee.tsx
 ```
 
 ---
@@ -54,6 +54,7 @@ export default function AfficheReparee() {
 > ⚠️ Tant que le code contient une erreur de syntaxe, Vite affiche un **écran
 > d'erreur rouge**. C'est ton meilleur ami : lis le message, il t'indique souvent
 > la ligne fautive.
+> Pareil dans ton IDE grâce à TypeScript, en survolant il te donne des indices sur ce qui ne va pas.
 
 ---
 

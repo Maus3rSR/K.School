@@ -2,9 +2,9 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import { exercices } from "./exercices";
 import Exercice from "./components/Exercice";
 import Home from "./Home";
-import PremierMonstre from "./exercices/02-jsx-composants/01-premier-monstre/PremierMonstre";
-import AfficheReparee from "./exercices/02-jsx-composants/02-chasse-aux-bugs/AfficheReparee";
-import Bestiaire from "./exercices/02-jsx-composants/03-import-export/Bestiaire";
+import PremierMonstre from "./exercices/01-jsx-composants/01-premier-monstre/PremierMonstre";
+import AfficheReparee from "./exercices/01-jsx-composants/02-chasse-aux-bugs/AfficheReparee";
+import Bestiaire from "./exercices/01-jsx-composants/03-import-export/Bestiaire";
 
 function Sidebar() {
   return (

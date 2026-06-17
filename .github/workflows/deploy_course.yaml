@@ -56,12 +56,28 @@ jobs:
           for course_dir in courses/*; do
             [ -d "$course_dir" ] || continue
             [ -f "$course_dir/package.json" ] || continue
-            
+
             folder_name="$(basename "$course_dir")"
             package_name="$(jq -r '.name' "$course_dir/package.json")"
-            echo "Building $package_name (folder: $folder_name)..."
-            
-            pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$folder_name/"
+
+            multi_slides=()
+            for f in "$course_dir"/slides-*.md; do
+              [ -f "$f" ] && multi_slides+=("$f")
+            done
+
+            if [ "${#multi_slides[@]}" -gt 0 ]; then
+              echo "Building $package_name (multi: ${#multi_slides[@]} slides)..."
+              for slide_path in "${multi_slides[@]}"; do
+                slide_file="$(basename "$slide_path")"
+                suffix="${slide_file#slides-}"
+                suffix="${suffix%.md}"
+                echo "  → $slide_file (out: dist/$suffix, base: /${{ github.event.repository.name }}/$folder_name/$suffix/)"
+                pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- "$slide_file" --out "dist/$suffix" --base "/${{ github.event.repository.name }}/$folder_name/$suffix/"
+              done
+            else
+              echo "Building $package_name (folder: $folder_name)..."
+              pnpm turbo run build --filter="$package_name" --cache-dir=.turbo -- --base "/${{ github.event.repository.name }}/$folder_name/"
+            fi
           done
 
       - name: 📦 Assemble Pages dist + index
@@ -84,6 +100,18 @@ jobs:
 
             mkdir -p "dist/$course_name"
             cp -r "$course_dir/dist/." "dist/$course_name/"
+
+            sub_dirs=()
+            for sub in "$course_dir/dist"/*/; do
+              [ -d "$sub" ] && [ -f "${sub}index.html" ] && sub_dirs+=("$(basename "$sub")")
+            done
+
+            if [ "${#sub_dirs[@]}" -gt 0 ]; then
+              course_type[$course_name]="multi"
+              course_subentries[$course_name]="${sub_dirs[*]}"
+            else
+              course_type[$course_name]="single"
+            fi
           done
 
           course_names=("${!course_type[@]}")
@@ -169,9 +197,26 @@ jobs:
                   text-decoration: none;
                   color: inherit;
                 }
+                .card-header {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                }
                 .label {
                   font-weight: 600;
                   margin-bottom: 4px;
+                }
+                .badge {
+                  font-size: .72rem;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: .04em;
+                  background: #d1fae5;
+                  color: var(--accent);
+                  border: 1px solid #6ee7b7;
+                  border-radius: 999px;
+                  padding: 2px 8px;
+                  line-height: 1.4;
                 }
                 .url {
                   color: var(--accent-hover);
@@ -212,10 +257,10 @@ jobs:
 
           for course in "${sorted_courses[@]}"; do
             if [ "${course_type[$course]}" = "multi" ]; then
-              # Card with sub-links, no top-level href
-              printf '                  <li><div class="card"><div class="label">%s</div><div class="subentries">\n' "$course" >> dist/index.html
+              printf '                  <li><div class="card"><div class="card-header"><div class="label">%s</div><span class="badge">multi</span></div><div class="subentries">\n' "$course" >> dist/index.html
               for entry in ${course_subentries[$course]}; do
-                printf '                    <a href="./%s/%s/">%s</a>\n' "$course" "$entry" "$entry" >> dist/index.html
+                capitalized="$(echo "$entry" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')";
+                printf '                    <a href="./%s/%s/">%s</a>\n' "$course" "$entry" "$capitalized" >> dist/index.html
               done
               printf '                  </div></div></li>\n' >> dist/index.html
             else

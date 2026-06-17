@@ -1,6 +1,6 @@
 # 🐲 MonsterDex — Exercices React
 
-Projet d'entraînement pour le cours **React + TypeScript** de K.School.
+Projet d'entraînement pour le cours **React**.
 
 Tu vas construire, exercice après exercice, une petite application : une galerie
 de monstres rigolos. Chaque exercice te fait pratiquer une notion du cours.
@@ -27,7 +27,7 @@ src/
 ├── exercices.ts      
 ├── components/
 │   └── Exercice.tsx 
-└── exercices/        # C'est dans ces dossiers que vous travaillez
+└── exercices/        # C'est dans ces dossiers que tu travailleras
     └── 01-jsx-composants/        # Thématique 1 — JSX & Composants
         ├── 01-premier-monstre/   # Exercice 1
         ├── 02-chasse-aux-bugs/   # Exercice 2

@@ -1,6 +1,6 @@
 ---
 titleTemplate: "%s - Kevin UNFRICHT"
-title: "React - Développement d'Interfaces Interactives"
+title: "React — Props & CSS"
 layout: cover
 background: https://cover.sli.dev?1
 highlighter: shiki
@@ -11,23 +11,8 @@ addons:
 ---
 
 # React <em class="text-lg">(+ TypeScript)</em>
-Développement d'interfaces interactives modernes
+Props & CSS
 
----
-src: ./sections/01-setup/00-ressources.md
----
-
----
-src: ./sections/01-setup/00-lexique.md
----
-
----
-src: ./sections/01-setup/index.md
----
-
----
-src: ./sections/02-jsx-composants/index.md
----
 
 ---
 src: ./sections/03-props-css/00-ressources.md

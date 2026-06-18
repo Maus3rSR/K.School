@@ -13,8 +13,8 @@ Le même composant, des données différentes
 function Card() {
   return (
     <div className="card">
-      <h2>Kevin Unfricht</h2>
-      <p>Formateur</p>
+      <h2>Ada Lovelace</h2>
+      <p>Pionnière du code</p>
     </div>
   )
 }

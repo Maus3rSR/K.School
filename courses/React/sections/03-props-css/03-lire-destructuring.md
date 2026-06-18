@@ -5,13 +5,25 @@ layoutClass: gap-x-4
 
 # Lire les props
 
-Recevoir et utiliser les données dans l'enfant
+Du composant figé au composant alimenté par des données
 
 ::left::
 
 ````md magic-move
 ```tsx
-// 1. Tout reçu dans un seul objet : props
+// Avant : tout est écrit en dur
+function Card() {
+  return (
+    <div className="card">
+      <h2>Ada Lovelace</h2>
+      <p>Pionnière du code</p>
+    </div>
+  )
+}
+```
+
+```tsx
+// 1. On reçoit les données : un paramètre props
 function Card(props) {
   return (
     <div className="card">
@@ -37,11 +49,15 @@ function Card({ name, role }) {
 
 ::right::
 
+**Avant : un composant figé**
+
+Sans props, `Card` affiche toujours la même chose.
+
 <div v-click="1">
 
-**Un seul argument : `props`**
+**On reçoit les données dans `props`**
 
-React passe toutes les données dans **un objet** `props`. On lit `props.name`, `props.role`.
+React passe toutes les données dans **un objet** `props`. On ajoute le paramètre, puis on l'utilise dans le JSX : `props.name`, `props.role`.
 
 </div>
 
@@ -49,12 +65,15 @@ React passe toutes les données dans **un objet** `props`. On lit `props.name`, 
 
 **La déstructuration**
 
-`{ name, role }` extrait directement les champs.<br/>Code plus court et plus lisible — c'est la forme **recommandée**.
+`{ name, role }` extrait directement les champs — code plus court, forme **recommandée**.
+
+> 📖Pas à l'aise ? Voir [la déstructuration (MDN)](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
 </div>
 
 <!--
-Rappel JS séance 1 : la déstructuration d'objet existe déjà en JavaScript.
-Montrer que les deux versions sont équivalentes : la 2e est juste du sucre syntaxique.
-Bien relier {name} dans le JSX aux accolades vues en séance 2.
+Bien montrer la PROGRESSION : on part du composant figé de la slide précédente, on ajoute le paramètre, on s'en sert dans le JSX, puis on déstructure.
+Rappel JS séance 1 : la déstructuration d'objet existe déjà en JavaScript — la version 2 est juste du sucre syntaxique équivalent à la version 1.
+Les deux écritures (props.name vs { name }) sont valides : insister que la déstructuration est l'usage courant, mais garder props.name comme alternative pour ceux qui ne sont pas à l'aise.
+Relier {name} dans le JSX aux accolades vues en séance 2.
 -->

@@ -12,24 +12,24 @@ Le parent transmet des données à l'enfant
 ```tsx {all|3-4|all}
 function Profile() {
   return (
-    <Card name="Kevin Unfricht"
-          role="Formateur" />
+    <Card name="Ada Lovelace"
+          role="Pionnière du code" />
   )
 }
 ```
 
 ::right::
 
-**Comme des attributs JSX**
+**Comme des attributs HTML**
 
-`name` et `role` ressemblent à des attributs HTML, mais vous y passez **vos propres données**.
+`name` et `role` s'écrivent comme des attributs HTML, mais vous y passez **vos propres données**.
 
 <div v-click="1">
 
 **Une prop = un réglage**
 
-- `name="Kevin Unfricht"` → une chaîne
-- `role="Formateur"` → une chaîne
+- `name="Ada Lovelace"` → une chaîne
+- `role="Pionnière du code"` → une chaîne
 
 Comme les **arguments** d'une fonction : ce sont les seules entrées d'un composant.
 

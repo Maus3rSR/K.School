@@ -15,6 +15,10 @@ src: ./04-typer-props.md
 ---
 
 ---
+src: ./04b-erreur-live.md
+---
+
+---
 src: ./05-props-optionnelles.md
 ---
 
@@ -27,6 +31,10 @@ src: ./07-children.md
 ---
 
 ---
+src: ./07b-children-vs-props.md
+---
+
+---
 src: ./08-transition.md
 ---
 
@@ -36,10 +44,6 @@ src: ./09-classname.md
 
 ---
 src: ./10-fichiers-css.md
----
-
----
-src: ./11-styliser-composant.md
 ---
 
 ---

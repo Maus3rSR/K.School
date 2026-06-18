@@ -9,7 +9,7 @@ Toutes les données ne sont pas obligatoires
 
 ::left::
 
-```tsx {all|3|7|all}
+```tsx {all|3|6|all}
 interface CardProps {
   name: string
   role?: string   // optionnelle
@@ -20,8 +20,8 @@ function Card({ name, role = "Invité" }: CardProps) {
 }
 
 // Les deux sont valides :
-<Card name="Kevin" role="Formateur" />
-<Card name="Léa" />
+<Card name="Ada Lovelace" role="Pionnière du code" />
+<Card name="Grace Hopper" />
 ```
 
 ::right::
@@ -50,5 +50,5 @@ function Card({ name, role = "Invité" }: CardProps) {
 
 <!--
 Bien distinguer les deux mécanismes : le `?` (côté interface) autorise l'absence, le `= valeur` (côté déstructuration) fournit un repli.
-Question type : "Que vaut role si on écrit <Card name="Léa" /> sans valeur par défaut ?" → undefined.
+Question type : "Que vaut role si on écrit <Card name="Grace Hopper" /> sans valeur par défaut ?" → undefined.
 -->

@@ -64,6 +64,6 @@ Elle décrit chaque prop et son **type** : `name` et `role` sont des `string`.
 
 <!--
 C'est le cœur TypeScript de la séance (cf. programme : "Interfaces pour props").
-Démo live conseillée : appeler <Card name="..." /> sans role → montrer l'erreur rouge dans l'éditeur.
+La slide suivante propose un éditeur Monaco pour MONTRER l'erreur en live : on enlève une prop et l'erreur rouge apparaît.
 Préciser : interface vs type — pour les props, l'usage courant est interface, mais `type` marche aussi.
 -->

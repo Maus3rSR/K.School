@@ -9,7 +9,7 @@ Quand les props pilotent le style
 
 ::left::
 
-```tsx {all|2|6|9-12|all}
+```tsx {all|2|8|14-15|all}
 interface ButtonProps {
   variant: "primary" | "danger"
   label: string
@@ -47,12 +47,22 @@ Les accolades `{...}` insèrent la valeur : `btn--primary` ou `btn--danger`.
 
 <div v-click="3">
 
-> ✅ Un seul composant `Button`, plusieurs apparences selon la prop.
+**Quand s'en servir ?**
+
+Quand l'**apparence dépend d'une donnée** : bouton `primary`/`danger`, badge `success`/`warning`, élément `active`/`disabled`.
+
+</div>
+
+<div v-click="4">
+
+> ✅ Un seul composant `Button`, plusieurs apparences selon la prop — au lieu de dupliquer un composant par style.
 
 </div>
 
 <!--
 Aboutissement de la séance : les deux moitiés (props + CSS) fusionnent.
+Cas d'usage concrets : variantes de boutons, badges de statut, états actif/inactif, tailles (sm/md/lg). Le point clé : on choisit la CLASSE, le CSS reste figé dans le fichier.
+Anti-pattern à éviter : un composant ButtonPrimary + un ButtonDanger séparés — la prop variant remplace cette duplication.
 Introduire en douceur le type union "primary" | "danger" — utile et impressionnant pour montrer la puissance de TS.
 Rappeler les accolades JSX (séance 2) : on est juste en train d'y mettre une expression au lieu d'une chaîne fixe.
 -->

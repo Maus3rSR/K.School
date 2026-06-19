@@ -55,3 +55,4 @@ lerna-debug.log*
 ehthumbs.db
 Thumbs.db
 *.pem
+*:Zone.Identifier

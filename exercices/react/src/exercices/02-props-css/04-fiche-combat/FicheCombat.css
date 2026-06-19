@@ -1,0 +1,54 @@
+.fiche-combat {
+  border: 2px solid var(--fiche-color, oklch(var(--b3)));
+  background: color-mix(in oklch, var(--fiche-color, oklch(var(--b2))) 10%, transparent);
+  border-radius: var(--rounded-box, 1rem);
+  padding: 1.25rem;
+  max-width: 280px;
+}
+
+.fiche-combat--commun {
+  --fiche-color: oklch(var(--su));
+}
+
+.fiche-combat--rare {
+  --fiche-color: oklch(var(--in));
+}
+
+.fiche-combat--legendaire {
+  --fiche-color: oklch(var(--wa));
+}
+
+.fiche-combat__rarete {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--fiche-color, oklch(var(--b3)));
+  color: oklch(var(--b1));
+}
+
+.fiche-combat__stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.fiche-combat__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.fiche-combat__stat strong {
+  font-size: 1.1rem;
+}
+
+.fiche-combat__capacites {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid oklch(var(--b3));
+  font-size: 0.85rem;
+}

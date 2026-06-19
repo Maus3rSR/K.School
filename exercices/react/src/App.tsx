@@ -5,9 +5,11 @@ import Home from "./Home";
 import PremierMonstre from "./exercices/01-jsx-composants/01-premier-monstre/PremierMonstre";
 import AfficheReparee from "./exercices/01-jsx-composants/02-chasse-aux-bugs/AfficheReparee";
 import Bestiaire from "./exercices/01-jsx-composants/03-import-export/Bestiaire";
+import Donjon from "./exercices/01-jsx-composants/04-donjon-decompose/Donjon";
 import Scene01 from "./exercices/02-props-css/01-carte-monstre/Scene";
 import Scene02 from "./exercices/02-props-css/02-bouton-variante/Scene";
 import Scene03 from "./exercices/02-props-css/03-encart/Scene";
+import Scene04 from "./exercices/02-props-css/04-fiche-combat/Scene";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -77,11 +79,19 @@ export default function App() {
               </Exercice>
             }
           />
-          {/* Séance 3 */}
+          <Route
+            path="/02-jsx/04-donjon-decompose"
+            element={
+              <Exercice meta={allExercices[3]}>
+                <Donjon />
+              </Exercice>
+            }
+          />
+          {/* Séance 2 · Props & CSS */}
           <Route
             path="/03-props/01-carte-monstre"
             element={
-              <Exercice meta={allExercices[3]}>
+              <Exercice meta={allExercices[4]}>
                 <Scene01 />
               </Exercice>
             }
@@ -89,7 +99,7 @@ export default function App() {
           <Route
             path="/03-props/02-bouton-variante"
             element={
-              <Exercice meta={allExercices[4]}>
+              <Exercice meta={allExercices[5]}>
                 <Scene02 />
               </Exercice>
             }
@@ -97,8 +107,16 @@ export default function App() {
           <Route
             path="/03-props/03-encart"
             element={
-              <Exercice meta={allExercices[5]}>
+              <Exercice meta={allExercices[6]}>
                 <Scene03 />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/03-props/04-fiche-combat"
+            element={
+              <Exercice meta={allExercices[7]}>
+                <Scene04 />
               </Exercice>
             }
           />

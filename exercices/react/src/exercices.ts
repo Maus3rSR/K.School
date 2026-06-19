@@ -44,6 +44,20 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
           "src/exercices/02-jsx-composants/03-import-export/Bestiaire.tsx",
         ],
       },
+      {
+        path: "/02-jsx/04-donjon-decompose",
+        numero: "04",
+        titre: "Le donjon décomposé",
+        emoji: "🏰",
+        resume:
+          "Démantèle un bloc JSX monolithique en composants réutilisables.",
+        fichiers: [
+          "src/exercices/01-jsx-composants/04-donjon-decompose/Monstre.tsx",
+          "src/exercices/01-jsx-composants/04-donjon-decompose/SalleDonjon.tsx",
+          "src/exercices/01-jsx-composants/04-donjon-decompose/Tresor.tsx",
+          "src/exercices/01-jsx-composants/04-donjon-decompose/Donjon.tsx",
+        ],
+      },
     ],
   },
   {
@@ -78,6 +92,17 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         resume:
           "Découvre la prop children pour envelopper n'importe quel contenu.",
         fichiers: ["src/exercices/02-props-css/03-encart/Encart.tsx"],
+      },
+      {
+        path: "/03-props/04-fiche-combat",
+        numero: "04",
+        titre: "La fiche de combat",
+        emoji: "⚔️",
+        resume:
+          "Synthèse de la séance : props typées, valeur par défaut, children et CSS dynamique.",
+        fichiers: [
+          "src/exercices/02-props-css/04-fiche-combat/FicheCombat.tsx",
+        ],
       },
     ],
   },

@@ -46,6 +46,9 @@ lerna-debug.log*
 .project
 .classpath
 
+# IA config files
+*.local.json
+
 # OS generated files
 .DS_Store
 .DS_Store?

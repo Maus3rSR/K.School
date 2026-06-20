@@ -40,3 +40,15 @@ src: ./sections/03-props-css/00-lexique.md
 ---
 src: ./sections/03-props-css/index.md
 ---
+
+---
+src: ./sections/04-evenements-state/00-ressources.md
+---
+
+---
+src: ./sections/04-evenements-state/00-lexique.md
+---
+
+---
+src: ./sections/04-evenements-state/index.md
+---

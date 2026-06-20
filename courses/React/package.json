@@ -8,10 +8,12 @@
     "build:setup": "slidev build slides-setup.md --out dist/setup",
     "build:component": "slidev build slides-component.md --out dist/component",
     "build:props": "slidev build slides-props.md --out dist/props",
-    "dev": "slidev slides-setup.md --open --port 3030 & slidev slides-component.md --open --port 3031 & slidev slides-props.md --open --port 3032",
+    "build:state": "slidev build slides-state.md --out dist/state",
+    "dev": "slidev slides-setup.md --open --port 3030 & slidev slides-component.md --open --port 3031 & slidev slides-props.md --open --port 3032 & slidev slides-state.md --open --port 3033",
     "dev:setup": "slidev slides-setup.md --open",
     "dev:component": "slidev slides-component.md --open",
-    "dev:props": "slidev slides-props.md --open"
+    "dev:props": "slidev slides-props.md --open",
+    "dev:state": "slidev slides-state.md --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",

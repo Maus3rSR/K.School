@@ -1,6 +1,7 @@
 ---
-layout: center
-class: text-center
+layout: image-left
+image: /interaction-click.jpg
+backgroundSize: cover
 ---
 
 # Dans la prochaine séance...
@@ -17,6 +18,8 @@ class: text-center
 Découvrez les **événements** et le **state** pour rendre l'interface vivante
 
 </v-click>
+
+<div class="absolute bottom-2 right-3 text-xs opacity-50">📷 Unsplash</div>
 
 <!--
 Teaser séance 4 (événements & state).

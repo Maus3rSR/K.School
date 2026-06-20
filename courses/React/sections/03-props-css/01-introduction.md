@@ -1,13 +1,12 @@
 ---
-layout: two-cols-header
-layoutClass: gap-x-4
+layout: image-right
+image: /intro-houses.jpg
+backgroundSize: cover
 ---
 
 # Pourquoi les props ?
 
 Le même composant, des données différentes
-
-::left::
 
 ```tsx
 function Card() {
@@ -25,22 +24,17 @@ function Card() {
 <Card />
 ```
 
-::right::
-
-**Le problème**
-
-Vos composants de la séance 2 sont **figés** : `Card` affiche toujours la même personne.
+**Le problème** — Vos composants sont **figés** : `Card` affiche toujours la même personne.
 
 <v-click>
 
-**La solution : les props**
-
-- Passer des **données** au composant
-- Le rendre **réutilisable** avec des valeurs différentes
+**La solution : les props** — Passer des **données** pour rendre le composant **réutilisable**
 
 > 💬 Souvenez-vous : **UI = f(data)**
 
 </v-click>
+
+<div class="absolute bottom-2 right-3 text-xs opacity-50">📷 Spencer Everett · Unsplash</div>
 
 <!--
 Faire le lien explicite avec le teaser de la séance 2 (UI = f(data)).

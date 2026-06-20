@@ -1,13 +1,12 @@
 ---
-layout: two-cols-header
-layoutClass: gap-x-4
+layout: image-left
+image: /children-composition.webp
+backgroundSize: cover
 ---
 
 # La prop spéciale `children`
 
 Passer du contenu entre les balises
-
-::left::
 
 ```tsx {all|1-3|6|10-13|all}
 interface CardProps {
@@ -25,25 +24,13 @@ function Card({ children }: CardProps) {
 </Card>
 ```
 
-::right::
+<div v-click="1">**`children`** est fournie **automatiquement** par React.</div>
 
-<div v-click="1">
+<div v-click="2">Type : **`React.ReactNode`** — tout ce que React sait afficher.</div>
 
-**`children` est une prop** comme les autres, mais **fournie automatiquement** par React : pas besoin de l'écrire côté parent.
+<div v-click="3">Tout ce qui est entre `<Card>…</Card>` arrive dans `children`.</div>
 
-</div>
-
-<div v-click="2">
-
-Son type : **`React.ReactNode`** — tout ce que React sait afficher (texte, JSX, liste…).
-
-</div>
-
-<div v-click="3">
-
-Tout ce qui est placé **entre** `<Card>` et `</Card>` arrive dans `children`. Le composant l'**enveloppe** sans savoir ce que c'est.
-
-</div>
+<div class="absolute bottom-2 right-3 text-xs opacity-50">📷 yourhustler.com</div>
 
 <!--
 Insister sur la différence avec une prop classique : ici on ne passe pas une valeur nommée, mais un CONTENU placé entre les balises.

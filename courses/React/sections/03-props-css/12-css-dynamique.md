@@ -27,6 +27,9 @@ function Button({ variant, label }: ButtonProps) {
 <Button variant="danger" label="Supprimer" />
 ```
 
+<img src="/css-variants.jpg" class="h-20 rounded mt-2" alt="CSS variants illustration" />
+<p class="text-xs opacity-50 mt-1">📷 Unsplash</p>
+
 ::right::
 
 <div v-click="1">

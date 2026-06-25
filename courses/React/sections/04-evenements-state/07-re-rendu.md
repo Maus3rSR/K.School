@@ -24,34 +24,38 @@ flowchart TD
 
 ::right::
 
-**Points clés**
+**Ce qui se passe concrètement**
 
 <v-click>
 
-**React ne met à jour que le strict nécessaire**
-
-Le Virtual DOM compare l'ancien et le nouveau JSX — seuls les nœuds différents sont mis à jour dans le vrai DOM.
-
-</v-click>
-
-<v-click>
-
-**Le state est un snapshot**
-
-Pendant un rendu, la valeur de `count` est figée. Plusieurs `setCount` dans le même handler ne s'accumulent pas immédiatement.
+Quand `setCount(1)` est appelé, React **rappelle la fonction** `Counter()` depuis le début — avec la nouvelle valeur.
 
 ```tsx
-function handleClick() {
-  setCount(count + 1)  // count = 0
-  setCount(count + 1)  // count = 0 encore !
-  // résultat : count = 1, pas 2
+function Counter() {
+  const [count, setCount] = useState(0)
+  //             ↑ vaut 1 au prochain rendu
+  return <p>{count}</p>
 }
 ```
 
 </v-click>
 
+<v-click>
+
+**React ne met à jour que le strict nécessaire**
+
+Seuls les nœuds du DOM qui ont réellement changé sont mis à jour — pas tout le composant entier.
+
+</v-click>
+
+<v-click>
+
+> ⚠️ Il y a une subtilité sur la valeur de `count` pendant un rendu — on y revient juste après le compteur.
+
+</v-click>
+
 <!--
-Le diagramme Mermaid représente la boucle événement → setter → rendu → affichage.
-Le concept de snapshot est contre-intuitif : insister dessus avec un exemple live.
-Pour incrémenter plusieurs fois dans le même handler, il faut la forme fonctionnelle : setCount(prev => prev + 1).
+Rester sur le modèle mental simple : setState → React rappelle la fonction → nouvel affichage.
+La mention du Virtual DOM est volontairement absente ici pour ne pas alourdir.
+La dernière puce amorce la slide snapshot sans le spoiler.
 -->

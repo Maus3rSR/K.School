@@ -7,10 +7,6 @@ src: ./02-evenements.md
 ---
 
 ---
-src: ./03-typer-evenements.md
----
-
----
 src: ./04-limite-variable.md
 ---
 
@@ -31,6 +27,14 @@ src: ./08-compteur.md
 ---
 
 ---
+src: ./08b-snapshot.md
+---
+
+---
+src: ./03-typer-evenements.md
+---
+
+---
 src: ./09-input-controle.md
 ---
 
@@ -40,10 +44,6 @@ src: ./10-formulaire.md
 
 ---
 src: ./11-pieges.md
----
-
----
-src: ./12-bonnes-pratiques.md
 ---
 
 ---

@@ -10,6 +10,10 @@ import Scene01 from "./exercices/02-props-css/01-carte-monstre/Scene";
 import Scene02 from "./exercices/02-props-css/02-bouton-variante/Scene";
 import Scene03 from "./exercices/02-props-css/03-encart/Scene";
 import Scene04 from "./exercices/02-props-css/04-fiche-combat/Scene";
+import CompteurMonstre from "./exercices/03-evenements-state/01-compteur-monstre/CompteurMonstre";
+import IdentiteMonstre from "./exercices/03-evenements-state/02-identite-monstre/IdentiteMonstre";
+import FiltreBestiaire from "./exercices/03-evenements-state/03-filtre-bestiaire/FiltreBestiaire";
+import FormulaireMonstre from "./exercices/03-evenements-state/04-formulaire-monstre/FormulaireMonstre";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -117,6 +121,39 @@ export default function App() {
             element={
               <Exercice meta={allExercices[7]}>
                 <Scene04 />
+              </Exercice>
+            }
+          />
+          {/* Séance 3 · Événements & State */}
+          <Route
+            path="/04-state/01-compteur-monstre"
+            element={
+              <Exercice meta={allExercices[8]}>
+                <CompteurMonstre />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/04-state/02-identite-monstre"
+            element={
+              <Exercice meta={allExercices[9]}>
+                <IdentiteMonstre />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/04-state/03-filtre-bestiaire"
+            element={
+              <Exercice meta={allExercices[10]}>
+                <FiltreBestiaire />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/04-state/04-formulaire-monstre"
+            element={
+              <Exercice meta={allExercices[11]}>
+                <FormulaireMonstre />
               </Exercice>
             }
           />

@@ -5,7 +5,7 @@ layoutClass: gap-x-4
 
 # Pièges courants
 
-Les erreurs à éviter avec useState
+Les deux erreurs les plus fréquentes
 
 ::left::
 
@@ -22,16 +22,7 @@ setUser({ ...user, name: "Alan" })
 
 <v-click>
 
-**❌ Appeler un hook conditionnellement**
-
-```tsx
-// ❌ Interdit — les hooks doivent être au niveau supérieur
-function Component({ show }: { show: boolean }) {
-  if (show) {
-    const [count, setCount] = useState(0)  // ❌ hook conditionnel
-  }
-}
-```
+> Même règle pour les tableaux : toujours créer un **nouveau** tableau, ne jamais `push` directement.
 
 </v-click>
 
@@ -39,19 +30,22 @@ function Component({ show }: { show: boolean }) {
 
 <v-click at="2">
 
-**❌ Oublier le setter et lire l'ancienne valeur**
+**❌ Appeler un hook conditionnellement**
 
 ```tsx
-// ❌ count est un snapshot — il ne change pas immédiatement
-function handleClick() {
-  setCount(count + 1)
-  setCount(count + 1)  // count est encore 0 !
+// ❌ Interdit
+function Component({ show }: { show: boolean }) {
+  if (show) {
+    const [count, setCount] = useState(0)  // ❌
+  }
 }
 
-// ✅ Forme fonctionnelle — utilise la valeur courante
-function handleClick() {
-  setCount(prev => prev + 1)
-  setCount(prev => prev + 1)  // s'accumulent correctement
+// ✅ Hook au niveau supérieur, condition à l'intérieur
+function Component({ show }: { show: boolean }) {
+  const [count, setCount] = useState(0)  // ✅
+
+  if (!show) return null
+  return <p>{count}</p>
 }
 ```
 
@@ -59,15 +53,17 @@ function handleClick() {
 
 <v-click>
 
-**Règle des Hooks (officielle)**
+**Règle des Hooks**
 
-> Appeler les hooks **uniquement** au niveau supérieur d'un composant,  
+> Appeler les hooks **uniquement** au niveau supérieur du composant,  
 > **jamais** dans un `if`, une boucle, ou une fonction imbriquée.
+
+ESLint le détecte automatiquement avec `eslint-plugin-react-hooks`.
 
 </v-click>
 
 <!--
-Ces 3 pièges sont les plus fréquents en production — y revenir lors du projet pratique.
-La forme fonctionnelle setCount(prev => prev + 1) sera utile en S5 pour les tableaux.
-La règle des hooks est imposée par React — ESLint peut la vérifier automatiquement (plugin eslint-plugin-react-hooks).
+Mutation directe : le tester en live est frappant — React ne re-rend pas, l'affichage reste figé alors que l'objet a changé.
+Le tableau push sera le piège central en S5 : cette slide en pose les bases.
+La règle des Hooks peut sembler abstraite — ESLint la rend concrète avec un soulignage rouge immédiat.
 -->

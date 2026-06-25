@@ -19,6 +19,8 @@ function LikeButton() {
 }
 ```
 
+<button style="all: revert;">❤️ 0 likes</button>
+
 **Problème**
 
 Peu importe le nombre de clics, le compteur reste à `0`.

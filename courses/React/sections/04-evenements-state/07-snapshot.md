@@ -9,7 +9,7 @@ La valeur est figée pendant un rendu
 
 ::left::
 
-```tsx {monaco}
+```tsx
 import { useState } from 'react'
 
 function Counter() {

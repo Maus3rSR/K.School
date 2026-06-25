@@ -9,26 +9,13 @@ TypeScript veut connaître la nature de l'événement
 
 ::left::
 
-**Clic sur un bouton**
-
-```tsx {all|2|all}
-function Button() {
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    console.log("Position :", e.clientX, e.clientY)
-  }
-
-  return <button onClick={handleClick}>Clic</button>
-}
-```
-
-<v-click at="2">
-
 **Saisie dans un champ**
 
-```tsx {all|2|all}
+```tsx {all|8|all}
 function Input() {
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
     console.log("Valeur :", e.target.value)
   }
 
@@ -36,13 +23,20 @@ function Input() {
 }
 ```
 
-</v-click>
+<div v-click="3">
+
+> 💡 **Astuce** : laissez l'IDE inférer le type via l'autocomplétion.  
+> Survolez le `e` pour voir le type suggéré.
+
+</div>
 
 ::right::
 
 **Mémo des types**
 
 <v-click at="1">
+
+<div class="text-sm">
 
 | Événement | Type TypeScript |
 |-----------|-----------------|
@@ -51,14 +45,9 @@ function Input() {
 | `onSubmit` sur `<form>` | `React.FormEvent<HTMLFormElement>` |
 | `onChange` sur `<select>` | `React.ChangeEvent<HTMLSelectElement>` |
 
-</v-click>
-
-<div v-click="3">
-
-> 💡 **Astuce** : laissez l'IDE inférer le type via l'autocomplétion.  
-> Survolez le `e` pour voir le type suggéré.
-
 </div>
+
+</v-click>
 
 <!--
 Montrer l'autocomplétion en live dans l'éditeur : taper `e.` après avoir typé l'événement.

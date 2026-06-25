@@ -9,7 +9,7 @@ Détecter les actions de l'utilisateur
 
 ::left::
 
-```tsx
+```tsx {none|7|2-4|all}
 function Button() {
   function handleClick() {
     console.log("Cliqué !")
@@ -23,24 +23,29 @@ function Button() {
 }
 ```
 
-<v-click>
+<div v-click="1">
 
-**Événements courants**
+`onClick` — prop JSX qui écoute le clic sur l'élément
 
-| JSX | Action |
-|-----|--------|
-| `onClick` | clic souris |
-| `onChange` | saisie dans un champ |
-| `onSubmit` | soumission de formulaire |
-| `onMouseEnter` | survol |
+</div>
 
-</v-click>
+<div v-click="2">
+
+`handleClick` — la fonction exécutée lors du clic
+
+</div>
+
+<div v-click="3">
+
+📎 [Liste complète des événements DOM sur MDN](https://developer.mozilla.org/fr/docs/Web/Events)
+
+</div>
 
 ::right::
 
-**Deux règles essentielles**
+<div v-click="4">
 
-<div v-click="2">
+**Deux règles essentielles**
 
 ✅ On **passe** la fonction (sans l'appeler)
 
@@ -50,7 +55,7 @@ function Button() {
 
 </div>
 
-<div v-click="3">
+<div v-click="5">
 
 ❌ On n'**appelle pas** la fonction immédiatement
 

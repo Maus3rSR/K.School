@@ -9,11 +9,11 @@ Ce qui se passe quand le state change
 
 ::left::
 
-```mermaid {scale: 0.82}
+```mermaid {scale: 0.68}
 flowchart TD
     A["🖱️ Action utilisateur\n(clic, saisie...)"] --> B["⚡ Event handler\nexécuté"]
     B --> C["setState appelé\nnouvelle valeur"]
-    C --> D["🔄 React re-rend\nle composant"]
+    C --> D["🔄 React refait le rendu\ndu composant"]
     D --> E["🖥️ DOM mis à jour\n(seulement ce qui change)"]
     E -.->|"attente de\nla prochaine action"| A
 
@@ -33,7 +33,8 @@ Quand `setCount(1)` est appelé, React **rappelle la fonction** `Counter()` depu
 ```tsx
 function Counter() {
   const [count, setCount] = useState(0)
-  //             ↑ vaut 1 au prochain rendu
+  //       ↑ vaut 1 au prochain rendu
+  //       après un appel de setCount avec la nouvelle valeur
   return <p>{count}</p>
 }
 ```

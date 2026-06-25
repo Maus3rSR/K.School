@@ -12,10 +12,12 @@ useState&lt;T&gt; — le générique qui sécurise l'état
 **Type inféré automatiquement**
 
 ```tsx
-// TypeScript déduit number depuis la valeur initiale
+// TypeScript déduit number
+// depuis la valeur initiale
 const [count, setCount] = useState(0)
 
-// TypeScript déduit string depuis la valeur initiale
+// TypeScript déduit string
+// depuis la valeur initiale
 const [name, setName] = useState("")
 ```
 
@@ -24,9 +26,14 @@ const [name, setName] = useState("")
 **Type explicite (recommandé)**
 
 ```tsx
-const [count,   setCount]   = useState<number>(0)
-const [name,    setName]    = useState<string>("")
-const [isOpen,  setIsOpen]  = useState<boolean>(false)
+const [count, setCount] 
+    = useState<number>(0)
+
+const [name, setName] 
+    = useState<string>("")
+    
+const [isOpen, setIsOpen] 
+    = useState<boolean>(false)
 ```
 
 </v-click>

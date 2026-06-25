@@ -3,7 +3,7 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# useState
+# useState <small>(🪝 Hook React)</small>
 
 La mémoire d'un composant
 
@@ -50,10 +50,6 @@ const [count, setCount] = useState(0)
 //     ^        ^                  ^
 //     valeur   setter             valeur initiale
 ```
-
-</v-click>
-
-<v-click>
 
 - `count` — la valeur actuelle (**lecture**)
 - `setCount` — la fonction pour la modifier (**écriture**)

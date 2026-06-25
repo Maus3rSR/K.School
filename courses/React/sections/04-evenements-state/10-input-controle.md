@@ -18,13 +18,43 @@ function Search() {
 ```
 
 ```tsx
-// ✅ Input contrôlé — React pilote la valeur
+// Étape 1 : on ajoute un state pour stocker la valeur
 import { useState } from 'react'
 
 function Search() {
   const [query, setQuery] = useState<string>("")
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  return <input type="text" placeholder="Rechercher..." />
+}
+```
+
+```tsx
+// Étape 2 : on crée le handler qui met à jour le state
+import { useState } from 'react'
+
+function Search() {
+  const [query, setQuery] = useState<string>("")
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setQuery(e.target.value)
+  }
+
+  return <input type="text" placeholder="Rechercher..." />
+}
+```
+
+```tsx
+// ✅ Étape 3 : on lie l'input au state via value + onChange
+import { useState } from 'react'
+
+function Search() {
+  const [query, setQuery] = useState<string>("")
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
     setQuery(e.target.value)
   }
 
@@ -45,30 +75,28 @@ function Search() {
 
 ::right::
 
-**Comment ça marche**
+**Non contrôlé** : React ne connaît pas la valeur — impossible de la lire ou de la valider.
 
 <v-click>
 
-```
-Utilisateur tape "R"
-       ↓
-onChange déclenché
-       ↓
-setQuery("R")
-       ↓
-Re-rendu avec query = "R"
-       ↓
-<input value="R" /> affiché
-```
+**Contrôlé** :
+
+- `value={query}` — React dicte ce qui s'affiche
+- `onChange={handleChange}` — chaque frappe met à jour le state
 
 </v-click>
 
 <v-click>
 
-**Pourquoi "contrôlé" ?**
+**Comment ça marche**
 
-React **contrôle** la valeur affichée via `value={query}`.  
-Sans `value`, l'input gère sa propre valeur en interne (non contrôlé).
+```
+Utilisateur tape "R"
+       ↓
+onChange déclenché → setQuery("R")
+       ↓
+Re-rendu : <input value="R" /> affiché
+```
 
 </v-click>
 

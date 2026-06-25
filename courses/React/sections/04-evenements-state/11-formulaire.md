@@ -9,7 +9,66 @@ Combiner plusieurs states et onSubmit
 
 ::left::
 
-```tsx {monaco}
+````md magic-move {maxHeight:'400px'}
+```tsx
+// Point de départ : un form HTML classique, aucun state
+function ContactForm() {
+  return (
+    <form>
+      <input placeholder="Nom" />
+      <input placeholder="Email" />
+      <button type="submit">Envoyer</button>
+    </form>
+  )
+}
+```
+
+```tsx
+// Étape 1 : un state par champ
+import { useState } from 'react'
+
+function ContactForm() {
+  const [name,  setName]  = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+
+  return (
+    <form>
+      <input placeholder="Nom" />
+      <input placeholder="Email" />
+      <button type="submit">Envoyer</button>
+    </form>
+  )
+}
+```
+
+```tsx
+// Étape 2 : on lie chaque input à son state
+import { useState } from 'react'
+
+function ContactForm() {
+  const [name,  setName]  = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+
+  return (
+    <form>
+      <input
+        value={name}
+        onChange={e => setName(e.target.value)}
+        placeholder="Nom"
+      />
+      <input
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <button type="submit">Envoyer</button>
+    </form>
+  )
+}
+```
+
+```tsx
+// ✅ Étape 3 : onSubmit avec e.preventDefault()
 import { useState } from 'react'
 
 function ContactForm() {
@@ -38,46 +97,33 @@ function ContactForm() {
   )
 }
 ```
+````
 
 ::right::
 
-**Points clés**
+**Form HTML natif** — React ne connaît pas les valeurs, impossible de les lire à la soumission.
 
-<v-click>
+<div v-click="1">
 
-**e.preventDefault()**
+**Un state par champ** — simple, lisible, chacun son setter.
 
-Empêche le rechargement de page — comportement HTML natif du `<form>`.
+</div>
+
+<div v-click="2">
+
+**Inputs contrôlés** — `value` + `onChange` sur chaque champ.
+
+</div>
+
+<div v-click="3">
+
+évènement **onSubmit** — déclenché quand l'utilisateur soumet le formulaire.
+
+**`e.preventDefault()`** — empêche le rechargement de page natif du `<form>`.
 
 Testez sans : la page se recharge et tout disparaît.
 
-</v-click>
-
-<v-click>
-
-**Un state par champ**
-
-Simple, lisible, facile à déboguer. Chaque champ a son propre setter.
-
-```tsx
-const [name,  setName]  = useState("")
-const [email, setEmail] = useState("")
-```
-
-</v-click>
-
-<v-click>
-
-**Pour aller plus loin**
-
-Un objet dans le state (pattern avancé) :
-
-```tsx
-const [form, setForm] = useState({ name: "", email: "" })
-setForm({ ...form, name: "Ada" })
-```
-
-</v-click>
+</div>
 
 <!--
 e.preventDefault() : le tester sans en live — très efficace pédagogiquement.

@@ -24,12 +24,17 @@ const [score,    setScore]    = useState(0)
 
 ```tsx
 // ❌ Trop de choses dans un seul state
-const [ui, setUi] = useState({ modal: false, count: 0, name: "" })
+const [ui, setUi] = useState({
+  modal: false,
+  count: 0,
+  name: ""
+})
 
 // ✅ Chaque state a un rôle précis
-const [isModalOpen, setIsModalOpen] = useState(false)
-const [count,       setCount]       = useState(0)
-const [name,        setName]        = useState("")
+const [isModalOpen, setIsModalOpen]
+  = useState(false)
+const [count, setCount] = useState(0)
+const [name, setName] = useState("")
 ```
 
 </v-click>

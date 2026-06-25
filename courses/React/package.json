@@ -13,7 +13,8 @@
     "dev:setup": "slidev slides-setup.md --open",
     "dev:component": "slidev slides-component.md --open",
     "dev:props": "slidev slides-props.md --open",
-    "dev:state": "slidev slides-state.md --open"
+    "dev:state": "slidev slides-state.md --open",
+    "dev:render.list": "slidev slides-rendu-listes.md --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",

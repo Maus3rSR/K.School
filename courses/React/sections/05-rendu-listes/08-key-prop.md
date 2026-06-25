@@ -1,21 +1,50 @@
 ---
+layout: image-right
+image: /list-reconciliation.png
+backgroundSize: contain
+---
+
+# La prop `key`
+
+Comment React sait quoi mettre à jour dans une liste
+
+**Sans `key`**, React compare les éléments par position.  
+Si on supprime le premier élément, il croit que **tout a changé**.
+
+<v-click>
+
+**Avec `key`**, React identifie chaque élément par son identifiant.  
+Il sait exactement quel nœud supprimer → le DOM minimal est mis à jour.
+
+</v-click>
+
+<v-click>
+
+**La réconciliation**
+
+React compare l'ancien et le nouvel arbre.  
+`key` lui dit *"cet élément de l'ancien arbre correspond à cet élément du nouveau"*.
+
+</v-click>
+
+<!--
+Image : deux arbres DOM côte à côte.
+Gauche (sans key) : liste [A, B, C] → suppression de A → React re-rend [B, C] entièrement car les positions ont changé.
+Droite (avec key) : key="id-a", key="id-b", key="id-c" → React supprime uniquement le nœud A, B et C sont réutilisés.
+Style suggéré : fond sombre, nœuds colorés (rouge pour supprimé, vert pour conservé), flèches de correspondance.
+Fichier à placer dans : courses/React/public/list-reconciliation.png
+-->
+
+---
 layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# La prop `key` — indispensable
+# La prop `key` — en pratique
 
-Comment React sait quoi mettre à jour dans une liste
+Choisir la bonne valeur
 
 ::left::
-
-<!-- IMAGE PLACEHOLDER
-  Fichier cible : public/list-reconciliation.png
-  Contenu : Deux arbres DOM côte à côte.
-  Gauche (sans key) : une liste [A, B, C] → on supprime A → React doit re-rendre [B, C] entièrement.
-  Droite (avec key) : la même liste avec key="id-a", key="id-b", key="id-c" → React supprime uniquement le nœud A, B et C sont réutilisés.
-  Style : fond sombre, nœuds colorés, flèches de comparaison.
--->
 
 ```tsx
 // ❌ Avertissement dans la console
@@ -32,40 +61,41 @@ Comment React sait quoi mettre à jour dans une liste
 {fruits.map((fruit, index) => (
   <li key={index}>{fruit}</li>
 ))}
+
+// ✅ Identifiant métier — la meilleure key
+{tasks.map((task) => (
+  <TaskItem key={task.id} task={task} />
+))}
 ```
 
 ::right::
 
-**Pourquoi `key` est obligatoire**
-
-React compare l'ancienne liste et la nouvelle pour ne mettre à jour que ce qui a changé.  
-`key` lui permet d'identifier **quel élément est quel élément**.
-
-<v-click>
-
 **Règles pour une bonne `key`**
 
-- **Unique** parmi les frères (siblings)
+<v-clicks>
+
+- **Obligatoire** sur chaque élément rendu par `map()`
+- **Unique** parmi les frères (siblings) de la liste
 - **Stable** : ne change pas entre les rendus
 - **Non basée sur l'index** si la liste peut être réordonnée, filtrée ou étendue
 
-</v-click>
+</v-clicks>
 
 <v-click>
 
-**Bonne source de `key`**
+**`key` n'est pas une prop**
 
 ```tsx
-// ✅ Identifiant métier stable
-tasks.map((task) => (
-  <TaskItem key={task.id} task={task} />
-))
+function TaskItem({ task }: TaskItemProps) {
+  // ❌ task.key → undefined, React ne la transmet pas
+  // ✅ utiliser task.id si vous avez besoin de l'id
+}
 ```
 
 </v-click>
 
 <!--
 Montrer l'avertissement console en live : "Each child in a list should have a unique key prop."
-Expliquer le bug de l'index : si on insère un élément en début de liste, React pense que l'élément 0 a changé → mauvaise animation, mauvais focus, bug de state.
-Key n'est pas accessible comme prop dans le composant enfant.
+Bug de l'index : si on insère un élément en début de liste, React pense que l'élément 0 a changé → mauvaise animation, mauvais focus, bug de state d'un input dans la liste.
+Key n'est jamais accessible comme prop dans le composant enfant — piège fréquent.
 -->

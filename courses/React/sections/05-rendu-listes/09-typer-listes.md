@@ -51,7 +51,11 @@ interface TaskItemProps {
 
 function TaskItem({ task }: TaskItemProps) {
   return (
-    <li style={{ textDecoration: task.done ? "line-through" : "none" }}>
+    <li style={{
+      textDecoration: task.done ?
+        "line-through" :
+        "none" 
+    }}>
       {task.label}
     </li>
   )
@@ -78,18 +82,11 @@ function TaskItem({ task }: TaskItemProps) {
 > "Un tableau d'objets, chacun respectant l'interface `Task`"
 
 ```tsx
-const [tasks, setTasks] = useState<Task[]>([])
-//                                  ^^^^^^
-//                         TypeScript sait ce que contient ce tableau
+const [tasks, setTasks] 
+  = useState<Task[]>([])
+//           ^^^^^^
+// TypeScript sait ce que contient ce tableau
 ```
-
-</div>
-
-<div v-click="3">
-
-**`key` = `task.id`**
-
-L'`id` issu d'une base de données ou d'une API est toujours la meilleure `key` : stable, unique, métier.
 
 </div>
 

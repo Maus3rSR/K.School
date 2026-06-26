@@ -15,9 +15,9 @@ Transformer un tableau de données en tableau de JSX
 function FruitList() {
   return (
     <ul>
-      <li>Pomme</li>
-      <li>Banane</li>
-      <li>Cerise</li>
+      <li>🍎 Pomme</li>
+      <li>🍌 Banane</li>
+      <li>🍒 Cerise</li>
     </ul>
   )
 }
@@ -25,7 +25,7 @@ function FruitList() {
 
 ```tsx
 // 🟢 APRÈS — dynamique avec map()
-const fruits = ["Pomme", "Banane", "Cerise"]
+const fruits = ["🍎 Pomme", "🍌 Banane", "🍒 Cerise"]
 
 function FruitList() {
   return (
@@ -48,22 +48,21 @@ function FruitList() {
 Pour chaque élément du tableau, vous retournez du JSX.  
 React reçoit un **tableau de JSX** et l'affiche.
 
-```
-["Pomme", "Banane", "Cerise"]
-         ↓  map()
-[<li>Pomme</li>, <li>Banane</li>, <li>Cerise</li>]
-```
+**Avant** — tableau de strings
+
+`["🍎 Pomme", "🍌 Banane", "🍒 Cerise"]`
+
+**Après** — rendu HTML
+
+<ul>
+  <li>🍎 Pomme</li>
+  <li>🍌 Banane</li>
+  <li>🍒 Cerise</li>
+</ul>
 
 </div>
 
-<div v-click="2">
-
-**Pourquoi `key` ?**
-
-React a besoin d'identifier chaque élément pour les mettre à jour efficacement.  
-→ Abordé dans la slide suivante.
-
-</div>
+::bottom::
 
 <!--
 Montrer d'abord le problème du code répétitif — les apprenants ont déjà vu ça en S3.

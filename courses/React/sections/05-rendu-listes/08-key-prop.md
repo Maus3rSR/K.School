@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: /list-reconciliation.png
+image: /reconciliation.png
 backgroundSize: contain
 ---
 

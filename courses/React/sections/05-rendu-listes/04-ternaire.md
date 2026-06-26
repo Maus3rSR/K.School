@@ -9,18 +9,27 @@ Deux branches dans le JSX, en une seule expression
 
 ::left::
 
-```tsx {all|3|4|5|all}
+```tsx {all|4|5|6|all}
 function StatusBadge({ isOnline }: { isOnline: boolean }) {
   return (
     <span>
-      { isOnline
-        ? <span className="badge green">En ligne</span>
+      { isOnline ?
+        <span className="badge green">En ligne</span>
         : <span className="badge red">Hors ligne</span>
       }
     </span>
   )
 }
 ```
+
+<div v-click="4">
+
+**Quand l'utiliser ?**
+
+- Condition simple, **deux branches** avec du JSX différent
+- Le résultat reste **lisible** en une ligne ou quelques lignes
+
+</div>
 
 ::right::
 
@@ -48,14 +57,15 @@ condition ? si_vrai : si_faux
 
 <div v-click="4">
 
-**Quand l'utiliser ?**
+<Alert type="error">
 
-- Condition simple, **deux branches** avec du JSX différent
-- Le résultat reste **lisible** en une ligne ou quelques lignes
+À éviter : Ternaires imbriqués
 
-**⚠️ À éviter**
+`a ? b ? c : d : e`
 
-Ternaires imbriqués : `a ? b ? c : d : e` → utiliser `if` avant le return
+→ utiliser `if` avant le return
+
+</Alert>
 
 </div>
 

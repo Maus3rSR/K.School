@@ -1,6 +1,5 @@
 ---
 layout: center
-class: text-center
 ---
 
 # Quel pattern choisir ?

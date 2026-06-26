@@ -3,13 +3,13 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# L'opérateur `&&`
+# L'opérateur `&&` <small>_([short circuit](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Logical_AND#short-circuit_evaluation) JavaScript)_</small>
 
 Afficher quelque chose **seulement si** une condition est vraie
 
 ::left::
 
-```tsx {all|3|7-9|all}
+```tsx {all|7-9|all}
 function Notification({ count }: { count: number }) {
   return (
     <div>
@@ -24,21 +24,6 @@ function Notification({ count }: { count: number }) {
 }
 ```
 
-::right::
-
-<div v-click="1">
-
-**Comment ça fonctionne**
-
-```
-condition && <JSX />
-```
-
-- Si `condition` est **truthy** → le JSX est rendu
-- Si `condition` est **falsy** → rien n'est rendu
-
-</div>
-
 <div v-click="2">
 
 **⚠️ Le piège du `0`**
@@ -49,10 +34,30 @@ condition && <JSX />
 
 // ✅ Forcer un booléen
 { tasks.length > 0 && <Liste /> }
-{ !!tasks.length && <Liste /> }
 ```
 
-`0` est falsy, mais React l'**affiche quand même** car c'est un nombre, pas `null` ni `false`.
+</div>
+
+::right::
+
+<div v-click="1">
+
+**Comment ça fonctionne**
+
+```
+condition && <JSX />
+```
+
+- Si `condition` est **[truthy](https://developer.mozilla.org/fr/docs/Glossary/Truthy)** → le JSX est rendu
+- Si `condition` est **[falsy](https://developer.mozilla.org/fr/docs/Glossary/Falsy)** → rien n'est rendu
+
+</div>
+
+<div v-click="2">
+
+<br/>
+
+`0` est falsy, mais React l'**affiche quand même** car c'est un nombre, pas `null`, `undefined` ou `false`.
 
 </div>
 

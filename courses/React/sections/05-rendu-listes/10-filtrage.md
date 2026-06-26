@@ -9,19 +9,18 @@ layoutClass: gap-x-4
 
 ::left::
 
-```tsx {none|1-8|10-14|16-21|all}
+```tsx {all|9-11|13-16|18-19|all}
 interface Task {
   id: number
   label: string
   done: boolean
 }
 
-const tasks: Task[] = [/* ... */]
+const tasks: Task[] = [/* ...data... */]
 
 // Étape 1 : filter() — garder uniquement les tâches non terminées
-const activeTasks = tasks.filter((task) => !task.done)
-
 // activeTasks = sous-ensemble de tasks, toujours du type Task[]
+const activeTasks = tasks.filter((task) => !task.done)
 
 // Étape 2 : map() — transformer en JSX
 const taskItems = activeTasks.map((task) => (
@@ -62,23 +61,7 @@ Le tableau original n'est **pas modifié**.
 
 <div v-click="3">
 
-**Enchaîner en une ligne**
-
-```tsx
-tasks
-  .filter((task) => !task.done)
-  .map((task) => (
-    <TaskItem key={task.id} task={task} />
-  ))
-```
-
-</div>
-
-<div v-click="4">
-
-**`filter()` retourne toujours un tableau `Task[]`**
-
-→ TypeScript infère le type automatiquement après un `filter()`.
+Note: On peut afficher une variable qui contient du JSX.
 
 </div>
 

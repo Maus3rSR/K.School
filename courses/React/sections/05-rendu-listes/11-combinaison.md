@@ -1,15 +1,15 @@
 ---
 layout: two-cols-header
-layoutClass: gap-x-4
+layoutClass: gap-x-4 text-sm
 ---
 
-# Tout ensemble — la Todo List
+# Exemple complet — la Todo List
 
 Rendu conditionnel + liste typée + filtrage
 
 ::left::
 
-```tsx {none|1-8|10-16|18-36|all}
+```tsx {*}{maxHeight:'400px'}
 interface Task {
   id: number
   label: string
@@ -55,8 +55,6 @@ return (
 
 **Ce que ce code combine**
 
-<v-clicks>
-
 - `useState<Task[]>` — liste typée en state
 - `useState<boolean>` — toggle visible/caché
 - `filter()` — sous-liste selon la condition
@@ -64,16 +62,10 @@ return (
 - `&&` — afficher le message "vide" seulement si nécessaire
 - Ternaire — libellé du bouton selon l'état
 
-</v-clicks>
-
-<v-click>
-
 **Données dérivées**
 
 `doneCount` n'est pas un state — c'est une valeur **calculée** depuis `tasks`.  
 Ne jamais dupliquer ce qu'on peut dériver. 🚫 `useState` pour ça.
-
-</v-click>
 
 <!--
 C'est la slide de synthèse pratique — prendre le temps de lire le code ensemble.

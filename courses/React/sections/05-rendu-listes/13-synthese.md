@@ -1,6 +1,6 @@
 ---
 layout: two-cols-header
-layoutClass: gap-x-4
+layoutClass: gap-x-4 text-sm
 ---
 
 # Ce qu'on retient
@@ -9,7 +9,7 @@ Rendu conditionnel et listes dynamiques
 
 ::left::
 
-```mermaid {scale: 0.72}
+```mermaid {scale: 0.52}
 flowchart TD
     A["🧠 State\ntasks: Task[]\nshowDone: boolean"] --> B{"Condition ?"}
     B -->|"showDone = false"| C["filter()\nSous-liste active"]
@@ -29,8 +29,6 @@ flowchart TD
 
 **À retenir**
 
-<v-clicks>
-
 - JSX n'accepte que des **expressions** entre `{ }`
 - `if` → avant le `return`&nbsp;&nbsp;·&nbsp;&nbsp;`? :` → deux branches&nbsp;&nbsp;·&nbsp;&nbsp;`&&` → une branche
 - `&&` + nombre : toujours forcer un **booléen**
@@ -38,8 +36,6 @@ flowchart TD
 - `key` doit être **stable et unique** — éviter l'index si la liste change
 - `filter()` + `map()` se chaînent sans modifier le tableau original
 - Une valeur qu'on peut **calculer** depuis le state n'a pas besoin d'être un state
-
-</v-clicks>
 
 <!--
 Rappeler la progression : S1 Setup → S2 Composants → S3 Props → S4 State → S5 Rendu conditionnel & Listes.

@@ -32,6 +32,8 @@ function TodoApp() {
 - Props pour passer des données
 - Événements pour réagir aux clics
 
+::bottom::
+
 <v-click>
 
 **Ce qui manque**

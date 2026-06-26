@@ -1,6 +1,6 @@
 ---
 layout: two-cols-header
-layoutClass: gap-x-4
+layoutClass: gap-x-4 text-sm
 ---
 
 # Pièges fréquents
@@ -35,15 +35,11 @@ const [doneCount, setDoneCount] = useState(0)
 
 **Les règles à retenir**
 
-<v-clicks>
-
 - `key` est **obligatoire** sur chaque élément rendu par `map()`
 - `key` doit venir d'un **identifiant stable** — pas de l'index si la liste change
 - `&&` avec un nombre : toujours forcer `nombre > 0 &&` ou `!!nombre &&`
 - `if` n'est pas une expression — le mettre **avant** le `return` ou utiliser `? :`
 - Ne jamais mettre dans un `useState` ce qu'on peut **calculer** depuis un autre state
-
-</v-clicks>
 
 <!--
 Ces 5 pièges couvrent 90% des bugs rencontrés chez les apprenants sur cette séance.

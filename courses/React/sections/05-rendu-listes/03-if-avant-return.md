@@ -3,7 +3,7 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# `if` avant le `return`
+# `if` avant le `return` <small>_(early return)_</small>
 
 Le pattern le plus lisible pour des branches complexes
 
@@ -48,6 +48,8 @@ function Greeting({ isLogged }: { isLogged: boolean }) {
 - Retourner `null` pour ne rien afficher du tout
 
 </div>
+
+::bottom::
 
 <div v-click="2">
 

@@ -13,6 +13,8 @@
     "react:props:dev": "pnpm --filter @k.school/react dev:props",
     "react:state:dev": "pnpm --filter @k.school/react dev:state",
     "react:render.list:dev": "pnpm --filter @k.school/react dev:render.list",
+    "react:hooks:dev": "pnpm --filter @k.school/react dev:hooks",
+    "react:api:dev": "pnpm --filter @k.school/react dev:api",
     "react:ex": "pnpm --filter @k.school/exercices-react dev",
     "tdd:dev": "turbo run dev --filter @k.school/tdd",
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",

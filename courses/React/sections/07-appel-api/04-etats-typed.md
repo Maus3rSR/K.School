@@ -9,7 +9,12 @@ Toute requête réseau passe par ces 3 états
 
 ::left::
 
-```tsx {none|1-2|4-6|8-16|all}
+```tsx {none|7-9|11-17|19-25|all}
+interface Post {
+  id: number
+  title: string
+}
+
 function PostList() {
   const [posts, setPosts] = useState<Post[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -37,13 +42,13 @@ function PostList() {
 
 <div v-click="1">
 
-`posts` — les données, vides par défaut
+`posts`, `isLoading`, `error` — les 3 états typés, initialisés avant toute réponse
 
 </div>
 
 <div v-click="2">
 
-`isLoading` — `true` tant qu'on attend une réponse, `error` — `null` tant que rien n'a échoué
+Le `useEffect` remplit ces états : `setPosts` en cas de succès, `setError` en cas d'échec, `setIsLoading(false)` dans tous les cas via `finally`
 
 </div>
 

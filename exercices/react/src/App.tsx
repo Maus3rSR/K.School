@@ -14,6 +14,10 @@ import CompteurMonstre from "./exercices/03-evenements-state/01-compteur-monstre
 import IdentiteMonstre from "./exercices/03-evenements-state/02-identite-monstre/IdentiteMonstre";
 import FiltreBestiaire from "./exercices/03-evenements-state/03-filtre-bestiaire/FiltreBestiaire";
 import FormulaireMonstre from "./exercices/03-evenements-state/04-formulaire-monstre/FormulaireMonstre";
+import RugissementMonstre from "./exercices/05-cycle-vie-hooks/01-rugissement-monstre/RugissementMonstre";
+import RegenerationScene from "./exercices/05-cycle-vie-hooks/02-regeneration-monstre/Scene";
+import InvocationRapide from "./exercices/05-cycle-vie-hooks/03-invocation-rapide/InvocationRapide";
+import ChronometreCombat from "./exercices/05-cycle-vie-hooks/04-chronometre-combat/ChronometreCombat";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -154,6 +158,39 @@ export default function App() {
             element={
               <Exercice meta={allExercices[11]}>
                 <FormulaireMonstre />
+              </Exercice>
+            }
+          />
+          {/* Séance 5 · Cycle de vie & Hooks */}
+          <Route
+            path="/06-hooks/01-rugissement-monstre"
+            element={
+              <Exercice meta={allExercices[12]}>
+                <RugissementMonstre />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/06-hooks/02-regeneration-monstre"
+            element={
+              <Exercice meta={allExercices[13]}>
+                <RegenerationScene />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/06-hooks/03-invocation-rapide"
+            element={
+              <Exercice meta={allExercices[14]}>
+                <InvocationRapide />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/06-hooks/04-chronometre-combat"
+            element={
+              <Exercice meta={allExercices[15]}>
+                <ChronometreCombat />
               </Exercice>
             }
           />

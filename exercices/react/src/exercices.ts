@@ -162,7 +162,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/05-listes/01-monstre-vivant",
         numero: "01",
         titre: "Le monstre vivant",
-        emoji: "�",
+        emoji: "🐉",
         resume:
           "Utilise && et le ternaire pour afficher ou masquer des éléments selon l'état du monstre.",
         fichiers: [
@@ -173,7 +173,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/05-listes/02-galerie-monstres",
         numero: "02",
         titre: "La galerie de monstres",
-        emoji: "�️",
+        emoji: "🗂️",
         resume:
           "Affiche un tableau d'objets typés Monstre[] avec map() et la prop key.",
         fichiers: [
@@ -184,7 +184,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/05-listes/03-filtre-type",
         numero: "03",
         titre: "Le filtre du bestiaire",
-        emoji: "�",
+        emoji: "🔎",
         resume:
           "Filtre dynamiquement la liste de monstres par type avec useState et filter().",
         fichiers: [
@@ -211,7 +211,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/06-hooks/01-rugissement-monstre",
         numero: "01",
         titre: "Le rugissement du monstre",
-        emoji: "�",
+        emoji: "🔊",
         resume:
           "Utilise useEffect pour faire rugir le monstre automatiquement à son apparition.",
         fichiers: [
@@ -222,7 +222,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/06-hooks/02-regeneration-monstre",
         numero: "02",
         titre: "La régénération du monstre",
-        emoji: "�",
+        emoji: "💚",
         resume:
           "Ajoute un intervalle de régénération avec useEffect, puis nettoie-le pour éviter la fuite.",
         fichiers: [
@@ -233,7 +233,7 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/06-hooks/03-invocation-rapide",
         numero: "03",
         titre: "L'invocation rapide",
-        emoji: "�",
+        emoji: "🔮",
         resume:
           "Utilise useRef pour donner le focus automatique à un champ dès le montage.",
         fichiers: [

@@ -14,6 +14,10 @@ import CompteurMonstre from "./exercices/03-evenements-state/01-compteur-monstre
 import IdentiteMonstre from "./exercices/03-evenements-state/02-identite-monstre/IdentiteMonstre";
 import FiltreBestiaire from "./exercices/03-evenements-state/03-filtre-bestiaire/FiltreBestiaire";
 import FormulaireMonstre from "./exercices/03-evenements-state/04-formulaire-monstre/FormulaireMonstre";
+import MonstreVivant from "./exercices/04-rendu-conditionnel-listes/01-monstre-vivant/MonstreVivant";
+import GalerieMonstres from "./exercices/04-rendu-conditionnel-listes/02-galerie-monstres/GalerieMonstres";
+import FiltreBestiaireType from "./exercices/04-rendu-conditionnel-listes/03-filtre-type/FiltreBestiaire";
+import BestiaireComplet from "./exercices/04-rendu-conditionnel-listes/04-bestiaire-complet/BestiaireComplet";
 import RugissementMonstre from "./exercices/05-cycle-vie-hooks/01-rugissement-monstre/RugissementMonstre";
 import RegenerationScene from "./exercices/05-cycle-vie-hooks/02-regeneration-monstre/Scene";
 import InvocationRapide from "./exercices/05-cycle-vie-hooks/03-invocation-rapide/InvocationRapide";
@@ -161,11 +165,44 @@ export default function App() {
               </Exercice>
             }
           />
+          {/* Séance 4 · Rendu conditionnel & Listes */}
+          <Route
+            path="/05-listes/01-monstre-vivant"
+            element={
+              <Exercice meta={allExercices[12]}>
+                <MonstreVivant />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/05-listes/02-galerie-monstres"
+            element={
+              <Exercice meta={allExercices[13]}>
+                <GalerieMonstres />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/05-listes/03-filtre-type"
+            element={
+              <Exercice meta={allExercices[14]}>
+                <FiltreBestiaireType />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/05-listes/04-bestiaire-complet"
+            element={
+              <Exercice meta={allExercices[15]}>
+                <BestiaireComplet />
+              </Exercice>
+            }
+          />
           {/* Séance 5 · Cycle de vie & Hooks */}
           <Route
             path="/06-hooks/01-rugissement-monstre"
             element={
-              <Exercice meta={allExercices[12]}>
+              <Exercice meta={allExercices[16]}>
                 <RugissementMonstre />
               </Exercice>
             }
@@ -173,7 +210,7 @@ export default function App() {
           <Route
             path="/06-hooks/02-regeneration-monstre"
             element={
-              <Exercice meta={allExercices[13]}>
+              <Exercice meta={allExercices[17]}>
                 <RegenerationScene />
               </Exercice>
             }
@@ -181,7 +218,7 @@ export default function App() {
           <Route
             path="/06-hooks/03-invocation-rapide"
             element={
-              <Exercice meta={allExercices[14]}>
+              <Exercice meta={allExercices[18]}>
                 <InvocationRapide />
               </Exercice>
             }
@@ -189,7 +226,7 @@ export default function App() {
           <Route
             path="/06-hooks/04-chronometre-combat"
             element={
-              <Exercice meta={allExercices[15]}>
+              <Exercice meta={allExercices[19]}>
                 <ChronometreCombat />
               </Exercice>
             }

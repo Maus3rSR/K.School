@@ -35,6 +35,10 @@ src: ./09-exercice-combine.md
 ---
 
 ---
+src: ./10b-quand-pas-useeffect.md
+---
+
+---
 src: ./10-pieges.md
 ---
 

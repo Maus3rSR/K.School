@@ -32,9 +32,10 @@ flowchart TD
 - `useEffect` exécute du code **après** le rendu, jamais pendant
 - Le tableau de dépendances a 3 formes : `[]`, absent, `[dep]`
 - Le `return` d'un Effet est son **cleanup** : avant le prochain Effet, ou au démontage
-- `useRef` garde une valeur **sans** provoquer de re-rendu
+- `useRef` a **deux usages** : stocker une valeur (ex: id de timer) ou pointer vers un élément DOM
 - Un ref DOM (`ref={...}`) n'existe qu'après le rendu → à utiliser dans `useEffect`
 - Deux besoins différents, deux Effets séparés plutôt qu'un seul Effet qui fait tout
+- Si une valeur se **calcule** depuis d'autres states → variable dérivée, **pas** un `useEffect`
 
 <!--
 Rappeler la progression : S4 State/événements → S5 Rendu conditionnel/listes → S6 Cycle de vie/Hooks.

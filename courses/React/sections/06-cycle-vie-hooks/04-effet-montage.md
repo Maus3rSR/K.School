@@ -48,7 +48,14 @@ Résultat : le composant se rend d'abord sans le message, puis l'Effet met à jo
 
 </div>
 
+::bottom::
+
+<Alert v-click type="error" class="mt-2">
+  <strong>Attention !</strong> Cet exemple illustre le <strong>timing</strong> de <code>useEffect</code>, pas un modèle à reproduire. <code>setVisible(true)</code> dans un Effet provoque un second rendu inutile — <code>useState(true)</code> suffit. Réserver <code>useEffect</code> aux interactions avec un système <strong>extérieur</strong> (DOM, timer, réseau).
+</Alert>
+
 <!--
 Faire tourner ce code en live et montrer dans la console : le composant se rend AVANT que l'Effet ne s'exécute.
 Bien insister : useEffect s'exécute APRÈS le rendu, jamais pendant. C'est la clé pour comprendre pourquoi on ne peut pas mettre document.title directement dans le corps du composant.
+Le warning visible dans la slide évite que les apprenants copient ce pattern. Insister : useState(true) suffit ici, useEffect est en trop.
 -->

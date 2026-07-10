@@ -49,8 +49,21 @@ Dans `useEffect`, `inputRef.current` **existe déjà** → on peut appeler `.foc
 
 </div>
 
+::bottom::
+
+<v-click>
+
+**Les 2 usages de useRef**
+
+- **Stocker une valeur** (timer id, compteur…) → survit sans provoquer de re-rendu *(slide précédente)*
+- **Accéder à un élément DOM** (focus, scroll, mesure…) → React remplit `current` après le rendu *(cette slide)*
+
+</v-click>
+
 <!--
 Boucler explicitement sur l'accroche de début de séance : "voici enfin la réponse au problème du focus automatique".
+Distinguer les 2 usages : stocker une valeur (slide précédente) vs pointeur vers un élément DOM (ici).
+Dans le cas DOM, useRef ne stocke pas une donnée applicative — c'est une référence que React gère pour nous.
 Insister sur l'ordre : le ref est rempli APRÈS le rendu, donc useEffect (qui s'exécute aussi après le rendu) est le seul endroit fiable pour l'utiliser.
 Autres cas d'usage à mentionner rapidement : scroll vers un élément, mesurer une taille avec getBoundingClientRect().
 -->

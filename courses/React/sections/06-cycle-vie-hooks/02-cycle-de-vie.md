@@ -9,16 +9,7 @@ Trois moments dans la vie d'un composant
 
 ::left::
 
-```mermaid {scale: 0.65}
-flowchart TD
-    A["🟢 Montage\nLe composant apparaît"] --> B["🔄 Mise à jour\nstate ou props changent"]
-    B --> B
-    B --> C["🔴 Démontage\nLe composant disparaît"]
-
-    style A fill:#10b981,color:#fff
-    style B fill:#3b82f6,color:#fff
-    style C fill:#ef4444,color:#fff
-```
+<img src="/react-component-lifecycle.png" alt="Cycle de vie d'un composant React" class="w-full object-contain max-h-80 rounded" />
 
 ::right::
 

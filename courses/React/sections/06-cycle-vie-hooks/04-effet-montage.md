@@ -9,7 +9,7 @@ Exécuter du code une seule fois, à l'apparition du composant
 
 ::left::
 
-```tsx {none|1-2|4-9|5-7|all}
+```tsx {all|2|4-9|5-7|all}
 function WelcomeBanner() {
   const [visible, setVisible] = useState(false)
 

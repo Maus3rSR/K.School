@@ -9,16 +9,17 @@ Récupérer des données, mais typées
 
 ::left::
 
-```tsx {none|1-4|6|7|8|all}
+```tsx {none|1-4|6|7|8|9|all}
 interface Post {
   id: number
   title: string
 }
 
-fetch('https://jsonplaceholder.typicode.com/posts')
-  .then((response) => response.json())
-  .then((data: Post[]) => console.log(data))
-  .catch((error) => console.error(error))
+async function loadPosts() {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data: Post[] = await response.json()
+  console.log(data)
+}
 ```
 
 ::right::
@@ -31,13 +32,13 @@ Une `interface` décrit **la forme exacte** de ce que l'API renvoie
 
 <div v-click="2">
 
-`fetch(url)` retourne une **Promise** qui résout la réponse HTTP
+`fetch(url)` retourne une **Promise** — `await` attend sa résolution avant de continuer
 
 </div>
 
 <div v-click="3">
 
-`response.json()` transforme le corps de la réponse en objet JS — retourne aussi une Promise
+`response.json()` transforme le corps de la réponse en objet JS — c'est aussi une Promise, donc aussi un `await`
 
 </div>
 
@@ -51,4 +52,5 @@ Une `interface` décrit **la forme exacte** de ce que l'API renvoie
 Insister : TypeScript ne peut PAS vérifier que l'API renvoie vraiment des Post — c'est une promesse (au sens figuré) qu'on fait au compilateur. Si l'API change, TypeScript ne le détectera pas.
 Ouvrir l'URL JSONPlaceholder dans le navigateur avant ce slide pour montrer la vraie forme JSON brute.
 Ne pas encore parler de useEffect ici — cette slide isole uniquement fetch + typage, indépendamment de React.
+Rappeler que loadPosts() est une fonction async "libre", pas encore branchée à React — le lien avec useEffect arrive dans la slide suivante.
 -->

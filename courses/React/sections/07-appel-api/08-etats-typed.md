@@ -9,7 +9,7 @@ Toute requête réseau passe par ces 3 états
 
 ::left::
 
-```tsx {none|7-9|11-17|19-25|all}
+```tsx {none|7-9|11-19|21-27|all}
 interface Post {
   id: number
   title: string
@@ -21,11 +21,18 @@ function PostList() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((res) => res.json())
-      .then((data: Post[]) => setPosts(data))
-      .catch(() => setError('Impossible de charger les posts'))
-      .finally(() => setIsLoading(false))
+    async function loadPosts() {
+      try {
+        const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+        const data: Post[] = await res.json()
+        setPosts(data)
+      } catch {
+        setError('Impossible de charger les posts')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadPosts()
   }, [])
 
   if (isLoading) return <p>Chargement...</p>
@@ -48,7 +55,7 @@ function PostList() {
 
 <div v-click="2">
 
-Le `useEffect` remplit ces états : `setPosts` en cas de succès, `setError` en cas d'échec, `setIsLoading(false)` dans tous les cas via `finally`
+`try` / `catch` / `finally` remplissent ces états : `setPosts` en cas de succès, `setError` en cas d'échec, `setIsLoading(false)` dans tous les cas via `finally`
 
 </div>
 
@@ -60,6 +67,6 @@ Rendu conditionnel (S5) : un seul de ces 3 cas s'affiche à la fois — jamais d
 
 <!--
 Insister sur l'ordre des if : loading d'abord, error ensuite, données en dernier — cet ordre garantit qu'on ne peut pas afficher "Chargement..." ET les données en même temps.
-.finally() est présenté ici sans être un nouveau concept central — juste "s'exécute dans tous les cas, succès ou échec".
+finally est présenté ici sans être un nouveau concept central — juste "s'exécute dans tous les cas, succès ou échec".
 Le typage error: string | null anticipe le prochain concept (gestion des erreurs).
 -->

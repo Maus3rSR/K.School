@@ -9,7 +9,7 @@ Le fetch a besoin d'un déclencheur
 
 ::left::
 
-```tsx {none|1|3-5|7-9|all}
+```tsx {none|1|3-5|7-13|all}
 interface Post {
   id: number
   title: string
@@ -19,9 +19,12 @@ function PostList() {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((res) => res.json())
-      .then((data: Post[]) => setPosts(data))
+    async function loadPosts() {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+      const data: Post[] = await res.json()
+      setPosts(data)
+    }
+    loadPosts()
   }, [])
 
   return (
@@ -44,17 +47,19 @@ function PostList() {
 
 <div v-click="2">
 
-`useEffect(..., [])` — exécuter le fetch **une seule fois**, au montage (S6)
+`useEffect(..., [])` — exécuter le chargement **une seule fois**, au montage (S6)
 
 </div>
 
 <div v-click="3">
 
-`setPosts(data)` met à jour le state → **re-rendu** avec les vraies données, `map()` fait le reste (S5)
+Le callback de `useEffect` **ne peut pas être `async` directement** — on déclare une fonction `async` à l'intérieur, puis on l'appelle immédiatement
 
 </div>
 
 <!--
 Ce slide est la synthèse concrète de S5 + S6 : rendu conditionnel/listes + useEffect au montage, appliqués à un vrai cas d'usage.
+Le point 3 (async interdit directement sur le callback de useEffect) est LE piège central de cette adaptation à React — bien le nommer explicitement, il sera repris dans la slide des pièges fréquents.
+Pourquoi cette limite existe : useEffect attend soit rien (undefined), soit une fonction de nettoyage — jamais une Promise. Une fonction async renvoie toujours une Promise, ce qui casserait ce contrat.
 Faire tourner en live et montrer le "flash" : liste vide au premier rendu, puis remplie après la réponse réseau — transition naturelle vers le prochain concept (état de chargement).
 -->

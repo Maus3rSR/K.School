@@ -12,22 +12,26 @@ fetch() ne réagit pas comme on l'imagine
 ````md magic-move
 ```tsx
 // ❌ Une erreur HTTP passe inaperçue
-fetch('https://jsonplaceholder.typicode.com/posts/9999')
-  .then((res) => res.json())
-  .then((data) => setPosts(data))
-  .catch((err) => setError(err.message))
-// .catch() ne se déclenche PAS sur une 404 !
+try {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts/9999')
+  const data = await res.json()
+  setPosts(data)
+} catch (err) {
+  setError(err.message)
+}
+// catch ne se déclenche PAS sur une 404 !
 ```
 
 ```tsx
 // ✅ Vérifier response.ok avant de continuer
-fetch('https://jsonplaceholder.typicode.com/posts/9999')
-  .then((res) => {
-    if (!res.ok) throw new Error(`Erreur ${res.status}`)
-    return res.json()
-  })
-  .then((data) => setPosts(data))
-  .catch((err) => setError(err.message))
+try {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts/9999')
+  if (!res.ok) throw new Error(`Erreur ${res.status}`)
+  const data = await res.json()
+  setPosts(data)
+} catch (err) {
+  setError(err.message)
+}
 ```
 ````
 
@@ -35,10 +39,10 @@ fetch('https://jsonplaceholder.typicode.com/posts/9999')
 
 <v-click>
 
-**Ce que `catch()` attrape vraiment**
+**Ce que `catch` attrape vraiment**
 
 - Panne réseau (pas de connexion, DNS...)
-- Une erreur `throw`ée manuellement dans un `.then()`
+- Une erreur `throw`ée manuellement dans le `try`
 - **Pas** un statut HTTP en erreur (404, 500...)
 
 </v-click>
@@ -48,7 +52,7 @@ fetch('https://jsonplaceholder.typicode.com/posts/9999')
 **La règle**
 
 - Toujours vérifier `response.ok` avant `response.json()`
-- Sinon `throw new Error(...)` pour forcer le passage dans `.catch()`
+- Sinon `throw new Error(...)` pour forcer le passage dans `catch`
 
 </v-click>
 

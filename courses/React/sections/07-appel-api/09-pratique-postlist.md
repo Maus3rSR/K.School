@@ -19,7 +19,8 @@ function PostList() {
   // 1. Déclarer posts (Post[]), isLoading (true),
   //    error (string | null)
 
-  // 2. useEffect au montage : fetch sur
+  // 2. useEffect au montage : fonction async interne
+  //    qui fetch sur
   //    https://jsonplaceholder.typicode.com/posts
   //    → setPosts, catch → setError, finally → isLoading
 
@@ -37,7 +38,7 @@ function PostList() {
 <v-click>
 
 1. 3 `useState` typés
-2. `fetch` + `.then` + `.catch` + `.finally` dans `useEffect(..., [])`
+2. Fonction `async` interne avec `try`/`catch`/`finally`, appelée dans `useEffect(..., [])`
 3. `if (isLoading)` → `if (error)` → `map()`
 
 </v-click>
@@ -52,11 +53,18 @@ const [isLoading, setIsLoading] = useState(true)
 const [error, setError] = useState<string | null>(null)
 
 useEffect(() => {
-  fetch('https://jsonplaceholder.typicode.com/posts')
-    .then((res) => res.json())
-    .then((data: Post[]) => setPosts(data))
-    .catch(() => setError('Erreur de chargement'))
-    .finally(() => setIsLoading(false))
+  async function loadPosts() {
+    try {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+      const data: Post[] = await res.json()
+      setPosts(data)
+    } catch {
+      setError('Erreur de chargement')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  loadPosts()
 }, [])
 ```
 

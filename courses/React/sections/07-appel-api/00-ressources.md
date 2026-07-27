@@ -18,6 +18,8 @@ layout: two-cols-header
 
 ## Pour aller plus loin
 
+⏳ [async function — MDN](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/async_function) - Syntaxe async/await et gestion des erreurs avec try/catch
+
 📐 [React TypeScript Cheatsheet — Async](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/typing_props/) - Typer les props et les données asynchrones
 
 🚫 [Response.ok — MDN](https://developer.mozilla.org/fr/docs/Web/API/Response/ok) - Pourquoi `fetch` ne rejette pas sur une erreur HTTP
@@ -25,5 +27,5 @@ layout: two-cols-header
 <!--
 Priorité en cours : les 3 liens gauche couvrent toute la séance.
 JSONPlaceholder sera utilisé pour tous les exemples et exercices — le présenter en premier en live (ouvrir /posts dans le navigateur).
-Response.ok est crucial pour le piège n°1 de fin de séance.
+Response.ok est crucial pour le piège n°1 de fin de séance. async function (MDN) accompagne les nouvelles slides sur async/await.
 -->

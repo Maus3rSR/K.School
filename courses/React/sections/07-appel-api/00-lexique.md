@@ -7,6 +7,8 @@ layoutClass: gap-x-6
 
 ::left::
 
+<TermCard term="Async/await" definition="Syntaxe pour écrire du code asynchrone de façon séquentielle, sans chaîner de .then()" />
+
 <TermCard term="Endpoint" translation="(Point d'accès)" definition="URL précise d'une API qui retourne une ressource donnée" />
 
 <TermCard term="fetch()" definition="Fonction native du navigateur pour envoyer une requête HTTP et récupérer une réponse" />
@@ -26,7 +28,7 @@ layoutClass: gap-x-6
 <TermCard term="Status code" translation="(Code de statut)" definition="Nombre HTTP indiquant le résultat d'une requête (200, 404, 500...)" />
 
 <!--
-Termes centraux à souligner : fetch(), Promise et Response.ok (piège n°1 de la séance).
+Termes centraux à souligner : Async/await, fetch(), Promise et Response.ok (piège n°1 de la séance).
 Loading state prépare directement le pattern loading/error/data qui structure toute la séance.
 Race condition peut sembler abstrait — le garder pour la fin, mention rapide sans entrer dans AbortController.
 -->

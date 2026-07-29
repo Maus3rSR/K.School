@@ -10,8 +10,8 @@ backgroundSize: contain
 
 1. L'**URL** identifie la ressource demandée
 2. Le navigateur traduit l'URL en **requête HTTP** et l'envoie au serveur
-3. Le serveur répond avec un **statut** + les données
-4. Le navigateur affiche le résultat
+3. Le serveur répond avec un **statut** _(200, 404, etc.)_ + les données _(html, xml, json, texte, etc.)_
+4. Le navigateur affiche le résultat à l'écran
 
 </v-clicks>
 

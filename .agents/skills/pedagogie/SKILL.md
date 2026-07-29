@@ -75,6 +75,18 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 - **Aide graduée** : 3 niveaux d'indices
 - **Validation progressive** : Checkpoints
 
+### Diversité des Sujets Pratiques (OBLIGATOIRE)
+
+**Interdit** : Réutiliser à l'identique (même domaine métier, mêmes noms de variables/entités, même endpoint) le sujet d'un exemple déjà démontré dans les slides précédentes pour un exercice (guidé ou autonome).
+
+> ❌ Mauvais : les slides démontrent le pattern complet sur `PostList` / `/posts`, puis l'exercice guidé qui suit fait recopier EXACTEMENT le même code sur le même sujet `PostList` / `/posts` — l'apprenant recopie sans réappliquer le raisonnement.
+
+**Raison** : Un exercice doit vérifier que l'apprenant sait **transposer** un pattern à une situation nouvelle (Application dans la taxonomie de Bloom), pas simplement le recopier. Réutiliser le même sujet transforme l'exercice en copie passive.
+
+**Règle** : Chaque exercice (guidé ou autonome) d'un même chapitre doit porter sur une **entité/un domaine différent** de ceux déjà utilisés dans les slides de démonstration et dans les exercices précédents du même chapitre (ex : si les slides démontrent avec `posts`, l'exercice guidé peut utiliser `todos`, l'exercice autonome `users` — jamais deux fois le même).
+
+**Diagnostic** : Avant de finaliser un exercice, vérifier que son sujet (nom d'entité, endpoint, domaine métier) n'apparaît dans aucune slide de démonstration ni exercice précédent du même chapitre. Le **pattern technique** peut être identique (structure du code), mais le **sujet** doit changer.
+
 ### Feedback
 
 - Tests automatisés avec messages pédagogiques
@@ -97,6 +109,7 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 - [ ] Indices à 3 niveaux
 - [ ] Critères de réussite mesurables
 - [ ] Temps estimé
+- [ ] Sujet différent des slides de démonstration et des exercices précédents du même chapitre
 
 ## Langage Bienveillant
 

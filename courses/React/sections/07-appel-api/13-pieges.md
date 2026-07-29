@@ -9,15 +9,17 @@ Les erreurs que tout le monde fait au moins une fois
 
 ::left::
 
-```tsx
+```tsx {*}{maxHeight: '300px'}
 // ❌ Piège 1 — useEffect async directement : erreur TypeScript
 useEffect(async () => {
-  const res = await fetch(url) // interdit : useEffect n'attend pas de Promise
+  // interdit : useEffect n'attend pas de Promise
+  const res = await fetch(url)
 }, [])
 
 // ❌ Piège 2 — oublier response.ok
 const res = await fetch(url)
-const data = await res.json() // une 404 passe comme si de rien n'était
+// une 404 passe comme si de rien n'était
+const data = await res.json() 
 
 // ❌ Piège 3 — dépendance oubliée : fetch en boucle
 useEffect(() => {
@@ -26,14 +28,16 @@ useEffect(() => {
 
 // ❌ Piège 4 — fetch dans le corps du composant
 function PostList() {
-  loadPosts() // hors de useEffect : boucle infinie garantie
+  // hors de useEffect : boucle infinie garantie
+  loadPosts() 
   return <ul>...</ul>
 }
 
 // ❌ Piège 5 — race condition (id qui change vite)
 useEffect(() => {
+  // la réponse la plus lente peut écraser la bonne
   loadPost(id)
-}, [id]) // la réponse la plus lente peut écraser la bonne
+}, [id])
 ```
 
 ::right::

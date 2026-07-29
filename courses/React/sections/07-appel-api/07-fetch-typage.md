@@ -9,14 +9,16 @@ Récupérer des données, mais typées
 
 ::left::
 
-```tsx {none|1-4|6|7|8|9|all}
+```ts {monaco}
 interface Post {
   id: number
   title: string
 }
 
 async function loadPosts() {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const response = await fetch(
+    'https://jsonplaceholder.typicode.com/posts'
+  )
   const data: Post[] = await response.json()
   console.log(data)
 }
@@ -49,8 +51,10 @@ Une `interface` décrit **la forme exacte** de ce que l'API renvoie
 </div>
 
 <!--
+Éditeur Monaco interactif : on PEUT modifier le code en direct pendant le cours.
 Insister : TypeScript ne peut PAS vérifier que l'API renvoie vraiment des Post — c'est une promesse (au sens figuré) qu'on fait au compilateur. Si l'API change, TypeScript ne le détectera pas.
 Ouvrir l'URL JSONPlaceholder dans le navigateur avant ce slide pour montrer la vraie forme JSON brute.
 Ne pas encore parler de useEffect ici — cette slide isole uniquement fetch + typage, indépendamment de React.
 Rappeler que loadPosts() est une fonction async "libre", pas encore branchée à React — le lien avec useEffect arrive dans la slide suivante.
+Exemple à tester en live : retirer `title` de l'interface Post ou ajouter `data.push("texte")` pour montrer l'erreur de type immédiate.
 -->

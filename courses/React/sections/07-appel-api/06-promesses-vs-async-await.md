@@ -3,9 +3,9 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# Promise : deux façons de l'écrire
+# Asynchrone : deux façons de l'écrire
 
-Même comportement, deux syntaxes
+Utilisation des promesses, deux syntaxes
 
 ::left::
 
@@ -22,7 +22,9 @@ fetch('https://jsonplaceholder.typicode.com/posts')
 // Style async/await
 async function loadPosts() {
   try {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const res = await fetch(
+      'https://jsonplaceholder.typicode.com/posts'
+    )
     const data = await res.json()
     console.log(data)
   } catch (err) {

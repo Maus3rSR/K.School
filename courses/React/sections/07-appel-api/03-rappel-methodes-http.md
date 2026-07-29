@@ -27,7 +27,8 @@ Chaque requête porte une intention précise
 **Bon à savoir**
 
 - `PUT` / `PATCH` / `DELETE` existent, on les verra pour les formulaires
-- `fetch()` peut envoyer n'importe laquelle via `{ method: '...' }`
+- `fetch()` peut envoyer n'importe laquelle via un objet d'option : 
+`{ method: 'POST' }`
 
 </div>
 

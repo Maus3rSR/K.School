@@ -5,11 +5,11 @@ layoutClass: gap-x-4
 
 # Loading, error, data — les 3 états
 
-Toute requête réseau passe par ces 3 états
+Pour une UI qui reflète l'état asynchrone
 
 ::left::
 
-```tsx {none|7-9|11-19|21-27|all}
+```tsx {all|7-9|11-24|26-32|all}{maxHeight: '300px'}
 interface Post {
   id: number
   title: string
@@ -61,7 +61,7 @@ function PostList() {
 
 <div v-click="3">
 
-Rendu conditionnel (S5) : un seul de ces 3 cas s'affiche à la fois — jamais deux en même temps
+Rendu conditionnel : un seul de ces 3 cas s'affiche à la fois — jamais deux en même temps
 
 </div>
 

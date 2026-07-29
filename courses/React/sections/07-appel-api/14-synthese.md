@@ -9,7 +9,7 @@ Le pattern fetch + useEffect + états typés
 
 ::left::
 
-```mermaid {scale: 0.52}
+```mermaid {scale: 0.37}
 flowchart TD
     A["🟢 Montage"] --> B["useEffect(() => { loadData() }, [])"]
     B --> C["async function loadData()"]
@@ -36,7 +36,7 @@ flowchart TD
 - Toujours vérifier `response.ok` avant `response.json()`
 - 3 états typés : `data`, `isLoading`, `error` — un seul s'affiche à la fois
 - `try` / `catch` / `finally` couvrent respectivement succès, échec, "dans tous les cas"
-- Le rendu conditionnel (S5) et le montage (S6) s'assemblent ici en un seul pattern réutilisable
+- Le rendu conditionnel et le montage s'assemblent ici en un seul pattern réutilisable
 
 <!--
 Rappeler la progression : S5 Rendu conditionnel/listes → S6 Cycle de vie/Hooks → S7 Appel d'API.

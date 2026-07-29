@@ -9,7 +9,7 @@ Le fetch a besoin d'un déclencheur
 
 ::left::
 
-```tsx {none|1|3-5|7-13|all}
+```tsx {all|9-16|all}{maxHeight:'400px'}
 interface Post {
   id: number
   title: string
@@ -43,15 +43,7 @@ function PostList() {
 
 `useState<Post[]>([])` — un tableau vide au départ, en attendant la réponse
 
-</div>
-
-<div v-click="2">
-
-`useEffect(..., [])` — exécuter le chargement **une seule fois**, au montage (S6)
-
-</div>
-
-<div v-click="3">
+`useEffect(..., [])` — exécuter le chargement **une seule fois**, au montage
 
 Le callback de `useEffect` **ne peut pas être `async` directement** — on déclare une fonction `async` à l'intérieur, puis on l'appelle immédiatement
 

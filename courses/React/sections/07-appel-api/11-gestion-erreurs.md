@@ -47,16 +47,14 @@ try {
 
 </v-click>
 
-<v-click>
+::bottom::
 
-**La règle**
-
-- Toujours vérifier `response.ok` avant `response.json()`
-- Sinon `throw new Error(...)` pour forcer le passage dans `catch`
-
-</v-click>
+<Alert type="info" v-click>
+Il existe d'autres librairies comme <a href="https://axios-http.com/" target="_blank"><strong>Axios</strong></a> qui gère ce cas automatiquement : elle rejette la promesse (donc déclenche <code>catch</code>) dès qu'un statut HTTP est en erreur — pas besoin de vérifier <code>response.ok</code> manuellement.
+</Alert>
 
 <!--
 Faire l'expérience en live : appeler l'URL /posts/9999 (qui n'existe pas) sans la vérification res.ok, montrer que ça n'affiche PAS l'erreur mais un objet vide {} — bug silencieux typique.
 C'est LE piège n°1 identifié dans le lexique (Response.ok) — bien prendre le temps ici.
+Mentionner Axios seulement en ouverture culturelle : très répandu en entreprise, mais ce cours reste volontairement sur fetch() natif (déjà disponible sans dépendance) pour bien comprendre le fonctionnement sous-jacent avant d'utiliser une abstraction.
 -->

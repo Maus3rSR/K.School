@@ -22,6 +22,10 @@ import RugissementMonstre from "./exercices/05-cycle-vie-hooks/01-rugissement-mo
 import RegenerationScene from "./exercices/05-cycle-vie-hooks/02-regeneration-monstre/Scene";
 import InvocationRapide from "./exercices/05-cycle-vie-hooks/03-invocation-rapide/InvocationRapide";
 import ChronometreCombat from "./exercices/05-cycle-vie-hooks/04-chronometre-combat/ChronometreCombat";
+import RencontreSauvage from "./exercices/06-appel-api/01-rencontre-sauvage/RencontreSauvage";
+import BestiaireDistant from "./exercices/06-appel-api/02-bestiaire-distant/BestiaireDistant";
+import MonsterdexFragile from "./exercices/06-appel-api/03-monsterdex-fragile/MonsterdexFragile";
+import CarnetDeTerrain from "./exercices/06-appel-api/04-carnet-de-terrain/CarnetDeTerrain";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -228,6 +232,39 @@ export default function App() {
             element={
               <Exercice meta={allExercices[19]}>
                 <ChronometreCombat />
+              </Exercice>
+            }
+          />
+          {/* Séance 6 · Appel d'API */}
+          <Route
+            path="/07-api/01-rencontre-sauvage"
+            element={
+              <Exercice meta={allExercices[20]}>
+                <RencontreSauvage />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/07-api/02-bestiaire-distant"
+            element={
+              <Exercice meta={allExercices[21]}>
+                <BestiaireDistant />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/07-api/03-monsterdex-fragile"
+            element={
+              <Exercice meta={allExercices[22]}>
+                <MonsterdexFragile />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/07-api/04-carnet-de-terrain"
+            element={
+              <Exercice meta={allExercices[23]}>
+                <CarnetDeTerrain />
               </Exercice>
             }
           />

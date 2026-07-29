@@ -253,6 +253,55 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
       },
     ],
   },
+  {
+    label: "Séance 6 · Appel d'API",
+    exercices: [
+      {
+        path: "/07-api/01-rencontre-sauvage",
+        numero: "01",
+        titre: "Rencontre sauvage",
+        emoji: "🎣",
+        resume:
+          "Premier fetch dans un useEffect au montage, avec typage de la réponse de PokéAPI.",
+        fichiers: [
+          "src/exercices/06-appel-api/01-rencontre-sauvage/RencontreSauvage.tsx",
+        ],
+      },
+      {
+        path: "/07-api/02-bestiaire-distant",
+        numero: "02",
+        titre: "Le bestiaire distant",
+        emoji: "📡",
+        resume:
+          "Charge une liste de Pokémon en gérant les 3 états typés : data, isLoading, error.",
+        fichiers: [
+          "src/exercices/06-appel-api/02-bestiaire-distant/BestiaireDistant.tsx",
+        ],
+      },
+      {
+        path: "/07-api/03-monsterdex-fragile",
+        numero: "03",
+        titre: "Le Monsterdex fragile",
+        emoji: "🔍",
+        resume:
+          "Fetch déclenché par un clic, avec vérification de response.ok pour gérer les 404.",
+        fichiers: [
+          "src/exercices/06-appel-api/03-monsterdex-fragile/MonsterdexFragile.tsx",
+        ],
+      },
+      {
+        path: "/07-api/04-carnet-de-terrain",
+        numero: "04",
+        titre: "Le carnet de terrain",
+        emoji: "�",
+        resume:
+          "Synthèse de la séance : deux useEffect, le second refetchant à chaque changement de sélection.",
+        fichiers: [
+          "src/exercices/06-appel-api/04-carnet-de-terrain/CarnetDeTerrain.tsx",
+        ],
+      },
+    ],
+  },
 ];
 
 export const exercices: Exercice[] = seances.flatMap((s) => s.exercices);

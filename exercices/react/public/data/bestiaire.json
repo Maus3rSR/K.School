@@ -1,0 +1,7 @@
+[
+  { "id": 1, "nom": "Flamix", "emoji": "🔥🐲", "element": "Feu" },
+  { "id": 2, "nom": "Glacielle", "emoji": "❄️🦋", "element": "Glace" },
+  { "id": 3, "nom": "Racinelle", "emoji": "🌱🐢", "element": "Plante" },
+  { "id": 4, "nom": "Électrog", "emoji": "⚡🐿️", "element": "Électrique" },
+  { "id": 5, "nom": "Ombrelune", "emoji": "🌙🐺", "element": "Ombre" }
+]

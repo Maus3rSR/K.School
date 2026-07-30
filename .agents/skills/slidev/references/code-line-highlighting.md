@@ -37,6 +37,31 @@ function add(
 
 Click progression: lines 2-3 → line 5 → all lines
 
+### Non-consecutive lines in a stage
+
+Use commas within a `|`-separated stage to highlight multiple non-consecutive lines at the same click step:
+
+````md
+```ts {all|1,5,10|6,9|7,8|all}
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+```
+````
+
+Click progression: all → lines 1, 5, 10 → lines 6, 9 → lines 7, 8 → all
+
+Commas and ranges can be combined freely in a single stage: `{1,3-5|2,8|all}`.
+
 ## Special Values
 
 - `hide` - Hide the code block

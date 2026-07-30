@@ -26,6 +26,10 @@ import RencontreSauvage from "./exercices/06-appel-api/01-rencontre-sauvage/Renc
 import BestiaireDistant from "./exercices/06-appel-api/02-bestiaire-distant/BestiaireDistant";
 import MonsterdexFragile from "./exercices/06-appel-api/03-monsterdex-fragile/MonsterdexFragile";
 import CarnetDeTerrain from "./exercices/06-appel-api/04-carnet-de-terrain/CarnetDeTerrain";
+import PremierLien from "./exercices/07-router-bases/01-premier-lien/PremierLien";
+import MenuActif from "./exercices/07-router-bases/02-menu-actif/MenuActif";
+import MiniRoutes from "./exercices/07-router-bases/03-mini-routes/MiniRoutes";
+import NavigationComplete from "./exercices/07-router-bases/04-navigation-complete/NavigationComplete";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -265,6 +269,39 @@ export default function App() {
             element={
               <Exercice meta={allExercices[23]}>
                 <CarnetDeTerrain />
+              </Exercice>
+            }
+          />
+          {/* Séance 7 · React Router bases */}
+          <Route
+            path="/08-router/01-premier-lien"
+            element={
+              <Exercice meta={allExercices[24]}>
+                <PremierLien />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/08-router/02-menu-actif"
+            element={
+              <Exercice meta={allExercices[25]}>
+                <MenuActif />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/08-router/03-mini-routes/*"
+            element={
+              <Exercice meta={allExercices[26]}>
+                <MiniRoutes />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/08-router/04-navigation-complete/*"
+            element={
+              <Exercice meta={allExercices[27]}>
+                <NavigationComplete />
               </Exercice>
             }
           />

@@ -293,11 +293,58 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
         path: "/07-api/04-carnet-de-terrain",
         numero: "04",
         titre: "Le carnet de terrain",
-        emoji: "�",
+        emoji: "🧭",
         resume:
           "Synthèse de la séance : deux useEffect, le second refetchant à chaque changement de sélection.",
         fichiers: [
           "src/exercices/06-appel-api/04-carnet-de-terrain/CarnetDeTerrain.tsx",
+        ],
+      },
+    ],
+  },
+  {
+    label: "Séance 7 · React Router bases",
+    exercices: [
+      {
+        path: "/08-router/01-premier-lien",
+        numero: "01",
+        titre: "Premier lien",
+        emoji: "🔗",
+        resume:
+          "Remplace les balises <a> par des <Link> pour naviguer sans recharger la page.",
+        fichiers: [
+          "src/exercices/07-router-bases/01-premier-lien/PremierLien.tsx",
+        ],
+      },
+      {
+        path: "/08-router/02-menu-actif",
+        numero: "02",
+        titre: "Menu actif",
+        emoji: "🧭",
+        resume:
+          "Utilise NavLink pour mettre en évidence visuellement la page en cours.",
+        fichiers: ["src/exercices/07-router-bases/02-menu-actif/MenuActif.tsx"],
+      },
+      {
+        path: "/08-router/03-mini-routes",
+        numero: "03",
+        titre: "Mini routes",
+        emoji: "🗺️",
+        resume:
+          "Déclare des Routes et Route imbriquées pour afficher différents contenus selon l'URL.",
+        fichiers: [
+          "src/exercices/07-router-bases/03-mini-routes/MiniRoutes.tsx",
+        ],
+      },
+      {
+        path: "/08-router/04-navigation-complete",
+        numero: "04",
+        titre: "Navigation complète",
+        emoji: "🧩",
+        resume:
+          "Synthèse du chapitre : NavLink + Routes/Route pour une mini-navigation fonctionnelle.",
+        fichiers: [
+          "src/exercices/07-router-bases/04-navigation-complete/NavigationComplete.tsx",
         ],
       },
     ],

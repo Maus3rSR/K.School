@@ -6,6 +6,7 @@ background: https://cover.sli.dev?8
 highlighter: shiki
 lineNumbers: true
 monaco: true
+comark: true
 addons:
   - '@k.school/slidev-addon-ui'
 ---

@@ -9,17 +9,17 @@ La structure de base d'une SPA navigable
 
 ::left::
 
-```mermaid {scale: 0.55}
+```mermaid {scale: 0.7}
 flowchart TD
     A["BrowserRouter"] --> B["Routes"]
     B --> C["Route path='/'"]
     B --> D["Route path='/about'"]
     B --> E["Route path='/contact'"]
-    C --> F["<Home />"]
-    D --> G["<About />"]
-    E --> H["<Contact />"]
+    C --> F["&lt;Home /&gt;"]
+    D --> G["&lt;About /&gt;"]
+    E --> H["&lt;Contact /&gt;"]
 
-    I["NavLink to='/about'"] --> J["Met à jour l'URL"]
+    I["Link to='/about'"] --> J["Met à jour l'URL"]
     J --> D
 ```
 
@@ -30,7 +30,7 @@ flowchart TD
 - `BrowserRouter` enveloppe l'application **une seule fois**
 - `Routes` contient les `Route` et choisit la première correspondance
 - `Route` relie un `path` à un `element`
-- `NavLink` navigue sans rechargement et peut styliser le lien actif
+- `Link` navigue sans rechargement et peut styliser le lien actif
 - Le menu peut rester **fixe** au-dessus du contenu changeant
 
 <!--

@@ -9,7 +9,7 @@ Les trois briques de la navigation
 
 ::left::
 
-```tsx {none|1,4|6-8|all}
+```tsx {all|1,5,10|6,9|7,8|all}
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {

@@ -1,5 +1,4 @@
 ---
-layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
@@ -7,23 +6,21 @@ layoutClass: gap-x-4
 
 Ajouter une bibliothèque au projet Vite
 
-::left::
+::code-group
 
-```bash
+```bash [pnpm]
 # Depuis la racine du projet React + TypeScript
 pnpm add react-router-dom
 ```
 
-```bash
+```bash [npm]
 # Si vous utilisez npm
 npm install react-router-dom
 ```
 
-::right::
+::
 
 **Vérifier l'installation**
-
-<v-click>
 
 Dans `package.json`, vous devez voir :
 
@@ -35,13 +32,7 @@ Dans `package.json`, vous devez voir :
 }
 ```
 
-</v-click>
-
-<v-click>
-
 **TypeScript** est pris en charge : les types sont inclus dans le paquet `react-router-dom`.
-
-</v-click>
 
 <!--
 Préciser qu'il n'y a pas de @types/react-router-dom à installer en plus depuis la v6.

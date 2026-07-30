@@ -11,13 +11,16 @@ export default function MenuActif() {
       </p>
 
       <nav className="flex gap-2 rounded-box bg-base-200 p-2">
-        <Link to="." className="btn btn-ghost">
+        <Link to="/08-router/02-menu-actif" className="btn btn-ghost">
           Profil
         </Link>
-        <Link to="inventaire" className="btn btn-ghost">
+        <Link
+          to="/08-router/02-menu-actif/inventaire"
+          className="btn btn-ghost"
+        >
           Inventaire
         </Link>
-        <Link to="combats" className="btn btn-ghost">
+        <Link to="/08-router/02-menu-actif/combats" className="btn btn-ghost">
           Combats
         </Link>
       </nav>

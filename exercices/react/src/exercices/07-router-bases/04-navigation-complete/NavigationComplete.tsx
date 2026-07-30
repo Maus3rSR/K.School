@@ -31,13 +31,19 @@ export default function NavigationComplete() {
   return (
     <div className="flex flex-col items-center gap-6">
       <nav className="flex gap-2 rounded-box bg-base-200 p-2">
-        <Link to="." className="btn btn-ghost">
+        <Link to="/08-router/04-navigation-complete" className="btn btn-ghost">
           Accueil
         </Link>
-        <Link to="liste" className="btn btn-ghost">
+        <Link
+          to="/08-router/04-navigation-complete/liste"
+          className="btn btn-ghost"
+        >
           Liste
         </Link>
-        <Link to="ajouter" className="btn btn-ghost">
+        <Link
+          to="/08-router/04-navigation-complete/ajouter"
+          className="btn btn-ghost"
+        >
           Ajouter
         </Link>
       </nav>

@@ -32,12 +32,19 @@ MenuActif.tsx
 2. Remplace les composants `<Link>` par des `<NavLink>`.
 3. Transforme la prop `className` en fonction qui reçoit `{ isActive }`.
 4. Applique `btn btn-primary` quand le lien est actif, sinon `btn btn-ghost`.
-5. Ajoute la prop `end` sur le lien vers `.` pour qu'il ne reste pas actif
-   quand tu es sur "Inventaire" ou "Combats".
+5. Ajoute la prop `end` sur le lien `/08-router/02-menu-actif` pour qu'il ne
+   reste pas actif quand tu es sur "Inventaire" ou "Combats".
 
-> 💡 Ces trois liens utilisent des chemins **relatifs** (`.`, `inventaire`,
-> `combats`) : ils s'ajoutent à l'URL de cet exercice sans jamais te faire
-> quitter la page. C'est ce qui te permet d'observer le lien actif changer.
+> 💡 Ces trois liens pointent vers `/08-router/02-menu-actif`,
+> `/08-router/02-menu-actif/inventaire` et
+> `/08-router/02-menu-actif/combats` : ils restent dans cet exercice sans
+> jamais te faire quitter la page. C'est ce qui te permet d'observer le lien
+> actif changer.
+>
+> ⚠️ Évite les chemins **relatifs** (`to="inventaire"` tout seul) ici : sans
+> `<Routes>` imbriqué pour servir de point de repère, chaque clic les
+> résout par rapport à l'URL courante et non par rapport à la page, ce qui
+> les fait s'empiler (`/inventaire/inventaire/combats/...`).
 
 ---
 
@@ -73,13 +80,16 @@ export default function MenuActif() {
       </p>
 
       <nav className="flex gap-2 rounded-box bg-base-200 p-2">
-        <NavLink to="." end className={linkClass}>
+        <NavLink to="/08-router/02-menu-actif" end className={linkClass}>
           Profil
         </NavLink>
-        <NavLink to="inventaire" className={linkClass}>
+        <NavLink
+          to="/08-router/02-menu-actif/inventaire"
+          className={linkClass}
+        >
           Inventaire
         </NavLink>
-        <NavLink to="combats" className={linkClass}>
+        <NavLink to="/08-router/02-menu-actif/combats" className={linkClass}>
           Combats
         </NavLink>
       </nav>

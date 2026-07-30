@@ -31,11 +31,19 @@ NavigationComplete.tsx
 1. Remplace les imports `Link` par `NavLink`.
 2. Crée une fonction `linkClass` qui retourne `btn btn-primary` si le lien est
    actif, sinon `btn btn-ghost`.
-3. Remplace les `<Link>` par des `<NavLink>` utilisant cette fonction.
+3. Remplace les `<Link>` par des `<NavLink>` utilisant cette fonction. Ajoute
+   la prop `end` sur le lien vers `/08-router/04-navigation-complete` pour
+   qu'il ne reste pas actif sur "Liste" ou "Ajouter".
 4. Ajoute un bloc `<Routes>...</Routes>` juste après la navigation.
 5. Déclare trois routes relatives : `/`, `liste` et `ajouter`.
 6. Associe chaque route au composant correspondant : `Accueil`, `Liste` ou
    `Ajouter`.
+
+> ⚠️ Garde des chemins **absolus** sur les `<NavLink>` (comme dans le fichier
+> de départ) : sans `<Routes>` imbriqué comme point de repère, un chemin
+> relatif (`to="liste"`) se résoudrait par rapport à l'URL courante et
+> s'empilerait à chaque clic. Les chemins des `Route` déclarées dans le
+> `<Routes>`, eux, restent relatifs à la route parente.
 
 ---
 
@@ -89,13 +97,19 @@ export default function NavigationComplete() {
   return (
     <div className="flex flex-col items-center gap-6">
       <nav className="flex gap-2 rounded-box bg-base-200 p-2">
-        <NavLink to="." className={linkClass}>
+        <NavLink to="/08-router/04-navigation-complete" end className={linkClass}>
           Accueil
         </NavLink>
-        <NavLink to="liste" className={linkClass}>
+        <NavLink
+          to="/08-router/04-navigation-complete/liste"
+          className={linkClass}
+        >
           Liste
         </NavLink>
-        <NavLink to="ajouter" className={linkClass}>
+        <NavLink
+          to="/08-router/04-navigation-complete/ajouter"
+          className={linkClass}
+        >
           Ajouter
         </NavLink>
       </nav>

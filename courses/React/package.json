@@ -27,5 +27,8 @@
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
     "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@iconify-json/vscode-icons": "1.2.67"
   }
 }

@@ -282,7 +282,7 @@ export default function App() {
             }
           />
           <Route
-            path="/08-router/02-menu-actif"
+            path="/08-router/02-menu-actif/*"
             element={
               <Exercice meta={allExercices[25]}>
                 <MenuActif />

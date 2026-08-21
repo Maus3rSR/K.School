@@ -1,12 +1,4 @@
 ---
-src: ./00-ressources.md
----
-
----
-src: ./00-lexique.md
----
-
----
 src: ./01-introduction.md
 ---
 

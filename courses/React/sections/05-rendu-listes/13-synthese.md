@@ -40,5 +40,5 @@ flowchart TD
 <!--
 Rappeler la progression : S1 Setup → S2 Composants → S3 Props → S4 State → S5 Rendu conditionnel & Listes.
 Le diagramme montre que filter/map sont une transformation du state vers l'UI — concept de données dérivées.
-La règle "ne pas mettre en state ce qu'on peut calculer" est un principe fondamental — y revenir en S10 avec Redux.
+La règle "ne pas mettre en state ce qu'on peut calculer" est un principe fondamental — y revenir en S10 avec les hooks personnalisés.
 -->

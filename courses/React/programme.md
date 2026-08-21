@@ -69,13 +69,13 @@
 - Page de détail avec paramètres
 - Navigation programmatique
 
-### **Séance 10 — Redux (introduction pratique)**
-- Pourquoi Redux ? État global vs props drilling
-- Démonstration : exemple complet fonctionnel
-- Décorticage du code typé (store, slice, Provider)
-- `useSelector` et `useDispatch` typés
-- `RootState`, `AppDispatch`, `PayloadAction`
-- Exercice guidé : ajouter une fonctionnalité
+### **Séance 10 — Créer ses propres hooks**
+- Pourquoi créer un hook personnalisé ? Réutilisation de logique
+- Convention de nommage (`useXxx`) et règles des hooks
+- Extraction d'une logique existante (ex : `useState`/`useEffect`) dans un hook
+- Typage des paramètres et valeurs de retour d'un hook
+- Exemples : `useFetch`, `useLocalStorage`, `useToggle`
+- Exercice guidé : créer un hook personnalisé sur un nouveau cas d'usage
 
 ---
 
@@ -87,7 +87,7 @@
 - ✅ Gérer l'**état local** et les **événements**
 - ✅ **Consommer une API externe** avec gestion des états de chargement
 - ✅ Mettre en place une **navigation multi-pages** avec React Router
-- ✅ Utiliser un **état global** avec Redux Toolkit
+- ✅ Créer ses **propres hooks personnalisés** pour réutiliser de la logique
 
 ---
 
@@ -103,4 +103,4 @@
 | S6 | `useRef<HTMLElement>` |
 | S7 | **Typage réponse API** |
 | S8-S9 | `useParams` typé |
-| S10 | `RootState`, `AppDispatch`, `PayloadAction` |
+| S10 | Typage des hooks personnalisés (paramètres, valeurs de retour) |

@@ -9,7 +9,7 @@ Partager un squelette de page
 
 ::left::
 
-```tsx {all|1,6,11|7-9|10|all}
+```tsx {all|8|all}
 import { Outlet } from 'react-router-dom'
 
 function AdminLayout() {
@@ -28,6 +28,12 @@ function AdminLayout() {
 
 <div v-click="1">
 
+`<Outlet />` marque l'emplacement où le contenu des routes imbriquées s'affichera.
+
+</div>
+
+<div v-click="2">
+
 Déclarez les routes à l'intérieur de la route parent :
 
 ```tsx
@@ -39,15 +45,9 @@ Déclarez les routes à l'intérieur de la route parent :
 
 </div>
 
-<div v-click="2">
-
-`/admin/users` affiche `<AdminLayout>` avec `<Users>` à la place de `<Outlet>`.
-
-</div>
-
 <div v-click="3">
 
-L'avantage : le menu `admin` est présent sur **toutes** les sous-pages.
+`/admin/users` affiche `<AdminLayout>` avec `<Users>` à la place de `<Outlet>`. Le menu `admin` reste présent sur **toutes** les sous-pages.
 
 </div>
 

@@ -9,7 +9,7 @@ Changer de page depuis le code
 
 ::left::
 
-```tsx {all|1,5|6-9|all}
+```tsx {all|4|8|all}
 import { useNavigate } from 'react-router-dom'
 
 function LoginForm() {
@@ -28,13 +28,17 @@ function LoginForm() {
 
 <div v-click="1">
 
-`useNavigate()` retourne une fonction.
+`useNavigate()` retourne une fonction que vous pouvez appeler depuis votre code.
+
+</div>
+
+<div v-click="2">
 
 `navigate('/dashboard')` change l'URL et affiche la page correspondante.
 
 </div>
 
-<div v-click="2">
+<div v-click="3">
 
 **Autres usages courants**
 

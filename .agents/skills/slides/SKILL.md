@@ -348,6 +348,61 @@ Quand la dernière étape est un **texte de synthèse ou une règle**, ajouter `
 - **INTERDIT** : `v-click` sans numéro explicite quand du line highlighting est présent
 - **INTERDIT** : Avoir un v-click qui parle de lignes non surlignées à cette étape
 
+##### Numérotation des lignes de code — règle absolue
+
+Les numéros de lignes dans `{all|8|...}` se comptent **à partir de 1 dans le bloc de code**, en incluant toutes les lignes vides. Ils ne correspondent PAS aux numéros de lignes du fichier `.md`.
+
+Avant de valider un line highlighting :
+
+1. Numéroter **chaque ligne du bloc de code** à la main, de 1 à N
+2. Vérifier que chaque segment `{...}` pointe bien sur la ligne souhaitée
+3. Ne jamais estimer "à l'œil" — une ligne vide oubliée décale toute la numérotation
+
+Exemple d'erreur systématique à éviter :
+
+````md
+<!-- Ligne 12 du fichier, mais ligne 1 du bloc de code -->
+
+```tsx {all|8|...}
+import ...
+
+function Foo() {
+  const x = useX()   // <- ligne 4 du bloc, pas 8
+}
+```
+````
+
+`````
+
+##### Processus de vérification obligatoire
+
+Avant de valider une slide avec du code, compter les segments après l'état initial et s'assurer qu'il existe exactement le même nombre de `v-click="N"` numérotés de 1 à N.
+
+Exemple de vérification :
+
+````md
+```tsx {all|8|10-12|all}
+// code
+`````
+
+```
+
+```
+
+→ 3 segments après `all` initial → il faut exactement `v-click="1"`, `v-click="2"` et `v-click="3"`.
+
+Exemple d'erreur fréquente à éviter :
+
+````md
+```tsx {all|1,4|7|8|10-12|14|all}
+
+```
+````
+
+→ 6 segments après l'état initial, mais seulement 3 `v-click` à droite. Le résultat : le texte parle d'une ligne qui n'est plus surlignée, ou inversement. La solution : réduire le nombre d'étapes de highlighting ou ajouter des explications intermédiaires.
+
+**Astuce** : générer d'abord le contenu pédagogique (ce qu'on veut dire à chaque étape), puis écrire le highlighting en fonction des blocs de parole, pas l'inverse.
+
 ### Quand utiliser quoi ?
 
 | Situation                                        | Outil                                       | Pattern                                                  |

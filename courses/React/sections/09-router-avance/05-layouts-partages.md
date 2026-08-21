@@ -9,7 +9,7 @@ Une même structure pour plusieurs pages
 
 ::left::
 
-```tsx {all|1,4,13|5-11|6|12-14|all}
+```tsx {all|11|all}
 function MainLayout() {
   return (
     <>
@@ -31,7 +31,13 @@ function MainLayout() {
 
 <div v-click="1">
 
-Enveloppez toutes les routes dans un seul layout :
+`<Outlet />` marque l'emplacement où le contenu des pages imbriquées s'insère.
+
+</div>
+
+<div v-click="2">
+
+Enveloppez toutes les routes dans un seul layout : le menu et le footer apparaissent partout, sans les recopier dans chaque composant.
 
 ```tsx
 <Route path="/" element={<MainLayout />}>
@@ -40,12 +46,6 @@ Enveloppez toutes les routes dans un seul layout :
   <Route path="products/:id" element={<ProductDetail />} />
 </Route>
 ```
-
-</div>
-
-<div v-click="2">
-
-Ainsi, le menu et le footer apparaissent partout, sans les recopier dans chaque composant.
 
 </div>
 

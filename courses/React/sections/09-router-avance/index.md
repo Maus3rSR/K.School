@@ -11,6 +11,10 @@ src: ./03-useparams-type.md
 ---
 
 ---
+src: ./03b-params-vs-queries.md
+---
+
+---
 src: ./04-outlet-routes-imbriquees.md
 ---
 

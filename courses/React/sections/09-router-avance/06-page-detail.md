@@ -9,7 +9,7 @@ Relier le paramètre d'URL à des données
 
 ::left::
 
-```tsx {all|1-4|6|7,10-12|8,9|13-15|all}
+```tsx {all|5|8-12|all}
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
@@ -33,15 +33,19 @@ function ProductDetail() {
 
 <div v-click="1">
 
-1. `useParams` récupère l'ID depuis l'URL
-2. `useEffect` recharge les données quand l'ID change
-3. Vous affichez le détail de l'élément
+`useParams<{ id: string }>()` récupère l'ID depuis l'URL.
 
 </div>
 
 <div v-click="2">
 
-**Point d'attention** : `[id]` dans les dépendances est crucial. Sans lui, le composant ne se met pas à jour si vous changez d'ID sans quitter la page.
+`useEffect` recharge les données à chaque changement d'`id`. N'oubliez pas `[id]` dans les dépendances : sans lui, le composant ne se met pas à jour si vous changez d'URL sans quitter la page.
+
+</div>
+
+<div v-click="3">
+
+Enfin, vous gérez le chargement (`if (!product)`) puis affichez le détail.
 
 </div>
 

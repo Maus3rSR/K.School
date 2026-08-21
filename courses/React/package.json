@@ -13,6 +13,7 @@
     "build:api": "slidev build slides-api.md --out dist/api",
     "build:router": "slidev build slides-router.md --out dist/router",
     "build:router-avance": "slidev build slides-router-avance.md --out dist/router-avance",
+    "build:hooks-personnalises": "slidev build slides-hooks-personnalises.md --out dist/hooks-personnalises",
     "dev": "slidev slides-setup.md --open --port 3030 & slidev slides-component.md --open --port 3031 & slidev slides-props.md --open --port 3032 & slidev slides-state.md --open --port 3033",
     "dev:setup": "slidev slides-setup.md --open",
     "dev:component": "slidev slides-component.md --open",
@@ -22,7 +23,8 @@
     "dev:hooks": "slidev slides-hooks.md --open",
     "dev:api": "slidev slides-api.md --open",
     "dev:router": "slidev slides-router.md --open",
-    "dev:router-avance": "slidev slides-router-avance.md --open"
+    "dev:router-avance": "slidev slides-router-avance.md --open",
+    "dev:hooks-personnalises": "slidev slides-hooks-personnalises.md --open"
   },
   "dependencies": {
     "@k.school/slidev-addon-ui": "workspace:*",

@@ -3,7 +3,7 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# useParams typé
+# useParams
 
 Lire la valeur présente dans l'URL
 

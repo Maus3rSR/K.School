@@ -3,49 +3,57 @@ src: ./01-introduction.md
 ---
 
 ---
-src: ./02-routes-dynamiques.md
+src: ./02-url-parties-params-queries.md
 ---
 
 ---
-src: ./03-useparams-type.md
+src: ./03-use-params.md
 ---
 
 ---
-src: ./03b-params-vs-queries.md
+src: ./04-use-searchparams.md
 ---
 
 ---
-src: ./04-outlet-routes-imbriquees.md
+src: ./05-choix-params-queries.md
 ---
 
 ---
-src: ./05-layouts-partages.md
+src: ./06-routes-dynamiques.md
 ---
 
 ---
-src: ./06-page-detail.md
+src: ./07-page-detail.md
 ---
 
 ---
-src: ./07-navigation-programmatique.md
+src: ./08-layouts-partages.md
 ---
 
 ---
-src: ./08-exercice-guide.md
+src: ./09-outlet-routes-imbriquees.md
 ---
 
 ---
-src: ./09-exercice-autonome.md
+src: ./10-navigation-programmatique.md
 ---
 
 ---
-src: ./10-pieges.md
+src: ./11-exercice-guide.md
 ---
 
 ---
-src: ./11-synthese.md
+src: ./12-exercice-autonome.md
 ---
 
 ---
-src: ./12-teaser.md
+src: ./13-pieges.md
+---
+
+---
+src: ./14-synthese.md
+---
+
+---
+src: ./15-teaser.md
 ---

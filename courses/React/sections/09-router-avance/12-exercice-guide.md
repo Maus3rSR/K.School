@@ -33,6 +33,8 @@ Objectif : afficher la fiche d'un film à l'URL `/movies/:id`.
 
 </v-click>
 
+::bottom::
+
 <v-click>
 
 **Critère de réussite**

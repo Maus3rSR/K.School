@@ -35,25 +35,29 @@ src: ./09-outlet-routes-imbriquees.md
 ---
 
 ---
-src: ./10-navigation-programmatique.md
+src: ./10-exemple-complet-routes-imbriquees.md
 ---
 
 ---
-src: ./11-exercice-guide.md
+src: ./11-navigation-programmatique.md
 ---
 
 ---
-src: ./12-exercice-autonome.md
+src: ./12-exercice-guide.md
 ---
 
 ---
-src: ./13-pieges.md
+src: ./13-exercice-autonome.md
 ---
 
 ---
-src: ./14-synthese.md
+src: ./14-pieges.md
 ---
 
 ---
-src: ./15-teaser.md
+src: ./15-synthese.md
+---
+
+---
+src: ./16-teaser.md
 ---

@@ -38,6 +38,8 @@ function LoginForm() {
 
 </div>
 
+::bottom::
+
 <div v-click="3">
 
 **Autres usages courants**

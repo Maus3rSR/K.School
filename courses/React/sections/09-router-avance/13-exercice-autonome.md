@@ -31,6 +31,8 @@ Vous partez de cette structure :
 
 </v-click>
 
+::bottom::
+
 <v-click>
 
 **Critère de réussite**

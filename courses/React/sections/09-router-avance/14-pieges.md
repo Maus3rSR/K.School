@@ -15,10 +15,14 @@ Erreurs à éviter avec les routes dynamiques
 
 ```tsx
 // ❌ id est une string, la comparaison échoue
-const product = products.find((p) => p.id === params.id)
+const product = products.find(
+  (p) => p.id === params.id
+)
 
 // ✅ Convertir en number avant de comparer
-const product = products.find((p) => p.id === Number(params.id))
+const product = products.find(
+  (p) => p.id === Number(params.id)
+)
 ```
 
 </v-click>
@@ -28,7 +32,8 @@ const product = products.find((p) => p.id === Number(params.id))
 **Appeler `useParams` hors d'une Route**
 
 ```tsx
-// ❌ useParams renvoie {} si le composant n'est pas dans une Route
+// ❌ useParams renvoie {} si le composant
+// n'est pas dans une Route
 function RandomComponent() {
   const { id } = useParams()
 }
@@ -47,21 +52,6 @@ function RandomComponent() {
 function Layout() {
   return <div>Contenu du layout</div>
 }
-```
-
-</v-click>
-
-<v-click>
-
-**Confondre `navigate` et un appel à `setState`**
-
-```tsx
-// ❌ Cela ne change pas l'URL
-setPage('/dashboard')
-
-// ✅ Cela navigue vers /dashboard
-const navigate = useNavigate()
-navigate('/dashboard')
 ```
 
 </v-click>

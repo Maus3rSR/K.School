@@ -3,13 +3,13 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# Routes imbriquées et Outlet
+# Routes imbriquées
 
 Partager un squelette de page
 
 ::left::
 
-```tsx {all|8|all}
+```tsx
 import { Outlet } from 'react-router-dom'
 
 function AdminLayout() {
@@ -26,26 +26,18 @@ function AdminLayout() {
 
 ::right::
 
-<div v-click="1">
-
-`<Outlet />` marque l'emplacement où le contenu des routes imbriquées s'affichera.
-
-</div>
-
-<div v-click="2">
-
 Déclarez les routes à l'intérieur de la route parent :
 
 ```tsx
-<Route path="/admin" element={<AdminLayout />}>
+<Route path="admin" element={<AdminLayout />}>
   <Route path="users" element={<Users />} />
   <Route path="settings" element={<Settings />} />
 </Route>
 ```
 
-</div>
+::bottom::
 
-<div v-click="3">
+<div v-click>
 
 `/admin/users` affiche `<AdminLayout>` avec `<Users>` à la place de `<Outlet>`. Le menu `admin` reste présent sur **toutes** les sous-pages.
 

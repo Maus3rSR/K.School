@@ -9,7 +9,7 @@ Une même structure pour plusieurs pages
 
 ::left::
 
-```tsx {all|11|all}
+```tsx {all|12|all}
 function MainLayout() {
   return (
     <>
@@ -20,7 +20,9 @@ function MainLayout() {
           <NavLink to="/admin">Admin</NavLink>
         </nav>
       </header>
+
       <Outlet />
+      
       <footer>Mon application</footer>
     </>
   )

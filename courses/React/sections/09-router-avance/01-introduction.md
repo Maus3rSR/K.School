@@ -3,45 +3,46 @@ layout: two-cols-header
 layoutClass: gap-x-4
 ---
 
-# Des pages pour chaque élément
+# Un besoin : la page de détail
 
-Comment afficher une page de détail avec une URL propre ?
+Comment afficher le détail de n'importe quel produit ?
 
 ::left::
 
-Imaginons une liste de produits :
+Vous voulez une page pour chaque produit :
 
 ```tsx
-<ul>
-  {products.map((product) => (
-    <li key={product.id}>
-      {product.name}
-    </li>
-  ))}
-</ul>
+<Route path="/products/1" element={<ProductDetail />} />
+<Route path="/products/2" element={<ProductDetail />} />
+<Route path="/products/3" element={<ProductDetail />} />
+// ... et pour les 500 autres produits ?
 ```
 
 <v-click>
 
-Quand vous cliquez sur un produit, vous voulez arriver sur `/products/7`.
+Impossible d'écrire une `Route` produit par produit !
 
 </v-click>
 
 ::right::
 
-**Pourquoi une URL propre ?**
+**Le besoin**
 
-- Vous pouvez copier-coller le lien d'un produit
-- Le bouton **Précédent** fonctionne
-- Le favori mène directement au bon contenu
+Une seule `Route` doit accepter n'importe quel identifiant :
+
+- `/products/7`
+- `/products/42`
+- `/products/103`
+
+::bottom::
 
 <v-click>
 
-**React Router** crée des routes dynamiques avec `useParams` pour lire la valeur dans l'URL.
+**React Router** répond à ce besoin avec les **routes dynamiques** : une partie de l'URL devient variable.
 
 </v-click>
 
 <!--
-Contexte : les apprenants savent déjà créer une liste (S5) et naviguer entre pages fixes (S8). Le besoin naturel est d'aller voir le détail d'un élément.
-Faire ressentir le besoin : "si je veux partager le lien du produit 7, quelle URL est la plus propre ?"
+Contexte : vous maîtrisez déjà la création d'une liste (S5) et la navigation entre pages fixes (S8), où chaque page a sa propre Route écrite à la main.
+Le déclic à provoquer : "et si vous avez 500 produits, vous écrivez 500 Route ?" Cette question amène naturellement au besoin d'un segment variable dans l'URL.
 -->

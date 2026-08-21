@@ -9,7 +9,7 @@ Les deux-points créent un segment variable
 
 ::left::
 
-```tsx {all|1|5,9|6,8|7|all}
+```tsx {all|8|all}
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -36,6 +36,8 @@ Exemples :
 - `/products` passe par l'autre Route
 
 </div>
+
+::bottom::
 
 <div v-click="2">
 

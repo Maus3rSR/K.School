@@ -30,6 +30,11 @@ import PremierLien from "./exercices/07-router-bases/01-premier-lien/PremierLien
 import MenuActif from "./exercices/07-router-bases/02-menu-actif/MenuActif";
 import MiniRoutes from "./exercices/07-router-bases/03-mini-routes/MiniRoutes";
 import NavigationComplete from "./exercices/07-router-bases/04-navigation-complete/NavigationComplete";
+import FicheDuMonstre from "./exercices/08-router-avance/01-fiche-du-monstre/FicheDuMonstre";
+import QuartierGeneral from "./exercices/08-router-avance/02-quartier-general/QuartierGeneral";
+import RepliTactique from "./exercices/08-router-avance/03-repli-tactique/RepliTactique";
+import AreneDesChampions from "./exercices/08-router-avance/04-arene-des-champions/AreneDesChampions";
+import MonsterdexV2 from "./exercices/08-router-avance/05-monsterdex-v2/MonsterdexV2";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -302,6 +307,47 @@ export default function App() {
             element={
               <Exercice meta={allExercices[27]}>
                 <NavigationComplete />
+              </Exercice>
+            }
+          />
+          {/* Séance 8 · React Router avancé */}
+          <Route
+            path="/09-router-avance/01-fiche-du-monstre/*"
+            element={
+              <Exercice meta={allExercices[28]}>
+                <FicheDuMonstre />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/09-router-avance/02-quartier-general/*"
+            element={
+              <Exercice meta={allExercices[29]}>
+                <QuartierGeneral />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/09-router-avance/03-repli-tactique/*"
+            element={
+              <Exercice meta={allExercices[30]}>
+                <RepliTactique />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/09-router-avance/04-arene-des-champions/*"
+            element={
+              <Exercice meta={allExercices[31]}>
+                <AreneDesChampions />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/09-router-avance/05-monsterdex-v2/*"
+            element={
+              <Exercice meta={allExercices[32]}>
+                <MonsterdexV2 />
               </Exercice>
             }
           />

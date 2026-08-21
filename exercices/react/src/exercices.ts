@@ -349,6 +349,66 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
       },
     ],
   },
+  {
+    label: "Séance 8 · React Router avancé",
+    exercices: [
+      {
+        path: "/09-router-avance/01-fiche-du-monstre",
+        numero: "01",
+        titre: "La fiche du monstre",
+        emoji: "🪪",
+        resume:
+          "Crée une route dynamique :id et lis-la avec useParams pour afficher une fiche.",
+        fichiers: [
+          "src/exercices/08-router-avance/01-fiche-du-monstre/FicheDuMonstre.tsx",
+        ],
+      },
+      {
+        path: "/09-router-avance/02-quartier-general",
+        numero: "02",
+        titre: "Le quartier général",
+        emoji: "🏯",
+        resume:
+          "Construis un layout partagé avec des routes imbriquées et le composant Outlet.",
+        fichiers: [
+          "src/exercices/08-router-avance/02-quartier-general/QuartierGeneral.tsx",
+        ],
+      },
+      {
+        path: "/09-router-avance/03-repli-tactique",
+        numero: "03",
+        titre: "Repli tactique",
+        emoji: "🚪",
+        resume:
+          "Navigue par le code avec useNavigate : après un formulaire, puis en arrière.",
+        fichiers: [
+          "src/exercices/08-router-avance/03-repli-tactique/RepliTactique.tsx",
+        ],
+      },
+      {
+        path: "/09-router-avance/04-arene-des-champions",
+        numero: "04",
+        titre: "L'arène des champions",
+        emoji: "🏟️",
+        resume:
+          "Combine layout partagé (Outlet) et route dynamique :id pour une page de détail.",
+        fichiers: [
+          "src/exercices/08-router-avance/04-arene-des-champions/AreneDesChampions.tsx",
+        ],
+      },
+      {
+        path: "/09-router-avance/05-monsterdex-v2",
+        numero: "05",
+        titre: "MonsterDex v2",
+        emoji: "🐲",
+        resume:
+          "Synthèse : layout partagé, route dynamique et navigation programmatique réunis.",
+        fichiers: [
+          "src/exercices/08-router-avance/05-monsterdex-v2/MonsterdexV2.tsx",
+        ],
+      },
+    ],
+  },
 ];
 
 export const exercices: Exercice[] = seances.flatMap((s) => s.exercices);

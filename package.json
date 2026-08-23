@@ -12,7 +12,7 @@
     "react:component:dev": "pnpm --filter @k.school/react dev:component",
     "react:props:dev": "pnpm --filter @k.school/react dev:props",
     "react:state:dev": "pnpm --filter @k.school/react dev:state",
-    "react:render.list:dev": "pnpm --filter @k.school/react dev:render.list",
+    "react:render-list:dev": "pnpm --filter @k.school/react dev:render.list",
     "react:hooks:dev": "pnpm --filter @k.school/react dev:hooks",
     "react:api:dev": "pnpm --filter @k.school/react dev:api",
     "react:router:dev": "pnpm --filter @k.school/react dev:router",

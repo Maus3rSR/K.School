@@ -35,6 +35,10 @@ import QuartierGeneral from "./exercices/08-router-avance/02-quartier-general/Qu
 import RepliTactique from "./exercices/08-router-avance/03-repli-tactique/RepliTactique";
 import AreneDesChampions from "./exercices/08-router-avance/04-arene-des-champions/AreneDesChampions";
 import MonsterdexV2 from "./exercices/08-router-avance/05-monsterdex-v2/MonsterdexV2";
+import BasculeMonstre from "./exercices/10-hooks-personnalises/01-bascule-monstre/BasculeMonstre";
+import MonstreFavori from "./exercices/10-hooks-personnalises/02-monstre-favori/MonstreFavori";
+import CodexMonstres from "./exercices/10-hooks-personnalises/03-codex-monstres/CodexMonstres";
+import ModeChasse from "./exercices/10-hooks-personnalises/04-mode-chasse/ModeChasse";
 
 const allExercices = seances.flatMap((s) => s.exercices);
 
@@ -348,6 +352,39 @@ export default function App() {
             element={
               <Exercice meta={allExercices[32]}>
                 <MonsterdexV2 />
+              </Exercice>
+            }
+          />
+          {/* Séance 9 · Hooks personnalisés & Context */}
+          <Route
+            path="/10-hooks/01-bascule-monstre"
+            element={
+              <Exercice meta={allExercices[33]}>
+                <BasculeMonstre />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/10-hooks/02-monstre-favori"
+            element={
+              <Exercice meta={allExercices[34]}>
+                <MonstreFavori />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/10-hooks/03-codex-monstres"
+            element={
+              <Exercice meta={allExercices[35]}>
+                <CodexMonstres />
+              </Exercice>
+            }
+          />
+          <Route
+            path="/10-hooks/04-mode-chasse"
+            element={
+              <Exercice meta={allExercices[36]}>
+                <ModeChasse />
               </Exercice>
             }
           />

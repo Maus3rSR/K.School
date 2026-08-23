@@ -409,6 +409,55 @@ export const seances: { label: string; exercices: Exercice[] }[] = [
       },
     ],
   },
+  {
+    label: "Séance 9 · Hooks personnalisés & Context",
+    exercices: [
+      {
+        path: "/10-hooks/01-bascule-monstre",
+        numero: "01",
+        titre: "La fiche de monstre dépliable",
+        emoji: "🪟",
+        resume:
+          "Extrais la logique d'un boolean toggle dans un hook useToggle pour afficher une fiche de monstre.",
+        fichiers: [
+          "src/exercices/10-hooks-personnalises/01-bascule-monstre/BasculeMonstre.tsx",
+        ],
+      },
+      {
+        path: "/10-hooks/02-monstre-favori",
+        numero: "02",
+        titre: "Le monstre favori",
+        emoji: "⭐",
+        resume:
+          "Persiste le choix d'un monstre favori dans localStorage grâce à un hook useLocalStorage.",
+        fichiers: [
+          "src/exercices/10-hooks-personnalises/02-monstre-favori/MonstreFavori.tsx",
+        ],
+      },
+      {
+        path: "/10-hooks/03-codex-monstres",
+        numero: "03",
+        titre: "Le codex des monstres légendaires",
+        emoji: "📜",
+        resume:
+          "Extrais le pattern data/isLoading/error dans un hook useFetch pour charger un bestiaire légendaire.",
+        fichiers: [
+          "src/exercices/10-hooks-personnalises/03-codex-monstres/CodexMonstres.tsx",
+        ],
+      },
+      {
+        path: "/10-hooks/04-mode-chasse",
+        numero: "04",
+        titre: "Le mode chasse partagé",
+        emoji: "🌗",
+        resume:
+          "Partage un mode jour/nuit entre plusieurs composants avec Context et un hook useModeChasse.",
+        fichiers: [
+          "src/exercices/10-hooks-personnalises/04-mode-chasse/ModeChasse.tsx",
+        ],
+      },
+    ],
+  },
 ];
 
 export const exercices: Exercice[] = seances.flatMap((s) => s.exercices);

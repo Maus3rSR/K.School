@@ -1,0 +1,7 @@
+[
+  { "id": 1, "nom": "Dracofeu", "emoji": "🐉🔥", "habitat": "Volcan", "dangerosite": 9 },
+  { "id": 2, "nom": "Givrex", "emoji": "🦕❄️", "habitat": "Toundra", "dangerosite": 7 },
+  { "id": 3, "nom": "Electrolyte", "emoji": "⚡🦎", "habitat": "Orage", "dangerosite": 8 },
+  { "id": 4, "nom": "Floramantis", "emoji": "🌸🦗", "habitat": "Jungle", "dangerosite": 4 },
+  { "id": 5, "nom": "Umbraptor", "emoji": "🦅🌑", "habitat": "Cavernes", "dangerosite": 10 }
+]

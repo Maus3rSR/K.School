@@ -13,13 +13,20 @@ layoutClass: gap-x-6
 
 <TermCard term="Générique" translation="(Generic)" definition="Paramètre de type qui rend une fonction ou un hook réutilisable avec plusieurs types de données" />
 
-::right::
-
 <TermCard term="Extraction" definition="Action de déplacer une logique dupliquée dans plusieurs composants vers une fonction commune" />
+
+::right::
 
 <TermCard term="Tuple" definition="Tableau de taille fixe où chaque position a un type précis, souvent utilisé pour la valeur de retour d'un hook" />
 
+<TermCard term="Context" definition="Mécanisme React permettant de partager une valeur à toute l'arborescence sans passer par les props" />
+
+<TermCard term="Provider" definition="Composant fourni par un Context qui rend une valeur accessible à tous ses descendants" />
+
+<TermCard term="Prop drilling" definition="Passage répétitif de props à travers plusieurs composants intermédiaires qui n'en ont pas besoin" />
+
 <!--
 Termes centraux : Hook personnalisé et Règles des Hooks sont LE socle de la séance.
-Générique et Tuple préparent la slide de typage — ne pas s'attarder ici, juste poser le vocabulaire.
+Context, Provider et Prop drilling préparent les slides de partage d'état et justifient l'introduction de useContext.
+Générique et Tuple restent des termes de typage à mentionner rapidement, sans s'attarder.
 -->

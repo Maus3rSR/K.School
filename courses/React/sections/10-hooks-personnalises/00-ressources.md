@@ -12,7 +12,9 @@ layout: two-cols-header
 
 📏 [Règles des Hooks](https://fr.react.dev/warnings/invalid-hook-call-warning) - Pourquoi les hooks s'appellent toujours au niveau racine
 
-🧠 [useMemo](https://fr.react.dev/reference/react/useMemo) - Un hook natif que vous pourrez combiner dans vos futurs hooks personnalisés
+🌳 [Passer des données en profondeur avec Context](https://fr.react.dev/learn/passing-data-deeply-with-context) - Quand Context remplace le prop drilling
+
+📘 [useContext](https://fr.react.dev/reference/react/useContext) - Lire une valeur depuis un Context
 
 ::right::
 
@@ -22,7 +24,12 @@ layout: two-cols-header
 
 💾 [useLocalStorage — usehooks-ts](https://usehooks-ts.com/react-hook/use-local-storage) - Exemple de hook communautaire bien typé
 
+🐻 [Zustand](https://docs.pmnd.rs/zustand/) - Gestion d'état global simple et populaire
+
+🛠️ [Redux Toolkit](https://redux-toolkit.js.org/) - Gestion d'état robuste avec un écosystème mature
+
 <!--
 Priorité en cours : le guide officiel "Reusing logic with custom hooks" couvre toute la séance, à garder ouvert en démonstration live.
-usehooks-ts est une excellente référence pour montrer que ce sont exactement les mêmes patterns (useToggle, useLocalStorage) qu'en entreprise.
+Les liens sur Context préparent les slides de partage d'état et justifient visuellement le passage du prop drilling à useContext.
+Zustand et Redux Toolkit sont des références d'entreprise à mentionner comme suites possibles après la formation.
 -->

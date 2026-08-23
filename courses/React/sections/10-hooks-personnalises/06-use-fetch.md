@@ -1,20 +1,15 @@
 ---
-layout: two-cols-header
-layoutClass: gap-x-4
+layout: default
 ---
 
 # useFetch — extraire le pattern de S7
 
-::left::
-
-```tsx {*}{maxHeight:'350px'}
+````md magic-move
+```tsx
 function PostList() {
-  const [posts, setPosts] =
-    useState<Post[]>([])
-  const [isLoading, setIsLoading] =
-    useState(true)
-  const [error, setError] =
-    useState<string | null>(null)
+  const [posts, setPosts] = useState<Post[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadPosts() {
@@ -33,32 +28,16 @@ function PostList() {
   if (isLoading) return <p>Chargement...</p>
   if (error) return <p>{error}</p>
   return (
-    <ul>
-      {posts.map(
-        (p) => <li key={p.id}>{p.title}</li>
-      )}
-    </ul>
+    <ul>{posts.map((p) => <li key={p.id}>{p.title}</li>)}</ul>
   )
 }
 ```
 
-::right::
-
-```tsx {*}{maxHeight:'350px'}
-function PostList() {
-  const { data: posts, isLoading, error } =
-    useFetch<Post[]>('/posts')
-
-  // Affichage...
-}
-
+```tsx
 function useFetch<T>(url: string) {
-  const [data, setData] =
-    useState<T | null>(null)
-  const [isLoading, setIsLoading] =
-    useState(true)
-  const [error, setError] =
-    useState<string | null>(null)
+  const [data, setData] = useState<T | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -77,9 +56,26 @@ function useFetch<T>(url: string) {
   return { data, isLoading, error }
 }
 
+function PostList() {
+  const { data: posts, isLoading, error } =
+    useFetch<Post[]>('/posts')
+
+  if (isLoading) return <p>Chargement...</p>
+  if (error) return <p>{error}</p>
+  return (
+    <ul>{posts.map((p) => <li key={p.id}>{p.title}</li>)}</ul>
+  )
+}
 ```
+````
+
+<v-click>
+
+La logique `fetch` est extraite dans `useFetch` et devient réutilisable.
+
+</v-click>
 
 <!--
-Comparaison visuelle : le même code vu en S7 (API), d'abord dans le composant, puis extrait dans useFetch.
+Comparaison visuelle : le même code vu en S7 (API), d'abord dans le composant, puis extrait dans useFetch via magic-move.
 Objectif : montrer que le hook n'introduit aucune syntaxe magique, c'est juste le pattern loading/error/data déplacé.
 -->

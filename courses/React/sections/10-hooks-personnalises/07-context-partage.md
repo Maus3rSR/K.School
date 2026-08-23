@@ -71,7 +71,7 @@ Stocker le state en haut, le consommer partout
 
 ::left::
 
-```tsx {all|1-4|6-16|18-24|26-36}{maxHeight:'420px'}
+```tsx {all|4|6-14|16-22|26-29}{maxHeight:'420px'}
 import { createContext, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
 

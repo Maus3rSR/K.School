@@ -1,6 +1,6 @@
 ---
 layout: two-cols-header
-layoutClass: gap-x-4
+layoutClass: gap-x-4 text-sm
 ---
 
 # Pièges classiques
@@ -23,9 +23,9 @@ function toggleLogic() {
 
 </v-click>
 
-<v-click>
+<v-click class="mt-4">
 
-**Appeler le hook dans une condition**
+**Appeler un hook dans une condition**
 
 ```tsx
 // ❌ Toujours interdit, même pour
@@ -41,19 +41,33 @@ if (isReady) {
 
 <v-click>
 
-**Faire retourner du JSX à un hook**
+**Penser qu'un hook partage l'état**
 
 ```tsx
-// ❌ Un hook personnalisé n'affiche
-// rien : ce serait un composant
-function useToggle() {
-  return <button>Toggle</button>
+function Header() { const [open] = useToggle() }
+function Footer() { const [open] = useToggle() } // ❌ état séparé
+```
+
+Chaque appel crée son propre state. Pour partager, il faut **Context**.
+
+</v-click>
+
+<v-click class="mt-4">
+
+**Utiliser un hook Context hors Provider**
+
+```tsx
+function Header() {
+  const { theme } = useTheme() // ❌ hors <ThemeProvider>
 }
 ```
+
+Toujours wrapper l'arbre avec le Provider correspondant.
 
 </v-click>
 
 <!--
-Ces pièges sont fréquents chez les débutants qui découvrent les hooks personnalisés. Faire un tour rapide : lequel vous semble le plus probable pour vous ?
-Piège 1 : bien insister, le préfixe "use" n'est pas juste une convention esthétique, eslint-plugin-react-hooks s'en sert réellement pour analyser le code.
+Ces 4 pièges couvrent les erreurs les plus fréquentes sur les custom hooks + Context.
+Faire un tour rapide : lequel vous semble le plus probable pour vous ?
+Bien insister sur le piège n°3 : c'est la confusion n°1 entre "réutiliser de la logique" et "partager un état".
 -->

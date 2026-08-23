@@ -17,6 +17,7 @@
     "react:api:dev": "pnpm --filter @k.school/react dev:api",
     "react:router:dev": "pnpm --filter @k.school/react dev:router",
     "react:router-avance:dev": "pnpm --filter @k.school/react dev:router-avance",
+    "react:hooks-personnalises:dev": "pnpm --filter @k.school/react dev:hooks-personnalises",
     "react:ex": "pnpm --filter @k.school/exercices-react dev",
     "tdd:dev": "turbo run dev --filter @k.school/tdd",
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",

@@ -26,6 +26,10 @@ function NotifPanel() {
 ```tsx
 // ✅ Étape 1 : on isole le state et la fonction
 // dans une fonction à part, préfixée "use"
+function NotifPanel() {
+  return <button onClick={toggle}>{isOpen ? 'Ouvert' : 'Fermé'}</button>
+}
+
 function useToggle() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -39,15 +43,19 @@ function useToggle() {
 
 ```tsx
 // ✅ Étape 2 : le composant appelle le hook
-function useToggle() {
-  const [isOpen, setIsOpen] = useState(false)
-  function toggle() { setIsOpen((v) => !v) }
-  return [isOpen, toggle]
-}
-
 function NotifPanel() {
   const [isOpen, toggle] = useToggle()
   return <button onClick={toggle}>{isOpen ? 'Ouvert' : 'Fermé'}</button>
+}
+
+function useToggle() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  function toggle() {
+    setIsOpen((v) => !v)
+  }
+
+  return [isOpen, toggle]
 }
 ```
 ````

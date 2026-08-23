@@ -1,6 +1,6 @@
 ---
 titleTemplate: "%s - Kevin UNFRICHT"
-title: "React — Créer ses propres hooks"
+title: "React — Créer ses propres hooks / Partager un état global"
 layout: cover
 background: https://cover.sli.dev?10
 highlighter: shiki
@@ -12,8 +12,7 @@ addons:
 ---
 
 # React
-Créer ses propres hooks
-
+Créer ses propres hooks / Partager un état global
 
 ---
 src: ./sections/10-hooks-personnalises/00-ressources.md

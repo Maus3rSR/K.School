@@ -12,7 +12,7 @@ layout: two-cols-header
 
 📏 [Règles des Hooks](https://fr.react.dev/warnings/invalid-hook-call-warning) - Pourquoi les hooks s'appellent toujours au niveau racine
 
-💾 [useLocalStorage — usehooks-ts](https://usehooks-ts.com/react-hook/use-local-storage) - Exemple de hook communautaire bien typé
+🧠 [useMemo](https://fr.react.dev/reference/react/useMemo) - Un hook natif que vous pourrez combiner dans vos futurs hooks personnalisés
 
 ::right::
 
@@ -20,7 +20,7 @@ layout: two-cols-header
 
 📚 [usehooks-ts](https://usehooks-ts.com/) - Bibliothèque de hooks personnalisés open source, à lire pour s'inspirer
 
-🧠 [useMemo](https://fr.react.dev/reference/react/useMemo) - Un hook natif que vous pourrez combiner dans vos futurs hooks personnalisés
+💾 [useLocalStorage — usehooks-ts](https://usehooks-ts.com/react-hook/use-local-storage) - Exemple de hook communautaire bien typé
 
 <!--
 Priorité en cours : le guide officiel "Reusing logic with custom hooks" couvre toute la séance, à garder ouvert en démonstration live.

@@ -18,15 +18,11 @@ function useFetch() { /* ... */ }
 function toggleLogic() { /* ... */ }
 ```
 
-<div v-click="1">
-
 Le préfixe `use` n'est pas décoratif : React et les linters s'en servent pour vérifier que les règles des Hooks sont respectées.
-
-</div>
 
 ::right::
 
-<div v-click="2">
+<div v-click="1">
 
 **Règle 1 — Niveau racine uniquement**
 
@@ -40,7 +36,7 @@ function Panel() {
 
 </div>
 
-<div v-click="3">
+<div v-click="2">
 
 **Règle 2 — Seulement dans des composants ou des hooks**
 

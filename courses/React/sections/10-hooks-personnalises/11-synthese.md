@@ -9,7 +9,7 @@ De la duplication à la réutilisation
 
 ::left::
 
-```mermaid {scale: 0.65}
+```mermaid {scale: 0.55}
 flowchart TD
     A["Logique dupliquée\ndans 2+ composants"] --> B["Extraction dans\nune fonction useXxx"]
     B --> C["useState / useEffect\nà l'intérieur du hook"]

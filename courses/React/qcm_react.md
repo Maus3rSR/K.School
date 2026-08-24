@@ -346,6 +346,352 @@ function Checkout() {
 
 Les hooks se déclarent au niveau supérieur du composant. `useNavigate` fournit ensuite une fonction de navigation programmatique, généralement sans rechargement complet pour une route interne.
 
+## Facile à moyen — Quelle déclaration TypeScript décrit correctement les props d'un composant ?
+
+```tsx
+type AvatarProps = {
+  name: string
+  size?: number
+}
+```
+
+-[ ] `name` peut recevoir n'importe quelle valeur et `size` est obligatoire.
+-[x] `name` est obligatoire et doit être une chaîne ; `size` est optionnelle et numérique.
+-[ ] Les props doivent toujours être déclarées avec une classe TypeScript.
+-[ ] Une interface ou un type ne peut pas décrire des props React.
+
+### Commentaire de correction
+
+Un `type` ou une `interface` TypeScript peut décrire la forme des props. Le `?` rend `size` optionnelle, tandis que `name: string` impose une chaîne.
+
+## Facile à moyen — Quel fragment JSX est valide pour retourner plusieurs éléments sans ajouter de nœud DOM ?
+
+-[ ] `<fragment><h1>Titre</h1><p>Texte</p></fragment>`
+-[x] `<> <h1>Titre</h1><p>Texte</p> </>`
+-[ ] `[] <h1>Titre</h1> <p>Texte</p> []`
+-[ ] `<React.Children><h1>Titre</h1><p>Texte</p></React.Children>`
+
+### Commentaire de correction
+
+Le fragment court `<>...</>` regroupe plusieurs éléments JSX sans ajouter de balise correspondante dans le DOM.
+
+## Facile à moyen — Quelle syntaxe importe correctement un composant exporté par défaut ?
+
+```tsx
+// Button.tsx
+export default function Button() {
+  return <button>Valider</button>
+}
+```
+
+-[x] `import Button from './Button'`
+-[ ] `import { Button } from './Button'`
+-[ ] `import default as Button from './Button'`
+-[ ] `require default Button from './Button'`
+
+### Commentaire de correction
+
+Un export par défaut s'importe sans accolades et peut recevoir le nom local choisi par le fichier importeur.
+
+## Facile à moyen — Quel gestionnaire est adapté à un clic sur un bouton React ?
+
+-[ ] `<button click={handleClick}>Ajouter</button>`
+-[x] `<button onClick={handleClick}>Ajouter</button>`
+-[ ] `<button on-click={handleClick}>Ajouter</button>`
+-[ ] `<button onclick="handleClick">Ajouter</button>`
+
+### Commentaire de correction
+
+Les événements JSX utilisent la convention camelCase, notamment `onClick`, et reçoivent une fonction plutôt qu'une chaîne de caractères.
+
+## Facile à moyen — Quelle expression affiche `Bienvenue` uniquement lorsque `isConnected` vaut `true` ?
+
+-[ ] `{if (isConnected) <p>Bienvenue</p>}`
+-[x] `{isConnected && <p>Bienvenue</p>}`
+-[ ] `{isConnected ? return <p>Bienvenue</p> : return null}`
+-[ ] `{isConnected.show(<p>Bienvenue</p>)}`
+
+### Commentaire de correction
+
+L'opérateur `&&` permet un rendu conditionnel simple dans une expression JSX. Un `if` est une instruction et ne peut pas être placé directement entre accolades de cette manière.
+
+## Facile à moyen — Quel composant permet de donner un style différent au lien correspondant à la route active ?
+
+-[ ] `ActiveLink`
+-[x] `NavLink`
+-[ ] `RouteLink`
+-[ ] `BrowserLink`
+
+### Commentaire de correction
+
+`NavLink` fournit les informations nécessaires pour appliquer un style ou une classe au lien actif, contrairement à un lien générique.
+
+## Moyen à difficile — Quelles affirmations sont correctes à propos du rendu conditionnel avec un ternaire ? (plusieurs réponses possibles)
+
+```tsx
+return isLoading
+  ? <p>Chargement…</p>
+  : <ProductGrid products={products} />
+```
+
+-[x] La branche de gauche est rendue lorsque `isLoading` est vraie.
+-[x] La branche de droite est rendue lorsque `isLoading` est fausse.
+-[x] Le ternaire est une expression utilisable directement dans le JSX.
+-[ ] Les deux branches sont toujours affichées puis masquées par React.
+
+### Commentaire de correction
+
+Le ternaire choisit une seule des deux expressions selon la condition. C'est un pattern adapté lorsque deux états d'affichage sont clairement identifiés.
+
+## Moyen à difficile — Quelles opérations produisent une nouvelle liste filtrée sans modifier le state original ? (plusieurs réponses possibles)
+
+```tsx
+const [members, setMembers] = useState<Member[]>(initialMembers)
+const activeMembers = members.filter((member) => member.active)
+```
+
+-[x] Utiliser `filter()` pour calculer `activeMembers`.
+-[x] Conserver `members` inchangé et afficher `activeMembers`.
+-[x] Appeler `setMembers()` uniquement si le state lui-même doit être modifié.
+-[ ] Supprimer les membres inactifs avec `members.splice()` pendant le rendu.
+
+### Commentaire de correction
+
+`filter()` retourne un nouveau tableau et convient au calcul d'une vue dérivée. Modifier le state pendant le rendu ou avec `splice()` détruit l'immutabilité attendue.
+
+## Moyen à difficile — Quelles associations de types d'événements sont correctes en React + TypeScript ? (plusieurs réponses possibles)
+
+```tsx
+function Form() {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {}
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {}
+  return <form onSubmit={handleSubmit}><input onChange={handleChange} /></form>
+}
+```
+
+-[x] `React.ChangeEvent<HTMLInputElement>` convient à `onChange` de cet input.
+-[x] `React.FormEvent<HTMLFormElement>` convient à `onSubmit` de ce formulaire.
+-[x] `event.preventDefault()` peut empêcher le rechargement natif du formulaire.
+-[ ] `React.MouseEvent` est le type obligatoire pour tous les événements React.
+
+### Commentaire de correction
+
+Le type dépend de l'élément et de l'événement. `ChangeEvent` décrit ici la saisie, `FormEvent` la soumission, tandis que `MouseEvent` concerne les interactions de souris.
+
+## Moyen à difficile — Quelles affirmations sont exactes pour cet effet ? (plusieurs réponses possibles)
+
+```tsx
+useEffect(() => {
+  document.title = `Panier (${itemCount})`
+}, [itemCount])
+```
+
+-[x] Le titre est synchronisé après le rendu lorsque `itemCount` change.
+-[x] L'effet est rejoué si `itemCount` reçoit une nouvelle valeur.
+-[x] Le code ne devrait pas appeler `setItemCount` dans cet effet pour éviter une boucle inutile.
+-[ ] L'effet s'exécute avant que React ne rende le composant.
+
+### Commentaire de correction
+
+`useEffect` synchronise le composant avec un système externe après le rendu. La dépendance décrit la donnée qui déclenche une nouvelle synchronisation.
+
+## Moyen à difficile — Quels états sont utiles pour représenter un chargement d'API typé ? (plusieurs réponses possibles)
+
+```tsx
+type ViewState<T> = {
+  data: T | null
+  loading: boolean
+  error: string | null
+}
+```
+
+-[x] `loading` permet d'afficher un indicateur pendant la requête.
+-[x] `error` permet d'afficher un message lorsque la requête échoue.
+-[x] `data: T | null` représente l'absence initiale de données puis la réponse.
+-[ ] Le type de la réponse peut toujours être `any` sans réduire la sécurité TypeScript.
+
+### Commentaire de correction
+
+Séparer loading, error et data rend les états de l'interface explicites. Le generic `T` conserve le type attendu de la réponse sans abandonner le typage.
+
+## Moyen à difficile — Quelles affirmations sont exactes à propos d'une route déclarée avec `Link` ? (plusieurs réponses possibles)
+
+```tsx
+<Routes>
+  <Route path="/about" element={<About />} />
+</Routes>
+
+<Link to="/about">À propos</Link>
+```
+
+-[x] Le clic sur `Link` demande l'affichage de la route `/about`.
+-[x] `Link` est destiné à la navigation interne gérée par React Router.
+-[x] Une route non déclarée ne rend pas automatiquement le composant `About`.
+-[ ] `Link` exige que `About` soit importé depuis React Router.
+
+### Commentaire de correction
+
+La route associe un chemin à un élément, tandis que `Link` déclenche la navigation vers ce chemin. Le composant `About` reste un composant de l'application.
+
+## Moyen à difficile — Quelles affirmations sont exactes concernant `useSearchParams` ? (plusieurs réponses possibles)
+
+```tsx
+const [searchParams, setSearchParams] = useSearchParams()
+const category = searchParams.get('category')
+```
+
+-[x] `category` est lu dans la query string de l'URL.
+-[x] `searchParams.get('category')` peut retourner `null`.
+-[x] `setSearchParams({ category: 'books' })` peut mettre à jour la query string.
+-[ ] `category` est toujours un nombre parce qu'il provient d'une URL.
+
+### Commentaire de correction
+
+Les query params sont des chaînes ou `null` lorsqu'elles sont absentes. Une conversion explicite est nécessaire pour obtenir un nombre ou un autre type métier.
+
+## Difficile à très difficile — Pourquoi ce composant ne doit-il pas calculer `fullName` avec un `useEffect` ? (plusieurs réponses possibles)
+
+```tsx
+function Profile({ firstName, lastName }: Props) {
+  const [fullName, setFullName] = useState('')
+
+  useEffect(() => {
+    setFullName(`${firstName} ${lastName}`)
+  }, [firstName, lastName])
+
+  return <h1>{fullName}</h1>
+}
+```
+
+-[x] `fullName` est une valeur dérivée calculable directement pendant le rendu.
+-[x] Le state et l'effet ajoutent un rendu intermédiaire inutile.
+-[x] `const fullName = \`${firstName} ${lastName}\`` est une alternative plus simple.
+-[ ] Tout calcul basé sur des props doit obligatoirement passer par `useEffect`.
+
+### Commentaire de correction
+
+La documentation React recommande de ne pas utiliser un effet pour transformer des données destinées au rendu. Un effet sert à synchroniser avec un système externe, pas à fabriquer une valeur dérivée locale.
+
+## Difficile à très difficile — Quelles pratiques évitent une fuite liée à un écouteur d'événement dans un effet ? (plusieurs réponses possibles)
+
+```tsx
+useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+  }
+
+  window.addEventListener('resize', handleResize)
+  return () => window.removeEventListener('resize', handleResize)
+}, [])
+```
+
+-[x] Enregistrer l'écouteur dans l'effet.
+-[x] Retirer le même gestionnaire dans le cleanup.
+-[x] Utiliser le cleanup lors du démontage du composant.
+-[ ] Créer un nouveau callback anonyme différent dans `removeEventListener`.
+
+### Commentaire de correction
+
+Le navigateur retire un écouteur lorsqu'il reçoit la même référence de fonction et le même type d'événement. Le cleanup évite l'accumulation d'écouteurs après des montages et démontages.
+
+## Difficile à très difficile — Quelles affirmations sont correctes pour protéger un composant contre une réponse API obsolète ? (plusieurs réponses possibles)
+
+```tsx
+useEffect(() => {
+  let ignore = false
+  fetch(`/api/items/${itemId}`)
+    .then((response) => response.json() as Promise<Item>)
+    .then((item) => { if (!ignore) setItem(item) })
+  return () => { ignore = true }
+}, [itemId])
+```
+
+-[x] Le cleanup marque la requête précédente comme obsolète.
+-[x] La réponse précédente ne met pas à jour le state si `itemId` a changé.
+-[x] `itemId` doit rester dans les dépendances de l'effet.
+-[ ] Le flag `ignore` annule nécessairement la requête réseau côté serveur.
+
+### Commentaire de correction
+
+Le flag empêche l'application de consommer une réponse devenue obsolète ; il ne garantit pas l'annulation physique de la requête. Pour cela, un `AbortController` peut être utilisé.
+
+## Difficile à très difficile — Quelles affirmations sont exactes pour ce hook générique ? (plusieurs réponses possibles)
+
+```tsx
+function useToggle<T extends string>(initial: T) {
+  const [value, setValue] = useState<T>(initial)
+  const toggle = (next: T) => setValue(next)
+  return { value, toggle }
+}
+```
+
+-[x] Le generic contraint `T` aux chaînes.
+-[x] La valeur de retour expose un état et une fonction nommée.
+-[x] Le hook conserve un state indépendant pour chaque appel.
+-[ ] `T` est une validation des valeurs reçues au runtime dans le navigateur.
+
+### Commentaire de correction
+
+Le generic aide TypeScript à vérifier les usages lors de la compilation. Il ne valide pas les données JavaScript au runtime, et chaque appel du hook possède sa propre instance de state.
+
+## Difficile à très difficile — Quelles affirmations sont exactes au sujet de `key` et du state d'un composant de liste ? (plusieurs réponses possibles)
+
+-[x] Une clé stable aide React à préserver l'identité et le state d'un élément entre les rendus.
+-[x] Changer la clé peut provoquer le remontage du composant concerné.
+-[x] Une clé doit être placée sur l'élément produit directement par `map()`.
+-[ ] La clé est automatiquement disponible dans le composant enfant via une prop `key`.
+
+### Commentaire de correction
+
+`key` est un indice réservé à React, pas une prop transmise automatiquement. Une clé stable permet de faire correspondre les éléments d'une liste entre deux rendus.
+
+## Difficile à très difficile — Quelles affirmations sont exactes pour lire un paramètre de route et gérer son absence ? (plusieurs réponses possibles)
+
+```tsx
+function InvoiceDetail() {
+  const { invoiceId } = useParams<{ invoiceId: string }>()
+  if (!invoiceId) return <p>Facture introuvable</p>
+  return <Invoice id={invoiceId} />
+}
+```
+
+-[x] Le paramètre est lu depuis le segment dynamique de l'URL.
+-[x] Le guard évite d'utiliser une valeur potentiellement absente.
+-[x] `invoiceId` reste une chaîne tant qu'il n'est pas converti.
+-[ ] Le generic transforme automatiquement `invoiceId` en nombre.
+
+### Commentaire de correction
+
+`useParams` lit les paramètres nommés de la route et leur typage doit refléter leur disponibilité possible. Les valeurs d'URL sont des chaînes.
+
+## Difficile à très difficile — Quelles affirmations sont correctes pour utiliser une ref DOM avec TypeScript ? (plusieurs réponses possibles)
+
+```tsx
+function SearchBox() {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function focusInput() {
+    inputRef.current?.focus()
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Rechercher</button>
+    </>
+  )
+}
+```
+
+-[x] `HTMLInputElement` documente le type de l'élément ciblé.
+-[x] L'opérateur `?.` évite une erreur si `current` vaut `null`.
+-[x] Modifier la ref ne déclenche pas un rendu comme `setState`.
+-[ ] La ref doit être créée dans `focusInput` pour rester accessible au bouton.
+
+### Commentaire de correction
+
+Une ref se déclare au niveau supérieur du composant et est attachée avec `ref={inputRef}`. `current` peut être nul avant le montage ; la ref sert à conserver une valeur mutable sans déclencher de rendu.
+
 ## Références officielles
 
 - [React — Quick Start](https://react.dev/learn)

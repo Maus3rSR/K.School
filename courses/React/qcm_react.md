@@ -105,14 +105,14 @@ function ProductCard({ name, price = 0, children }: ProductCardProps) {
 
 -[x] Les props descendent du parent vers l'enfant.
 -[x] `price` est optionnelle et prend `0` par défaut dans ce composant.
--[x] `children` permet de composer du contenu entre les balises du composant.
+-[ ] `children` est toujours obligatoire dans un composant qui accepte des props.
 -[ ] L'enfant peut modifier directement l'objet `props` reçu.
 
 ### Commentaire de correction
 
 Les props sont en lecture seule et suivent un flux unidirectionnel parent → enfant. Le destructuring permet ici de définir une valeur par défaut, tandis que `children` reçoit le contenu imbriqué.
 
-## Quelles mises à jour de state produisent correctement `3` après trois clics rapides ? (plusieurs réponses possibles)
+## Quelle mise à jour fonctionnelle produit correctement `3` après trois clics rapides ?
 
 ```tsx
 const [score, setScore] = useState(0)
@@ -120,7 +120,7 @@ const [score, setScore] = useState(0)
 
 -[ ] `setScore(score + 1); setScore(score + 1); setScore(score + 1)`
 -[x] `setScore((current) => current + 1); setScore((current) => current + 1); setScore((current) => current + 1)`
--[x] `setScore((current) => current + 3)`
+-[ ] `setScore((current) => current + 2)`
 -[ ] `score += 3`
 
 ### Commentaire de correction
@@ -131,7 +131,7 @@ Pendant un rendu, `score` est une valeur figée dans ce snapshot. Les mises à j
 
 -[x] Stocker la valeur de l'input dans un state.
 -[x] Relier `value` à la valeur du state.
--[x] Mettre à jour le state dans `onChange`.
+-[ ] Mettre à jour le state uniquement dans `onBlur`.
 -[ ] Lire systématiquement la valeur avec `document.querySelector()` après chaque frappe.
 
 ### Commentaire de correction
@@ -149,7 +149,7 @@ useEffect(() => {
 
 -[x] L'effet est relancé lorsque `roomId` change.
 -[x] La fonction retournée sert à nettoyer la connexion précédente.
--[x] Le cleanup est exécuté lors du démontage du composant.
+-[ ] Le cleanup est exécuté uniquement lorsque le composant est démonté.
 -[ ] Le tableau de dépendances signifie que l'effet ne s'exécute jamais.
 
 ### Commentaire de correction
@@ -172,7 +172,7 @@ useEffect(() => {
 
 -[x] `response.json()` doit être attendu ou retourné dans la chaîne de promesses.
 -[x] Un statut HTTP en erreur ne rejette pas automatiquement la promesse de `fetch`.
--[x] Le type `Book[]` décrit la forme attendue, mais ne valide pas les données à l'exécution.
+-[ ] Le type `Book[]` valide automatiquement les données reçues à l'exécution.
 -[ ] Le tableau vide garantit que la requête sera exécutée côté serveur avant le premier rendu.
 
 ### Commentaire de correction
@@ -189,7 +189,7 @@ useEffect(() => {
 
 -[x] `useParams()` permet de lire `bookId` dans `BookDetail`.
 -[x] `/books/42` correspond à cette route et fournit `"42"` comme paramètre.
--[x] `Link` ou `NavLink` permet de naviguer sans rechargement complet de la SPA.
+-[ ] `Link` ou `NavLink` impose un rechargement complet de la SPA.
 -[ ] `bookId` est automatiquement un nombre TypeScript.
 
 ### Commentaire de correction
@@ -208,14 +208,14 @@ function useToggle(initial = false) {
 
 -[x] Son nom commence par `use`.
 -[x] Chaque composant qui appelle `useToggle()` possède son propre state.
--[x] Il peut composer plusieurs hooks React.
+-[ ] Il ne peut jamais composer d'autres hooks React.
 -[ ] Deux appels dans deux composants partagent automatiquement la même valeur `enabled`.
 
 ### Commentaire de correction
 
 Un hook personnalisé réutilise de la logique, mais ne partage pas automatiquement l'état. Le partage d'une valeur nécessite par exemple Context ou une solution de state management.
 
-## Quelles clés sont valides pour une liste dont l'ordre peut changer ? (plusieurs réponses possibles)
+## Quelle clé est la plus adaptée à une liste dont l'ordre peut changer ?
 
 ```tsx
 type Ticket = { id: string; title: string }
@@ -227,7 +227,7 @@ return tickets.map((ticket) => (
 ```
 
 -[x] `key={ticket.id}` si `id` est stable et unique.
--[x] Une clé stable dérivée d'un identifiant métier unique.
+-[ ] Une clé stable dérivée d'un identifiant métier unique.
 -[ ] `key={tickets.indexOf(ticket)}` si des tickets peuvent être insérés ou supprimés.
 -[ ] `key={Math.random()}` pour éviter les collisions.
 
@@ -235,7 +235,7 @@ return tickets.map((ticket) => (
 
 La clé représente l'identité logique de l'élément, pas sa position actuelle. L'index devient fragile lorsque l'ordre ou le contenu de la liste change, et une valeur aléatoire force des remplacements inutiles.
 
-## Quelles transformations respectent l'immutabilité du state React ? (plusieurs réponses possibles)
+## Quelle transformation respecte l'immutabilité du state React ?
 
 ```tsx
 type Task = { id: number; done: boolean }
@@ -243,7 +243,7 @@ const [tasks, setTasks] = useState<Task[]>(initialTasks)
 ```
 
 -[x] `setTasks((current) => current.map((task) => task.id === 2 ? { ...task, done: true } : task))`
--[x] `setTasks((current) => [...current, { id: 3, done: false }])`
+-[ ] `setTasks((current) => [...current, { id: 3, done: false }])`
 -[ ] `tasks[0].done = true; setTasks(tasks)`
 -[ ] `tasks.push({ id: 3, done: false }); setTasks(tasks)`
 
@@ -273,7 +273,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 -[x] `userId` doit figurer dans les dépendances car l'effet l'utilise.
 -[x] Le cleanup empêche une ancienne réponse de remplacer une réponse plus récente.
--[x] Mettre `user` dans les dépendances pourrait relancer l'effet après chaque `setUser`.
+-[ ] Mettre `user` dans les dépendances ne peut jamais relancer l'effet après `setUser`.
 -[ ] Le tableau vide `[]` serait toujours équivalent à `[userId]`.
 
 ### Commentaire de correction
@@ -301,7 +301,7 @@ function Layout() {
 
 -[x] La route complète de `Reports` est `/admin/reports`.
 -[x] `Outlet` rend le composant de la route enfant correspondante.
--[x] Le menu de `Layout` reste partagé entre les routes enfants rendues dans cet `Outlet`.
+-[ ] Le menu de `Layout` est remplacé par chaque route enfant rendue dans cet `Outlet`.
 -[ ] La route enfant doit obligatoirement commencer par `/admin/reports`.
 
 ### Commentaire de correction
@@ -322,14 +322,14 @@ function useTheme() {
 
 -[x] Un composant descendant doit être placé sous le Provider correspondant pour obtenir la valeur fournie.
 -[x] Le hook personnalisé peut produire une erreur explicite lorsqu'il est utilisé hors Provider.
--[x] Un changement de valeur du Context peut re-rendre ses consommateurs.
+-[ ] Un changement de valeur du Context ne re-rend jamais ses consommateurs.
 -[ ] Context rend inutile toute utilisation des props et du state local.
 
 ### Commentaire de correction
 
 Context évite un prop drilling pour des données partagées, mais ne remplace pas systématiquement les props ou le state local. Il faut aussi limiter les Context trop larges et fréquemment mis à jour.
 
-## Quelle stratégie produit une navigation programmée après validation d'un formulaire ? (plusieurs réponses possibles)
+## Quelle stratégie produit une navigation programmée après validation d'un formulaire ?
 
 ```tsx
 function Checkout() {
@@ -338,7 +338,7 @@ function Checkout() {
 ```
 
 -[x] Utiliser `useNavigate()` puis appeler la fonction retournée après le succès de la validation.
--[x] Utiliser une route cible cohérente, par exemple `navigate('/confirmation')`.
+-[ ] Utiliser une route cible cohérente, par exemple `navigate('/confirmation')`.
 -[ ] Modifier directement `window.location.href` pour toute navigation interne afin de conserver l'état SPA.
 -[ ] Appeler `useNavigate()` à l'intérieur du gestionnaire `onSubmit`.
 
@@ -426,7 +426,7 @@ L'opérateur `&&` permet un rendu conditionnel simple dans une expression JSX. U
 
 `NavLink` fournit les informations nécessaires pour appliquer un style ou une classe au lien actif, contrairement à un lien générique.
 
-## Quelles affirmations sont correctes à propos du rendu conditionnel avec un ternaire ? (plusieurs réponses possibles)
+## Quelle affirmation est correcte à propos du rendu conditionnel avec un ternaire ?
 
 ```tsx
 return isLoading
@@ -435,7 +435,7 @@ return isLoading
 ```
 
 -[x] La branche de gauche est rendue lorsque `isLoading` est vraie.
--[x] La branche de droite est rendue lorsque `isLoading` est fausse.
+-[ ] La branche de droite est rendue lorsque `isLoading` est fausse.
 -[x] Le ternaire est une expression utilisable directement dans le JSX.
 -[ ] Les deux branches sont toujours affichées puis masquées par React.
 
@@ -452,7 +452,7 @@ const activeMembers = members.filter((member) => member.active)
 
 -[x] Utiliser `filter()` pour calculer `activeMembers`.
 -[x] Conserver `members` inchangé et afficher `activeMembers`.
--[x] Appeler `setMembers()` uniquement si le state lui-même doit être modifié.
+-[ ] Appeler `setMembers()` est obligatoire après chaque appel à `filter()`.
 -[ ] Supprimer les membres inactifs avec `members.splice()` pendant le rendu.
 
 ### Commentaire de correction
@@ -471,7 +471,7 @@ function Form() {
 
 -[x] `React.ChangeEvent<HTMLInputElement>` convient à `onChange` de cet input.
 -[x] `React.FormEvent<HTMLFormElement>` convient à `onSubmit` de ce formulaire.
--[x] `event.preventDefault()` peut empêcher le rechargement natif du formulaire.
+-[ ] `event.preventDefault()` provoque le rechargement natif du formulaire.
 -[ ] `React.MouseEvent` est le type obligatoire pour tous les événements React.
 
 ### Commentaire de correction
@@ -488,14 +488,14 @@ useEffect(() => {
 
 -[x] Le titre est synchronisé après le rendu lorsque `itemCount` change.
 -[x] L'effet est rejoué si `itemCount` reçoit une nouvelle valeur.
--[x] Le code ne devrait pas appeler `setItemCount` dans cet effet pour éviter une boucle inutile.
+-[ ] Le code doit appeler `setItemCount` dans cet effet pour éviter une boucle inutile.
 -[ ] L'effet s'exécute avant que React ne rende le composant.
 
 ### Commentaire de correction
 
 `useEffect` synchronise le composant avec un système externe après le rendu. La dépendance décrit la donnée qui déclenche une nouvelle synchronisation.
 
-## Quels états sont utiles pour représenter un chargement d'API typé ? (plusieurs réponses possibles)
+## Quel état permet de représenter l'absence initiale de données dans un chargement d'API typé ?
 
 ```tsx
 type ViewState<T> = {
@@ -505,9 +505,9 @@ type ViewState<T> = {
 }
 ```
 
--[x] `loading` permet d'afficher un indicateur pendant la requête.
+-[ ] `loading` permet d'afficher un indicateur pendant la requête.
 -[x] `error` permet d'afficher un message lorsque la requête échoue.
--[x] `data: T | null` représente l'absence initiale de données puis la réponse.
+-[ ] `data: T | null` ne peut jamais représenter une absence de données.
 -[ ] Le type de la réponse peut toujours être `any` sans réduire la sécurité TypeScript.
 
 ### Commentaire de correction
@@ -526,23 +526,23 @@ Séparer loading, error et data rend les états de l'interface explicites. Le ge
 
 -[x] Le clic sur `Link` demande l'affichage de la route `/about`.
 -[x] `Link` est destiné à la navigation interne gérée par React Router.
--[x] Une route non déclarée ne rend pas automatiquement le composant `About`.
+-[ ] Une route non déclarée rend automatiquement le composant `About`.
 -[ ] `Link` exige que `About` soit importé depuis React Router.
 
 ### Commentaire de correction
 
 La route associe un chemin à un élément, tandis que `Link` déclenche la navigation vers ce chemin. Le composant `About` reste un composant de l'application.
 
-## Quelles affirmations sont exactes concernant `useSearchParams` ? (plusieurs réponses possibles)
+## Que peut retourner `searchParams.get('category')` si la query string est absente ?
 
 ```tsx
 const [searchParams, setSearchParams] = useSearchParams()
 const category = searchParams.get('category')
 ```
 
--[x] `category` est lu dans la query string de l'URL.
+-[ ] `category` est lu dans la query string de l'URL.
 -[x] `searchParams.get('category')` peut retourner `null`.
--[x] `setSearchParams({ category: 'books' })` peut mettre à jour la query string.
+-[ ] `setSearchParams({ category: 'books' })` peut mettre à jour la query string.
 -[ ] `category` est toujours un nombre parce qu'il provient d'une URL.
 
 ### Commentaire de correction
@@ -565,7 +565,7 @@ function Profile({ firstName, lastName }: Props) {
 
 -[x] `fullName` est une valeur dérivée calculable directement pendant le rendu.
 -[x] Le state et l'effet ajoutent un rendu intermédiaire inutile.
--[x] `const fullName = \`${firstName} ${lastName}\`` est une alternative plus simple.
+-[ ] `const fullName = \`${firstName} ${lastName}\`` est plus complexe qu'un effet.
 -[ ] Tout calcul basé sur des props doit obligatoirement passer par `useEffect`.
 
 ### Commentaire de correction
@@ -587,7 +587,7 @@ useEffect(() => {
 
 -[x] Enregistrer l'écouteur dans l'effet.
 -[x] Retirer le même gestionnaire dans le cleanup.
--[x] Utiliser le cleanup lors du démontage du composant.
+-[ ] Aucun cleanup n'est nécessaire lors du démontage du composant.
 -[ ] Créer un nouveau callback anonyme différent dans `removeEventListener`.
 
 ### Commentaire de correction
@@ -608,7 +608,7 @@ useEffect(() => {
 
 -[x] Le cleanup marque la requête précédente comme obsolète.
 -[x] La réponse précédente ne met pas à jour le state si `itemId` a changé.
--[x] `itemId` doit rester dans les dépendances de l'effet.
+-[ ] `itemId` doit être retiré des dépendances de l'effet.
 -[ ] Le flag `ignore` annule nécessairement la requête réseau côté serveur.
 
 ### Commentaire de correction
@@ -627,18 +627,18 @@ function useToggle<T extends string>(initial: T) {
 
 -[x] Le generic contraint `T` aux chaînes.
 -[x] La valeur de retour expose un état et une fonction nommée.
--[x] Le hook conserve un state indépendant pour chaque appel.
+-[ ] Le hook partage automatiquement le même state entre tous ses appels.
 -[ ] `T` est une validation des valeurs reçues au runtime dans le navigateur.
 
 ### Commentaire de correction
 
 Le generic aide TypeScript à vérifier les usages lors de la compilation. Il ne valide pas les données JavaScript au runtime, et chaque appel du hook possède sa propre instance de state.
 
-## Quelles affirmations sont exactes au sujet de `key` et du state d'un composant de liste ? (plusieurs réponses possibles)
+## Quel énoncé est exact au sujet de `key` et du state d'un composant de liste ?
 
 -[x] Une clé stable aide React à préserver l'identité et le state d'un élément entre les rendus.
--[x] Changer la clé peut provoquer le remontage du composant concerné.
--[x] Une clé doit être placée sur l'élément produit directement par `map()`.
+-[ ] Changer la clé peut provoquer le remontage du composant concerné.
+-[ ] Une clé doit être placée sur l'élément produit directement par `map()`.
 -[ ] La clé est automatiquement disponible dans le composant enfant via une prop `key`.
 
 ### Commentaire de correction
@@ -657,7 +657,7 @@ function InvoiceDetail() {
 
 -[x] Le paramètre est lu depuis le segment dynamique de l'URL.
 -[x] Le guard évite d'utiliser une valeur potentiellement absente.
--[x] `invoiceId` reste une chaîne tant qu'il n'est pas converti.
+-[ ] `invoiceId` est automatiquement un nombre sans conversion.
 -[ ] Le generic transforme automatiquement `invoiceId` en nombre.
 
 ### Commentaire de correction
@@ -685,7 +685,7 @@ function SearchBox() {
 
 -[x] `HTMLInputElement` documente le type de l'élément ciblé.
 -[x] L'opérateur `?.` évite une erreur si `current` vaut `null`.
--[x] Modifier la ref ne déclenche pas un rendu comme `setState`.
+-[ ] Modifier la ref déclenche toujours un rendu comme `setState`.
 -[ ] La ref doit être créée dans `focusInput` pour rester accessible au bouton.
 
 ### Commentaire de correction

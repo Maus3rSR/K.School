@@ -692,6 +692,10 @@ function SearchBox() {
 
 Une ref se déclare au niveau supérieur du composant et est attachée avec `ref={inputRef}`. `current` peut être nul avant le montage ; la ref sert à conserver une valeur mutable sans déclencher de rendu.
 
+## Statistique
+
+27 questions à choix multiples · 77 réponses justes sur 108 choix proposés
+
 ## Références officielles
 
 - [React — Quick Start](https://react.dev/learn)

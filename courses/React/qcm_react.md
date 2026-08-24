@@ -1,6 +1,6 @@
 # QCM — React · TypeScript · Hooks · API · React Router
 
-## Facile à moyen — Dans quel fichier JSX une expression JavaScript peut-elle être insérée dans le markup ?
+## Dans quel fichier JSX une expression JavaScript peut-elle être insérée dans le markup ?
 
 -[ ] Entre des balises HTML classiques, sans syntaxe particulière
 -[x] Entre accolades, par exemple `{user.name}`
@@ -11,7 +11,7 @@
 
 Les accolades permettent de repasser du JSX vers JavaScript. Elles servent aussi dans les attributs JSX, par exemple `src={user.imageUrl}`.
 
-## Facile à moyen — Quelle écriture respecte les règles de nommage d'un composant React ?
+## Quelle écriture respecte les règles de nommage d'un composant React ?
 
 -[ ] `function userCard() { return <article /> }`
 -[x] `function UserCard() { return <article /> }`
@@ -22,7 +22,7 @@ Les accolades permettent de repasser du JSX vers JavaScript. Elles servent aussi
 
 Un composant React doit commencer par une majuscule afin d'être distingué d'une balise HTML native.
 
-## Facile à moyen — Quel attribut permet d'appliquer une classe CSS à un élément JSX ?
+## Quel attribut permet d'appliquer une classe CSS à un élément JSX ?
 
 -[ ] `class`
 -[x] `className`
@@ -33,7 +33,7 @@ Un composant React doit commencer par une majuscule afin d'être distingué d'un
 
 En JSX, l'attribut `class` du HTML s'écrit `className`, par exemple `<button className="primary">`.
 
-## Facile à moyen — Quel code déclare un state numérique initialisé à zéro ?
+## Quel code déclare un state numérique initialisé à zéro ?
 
 ```tsx
 import { useState } from 'react'
@@ -48,7 +48,7 @@ import { useState } from 'react'
 
 `useState` retourne un tableau contenant la valeur actuelle et sa fonction de mise à jour. La déstructuration `[count, setCount]` est la convention attendue.
 
-## Facile à moyen — Quelle propriété est indispensable pour rendre une liste de composants avec `map()` ?
+## Quelle propriété est indispensable pour rendre une liste de composants avec `map()` ?
 
 ```tsx
 const colors = ['red', 'blue']
@@ -67,7 +67,7 @@ return colors.map((color) => (
 
 `key` aide React à identifier chaque élément entre deux rendus. Elle doit être stable et unique dans la liste concernée.
 
-## Facile à moyen — Quel composant configure le routeur principal d'une SPA avec React Router ?
+## Quel composant configure le routeur principal d'une SPA avec React Router ?
 
 -[ ] `RouterView`
 -[x] `BrowserRouter`
@@ -78,7 +78,7 @@ return colors.map((color) => (
 
 `BrowserRouter` fournit le contexte de navigation basé sur l'URL du navigateur. Les routes sont ensuite déclarées avec `Routes` et `Route`.
 
-## Facile à moyen — Dans quel dossier un projet créé avec Vite et le template `react-ts` place-t-il généralement les composants applicatifs ?
+## Dans quel dossier un projet créé avec Vite et le template `react-ts` place-t-il généralement les composants applicatifs ?
 
 -[ ] `node_modules/`
 -[ ] `public/`
@@ -89,7 +89,7 @@ return colors.map((color) => (
 
 Le dossier `src/` contient le code source de l'application, notamment les composants `.tsx`. `public/` contient principalement des ressources statiques.
 
-## Moyen à difficile — Quelles affirmations décrivent correctement le passage de données entre composants ? (plusieurs réponses possibles)
+## Quelles affirmations décrivent correctement le passage de données entre composants ? (plusieurs réponses possibles)
 
 ```tsx
 type ProductCardProps = {
@@ -112,7 +112,7 @@ function ProductCard({ name, price = 0, children }: ProductCardProps) {
 
 Les props sont en lecture seule et suivent un flux unidirectionnel parent → enfant. Le destructuring permet ici de définir une valeur par défaut, tandis que `children` reçoit le contenu imbriqué.
 
-## Moyen à difficile — Quelles mises à jour de state produisent correctement `3` après trois clics rapides ? (plusieurs réponses possibles)
+## Quelles mises à jour de state produisent correctement `3` après trois clics rapides ? (plusieurs réponses possibles)
 
 ```tsx
 const [score, setScore] = useState(0)
@@ -127,7 +127,7 @@ const [score, setScore] = useState(0)
 
 Pendant un rendu, `score` est une valeur figée dans ce snapshot. Les mises à jour fonctionnelles reçoivent la valeur la plus récente de la file de mises à jour et évitent de réutiliser trois fois le même snapshot.
 
-## Moyen à difficile — Quelles pratiques sont adaptées à un formulaire contrôlé React ? (plusieurs réponses possibles)
+## Quelles pratiques sont adaptées à un formulaire contrôlé React ? (plusieurs réponses possibles)
 
 -[x] Stocker la valeur de l'input dans un state.
 -[x] Relier `value` à la valeur du state.
@@ -138,7 +138,7 @@ Pendant un rendu, `score` est une valeur figée dans ce snapshot. Les mises à j
 
 Un input contrôlé a une source de vérité dans le state React : `value={email}` et `onChange={(event) => setEmail(event.target.value)}`. La lecture directe du DOM contourne ce modèle.
 
-## Moyen à difficile — Lesquels sont des usages corrects de `useEffect` et de son cleanup ? (plusieurs réponses possibles)
+## Lesquels sont des usages corrects de `useEffect` et de son cleanup ? (plusieurs réponses possibles)
 
 ```tsx
 useEffect(() => {
@@ -156,7 +156,7 @@ useEffect(() => {
 
 React exécute le cleanup avant de rejouer l'effet pour de nouvelles dépendances et lors du démontage. Un tableau `[roomId]` décrit la valeur dont l'effet dépend.
 
-## Moyen à difficile — Quelles affirmations sont exactes à propos de `fetch` dans un composant React ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes à propos de `fetch` dans un composant React ? (plusieurs réponses possibles)
 
 ```tsx
 useEffect(() => {
@@ -179,7 +179,7 @@ useEffect(() => {
 
 `fetch` rejette surtout en cas d'erreur réseau ; il faut donc tester `response.ok`. TypeScript aide au développement, mais ne remplace pas une validation runtime des données reçues.
 
-## Moyen à difficile — Quelles associations React Router sont correctes pour une route dynamique ? (plusieurs réponses possibles)
+## Quelles associations React Router sont correctes pour une route dynamique ? (plusieurs réponses possibles)
 
 ```tsx
 <Routes>
@@ -196,7 +196,7 @@ useEffect(() => {
 
 Les paramètres d'URL sont des chaînes et peuvent être indéfinis selon le typage utilisé. Il faut convertir explicitement la valeur si le domaine attend un nombre.
 
-## Moyen à difficile — Quelles affirmations décrivent correctement un hook personnalisé ? (plusieurs réponses possibles)
+## Quelles affirmations décrivent correctement un hook personnalisé ? (plusieurs réponses possibles)
 
 ```tsx
 function useToggle(initial = false) {
@@ -215,7 +215,7 @@ function useToggle(initial = false) {
 
 Un hook personnalisé réutilise de la logique, mais ne partage pas automatiquement l'état. Le partage d'une valeur nécessite par exemple Context ou une solution de state management.
 
-## Difficile à très difficile — Quelles clés sont valides pour une liste dont l'ordre peut changer ? (plusieurs réponses possibles)
+## Quelles clés sont valides pour une liste dont l'ordre peut changer ? (plusieurs réponses possibles)
 
 ```tsx
 type Ticket = { id: string; title: string }
@@ -235,7 +235,7 @@ return tickets.map((ticket) => (
 
 La clé représente l'identité logique de l'élément, pas sa position actuelle. L'index devient fragile lorsque l'ordre ou le contenu de la liste change, et une valeur aléatoire force des remplacements inutiles.
 
-## Difficile à très difficile — Quelles transformations respectent l'immutabilité du state React ? (plusieurs réponses possibles)
+## Quelles transformations respectent l'immutabilité du state React ? (plusieurs réponses possibles)
 
 ```tsx
 type Task = { id: number; done: boolean }
@@ -251,7 +251,7 @@ const [tasks, setTasks] = useState<Task[]>(initialTasks)
 
 Les nouvelles références de tableau et d'objet rendent les changements explicites et prévisibles. Modifier directement le tableau ou un objet existant peut empêcher React de détecter correctement la mise à jour.
 
-## Difficile à très difficile — Quelles affirmations sont correctes pour éviter une boucle d'effets lors d'un chargement dépendant d'un identifiant ? (plusieurs réponses possibles)
+## Quelles affirmations sont correctes pour éviter une boucle d'effets lors d'un chargement dépendant d'un identifiant ? (plusieurs réponses possibles)
 
 ```tsx
 function UserProfile({ userId }: { userId: string }) {
@@ -280,7 +280,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 Les dépendances doivent refléter les valeurs réactives utilisées par l'effet. Le garde `ignore` traite le cas où une requête précédente termine après le changement d'identifiant.
 
-## Difficile à très difficile — Dans cet arbre de routes, quelles affirmations sont exactes ? (plusieurs réponses possibles)
+## Dans cet arbre de routes, quelles affirmations sont exactes ? (plusieurs réponses possibles)
 
 ```tsx
 function Layout() {
@@ -308,7 +308,7 @@ function Layout() {
 
 Une route enfant relative s'ajoute au chemin parent. `Outlet` est l'emplacement de rendu des enfants imbriqués ; le layout peut donc conserver une structure commune.
 
-## Difficile à très difficile — Quelles affirmations sont exactes à propos de Context dans cet exemple ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes à propos de Context dans cet exemple ? (plusieurs réponses possibles)
 
 ```tsx
 const ThemeContext = createContext<Theme | null>(null)
@@ -329,7 +329,7 @@ function useTheme() {
 
 Context évite un prop drilling pour des données partagées, mais ne remplace pas systématiquement les props ou le state local. Il faut aussi limiter les Context trop larges et fréquemment mis à jour.
 
-## Difficile à très difficile — Quelle stratégie produit une navigation programmée après validation d'un formulaire ? (plusieurs réponses possibles)
+## Quelle stratégie produit une navigation programmée après validation d'un formulaire ? (plusieurs réponses possibles)
 
 ```tsx
 function Checkout() {
@@ -346,7 +346,7 @@ function Checkout() {
 
 Les hooks se déclarent au niveau supérieur du composant. `useNavigate` fournit ensuite une fonction de navigation programmatique, généralement sans rechargement complet pour une route interne.
 
-## Facile à moyen — Quelle déclaration TypeScript décrit correctement les props d'un composant ?
+## Quelle déclaration TypeScript décrit correctement les props d'un composant ?
 
 ```tsx
 type AvatarProps = {
@@ -364,7 +364,7 @@ type AvatarProps = {
 
 Un `type` ou une `interface` TypeScript peut décrire la forme des props. Le `?` rend `size` optionnelle, tandis que `name: string` impose une chaîne.
 
-## Facile à moyen — Quel fragment JSX est valide pour retourner plusieurs éléments sans ajouter de nœud DOM ?
+## Quel fragment JSX est valide pour retourner plusieurs éléments sans ajouter de nœud DOM ?
 
 -[ ] `<fragment><h1>Titre</h1><p>Texte</p></fragment>`
 -[x] `<> <h1>Titre</h1><p>Texte</p> </>`
@@ -375,7 +375,7 @@ Un `type` ou une `interface` TypeScript peut décrire la forme des props. Le `?`
 
 Le fragment court `<>...</>` regroupe plusieurs éléments JSX sans ajouter de balise correspondante dans le DOM.
 
-## Facile à moyen — Quelle syntaxe importe correctement un composant exporté par défaut ?
+## Quelle syntaxe importe correctement un composant exporté par défaut ?
 
 ```tsx
 // Button.tsx
@@ -393,7 +393,7 @@ export default function Button() {
 
 Un export par défaut s'importe sans accolades et peut recevoir le nom local choisi par le fichier importeur.
 
-## Facile à moyen — Quel gestionnaire est adapté à un clic sur un bouton React ?
+## Quel gestionnaire est adapté à un clic sur un bouton React ?
 
 -[ ] `<button click={handleClick}>Ajouter</button>`
 -[x] `<button onClick={handleClick}>Ajouter</button>`
@@ -404,7 +404,7 @@ Un export par défaut s'importe sans accolades et peut recevoir le nom local cho
 
 Les événements JSX utilisent la convention camelCase, notamment `onClick`, et reçoivent une fonction plutôt qu'une chaîne de caractères.
 
-## Facile à moyen — Quelle expression affiche `Bienvenue` uniquement lorsque `isConnected` vaut `true` ?
+## Quelle expression affiche `Bienvenue` uniquement lorsque `isConnected` vaut `true` ?
 
 -[ ] `{if (isConnected) <p>Bienvenue</p>}`
 -[x] `{isConnected && <p>Bienvenue</p>}`
@@ -415,7 +415,7 @@ Les événements JSX utilisent la convention camelCase, notamment `onClick`, et 
 
 L'opérateur `&&` permet un rendu conditionnel simple dans une expression JSX. Un `if` est une instruction et ne peut pas être placé directement entre accolades de cette manière.
 
-## Facile à moyen — Quel composant permet de donner un style différent au lien correspondant à la route active ?
+## Quel composant permet de donner un style différent au lien correspondant à la route active ?
 
 -[ ] `ActiveLink`
 -[x] `NavLink`
@@ -426,7 +426,7 @@ L'opérateur `&&` permet un rendu conditionnel simple dans une expression JSX. U
 
 `NavLink` fournit les informations nécessaires pour appliquer un style ou une classe au lien actif, contrairement à un lien générique.
 
-## Moyen à difficile — Quelles affirmations sont correctes à propos du rendu conditionnel avec un ternaire ? (plusieurs réponses possibles)
+## Quelles affirmations sont correctes à propos du rendu conditionnel avec un ternaire ? (plusieurs réponses possibles)
 
 ```tsx
 return isLoading
@@ -443,7 +443,7 @@ return isLoading
 
 Le ternaire choisit une seule des deux expressions selon la condition. C'est un pattern adapté lorsque deux états d'affichage sont clairement identifiés.
 
-## Moyen à difficile — Quelles opérations produisent une nouvelle liste filtrée sans modifier le state original ? (plusieurs réponses possibles)
+## Quelles opérations produisent une nouvelle liste filtrée sans modifier le state original ? (plusieurs réponses possibles)
 
 ```tsx
 const [members, setMembers] = useState<Member[]>(initialMembers)
@@ -459,7 +459,7 @@ const activeMembers = members.filter((member) => member.active)
 
 `filter()` retourne un nouveau tableau et convient au calcul d'une vue dérivée. Modifier le state pendant le rendu ou avec `splice()` détruit l'immutabilité attendue.
 
-## Moyen à difficile — Quelles associations de types d'événements sont correctes en React + TypeScript ? (plusieurs réponses possibles)
+## Quelles associations de types d'événements sont correctes en React + TypeScript ? (plusieurs réponses possibles)
 
 ```tsx
 function Form() {
@@ -478,7 +478,7 @@ function Form() {
 
 Le type dépend de l'élément et de l'événement. `ChangeEvent` décrit ici la saisie, `FormEvent` la soumission, tandis que `MouseEvent` concerne les interactions de souris.
 
-## Moyen à difficile — Quelles affirmations sont exactes pour cet effet ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes pour cet effet ? (plusieurs réponses possibles)
 
 ```tsx
 useEffect(() => {
@@ -495,7 +495,7 @@ useEffect(() => {
 
 `useEffect` synchronise le composant avec un système externe après le rendu. La dépendance décrit la donnée qui déclenche une nouvelle synchronisation.
 
-## Moyen à difficile — Quels états sont utiles pour représenter un chargement d'API typé ? (plusieurs réponses possibles)
+## Quels états sont utiles pour représenter un chargement d'API typé ? (plusieurs réponses possibles)
 
 ```tsx
 type ViewState<T> = {
@@ -514,7 +514,7 @@ type ViewState<T> = {
 
 Séparer loading, error et data rend les états de l'interface explicites. Le generic `T` conserve le type attendu de la réponse sans abandonner le typage.
 
-## Moyen à difficile — Quelles affirmations sont exactes à propos d'une route déclarée avec `Link` ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes à propos d'une route déclarée avec `Link` ? (plusieurs réponses possibles)
 
 ```tsx
 <Routes>
@@ -533,7 +533,7 @@ Séparer loading, error et data rend les états de l'interface explicites. Le ge
 
 La route associe un chemin à un élément, tandis que `Link` déclenche la navigation vers ce chemin. Le composant `About` reste un composant de l'application.
 
-## Moyen à difficile — Quelles affirmations sont exactes concernant `useSearchParams` ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes concernant `useSearchParams` ? (plusieurs réponses possibles)
 
 ```tsx
 const [searchParams, setSearchParams] = useSearchParams()
@@ -549,7 +549,7 @@ const category = searchParams.get('category')
 
 Les query params sont des chaînes ou `null` lorsqu'elles sont absentes. Une conversion explicite est nécessaire pour obtenir un nombre ou un autre type métier.
 
-## Difficile à très difficile — Pourquoi ce composant ne doit-il pas calculer `fullName` avec un `useEffect` ? (plusieurs réponses possibles)
+## Pourquoi ce composant ne doit-il pas calculer `fullName` avec un `useEffect` ? (plusieurs réponses possibles)
 
 ```tsx
 function Profile({ firstName, lastName }: Props) {
@@ -572,7 +572,7 @@ function Profile({ firstName, lastName }: Props) {
 
 La documentation React recommande de ne pas utiliser un effet pour transformer des données destinées au rendu. Un effet sert à synchroniser avec un système externe, pas à fabriquer une valeur dérivée locale.
 
-## Difficile à très difficile — Quelles pratiques évitent une fuite liée à un écouteur d'événement dans un effet ? (plusieurs réponses possibles)
+## Quelles pratiques évitent une fuite liée à un écouteur d'événement dans un effet ? (plusieurs réponses possibles)
 
 ```tsx
 useEffect(() => {
@@ -594,7 +594,7 @@ useEffect(() => {
 
 Le navigateur retire un écouteur lorsqu'il reçoit la même référence de fonction et le même type d'événement. Le cleanup évite l'accumulation d'écouteurs après des montages et démontages.
 
-## Difficile à très difficile — Quelles affirmations sont correctes pour protéger un composant contre une réponse API obsolète ? (plusieurs réponses possibles)
+## Quelles affirmations sont correctes pour protéger un composant contre une réponse API obsolète ? (plusieurs réponses possibles)
 
 ```tsx
 useEffect(() => {
@@ -615,7 +615,7 @@ useEffect(() => {
 
 Le flag empêche l'application de consommer une réponse devenue obsolète ; il ne garantit pas l'annulation physique de la requête. Pour cela, un `AbortController` peut être utilisé.
 
-## Difficile à très difficile — Quelles affirmations sont exactes pour ce hook générique ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes pour ce hook générique ? (plusieurs réponses possibles)
 
 ```tsx
 function useToggle<T extends string>(initial: T) {
@@ -634,7 +634,7 @@ function useToggle<T extends string>(initial: T) {
 
 Le generic aide TypeScript à vérifier les usages lors de la compilation. Il ne valide pas les données JavaScript au runtime, et chaque appel du hook possède sa propre instance de state.
 
-## Difficile à très difficile — Quelles affirmations sont exactes au sujet de `key` et du state d'un composant de liste ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes au sujet de `key` et du state d'un composant de liste ? (plusieurs réponses possibles)
 
 -[x] Une clé stable aide React à préserver l'identité et le state d'un élément entre les rendus.
 -[x] Changer la clé peut provoquer le remontage du composant concerné.
@@ -645,7 +645,7 @@ Le generic aide TypeScript à vérifier les usages lors de la compilation. Il ne
 
 `key` est un indice réservé à React, pas une prop transmise automatiquement. Une clé stable permet de faire correspondre les éléments d'une liste entre deux rendus.
 
-## Difficile à très difficile — Quelles affirmations sont exactes pour lire un paramètre de route et gérer son absence ? (plusieurs réponses possibles)
+## Quelles affirmations sont exactes pour lire un paramètre de route et gérer son absence ? (plusieurs réponses possibles)
 
 ```tsx
 function InvoiceDetail() {
@@ -664,7 +664,7 @@ function InvoiceDetail() {
 
 `useParams` lit les paramètres nommés de la route et leur typage doit refléter leur disponibilité possible. Les valeurs d'URL sont des chaînes.
 
-## Difficile à très difficile — Quelles affirmations sont correctes pour utiliser une ref DOM avec TypeScript ? (plusieurs réponses possibles)
+## Quelles affirmations sont correctes pour utiliser une ref DOM avec TypeScript ? (plusieurs réponses possibles)
 
 ```tsx
 function SearchBox() {

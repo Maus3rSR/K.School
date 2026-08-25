@@ -1,4 +1,5 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { seances } from "./exercices";
 import Exercice from "./components/Exercice";
 import Home from "./Home";
@@ -43,44 +44,61 @@ import ModeChasse from "./exercices/10-hooks-personnalises/04-mode-chasse/ModeCh
 const allExercices = seances.flatMap((s) => s.exercices);
 
 function Sidebar() {
+  const location = useLocation();
+  const activeItemRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    activeItemRef.current?.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+  }, [location.pathname]);
+
   return (
-    <aside className="w-72 shrink-0 border-r border-base-300 bg-base-200/40 p-4">
-      <NavLink to="/" className="btn btn-ghost text-xl normal-case mb-2">
-        🐲 MonsterDex
-      </NavLink>
-      {seances.map((seance) => (
-        <div key={seance.label} className="mb-4">
-          <p className="px-2 text-xs uppercase tracking-wide opacity-60 mt-2">
-            {seance.label}
-          </p>
-          <ul className="menu mt-1 w-full gap-1">
-            {seance.exercices.map((ex) => (
-              <li key={ex.path}>
-                <NavLink
-                  to={ex.path}
-                  className={({ isActive }) =>
-                    isActive ? "active font-semibold" : ""
-                  }
-                >
-                  <span className="text-lg">{ex.emoji}</span>
-                  <span>
-                    {ex.numero} · {ex.titre}
-                  </span>
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-base-300 bg-base-200/40">
+      <div className="shrink-0 p-4 pb-2">
+        <NavLink to="/" className="btn btn-ghost text-xl normal-case">
+          🐲 MonsterDex
+        </NavLink>
+      </div>
+      <div className="flex-1 overflow-y-auto p-4 pt-0">
+        {seances.map((seance) => (
+          <div key={seance.label} className="mb-4">
+            <p className="px-2 text-xs uppercase tracking-wide opacity-60 mt-2">
+              {seance.label}
+            </p>
+            <ul className="menu mt-1 w-full gap-1">
+              {seance.exercices.map((ex) => {
+                const isActive =
+                  location.pathname === ex.path ||
+                  location.pathname.startsWith(`${ex.path}/`);
+                return (
+                  <li key={ex.path} ref={isActive ? activeItemRef : undefined}>
+                    <NavLink
+                      to={ex.path}
+                      className={isActive ? "active font-semibold" : ""}
+                    >
+                      <span className="text-lg">{ex.emoji}</span>
+                      <span>
+                        {ex.numero} · {ex.titre}
+                      </span>
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
     </aside>
   );
 }
 
 export default function App() {
   return (
-    <div className="flex min-h-screen bg-base-100 text-base-content">
+    <div className="flex h-screen overflow-hidden bg-base-100 text-base-content">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden p-6 md:p-10">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-10">
         <Routes>
           <Route path="/" element={<Home />} />
           {/* Séance 2 */}

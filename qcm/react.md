@@ -467,26 +467,6 @@ return isLoading
 
 Le ternaire est une expression : expression ? code si vrai : code si faux
 
-## Que reproche-t-on à ce composant ?
-
-```tsx
-let guestCount = 0
-
-function Cup() {
-  guestCount = guestCount + 1
-  return <h2>Tasse à café pour l'invité n°{guestCount}</h2>
-}
-```
-
--[x] Cup mute une variable externe pendant le rendu, ce qui rend son résultat imprévisible d'un rendu à l'autre.
--[ ] Cup ne peut pas être rendu plusieurs fois dans une liste.
--[ ] JSX interdit d'utiliser une variable déclarée en dehors du composant.
--[ ] Le problème vient de l'absence de useState.
-
-### Commentaire de correction
-
-Un composant doit être pur : à mêmes props, il doit toujours retourner le même JSX, sans modifier de variables ou d'objets préexistants pendant le rendu. Ici, guestCount change de valeur à chaque appel, ce qui casse cette garantie.
-
 ## Que se passe-t-il si `event.preventDefault()` n'est pas appelé dans ce gestionnaire ?
 
 ```tsx
@@ -551,45 +531,35 @@ function BookList() {
 
 Séparer les états rend chaque cas d'affichage explicite (chargement, erreur, succès) et évite des combinaisons incohérentes. C'est le pattern recommandé pour tout appel d'API dans un composant React.
 
-## Que va afficher console.log(count) juste après l'appel à setCount ?
+## Combien de fois ce composant se re-rend-il après un clic sur le bouton, et que va afficher `console.log(likes)` ?
 
 ```tsx
-const [count, setCount] = useState(0)
+function LikeButton() {
+  const [likes, setLikes] = useState(0)
+  const [isLiked, setIsLiked] = useState(false)
 
-function handleClick() {
-  setCount(count + 1)
-  console.log(count)
-}
-```
-
--[ ] La nouvelle valeur, 1.
--[x] L'ancienne valeur, 0.
--[ ] undefined, car count est réinitialisé immédiatement.
--[ ] Une erreur, car count ne peut pas être lu après setCount.
-
-### Commentaire de correction
-
-Appeler le setter ne modifie pas immédiatement la variable de state dans le rendu en cours : il planifie un nouveau rendu. count garde donc la valeur de ce rendu (0) jusqu'à ce que React exécute le rendu suivant.
-
-## Pourquoi ce code pose-t-il problème ?
-
-```tsx
-export default function Gallery() {
-  function Profile() {
-    return <img src="avatar.png" />
+  function handleClick() {
+    setLikes(likes + 1)
+    setIsLiked(!isLiked)
+    console.log(likes)
   }
-  return <Profile />
+
+  return (
+    <button onClick={handleClick}>
+      {isLiked ? '❤️' : '🤍'} {likes}
+    </button>
+  )
 }
 ```
 
--[x] Profile est défini à l'intérieur de Gallery : une nouvelle fonction Profile est recréée à chaque rendu de Gallery.
--[ ] Profile ne peut pas retourner une balise `<img />`.
--[ ] Gallery ne peut contenir qu'un seul composant enfant.
--[ ] On ne peut pas mettre de fonction dans une fonction de composant.
+-[ ] Deux re-rendus (un par appel de setState), et `console.log(likes)` affiche `1`.
+-[x] Un seul re-rendu, et `console.log(likes)` affiche `0`.
+-[ ] Un seul re-rendu, et `console.log(likes)` affiche `1`.
+-[ ] Aucun re-rendu tant que le composant n'est pas remonté.
 
 ### Commentaire de correction
 
-Il ne faut jamais définir un composant à l'intérieur d'un autre. Cela recrée une fonction différente à chaque rendu du parent, ce qui ralentit l'application et provoque la perte du state des enfants. Il faut déclarer chaque composant au niveau racine du fichier.
+React regroupe (« batch ») les mises à jour de state déclenchées dans un même gestionnaire d'événement en un seul re-rendu, même si `setLikes` et `setIsLiked` concernent deux states différents. Comme pour le compteur vu en cours, `likes` reste figé à sa valeur du rendu en cours (`0`) pendant toute l'exécution de `handleClick` : `console.log(likes)` affiche donc `0`, pas la nouvelle valeur.
 
 ## Pourquoi ce composant ne doit-il pas calculer `fullName` avec un `useEffect` ? (plusieurs réponses possibles)
 
@@ -675,3 +645,167 @@ function SearchBox() {
 ### Commentaire de correction
 
 Une ref se déclare au niveau supérieur du composant et conserve une valeur mutable entre les rendus sans provoquer de re-rendu. `current` peut être `null` tant que l'élément n'est pas monté, d'où l'utilité de l'opérateur `?.`.
+
+## Quel hook permet de conserver l'identifiant d'un `setInterval` entre deux rendus sans provoquer de re-rendu inutile ?
+
+```tsx
+function Chrono() {
+  // On veut démarrer/arrêter un minuteur avec deux boutons
+  function start() {
+    /* setInterval(...) — où stocker son id ? */
+  }
+  function stop() {
+    /* clearInterval(...) — avec quel id ? */
+  }
+  return (
+    <>
+      <button onClick={start}>▶ Démarrer</button>
+      <button onClick={stop}>⏹ Stopper</button>
+    </>
+  )
+}
+```
+
+-[ ] Une variable locale `let timerId`, déclarée directement dans le composant.
+-[x] `useRef<number | null>(null)`, pour garder la valeur sans redéclencher de rendu.
+-[ ] `useState<number | null>(null)`, pour que l'identifiant soit toujours à jour à l'écran.
+-[ ] Une variable globale déclarée en dehors du composant.
+
+### Commentaire de correction
+
+Une variable locale est réinitialisée à chaque rendu : l'id du timer serait perdu entre `start` et `stop`. `useState` fonctionnerait mais déclencherait un re-rendu à chaque écriture, inutile puisque l'id n'a pas besoin d'être affiché. `useRef` est fait pour ce cas précis : une valeur qui doit survivre aux rendus sans en provoquer de nouveaux.
+
+## Quelles affirmations sont exactes à propos de cette fonction utilisant async/await ? (plusieurs réponses possibles)
+
+```tsx
+async function loadPosts() {
+  try {
+    const res = await fetch('/posts')
+    const data = await res.json()
+    setPosts(data)
+  } catch (err) {
+    setError('Erreur chargement')
+  } finally {
+    setIsLoading(false)
+  }
+}
+```
+
+-[x] `await` met en pause uniquement l'exécution de `loadPosts`, pas le reste de l'application.
+-[x] Le bloc `catch` joue le même rôle que `.catch()` dans avec la syntaxe Promesse.
+-[ ] `await` ne peut être utilisé qu'en dehors d'une fonction déclarée `async`.
+-[ ] `finally` ne s'exécute que si une erreur survient dans le `try`.
+
+### Commentaire de correction
+
+`async/await` est une écriture différente des Promises, pas un concept séparé : `await` ne bloque que la fonction où il est écrit. `catch` et `finally` reprennent les rôles de `.catch()` et `.finally()` — `finally` s'exécute systématiquement, qu'il y ait eu une erreur ou non.
+
+## Une interface de props définit `title: string` (sans `?`). Que se passe-t-il si le composant parent oublie de la fournir ?
+
+```tsx
+interface CardProps {
+  title: string
+  subtitle?: string
+}
+
+function Card({ title, subtitle }: CardProps) {
+  return <h2>{title} — {subtitle}</h2>
+}
+
+// Utilisation
+<Card />
+```
+
+-[ ] Rien : `title` vaudra `undefined` et l'application fonctionne normalement.
+-[x] L'IDE signale une erreur de compilation : `title` est obligatoire et n'a pas de valeur par défaut.
+-[ ] React affiche automatiquement une chaîne vide à la place de `title`.
+-[ ] L'erreur n'apparaît qu'au moment de l'exécution dans le navigateur, jamais à la compilation.
+
+### Commentaire de correction
+
+Sans `?` dans l'interface, une prop est obligatoire : TypeScript détecte l'oubli dès la compilation (ou directement dans l'éditeur), avant même d'exécuter le code. C'est tout l'intérêt de typer les props — contrairement à `subtitle`, optionnelle grâce au `?`.
+
+## Pourquoi préférer `<Link to="/about">` à `<a href="/about">` pour un lien interne dans une application React Router ?
+
+```tsx
+<a href="/about">À propos</a>
+<Link to="/about">À propos</Link>
+```
+
+-[x] `<a href>` recharge toute l'application, alors que `<Link>` change l'URL sans recharger la page.
+-[ ] `<a href>` ne fonctionne que sur les routes dynamiques (`:id`).
+-[ ] `<Link>` désactive les boutons précédent/suivant du navigateur, contrairement à `<a href>`.
+-[ ] Les deux ont un comportement strictement identique dans une SPA.
+
+### Commentaire de correction
+
+`<a href>` déclenche une navigation navigateur classique, avec rechargement complet de la page et perte du state React. `<Link>` intercepte le clic pour ne changer que l'URL et le contenu affiché, ce qui est tout l'intérêt d'une SPA.
+
+## Sur l'URL `/products/42?source=newsletter`, quelle association est correcte ?
+
+```tsx
+<Route path="/products/:id" element={<ProductPage />} />
+```
+
+```tsx
+function ProductPage() {
+  const { id } = useParams<{ id: string }>()
+  const [searchParams] = useSearchParams()
+  const source = searchParams.get('source')
+  // ...
+}
+```
+
+-[x] `useParams` lit `42`, la ressource ciblée par l'URL.
+-[x] `useSearchParams` lit `newsletter` via la clé `source`.
+-[ ] `useParams` et `useSearchParams` lisent tous les deux la même valeur.
+-[ ] Il faut choisir l'un ou l'autre : les deux ne peuvent pas être utilisés dans le même composant.
+
+### Commentaire de correction
+
+Un paramètre de route (`:id`) identifie une ressource précise et fait partie du chemin ; une query string (`?source=...`) précise ou filtre l'affichage sans changer de ressource. Les deux peuvent coexister sur la même URL et être lus dans le même composant.
+
+## Quel est l'intérêt d'extraire la logique de `PostList` dans un hook personnalisé `useFetch` plutôt que de la dupliquer dans chaque composant qui appelle une API ? (plusieurs réponses possibles)
+
+```tsx
+function useFetch<T>(url: string) {
+  const [data, setData] = useState<T | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(url)
+        setData(await res.json())
+      } catch {
+        setError('Erreur chargement')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    load()
+  }, [url])
+
+  return { data, isLoading, error }
+}
+
+function PostList() {
+  const { data: posts, isLoading, error } = useFetch<Post[]>('/posts')
+  // ...
+}
+
+function UserList() {
+  const { data: users, isLoading, error } = useFetch<User[]>('/users')
+  // ...
+}
+```
+
+-[x] Corriger un bug dans la gestion loading/error/data ne demande qu'une seule modification, dans `useFetch`.
+-[x] `PostList` et `UserList` restent courts et lisibles, sans répéter le pattern try/catch/finally.
+-[ ] `PostList` et `UserList` partagent automatiquement les mêmes données, puisqu'ils utilisent le même hook.
+-[ ] Sans ce hook, il serait impossible de typer les données reçues avec un générique comme `Post[]`.
+
+### Commentaire de correction
+
+Un hook personnalisé factorise une logique déjà écrite (ici le pattern loading/error/data vu avec `fetch`) pour éviter de la dupliquer dans chaque composant qui en a besoin : une seule source à corriger ou faire évoluer, et des composants plus lisibles. Chaque appel du hook reste néanmoins indépendant — `PostList` et `UserList` obtiennent chacun leur propre state, comme n'importe quel hook personnalisé.

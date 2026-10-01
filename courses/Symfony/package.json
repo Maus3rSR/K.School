@@ -1,0 +1,19 @@
+{
+  "name": "@k.school/symfony",
+  "version": "0.0.1",
+  "private": "true",
+  "type": "module",
+  "scripts": {
+    "build": "slidev build",
+    "build:setup": "slidev build slides-setup.md --out dist/setup",
+    "dev": "slidev --open",
+    "dev:setup": "slidev slides-setup.md --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@k.school/slidev-addon-ui": "workspace:*",
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "vue": "catalog:"
+  }
+}

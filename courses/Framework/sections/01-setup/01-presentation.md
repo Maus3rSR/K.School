@@ -16,7 +16,7 @@ Bienvenue en R5.Real.05
 
 <!--
 Tour de table rapide : expérience PHP, POO, Docker, JavaScript, etc.
-Rassurer : Symfony impose une structure qui aide, même si elle sembe verbeuse au début.
+Rassurer : Laravel impose une structure qui aide, même si elle semble verbeuse au début.
 -->
 
 ---
@@ -26,17 +26,17 @@ Ce que vous serez capable de faire
 
 <v-click>
 
-- Installer et configurer un projet **Symfony 7.4** avec Docker
+- Installer et configurer un projet **Laravel 12** avec Docker
 
 </v-click>
 <v-click>
 
-- Créer des **routes, contrôleurs et templates** pour afficher des pages web
+- Créer des **routes, contrôleurs et vues Blade** pour afficher des pages web
 
 </v-click>
 <v-click>
 
-- Modéliser un domaine avec **Doctrine** et gérer la persistance
+- Modéliser un domaine avec **Eloquent** et gérer la persistance
 
 </v-click>
 <v-click>
@@ -74,7 +74,7 @@ WishFlix est un catalogue de jeux vidéo avec wishlist personnelle.
 
 <v-click>
 
-**L'objectif** : recréer ce site avec Symfony, en y ajoutant une base de données, des comptes utilisateurs et de l'optimisation.
+**L'objectif** : recréer ce site avec Laravel, en y ajoutant une base de données, des comptes utilisateurs et de l'optimisation.
 
 </v-click>
 
@@ -91,13 +91,13 @@ Déroulé des 9 séances
 | Séance | Thème |
 |--------|-------|
 | 1 | Introduction, Docker et architecture |
-| 2 | Routing, contrôleurs et Twig |
-| 3 | Doctrine : entités, relations, migrations |
-| 4 | Repositories, requêtes et formulaires |
-| 5 | Authentification, sécurité et wishlist |
-| 6 | Tests et qualité de code |
-| 7 | Performance, profiling et optimisation |
-| 8 | Avancement projet et intégration |
+| 2 | Routing, contrôleurs et Blade |
+| 3 | Eloquent : modèles, relations, migrations |
+| 4 | Requêtes Eloquent et optimisation |
+| 5 | Formulaires, validation et services |
+| 6 | Authentification, sécurité et wishlist |
+| 7 | Interactivité front et cache |
+| 8 | Tests et atelier projet |
 | 9 | Soutenance et évaluation (2h) |
 
 <!--
@@ -117,5 +117,5 @@ class: text-center
 
 <!--
 Question ouverte pour amorcer le besoin d'un framework.
-On verra en séance 2 comment Symfony répond concrètement.
+On verra en séance 2 comment Laravel répond concrètement.
 -->

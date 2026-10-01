@@ -7,7 +7,7 @@ src: ./02-frameworks.md
 ---
 
 ---
-src: ./03-symfony-intro.md
+src: ./03-laravel-intro.md
 ---
 
 ---

@@ -67,7 +67,7 @@ Votre code continue
 Framework
     ↓ appelle VOTRE code
     ↓ selon SES conventions
-Votre code (contrôleur, template, entité)
+Votre code (contrôleur, template, modèle)
 ```
 
 <v-click>
@@ -91,7 +91,7 @@ Frameworks populaires côté serveur
 
 | Langage | Frameworks |
 |---------|------------|
-| PHP | **Symfony**, Laravel |
+| PHP | Symfony, **Laravel** |
 | JavaScript / TypeScript | NestJS, Express, AdonisJS |
 | Python | Django, Flask, FastAPI |
 | Ruby | Ruby on Rails |
@@ -100,6 +100,96 @@ Frameworks populaires côté serveur
 <!--
 Insister sur la transversalité des concepts : routing, contrôleur, ORM, injection de dépendances.
 Ceux qui connaissent NestJS reconnaîtront beaucoup d'idées.
+-->
+
+---
+
+# Talk — Stack Overflow Developer Survey 2025
+Le paysage des frameworks web
+
+Le **Stack Overflow Developer Survey 2025** interroge plus de 49 000 développeurs dans 177 pays sur les technologies qu'ils utilisent.
+
+<v-click>
+
+Dans la catégorie **Web frameworks and technologies**, on observe :
+
+</v-click>
+
+<v-click>
+
+- **Node.js** ~49 % — le runtime JavaScript côté serveur le plus cité
+- **React** ~47 % — leader des frameworks frontaux
+- **Next.js** ~21 % — framework React full-stack en forte croissance
+- **Express** ~20 % — framework Node.js léger et très répandu
+
+</v-click>
+
+<!--
+Ces chiffres montrent que JavaScript/TypeScript domine le paysage web mondial.
+Mais les frameworks PHP restent très présents, notamment en Europe.
+-->
+
+---
+
+# Talk — Stack Overflow Developer Survey 2025
+Où se situent PHP et Laravel ?
+
+<v-click>
+
+Dans le même classement :
+
+- **WordPress** ~14 %
+- **Laravel** ~9 %
+- **Symfony** ~4 %
+- **Drupal** ~2 %
+
+</v-click>
+
+<v-click>
+
+> 💡 Laravel apparaît comme le framework PHP le plus cité dans ce sondage mondial, devant Symfony.
+
+</v-click>
+
+<v-click>
+
+⚠️ **Mais attention** : ce classement mélange runtimes, frameworks frontaux, CMS et back-end. Il ne mesure pas directement le marché de l'emploi local.
+
+</v-click>
+
+<!--
+Souligner que Laravel est populaire parmi les répondants, mais que Symfony reste très présent en production (Drupal, Magento, Sylius, PrestaShop).
+La France est historiquement un marché Symfony-fort.
+-->
+
+---
+
+# Talk — Stack Overflow Developer Survey 2025
+Pourquoi ce choix pour ce cours ?
+
+<v-click>
+
+- **Laravel** combine une courbe d'apprentissage accessible avec un écosystème mature
+
+</v-click>
+<v-click>
+
+- Il est très demandé dans les **startups, agences web et SaaS**
+
+</v-click>
+<v-click>
+
+- Il expose les mêmes concepts fondamentaux que Symfony ou NestJS : routing, ORM, injection de dépendances, tests
+
+</v-click>
+<v-click>
+
+- Une fois ces bases acquises, passer à un autre framework devient beaucoup plus simple
+
+</v-click>
+
+<!--
+Le but n'est pas de dire que Laravel est "le meilleur", mais qu'il est un excellent compromis pédagogique et professionnel pour cette formation.
 -->
 
 ---
@@ -114,16 +204,16 @@ Les navigateurs utilisent aussi des frameworks pour construire l'interface :
 
 <v-click>
 
-Symfony, lui, travaille **côté serveur** :
+Laravel, lui, travaille **côté serveur** :
 
 - Il reçoit une requête HTTP
-- Il prépare une réponse (souvent en HTML)
-- Il peut servir de **back-end** pour une SPA
+- Il prépare une réponse (souvent en HTML avec Blade)
+- Il peut servir de **back-end** pour une SPA ou une API
 
 </v-click>
 
 <!--
-Le cours se concentre sur Symfony côté serveur.
+Le cours se concentre sur Laravel côté serveur.
 On pourra évoquer en fin de module les possibilités API.
 -->
 
@@ -170,9 +260,9 @@ class: text-center
 # Qu'est-ce qu'un framework ?
 &nbsp;
 
-> 💬 Quelle différence faites-vous entre utiliser une bibliothèque et adopter un framework sur un projet d'équipe ?
+> 💬 D'après le classement Stack Overflow, Laravel est le framework PHP le plus cité. Pourtant, Symfony reste très présent en production. Quels facteurs expliquent cette différence ?
 
 <!--
-Réponse attendue : conventions partagées, onboarding plus rapide, inversion de contrôle.
-Transition vers Symfony : c'est un framework côté serveur très complet.
+Réponses possibles : popularité vs présence legacy, types d'entreprises (startups vs enterprise), géographie, écosystème CMS.
+Transition vers l'introduction à Laravel.
 -->

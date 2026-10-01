@@ -1,0 +1,8 @@
+{
+  "name": "@k.school/exercices-framework",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "01-installation-architecture": "node -e \"console.log('👉 Ouvrez le README de l\\'exercice : exercices/framework/01-installation-architecture/README.md')\""
+  }
+}

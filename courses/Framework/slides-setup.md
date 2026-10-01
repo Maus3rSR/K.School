@@ -1,6 +1,6 @@
 ---
 titleTemplate: "%s - Kevin UNFRICHT"
-title: "Symfony - Programmation Avancée"
+title: "Framework — Introduction & Installation"
 layout: cover
 background: https://cover.sli.dev?1
 highlighter: shiki
@@ -10,8 +10,8 @@ addons:
   - '@k.school/slidev-addon-ui'
 ---
 
-# Symfony <em class="text-lg">(7.4)</em>
-Programmation avancée avec un framework PHP
+# Framework <em class="text-lg">(Laravel)</em>
+Introduction, installation avec Docker et architecture
 
 ---
 src: ./sections/01-setup/00-ressources.md

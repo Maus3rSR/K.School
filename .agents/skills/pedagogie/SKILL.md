@@ -48,7 +48,7 @@ Concept spécifique
 - **Vocabulaire accessible** : Définir chaque terme technique
 - **Analogies concrètes** : Relier au quotidien
 - **Pas de sauts conceptuels** : Éviter "évidemment", "simplement"
-- **Transitions actives** : Tous les 3-5 concepts, terminer par une question ouverte plutôt qu'un récapitulatif verbatim des slides précédentes (voir skill `slides-kschool`)
+- **Pas de question de transition** entre chapitres : la transition se fait à l'oral (notes du présentateur), pas via une slide dédiée
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
 - **Adresse directe** : Le contenu visible s'adresse au lecteur — pas de méta-référence au formateur ou aux apprenants (réservé aux notes `<!-- -->`)

@@ -1,9 +1,9 @@
 ---
 layout: cover
-background: https://cover.sli.dev?3
+background: https://cover.sli.dev?2
 ---
 
-# Chapitre 02 - Qu'est-ce qu'un framework ?
+# Chapitre 01 - Qu'est-ce qu'un framework ?
 
 ---
 
@@ -53,35 +53,59 @@ C'est le principe d'inversion de contrôle.
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-8
+---
 
 # Qu'est-ce qu'un framework ?
-Bibliothèque vs Framework
+Bibliothèque vs Framework : qui appelle qui ?
 
-```
-Votre code
-    ↓ appelle
-Bibliothèque
-    ↓ retourne un résultat
-Votre code continue
+::left::
 
-Framework
-    ↓ appelle VOTRE code
-    ↓ selon SES conventions
-Votre code (contrôleur, template, modèle)
-```
+<div class="flex flex-col items-center gap-2">
 
-<v-click>
+**📚 Bibliothèque**
 
-**En résumé** :
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code</div>
+<div class="text-sm opacity-70">↓ appelle</div>
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-gray-400 bg-gray-400/10 font-semibold">Bibliothèque</div>
+<div class="text-sm opacity-70">↓ retourne un résultat</div>
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code continue</div>
+<div class="text-sm opacity-70">🎮 Vous gardez le contrôle</div>
 
-- Une **bibliothèque** répond à vos questions
-- Un **framework** pose le cadre de vos réponses
+</div>
 
-</v-click>
+<div v-click="1">
+
+Une bibliothèque **répond à vos questions**
+
+</div>
+
+::right::
+
+<div class="flex flex-col items-center gap-2">
+
+**🏗️ Framework**
+
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
+<div class="text-sm opacity-70">↓ appelle selon ses conventions</div>
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code<br><span class="text-sm font-normal opacity-70">contrôleur, vue, modèle</span></div>
+<div class="text-sm opacity-70">↓ rend la main</div>
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
+<div class="text-sm opacity-70">🔄 Le framework a le contrôle</div>
+
+</div>
+
+<div v-click="1">
+
+Un framework **pose le cadre de vos réponses**
+
+</div>
 
 <!--
 Analogie bibliothèque = un dictionnaire que vous consultez quand vous voulez.
 Framework = un guide de rédaction qui structure votre document.
+Ce renversement s'appelle l'inversion de contrôle.
 -->
 
 ---
@@ -118,7 +142,7 @@ Dans la catégorie **Web frameworks and technologies**, on observe :
 <v-click>
 
 - **Node.js** ~49 % — le runtime JavaScript côté serveur le plus cité
-- **React** ~47 % — leader des frameworks frontaux
+- **React** ~45 % — leader des frameworks frontaux
 - **Next.js** ~21 % — framework React full-stack en forte croissance
 - **Express** ~20 % — framework Node.js léger et très répandu
 
@@ -138,16 +162,17 @@ Où se situent PHP et Laravel ?
 
 Dans le même classement :
 
-- **WordPress** ~14 %
-- **Laravel** ~9 %
-- **Symfony** ~4 %
-- **Drupal** ~2 %
+- **WordPress** ~14 % *(CMS PHP)*
+- **Laravel** ~9 % *(PHP)*
+- **NestJS** ~7 % *(TypeScript)*
+- **Symfony** ~4 % *(PHP)*
+- **Drupal** ~2 % *(CMS PHP)*
 
 </v-click>
 
 <v-click>
 
-> 💡 Laravel apparaît comme le framework PHP le plus cité dans ce sondage mondial, devant Symfony.
+> 💡 Laravel est le framework PHP le plus cité, devant Symfony, et même devant NestJS, son équivalent côté TypeScript.
 
 </v-click>
 
@@ -160,6 +185,7 @@ Dans le même classement :
 <!--
 Souligner que Laravel est populaire parmi les répondants, mais que Symfony reste très présent en production (Drupal, Magento, Sylius, PrestaShop).
 La France est historiquement un marché Symfony-fort.
+Chiffres SO 2025 : NestJS 6,7 %, Laravel 8,9 %.
 -->
 
 ---
@@ -167,26 +193,10 @@ La France est historiquement un marché Symfony-fort.
 # Talk — Stack Overflow Developer Survey 2025
 Pourquoi ce choix pour ce cours ?
 
-<v-click>
-
 - **Laravel** combine une courbe d'apprentissage accessible avec un écosystème mature
-
-</v-click>
-<v-click>
-
 - Il est très demandé dans les **startups, agences web et SaaS**
-
-</v-click>
-<v-click>
-
 - Il expose les mêmes concepts fondamentaux que Symfony ou NestJS : routing, ORM, injection de dépendances, tests
-
-</v-click>
-<v-click>
-
 - Une fois ces bases acquises, passer à un autre framework devient beaucoup plus simple
-
-</v-click>
 
 <!--
 Le but n'est pas de dire que Laravel est "le meilleur", mais qu'il est un excellent compromis pédagogique et professionnel pour cette formation.
@@ -222,47 +232,47 @@ On pourra évoquer en fin de module les possibilités API.
 # Qu'est-ce qu'un framework ?
 Pourquoi utiliser un framework ?
 
-<v-click>
-
 - **Productivité** : on écrit moins de code répétitif
-
-</v-click>
-<v-click>
-
 - **Maintenabilité** : la structure est connue de tous
-
-</v-click>
-<v-click>
-
 - **Sécurité** : les failles courantes sont déjà anticipées
-
-</v-click>
-<v-click>
-
 - **Recrutement** : un standard industriel reconnu
-
-</v-click>
-<v-click>
-
 - **Évolutivité** : on peut remplacer un composant sans tout casser
-
-</v-click>
 
 <!--
 Donner un exemple concret : la protection CSRF dans les formulaires est gérée nativement.
 -->
 
 ---
-layout: center
-class: text-center
+
+# Qu'est-ce qu'un framework ?
+Quiz
+
+<Quiz
+  question="Qu'est-ce qui distingue un framework d'une bibliothèque ?"
+  :options="[
+    'Un framework est toujours plus léger qu\'une bibliothèque',
+    'Le framework appelle votre code selon ses propres conventions',
+    'Une bibliothèque impose la structure de votre projet',
+    'Un framework ne fonctionne qu\'avec PHP'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Faire voter la salle avant de cliquer. Revenir sur l'inversion de contrôle si besoin.
+-->
+
 ---
 
 # Qu'est-ce qu'un framework ?
-&nbsp;
+Quiz
 
-> 💬 D'après le classement Stack Overflow, Laravel est le framework PHP le plus cité. Pourtant, Symfony reste très présent en production. Quels facteurs expliquent cette différence ?
+<Quiz
+  question="Parmi ces frameworks, lequel est écrit en PHP ?"
+  :options="['NestJS', 'Django', 'Laravel', 'Spring Boot']"
+  :answer="2"
+/>
 
 <!--
-Réponses possibles : popularité vs présence legacy, types d'entreprises (startups vs enterprise), géographie, écosystème CMS.
-Transition vers l'introduction à Laravel.
+NestJS = TypeScript, Django = Python, Spring Boot = Java.
 -->

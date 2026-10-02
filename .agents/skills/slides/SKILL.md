@@ -59,6 +59,8 @@ sections/
 
 `<VClick>`, `<Transform>`, `<mark>`, `<Toc>`, `<Arrow>`, `<AutoFitText>`, `magic-move`
 
+`<Quiz>` (addon `@k.school/slidev-addon-ui`) : quiz à choix unique. Usage : `<Quiz question="..." :options="['A','B','C','D']" :answer="1" />` — 4 réponses, 1 seule juste (`answer` = index 0-based) ; bonne réponse en vert, mauvaise en rouge avec la bonne réponse affichée en vert.
+
 ---
 
 ## Layout des Slides
@@ -114,40 +116,13 @@ sections/
 
 > ❌ Mauvais : une slide finale de chapitre qui liste à nouveau les 4 points déjà présentés un par un.
 
-**Alternative obligatoire** : Terminer un chapitre par une **question de transition ouverte** (`layout: center`) qui invite les apprenants à reformuler, ou par une note de speaker sans slide dédiée.
-
-**Format standard de transition** :
-
-```md
----
-layout: center
-class: text-center
----
-
-# Titre du Chapitre
-
-&nbsp;
-
-> 💬 [Question ouverte qui connecte ce chapitre au suivant]
-
-<!--
-Notes de transition pour le présentateur.
--->
-```
+**Alternative** : terminer le chapitre directement, sans slide de transition ni question ouverte. Les éléments de synthèse ou de transition vont dans les notes du présentateur (`<!-- -->`) de la dernière slide.
 
 **Exception** : Une synthèse est acceptable **uniquement** si elle croise ou reformule des points de chapitres **différents** (ex : synthèse finale de cours).
 
-### Question de transition référençant un concept non encore vu (INTERDIT)
+### Slide de question de transition entre chapitres (INTERDIT)
 
-**INTERDIT** : Poser une question de transition qui demande aux apprenants de comparer ou d'utiliser un concept qui sera introduit **dans le chapitre suivant**.
-
-> ❌ Mauvais : fin du chapitre "Polymorphisme" → « Quelle différence entre une **interface** et une **classe abstraite** ? » alors que les classes abstraites sont introduites au chapitre suivant.
-
-**Règle** : La question de transition doit pouvoir être répondue **uniquement avec les acquis du chapitre en cours et des chapitres précédents**. Elle ouvre une curiosité, elle ne présuppose pas une connaissance future.
-
-**Diagnostic** : Avant d'écrire une question de transition, vérifier que chaque concept mentionné dans la question a déjà été couvert. Si un concept appartient au chapitre suivant → reformuler en partant du problème que ce concept résout.
-
-> ✅ Bon : « On a vu que le polymorphisme repose sur un contrat commun. Comment forcer plusieurs classes à **respecter ce contrat** sans dupliquer de code ? » — les apprenants peuvent raisonner sur la question sans connaître la réponse.
+**INTERDIT** : Ajouter une slide `layout: center` avec une question `> 💬` en fin de chapitre pour faire la transition avec le chapitre suivant.
 
 ---
 

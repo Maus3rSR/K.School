@@ -1,19 +1,15 @@
 ---
-src: ./01-presentation.md
+src: ./01-frameworks.md
 ---
 
 ---
-src: ./02-frameworks.md
+src: ./02-laravel-intro.md
 ---
 
 ---
-src: ./03-laravel-intro.md
+src: ./03-installation.md
 ---
 
 ---
-src: ./04-installation.md
----
-
----
-src: ./05-architecture.md
+src: ./04-architecture.md
 ---

@@ -1,9 +1,9 @@
 ---
 layout: cover
-background: https://cover.sli.dev?4
+background: https://cover.sli.dev?3
 ---
 
-# Chapitre 03 - Découvrir Laravel
+# Chapitre 02 - Découvrir Laravel
 
 ---
 
@@ -56,65 +56,15 @@ Pas besoin de retenir tous les noms maintenant. On les reverra pratiquement dans
 # Découvrir Laravel
 Ce que Laravel peut faire
 
-<v-clicks>
-
-1. **Applications web server-rendered** : générer du HTML côté serveur avec Blade
-2. **APIs REST** : exposer des endpoints JSON pour React, Vue ou mobile
-3. **Applications full-stack** : avec Inertia.js, le front React/Vue reste dans le même projet
-4. **Commandes console** : automatiser des tâches avec Artisan
-5. **Prototypes rapides** : grâce aux starter kits Breeze et Jetstream
-
-</v-clicks>
+- **Applications web server-rendered** : générer du HTML côté serveur avec Blade
+- **APIs REST** : exposer des endpoints JSON pour React, Vue ou mobile
+- **Applications full-stack** : avec Inertia.js, le front React/Vue reste dans le même projet
+- **Commandes console** : automatiser des tâches avec Artisan
+- **Prototypes rapides** : grâce aux starter kits Breeze et Jetstream
 
 <!--
 WishFlix sera d'abord server-rendered avec Blade.
 On pourra évoquer une API en fin de module.
--->
-
----
-
-# Découvrir Laravel
-L'écosystème
-
-Outre le framework lui-même, vous utiliserez :
-
-- **Laravel Sail** : environnement Docker officiel
-- **Laravel Herd** : serveur local rapide (plan B sans Docker)
-- **Laravel Nova** : administration back-office (optionnel, payant)
-- **Laravel Forge / Vapor** : déploiement serveur et serverless
-- **Packagist / Composer** : gestion des packages PHP
-
-<v-click>
-
-> 💡 Laravel est un écosystème, pas seulement un framework. Vous pouvez commencer simple et ajouter des outils au besoin.
-
-</v-click>
-
-<!--
-Insister sur le fait que l'écosystème Laravel est très complet, même si on n'utilisera pas tout dans ce module.
--->
-
----
-
-# Découvrir Laravel
-Cycle de versions
-
-<v-click>
-
-- Une version majeure tous les **6 mois** environ (Laravel 11, 12, etc.)
-- Une version **LTS** tous les 2 ans : support de sécurité prolongé
-- Laravel 12 n'est pas une LTS, mais elle est moderne et largement utilisée
-
-</v-click>
-
-<v-click>
-
-> 💡 Ce cours utilise Laravel 12 avec PHP 8.3+. Les concepts restent valables sur les versions récentes.
-
-</v-click>
-
-<!--
-Préciser que Laravel est maintenu activement et que les mises à jour majeures sont documentées.
 -->
 
 ---
@@ -140,19 +90,4 @@ Comparaison rapide avec Symfony et NestJS
 <!--
 Cette comparaison aide les apprenants à situer Laravel par rapport à d'autres frameworks.
 On pourra revenir sur NestJS si la promotion a déjà de l'expérience TypeScript.
--->
-
----
-layout: center
-class: text-center
----
-
-# Découvrir Laravel
-&nbsp;
-
-> 💬 Pensez à vos projets précédents : quelles tâches répétitives aimeriez-vous voir un framework gérer automatiquement ?
-
-<!--
-Réponses possibles : authentification, validation, base de données, formulaires, envoi d'emails.
-Ces points seront explicitement montrés dans les prochaines séances.
 -->

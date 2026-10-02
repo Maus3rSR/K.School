@@ -1,9 +1,9 @@
 ---
 layout: cover
-background: https://cover.sli.dev?6
+background: https://cover.sli.dev?5
 ---
 
-# Chapitre 05 - Architecture d'un projet Laravel
+# Chapitre 04 - Architecture d'un projet Laravel
 
 ---
 
@@ -41,22 +41,14 @@ vendor/, bootstrap/cache/ et storage/framework/ sont générés ou utilisés par
 # Architecture d'un projet Laravel
 Les dossiers que vous écrivez
 
-<v-click>
-
 - **`app/`** : classes PHP de votre application
   - `Models/` : modèles Eloquent
   - `Http/Controllers/` : contrôleurs
   - `Providers/` : configuration du service container
-
-</v-click>
-<v-click>
-
 - **`routes/`** : définition des routes web, API, console
 - **`resources/views/`** : templates Blade
 - **`database/migrations/`** : versionnement du schéma
 - **`tests/`** : tests Feature et Unit
-
-</v-click>
 
 <!--
 Analogie : app/ c'est votre cuisine, resources/views/ c'est la salle, routes/ c'est le plan d'accès.
@@ -67,26 +59,14 @@ Analogie : app/ c'est votre cuisine, resources/views/ c'est la salle, routes/ c'
 # Architecture d'un projet Laravel
 Les dossiers générés ou gérés automatiquement
 
-<v-click>
-
 - **`storage/`** : fichiers produits automatiquement
   - `logs/` : journaux d'erreurs
   - `framework/cache/` : cache de configuration et vues
   - `app/` : fichiers uploadés
-
-</v-click>
-<v-click>
-
 - **`vendor/`** : dépendances Composer
   - Ne jamais modifier à la main
   - Généré par `composer install`
-
-</v-click>
-<v-click>
-
 - **`bootstrap/cache/`** : cache de démarrage du framework
-
-</v-click>
 <v-click>
 
 > 💡 Ces dossiers sont listés dans `.gitignore`. Ils n'ont pas vocation à être versionnés.
@@ -268,21 +248,6 @@ Laravel fournit la structure. Vous remplissez les cases avec votre logique méti
 
 <!--
 Cette slide est une synthèse des relations entre le code de l'apprenant et les composants Laravel.
--->
-
----
-layout: center
-class: text-center
----
-
-# Architecture d'un projet Laravel
-&nbsp;
-
-> 💬 D'après ce que l'on vient de voir, que se passe-t-il concrètement quand un visiteur accède à `/hello` ?
-
-<!--
-Réponse attendue : la requête arrive sur public/index.php, l'application et le router identifient le contrôleur associé à la route /hello, le contrôleur retourne une Response ou une vue Blade.
-Transition vers l'exercice 01.
 -->
 
 ---

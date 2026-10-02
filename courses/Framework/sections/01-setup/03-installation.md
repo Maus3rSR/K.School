@@ -1,9 +1,9 @@
 ---
 layout: cover
-background: https://cover.sli.dev?5
+background: https://cover.sli.dev?4
 ---
 
-# Chapitre 04 - Installer Laravel avec Docker
+# Chapitre 03 - Installer Laravel avec Docker
 
 ---
 
@@ -60,23 +60,25 @@ C'est normal, c'est le moment où Docker prépare l'environnement.
 # Installer Laravel avec Docker
 Étape 1 — Créer le projet avec l'installeur Laravel
 
+> 📖 [Documentation officielle : Installation avec Docker](https://laravel.com/docs/11.x/installation#docker-installation-using-sail)
+
 Laravel fournit un installeur qui crée un projet prêt à l'emploi, avec Sail intégré.
 
 ```bash
 # macOS / Linux
-curl -s https://laravel.build/wishflix | bash
+curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET> | bash
 
 # Windows (PowerShell)
-curl -s https://laravel.build/wishflix | cmd /c
+curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET> | cmd /c
 ```
 
 <v-click>
 
 Cette commande :
 
-1. Crée le dossier `wishflix/`
+1. Crée le dossier `<NOM_DE_VOTRE_PROJET>/`
 2. Installe Laravel 12 et ses dépendances dans un conteneur temporaire
-3. Configure automatiquement **Laravel Sail**
+3. Configure automatiquement **[https://laravel.com/framework/docs/11.x/sail](Laravel Sail)**
 
 </v-click>
 
@@ -93,7 +95,7 @@ Il utilise des conteneurs temporaires pour installer les dépendances sans pollu
 Rendez-vous dans le dossier du projet et démarrez Sail :
 
 ```bash
-cd wishflix
+cd <NOM_DE_VOTRE_PROJET>
 ./vendor/bin/sail up -d
 ```
 
@@ -170,8 +172,8 @@ Si Docker n'est pas disponible, vous pouvez utiliser **Laravel Herd** :
 
 ```bash
 # Herd fournit PHP, Composer, un serveur local et une base de données
-herd new wishflix
-cd wishflix
+herd new <NOM_DE_VOTRE_PROJET>
+cd <NOM_DE_VOTRE_PROJET>
 herd open
 ```
 
@@ -216,19 +218,4 @@ Pour travailler quotidiennement avec Sail :
 <!--
 Insister sur le fait que Sail encapsule Docker Compose.
 Toutes les commandes Laravel passent par `./vendor/bin/sail`.
--->
-
----
-layout: center
-class: text-center
----
-
-# Installer Laravel avec Docker
-&nbsp;
-
-> 💬 Quelle différence faites-vous entre `sail up -d` et `sail artisan about` ?
-
-<!--
-Réponse attendue : up démarre les services, artisan exécute une commande dans le conteneur déjà démarré.
-Cette distinction est essentielle pour le reste du module.
 -->

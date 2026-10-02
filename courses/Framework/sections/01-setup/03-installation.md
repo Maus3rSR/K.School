@@ -66,10 +66,10 @@ Laravel fournit un installeur qui crée un projet prêt à l'emploi, avec Sail i
 
 ```bash
 # macOS / Linux
-curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET> | bash
+curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET>?with=postgres,redis | bash
 
 # Windows (PowerShell)
-curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET> | cmd /c
+curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET>?with=postgres,redis | cmd /c
 ```
 
 <v-click>
@@ -78,7 +78,8 @@ Cette commande :
 
 1. Crée le dossier `<NOM_DE_VOTRE_PROJET>/`
 2. Installe Laravel 12 et ses dépendances dans un conteneur temporaire
-3. Configure automatiquement **[https://laravel.com/framework/docs/11.x/sail](Laravel Sail)**
+3. with=postgres,redis : installe PostgreSQL et Redis en services complémentaires (base de données et système de cache)
+4. Configure automatiquement **[https://laravel.com/framework/docs/12.x/sail](Laravel Sail)**
 
 </v-click>
 
@@ -96,7 +97,10 @@ Rendez-vous dans le dossier du projet et démarrez Sail :
 
 ```bash
 cd <NOM_DE_VOTRE_PROJET>
+# Lancement du container
 ./vendor/bin/sail up -d
+# Migration de la base de données
+./vendor/bin/sail artisan migrate
 ```
 
 <v-click>
@@ -105,7 +109,9 @@ Cette commande démarre :
 
 - Le conteneur PHP / Laravel
 - Le serveur web
-- La base de données (MySQL par défaut)
+- La base de données (PostgreSQL par défaut)
+- Le système de cache (Redis)
+- Avec le CLI `artisan`, on lance la migration de la base de données
 
 </v-click>
 
@@ -161,31 +167,6 @@ Cette commande affiche :
 <!--
 Expliquer le schéma : ./vendor/bin/sail artisan → exécute artisan dans le conteneur PHP.
 C'est l'habitude à prendre pour toutes les commandes Laravel.
--->
-
----
-
-# Installer Laravel avec Docker
-Plan B : sans Docker
-
-Si Docker n'est pas disponible, vous pouvez utiliser **Laravel Herd** :
-
-```bash
-# Herd fournit PHP, Composer, un serveur local et une base de données
-herd new <NOM_DE_VOTRE_PROJET>
-cd <NOM_DE_VOTRE_PROJET>
-herd open
-```
-
-<v-click>
-
-> ⚠️ Le reste du cours est prévu pour Docker / Sail. Le plan B est une solution de secours.
-
-</v-click>
-
-<!--
-Herd est un outil local très pratique sur macOS et Windows.
-Il ne nécessite pas Docker mais installe PHP et les outils directement sur la machine.
 -->
 
 ---

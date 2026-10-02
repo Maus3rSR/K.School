@@ -249,25 +249,3 @@ Laravel fournit la structure. Vous remplissez les cases avec votre logique méti
 <!--
 Cette slide est une synthèse des relations entre le code de l'apprenant et les composants Laravel.
 -->
-
----
-
-# Exercice 01
-Installation et architecture
-
-🛠️ Lancez l'exercice avec :
-
-```bash
-pnpm framework:ex:installation
-```
-
-Lisez le README dans :
-
-```text
-exercices/framework/01-installation-architecture/README.md
-```
-
-<!--
-Le formateur circule pendant l'installation.
-Le premier lancement Docker est souvent long : encourager les apprenants à patienter.
--->

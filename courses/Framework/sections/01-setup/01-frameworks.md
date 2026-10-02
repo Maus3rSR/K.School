@@ -8,6 +8,27 @@ background: https://cover.sli.dev?2
 ---
 
 # Qu'est-ce qu'un framework ?
+Et vous, qu'en pensez-vous ?
+
+<Quiz
+  question="Selon vous, qu'est-ce qu'un framework ?"
+  :options="[
+    'Un langage de programmation, comme PHP ou JavaScript',
+    'Un cadre de travail qui impose une structure et appelle votre code',
+    'Un logiciel pour écrire du code, comme VS Code',
+    'Une base de données pour stocker les informations du site'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Quiz de diagnostic : faire voter la salle avant de cliquer pour mesurer ce que les apprenants savent déjà.
+Pas de jugement sur les réponses — on y reviendra tout au long du chapitre (définition, inversion de contrôle).
+-->
+
+---
+
+# Qu'est-ce qu'un framework ?
 Le problème du code "from scratch"
 
 Sans framework, chaque projet PHP doit réinventer :
@@ -242,37 +263,3 @@ Pourquoi utiliser un framework ?
 Donner un exemple concret : la protection CSRF dans les formulaires est gérée nativement.
 -->
 
----
-
-# Qu'est-ce qu'un framework ?
-Quiz
-
-<Quiz
-  question="Qu'est-ce qui distingue un framework d'une bibliothèque ?"
-  :options="[
-    'Un framework est toujours plus léger qu\'une bibliothèque',
-    'Le framework appelle votre code selon ses propres conventions',
-    'Une bibliothèque impose la structure de votre projet',
-    'Un framework ne fonctionne qu\'avec PHP'
-  ]"
-  :answer="1"
-/>
-
-<!--
-Faire voter la salle avant de cliquer. Revenir sur l'inversion de contrôle si besoin.
--->
-
----
-
-# Qu'est-ce qu'un framework ?
-Quiz
-
-<Quiz
-  question="Parmi ces frameworks, lequel est écrit en PHP ?"
-  :options="['NestJS', 'Django', 'Laravel', 'Spring Boot']"
-  :answer="2"
-/>
-
-<!--
-NestJS = TypeScript, Django = Python, Spring Boot = Java.
--->

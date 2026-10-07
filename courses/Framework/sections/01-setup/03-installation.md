@@ -52,20 +52,30 @@ Avant de commencer
 ::left::
 
 <Definition term="Composer">
+
 Le gestionnaire de dépendances de PHP. Il télécharge Laravel et les bibliothèques tierces dans `vendor/`, comme `npm` le fait pour JavaScript.
+
 </Definition>
 
 <Definition term="Artisan">
+
 La console en ligne de commande fournie par Laravel. Elle sert à lancer des tâches (migrations, cache) et à générer du code (`make:controller`...).
+
 </Definition>
 
 ::right::
 
 <Definition term="Sail">
+
 L'environnement Docker officiel de Laravel : un fichier `compose.yaml` + un script `sail` qui pilote les conteneurs (PHP, base de données, Redis) pour vous.
+
 </Definition>
 
-<Alert>Ces trois noms reviendront dans toutes les commandes du cours.</Alert>
+<Alert>
+
+Ces trois noms reviendront dans toutes les commandes du cours.
+
+</Alert>
 
 <!--
 Composer = npm pour PHP. Artisan = le couteau suisse de Laravel. Sail = Docker Compose emballé pour Laravel.

@@ -36,6 +36,32 @@ Répéter le pacte : démo sur Campus Quest, transposition sur WishFlix — jama
 -->
 
 ---
+
+# Routing
+Qu'est-ce qu'une route ?
+
+<Definition term="Route">
+
+Une association entre une **URL**, un **verbe HTTP** et l'**action** à exécuter.
+
+</Definition>
+
+<v-click>
+
+<Analogy title="Comme le standard du campus" icon="☎️">
+
+Vous appelez le standard et demandez « la scolarité » : le standardiste vous **aiguille** vers le bon bureau. Le router de Laravel fait pareil : il reçoit l'URL demandée et la transmet à la bonne action.
+
+</Analogy>
+
+</v-click>
+
+<!--
+Faire trouver d'autres exemples d'aiguillage : panneaux d'un hall, accueil d'un hôpital.
+Le "router" est la partie de Laravel qui lit routes/web.php et choisit la route qui correspond à l'URL.
+-->
+
+---
 layout: two-cols-header
 layoutClass: gap-x-6
 ---
@@ -44,10 +70,6 @@ layoutClass: gap-x-6
 Votre première route
 
 ::left::
-
-<Definition term="Route">
-Une association entre une **URL**, un **verbe HTTP** et l'**action** à exécuter.
-</Definition>
 
 ```php {none|1|2|1-3}
 Route::get('/quests', function () {

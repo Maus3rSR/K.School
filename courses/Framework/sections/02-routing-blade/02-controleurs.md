@@ -64,9 +64,11 @@ Générer un contrôleur avec Artisan
   ]"
 />
 
-Artisan crée la classe au bon endroit, avec le bon `namespace` : rien à écrire à la main.
+Artisan crée la classe dans `app/Http/Controllers/`, avec le bon `namespace` PHP : rien à écrire à la main.
 
 ::right::
+
+<v-click>
 
 <FileTree :tree="[
   { name: 'app', children: [
@@ -80,6 +82,8 @@ Artisan crée la classe au bon endroit, avec le bon `namespace` : rien à écrir
 ]" />
 
 `Controller.php` est la **classe de base** dont héritent tous vos contrôleurs.
+
+</v-click>
 
 <!--
 Montrer le fichier généré : quasi vide, une classe qui extends Controller.
@@ -171,7 +175,19 @@ Route::get('/quests/{id}', [QuestController::class, 'show'])
 
 `[Classe::class, 'méthode']` remplace la closure : la route délègue au contrôleur.
 
+<div v-click="2">
+
+<Analogy title="Comme au restaurant" icon="🍽️">
+
+Le router est l'hôte d'accueil qui vous conduit à une table. Le contrôleur est le serveur : il prend votre commande, la fait préparer (les données) et vous apporte l'assiette (la vue).
+
+</Analogy>
+
+</div>
+
 ::right::
+
+<div v-click="1">
 
 ```mermaid
 sequenceDiagram
@@ -180,6 +196,8 @@ sequenceDiagram
     QuestController->>Vue: view('quests.show', ...)
     Vue-->>Navigateur: HTML de la quête
 ```
+
+</div>
 
 <!--
 Le paramètre {id} est injecté dans show(int $id) par nom.

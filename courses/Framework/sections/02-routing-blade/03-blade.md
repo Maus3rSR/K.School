@@ -22,10 +22,14 @@ layoutClass: gap-x-6
 # Blade et layouts
 Du contrôleur à la vue
 
+Renvoyer `'Liste des quêtes'` ne suffit pas : il faut une vraie page HTML.
+
 ::left::
 
 <Definition term="Blade">
-Le moteur de templates de Laravel : du HTML enrichi de directives `@...` et d'expressions `{{ }}`, compilé en PHP.
+
+Le moteur de templates de Laravel : du HTML enrichi de directives `@...` et d'expressions <code v-pre>{{ }}</code>, compilé en PHP.
+
 </Definition>
 
 ```php
@@ -34,6 +38,8 @@ return view('quests.index',
 ```
 
 ::right::
+
+<v-click>
 
 `quests.index` → le **point remplace le slash** :
 
@@ -48,6 +54,8 @@ return view('quests.index',
 ]" />
 
 Le tableau associatif devient des **variables** dans la vue : `'quests' => ...` crée `$quests`.
+
+</v-click>
 
 <!--
 Piège fréquent : écrire view('quests/index') ou oublier le .blade.php implicite — les deux formes avec slash fonctionnent aussi mais le point est la convention.
@@ -80,6 +88,16 @@ Afficher : échappé ou brut ?
 
   </template>
 </Compare>
+
+<v-click>
+
+<Alert type="error">
+
+Une faille **XSS** (*Cross-Site Scripting*) consiste à injecter du JavaScript dans une page via une donnée affichée : vol de session, faux formulaires…
+
+</Alert>
+
+</v-click>
 
 <!--
 `{{ }}` échappe les caractères spéciaux HTML : c'est la protection XSS par défaut.
@@ -117,7 +135,7 @@ Les directives : boucles et conditions
 
 <div v-click="2">
 
-Dans la boucle : `route()` génère le lien vers la fiche, `{{ }}` affiche les champs échappés.
+Dans la boucle : `route()` génère le lien vers la fiche, <code v-pre>{{ }}</code> affiche les champs échappés.
 
 </div>
 
@@ -228,6 +246,8 @@ La page enfant remplit les trous
 
 ::right::
 
+<v-click>
+
 **La page** (`quests/index.blade.php`)
 
 ```blade
@@ -243,6 +263,8 @@ La page enfant remplit les trous
     <h1>Quêtes disponibles</h1>
 @endsection
 ```
+
+</v-click>
 
 <!--
 @vite dans @section('styles') : la CSS de page est injectée dans le <head> du layout — détail au chapitre 8.
@@ -262,4 +284,26 @@ Le layout est le **formulaire imprimé** : en-tête, cases vides, pied de page i
 
 <!--
 Récap oral : @extends choisit le gabarit, @section(nom) remplit @yield(nom), @include insère un fragment.
+-->
+
+---
+
+# Blade et layouts
+À vous de jouer
+
+<Quiz
+  question="Votre page affiche bien la navbar du layout, mais son contenu reste vide. Quelle est la cause la plus probable ?"
+  :options="[
+    'Le contrôleur ne passe pas $quests à la vue',
+    'La page remplit @section(\'contenu\') alors que le layout attend @yield(\'content\')',
+    'Le fichier s\'appelle index.php au lieu de index.blade.php',
+    'sail npm run dev n\'est pas lancé'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Bonne réponse : les noms de section et de yield ne correspondent pas. Blade n'affiche aucune erreur, le trou reste simplement vide.
+Les autres options produisent des symptômes différents : variable non définie → erreur ; .php → les directives @ s'affichent en texte brut ; Vite → erreur "manifest not found".
+C'est le bug n°1 de l'atelier : le faire repérer maintenant fait gagner du temps.
 -->

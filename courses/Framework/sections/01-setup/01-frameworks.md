@@ -173,7 +173,7 @@ layout: fact
 transition: slide-up | slide-down
 ---
 
-# Stack Overflow Developer Survey 2025
+## Stack Overflow Developer Survey 2025
 
 Le **Stack Overflow Developer Survey 2025** interroge plus de 49 000 développeurs dans 177 pays sur les technologies qu'ils utilisent.
 

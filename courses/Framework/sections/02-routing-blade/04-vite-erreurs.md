@@ -17,9 +17,13 @@ Dernier chapitre du cours : deux sujets courts mais indispensables pour l'atelie
 ---
 
 # Vite et pages d'erreur
-Vite compile et sert vos assets
+Vite compile et sert vos assets (CSS, JS)
 
-Vite compile le CSS et le JS, les sert en développement et **recharge la page automatiquement** à chaque modification.
+Vous ouvrez la page et Laravel affiche **« Vite manifest not found »** : la page réclame ses CSS, mais personne ne les a compilées.
+
+<v-click>
+
+Vite **compile** le CSS et le JS, les **sert** pendant le développement et **recharge la page** à chaque modification :
 
 <Terminal
   title="bash" prompt="$"
@@ -29,11 +33,21 @@ Vite compile le CSS et le JS, les sert en développement et **recharge la page a
   ]"
 />
 
-<Alert type="warning">Sans `sail npm run dev` (ou `sail npm run build`), chaque page affiche l'erreur « Vite manifest not found ».</Alert>
+</v-click>
+
+<v-click>
+
+<Alert type="info">
+
+Gardez `sail npm run dev` ouvert dans un second terminal, à côté de `sail up`. Pour un rendu sans serveur Vite : `sail npm run build`.
+
+</Alert>
+
+</v-click>
 
 <!--
-Le terminal npm run dev reste ouvert pendant tout le développement, à côté de sail up.
-C'est l'erreur n°1 des premiers jours : l'apprendre à reconnaître fait gagner du temps à toute la promo.
+C'est l'erreur n°1 des premiers jours : apprendre à la reconnaître fait gagner du temps à toute la promo.
+Le premier npm install sous Sail peut être long : c'est normal.
 -->
 
 ---
@@ -118,9 +132,13 @@ public function show(int $id)
 
 ::right::
 
+<v-click>
+
 <Browser url="localhost/quests/999" title="Campus Quest">
   <Placeholder :w="800" :h="500" text="Erreur 404" />
 </Browser>
+
+</v-click>
 
 <!--
 Option : sail artisan vendor:publish --tag=laravel-errors récupère les vues d'erreur par défaut comme point de départ.

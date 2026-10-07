@@ -35,6 +35,7 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 2. Dans `vite.config.js`, ajoutez ces fichiers au tableau `input` du plugin `laravel(...)` — chaque fichier CSS/JS chargé par `@vite` doit y figurer.
 3. Gardez pour l'instant dans le `<head>` les liens **CDN DaisyUI et Tailwind** présents dans les maquettes (la migration vers Tailwind via Vite est un bonus).
 4. Lancez `./vendor/bin/sail npm install` puis `./vendor/bin/sail npm run dev` (ce terminal reste ouvert).
+   > Le premier `npm install` peut prendre quelques minutes : c'est normal.
 5. Vérifiez que la page Laravel s'affiche toujours — si vous voyez « Vite manifest not found », `npm run dev` ne tourne pas.
 
 ### A2 — Le layout `app.blade.php`
@@ -74,6 +75,8 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 - [ ] La navbar et le footer n'existent que dans le layout (et `partials.nav` si extrait)
 - [ ] `sail artisan route:list` montre vos deux routes nommées
 - [ ] Commit poussé sur votre dépôt GitHub privé
+
+> Tout est coché ? Vous venez de transformer un site statique en application Laravel : c'est sur cette base que s'appuie tout le reste du module.
 
 ---
 

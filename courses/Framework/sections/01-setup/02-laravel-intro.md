@@ -1,24 +1,37 @@
 ---
-layout: cover
-background: https://cover.sli.dev?3
----
-
-# Chapitre 02 - Découvrir Laravel
-
+layout: chapter
+transition: slide-left | slide-right
+number: 02
+duration: 30 min
 ---
 
 # Découvrir Laravel
-Qu'est-ce que Laravel ?
+
+- Comprendre ce qu'est Laravel et sa philosophie
+- Identifier les briques principales du framework
+- Situer Laravel par rapport à Symfony et NestJS
+
+---
+transition: slide-up | slide-down
+---
+
+# Qu'est-ce que Laravel ?
+
+<Definition term="Laravel">
 
 Laravel est un **framework PHP** complet, moderne et open-source.
-
-<v-click>
 
 - Créé en **2011** par Taylor Otwell
 - Conçu autour de la **productivité** et de l'**élégance du code**
 - Version actuelle du cours : **Laravel 12** (PHP 8.3+)
 
-</v-click>
+</Definition>
+
+<Analogy title="La boîte à outils du développeur PHP" icon="🧰">
+
+Laravel fournit les outils essentiels (routing, ORM, templating, console...) déjà calibrés pour travailler ensemble. Le développeur n'a plus qu'à se concentrer sur la logique métier de son application.
+
+</Analogy>
 
 <v-click>
 
@@ -32,45 +45,31 @@ Son slogan historique est "The PHP Framework for Web Artisans".
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Découvrir Laravel
-Les briques principales
+# Les briques principales
 
-| Composant | Rôle |
-|-----------|------|
-| Eloquent | ORM pour manipuler la base de données avec des objets PHP |
-| Blade | Moteur de templates simple et puissant |
-| Artisan | Console en ligne de commande avec générateurs de code |
-| Routing | Définition des routes web et API |
-| Validation | Validation des formulaires et des requêtes |
-| Migration | Versionnement du schéma de base de données |
-| Sanctum / Breeze | Authentification et gestion des sessions/API tokens |
-| Vite | Compilation des assets CSS/JS |
+<ImageGrid :cols="4" size="sm" :images="[
+  { src: 'https://placeholdit.com/200x200/4f8ef7/f1f5f9?text=Eloquent', caption: 'Eloquent' },
+  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Blade', caption: 'Blade' },
+  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Artisan', caption: 'Artisan' },
+  { src: 'https://placeholdit.com/200x200/ffbe00/f1f5f9?text=Routing', caption: 'Routing' },
+  { src: 'https://placeholdit.com/200x200/a855f7/f1f5f9?text=Validation', caption: 'Validation' },
+  { src: 'https://placeholdit.com/200x200/00b5ff/f1f5f9?text=Migration', caption: 'Migration' },
+  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Sanctum+%2F+Breeze', caption: 'Sanctum / Breeze' },
+  { src: 'https://placeholdit.com/200x200/ff8c42/f1f5f9?text=Vite', caption: 'Vite' }
+]" />
 
 <!--
 Pas besoin de retenir tous les noms maintenant. On les reverra pratiquement dans les prochaines séances.
 -->
 
 ---
-
-# Découvrir Laravel
-Ce que Laravel peut faire
-
-- **Applications web server-rendered** : générer du HTML côté serveur avec Blade
-- **APIs REST** : exposer des endpoints JSON pour React, Vue ou mobile
-- **Applications full-stack** : avec Inertia.js, le front React/Vue reste dans le même projet
-- **Commandes console** : automatiser des tâches avec Artisan
-- **Prototypes rapides** : grâce aux starter kits Breeze et Jetstream
-
-<!--
-WishFlix sera d'abord server-rendered avec Blade.
-On pourra évoquer une API en fin de module.
--->
-
+transition: slide-up | slide-down
 ---
 
-# Découvrir Laravel
-Comparaison rapide avec Symfony et NestJS
+# Comparaison avec Symfony et NestJS
 
 | Aspect | Laravel | Symfony | NestJS |
 |--------|---------|---------|--------|

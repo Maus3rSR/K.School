@@ -15,6 +15,8 @@
 Chaque séance suit le même rythme :
 
 1. **Cours** (≈ 1h30-2h) : concepts, démonstrations en direct
+
+   Les démonstrations du cours utilisent un domaine distinct, **Campus Quest** (application de défis de campus : quêtes, XP, classement), pour que l'atelier soit une vraie transposition et non une recopie.
 2. **Atelier WishFlix** (≈ 2h) : les exercices du support de base sont **transposés sur WishFlix** — chaque séance fait avancer le projet
 3. **Travail personnel** (≈ 2h / semaine) : user stories d'extension qui réappliquent la notion du jour sur une autre partie du site
 
@@ -41,6 +43,7 @@ Le projet est donc construit **en continu** : il n'y a pas de « projet de fin �
 - Vite : intégrer `app.css` et les CSS de chaque page
 - Page 404 personnalisée et vues d'erreur
 - 🛠️ Atelier : pages statiques WishFlix → layout `app.blade.php` + accueil + fiche jeu `/game/{id}` (données dans un tableau PHP)
+- 🛠️ Exercice : `exercices/framework/02-routing-blade`
 
 ### **Séance 3 — Eloquent : modèles, relations, migrations** (4h)
 - ORM : pourquoi, comment (modèles Eloquent, conventions de nommage)
@@ -106,6 +109,21 @@ Travail personnel estimé : **≈ 16h** sur le module.
 
 ---
 
+## Domaine des démonstrations : Campus Quest
+
+| WishFlix (atelier) | Campus Quest (démo) | Introduit en |
+|---|---|---|
+| `Game` | `Quest` (`title`, `description`, `xp`, `difficulty`, `featured`) | S2 (tableau PHP), S3 (Eloquent) |
+| `Category` | `Category` (Quiz, Mission, Culture G) | S3 |
+| `Platform` | `Location` (BU, Cafét, Amphi…) | S3 |
+| Wishlist `User ↔ Game` | Quêtes acceptées `User ↔ Quest` | S6 |
+| Back-office admin | Maître du jeu | S5-S6 |
+| — | Classement de la promo (somme d'XP) | S4 (agrégats, N+1) |
+
+Équipes et badges restent hors périmètre sauf besoin d'une séance.
+
+---
+
 ## Modèle de données WishFlix
 
 | Entité | Champs principaux | Relations |
@@ -155,7 +173,7 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 - Installer **Git** et créer un compte **GitHub**
 - Prévoir ≈ 5 Go d'espace disque libre
 - Vérifier que les ports **80** et **3306** sont libres (arrêter XAMPP / Apache / MySQL s'ils tournent)
-- Lancer une première fois `curl -s https://laravel.build/wishflix | bash` pour télécharger les images à la maison
+- Lancer une première fois `curl -s "https://laravel.build/wishflix?with=mariadb,redis" | bash` pour télécharger les images à la maison
 
 ⚠️ À vérifier côté IUT : disponibilité de Docker et des droits administrateur sur les postes. Plan B : PC personnels, ou **Laravel Herd** en local.
 

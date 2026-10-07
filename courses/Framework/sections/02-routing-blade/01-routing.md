@@ -1,0 +1,213 @@
+---
+layout: chapter
+number: 5
+duration: 25 min
+---
+
+# Routing
+
+- Définir une route : verbe HTTP, URL, action
+- Capturer et contraindre des paramètres d'URL
+- Nommer les routes et générer leurs URL
+
+<!--
+Transition : en S1 on a vu l'architecture ; aujourd'hui on fait répondre le site à de vraies URL.
+-->
+
+---
+layout: image-right
+image: https://placeholdit.com/800x1200/1e293b/94a3b8?text=Campus+Quest
+---
+
+# Routing
+La rentrée commence sur Campus Quest
+
+**Campus Quest** — la rentrée commence. Le campus est rempli de défis cachés. Gagnez de l'XP, débloquez des badges et grimpez dans le classement de votre promo.
+
+- Une page liste les **quêtes** disponibles
+- Chaque quête a sa **fiche** (`/quests/3`)
+- En S2, les quêtes vivent dans un **tableau PHP** — la base de données arrive en S3
+
+> 🎯 Chaque notion démontrée sur Campus Quest sera transposée sur **WishFlix** en atelier.
+
+<!--
+Faire réagir la salle : qui jouerait à ça pendant la semaine d'intégration ?
+Répéter le pacte : démo sur Campus Quest, transposition sur WishFlix — jamais de recopie.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+---
+
+# Routing
+Votre première route
+
+::left::
+
+<Definition term="Route">
+Une association entre une **URL**, un **verbe HTTP** et l'**action** à exécuter.
+</Definition>
+
+```php {none|1|2|1-3}
+Route::get('/quests', function () {
+    return 'Liste des quêtes';
+});
+```
+
+::right::
+
+<div v-click="1">
+
+`Route::get('/quests', ...)` — « quand le navigateur demande `/quests` en **GET**… »
+
+</div>
+
+<div v-click="2">
+
+`return '...'` — « … exécute cette action et renvoie la réponse. »
+
+</div>
+
+<div v-click="3">
+
+L'action est ici une **closure** : une fonction anonyme définie à la volée. La chaîne retournée devient le corps de la réponse HTTP.
+
+</div>
+
+<!--
+La route vit dans routes/web.php. La faire taper en direct si le projet de démo existe.
+Question probable : "c'est quoi function () { } ?" → closure, vue en S1.
+-->
+
+---
+
+# Routing
+Un verbe HTTP par intention
+
+| Verbe | Intention | Exemple Campus Quest |
+|-------|-----------|----------------------|
+| `GET` | Lire une ressource | Voir la liste des quêtes, une fiche |
+| `POST` | Créer une ressource | Proposer une nouvelle quête |
+| `PUT` / `PATCH` | Modifier une ressource | Corriger le titre d'une quête |
+| `DELETE` | Supprimer une ressource | Retirer une quête terminée |
+
+<!--
+En S2 on ne fait que du GET : les formulaires et les autres verbes arrivent en S5.
+Mentionner que Route::post, Route::put, Route::delete existent avec la même syntaxe.
+-->
+
+---
+
+# Routing
+Des URL dynamiques avec des paramètres
+
+```php
+Route::get('/quests/{id}', function ($id) {
+    return "Quête n°{$id}";
+});
+```
+
+<v-click>
+
+- `/quests/3` → « Quête n°3 » — `{id}` capture le segment et le passe à l'action
+- `/quests/abc` → accepté aussi : sans contrainte, tout segment convient
+
+</v-click>
+
+<v-click>
+
+> 💡 Un paramètre peut être **optionnel** : `/quests/{difficulty?}` répond aussi à `/quests`.
+
+</v-click>
+
+<!--
+Piège classique : oublier le nom identique entre {id} et le paramètre $id.
+Sur /quests/abc : "pourquoi ce n'est pas une 404 ?" — parfait pour introduire la slide suivante.
+-->
+
+---
+
+# Routing
+Restreindre les paramètres avec une contrainte
+
+<Compare badLabel="❌ Sans contrainte" goodLabel="✅ Avec whereNumber">
+  <template #bad>
+
+```php
+Route::get('/quests/{id}', function ($id) {
+    // /quests/abc arrive ici
+    // et casse la logique
+});
+```
+
+  </template>
+  <template #good>
+
+```php
+Route::get('/quests/{id}', function ($id) {
+    // ...
+})->whereNumber('id');
+// /quests/abc → 404 automatique
+```
+
+  </template>
+</Compare>
+
+<!--
+Une contrainte est une règle qui filtre les valeurs acceptées : whereNumber, whereAlpha, where('id', '[0-9]+').
+La 404 est renvoyée par le router, avant même d'entrer dans l'action.
+-->
+
+---
+
+# Routing
+Nommer les routes pour générer leurs URL
+
+```php
+Route::get('/quests/{id}', function ($id) {
+    return "Quête n°{$id}";
+})->whereNumber('id')->name('quests.show');
+```
+
+<v-click>
+
+Dans une vue ou un contrôleur, on génère l'URL à partir du nom :
+
+```blade
+{{ route('quests.show', 3) }}   →   /quests/3
+```
+
+</v-click>
+
+<v-click>
+
+<KeyPoint variant="rule" title="Règle d'or" icon="📏">
+
+N'écrivez jamais une URL en dur (`href="/quests/3"`). Générez-la avec `route()` : si l'URL change, le nom reste et les liens continuent de fonctionner.
+
+</KeyPoint>
+
+</v-click>
+
+<!--
+Anecdote : un projet où l'on passe de /quest/{id} à /defis/{id} — avec route() on change une ligne, en dur on chasse 40 liens.
+-->
+
+---
+
+# Routing
+Inspecter toutes les routes de l'application
+
+<Terminal
+  title="bash" prompt="$"
+  :lines="[
+    { cmd: 'sail artisan route:list', out: '  GET|HEAD   / ........................................................\n  GET|HEAD   quests ......... quests.index › QuestController@index\n  GET|HEAD   quests/{id} ...... quests.show › QuestController@show\n  GET|HEAD   storage/{path} ............................ storage.local\n  GET|HEAD   up ......................................................\n\n                                                  Showing [5] routes' }
+  ]"
+/>
+
+<!--
+`up` est la route de santé configurée dans bootstrap/app.php (vue en S1, exercice 1).
+`storage/{path}` sert les fichiers du disque public.
+Faire lancer la commande par les apprenants sur leur projet S1 : ils n'y verront que / et up.
+-->

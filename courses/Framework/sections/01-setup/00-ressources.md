@@ -1,5 +1,6 @@
 ---
 layout: two-cols-header
+transition: slide-left | slide-right
 ---
 
 # Ressources pour ce cours

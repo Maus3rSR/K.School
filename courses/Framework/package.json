@@ -6,7 +6,8 @@
   "scripts": {
     "build": "slidev build",
     "build:setup": "slidev build slides-setup.md --out dist/setup",
-    "dev": "slidev --open",
+    "build:routing": "slidev build slides-routing.md --out dist/routing",
+    "dev:routing": "slidev slides-routing.md --open",
     "dev:setup": "slidev slides-setup.md --open",
     "export": "slidev export"
   },

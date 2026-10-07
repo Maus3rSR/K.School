@@ -1,6 +1,7 @@
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-left | slide-right
 ---
 
 # Lexique
@@ -13,7 +14,7 @@ layoutClass: gap-x-6
 
 <TermCard term="Framework" translation="(Cadre de travail)" definition="Ensemble cohérent de bibliothèques et de conventions qui structurent une application" />
 
-<TermCard term="Library" translation="(Bibliothèque)" definition="Code réutilisable que vous appelez depuis votre application, sans imposer d'architecture" />
+<TermCard term="Library" translation="(Librairie)" definition="Code réutilisable que vous appelez depuis votre application, sans imposer d'architecture" />
 
 <TermCard term="Front controller" definition="Point d'entrée unique qui reçoit toutes les requêtes HTTP et les redirige vers le bon code" />
 

@@ -1,13 +1,22 @@
 ---
-layout: cover
-background: https://cover.sli.dev?2
----
-
-# Chapitre 01 - Qu'est-ce qu'un framework ?
-
+layout: chapter
+transition: slide-left | slide-right
+number: 01
+duration: 40 min
 ---
 
 # Qu'est-ce qu'un framework ?
+
+- Comprendre la différence entre framework et librairie
+- Identifier les frameworks serveur populaires et la place de Laravel
+- Expliquer les avantages d'utiliser un framework
+
+---
+transition: slide-up | slide-down
+---
+
+# Diagnostic
+
 Et vous, qu'en pensez-vous ?
 
 <Quiz
@@ -27,9 +36,10 @@ Pas de jugement sur les réponses — on y reviendra tout au long du chapitre (d
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Qu'est-ce qu'un framework ?
-Le problème du code "from scratch"
+# Le problème du code "from scratch"
 
 Sans framework, chaque projet PHP doit réinventer :
 
@@ -51,22 +61,26 @@ Un framework, c'est un kit de construction standardisé.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Qu'est-ce qu'un framework ?
-Définition
+# Définition
 
-Un **framework** est un cadre de travail qui impose :
+<Definition term="Framework" translation="(Cadre de travail)">
 
-- Une **structure de projet** standardisée
-- Un ensemble de **bibliothèques** compatibles entre elles
-- Des **conventions** pour organiser le code
-- Des **patterns** éprouvés (MVC, injection de dépendances...)
+Un framework fournit à la fois :
 
-<v-click>
+- Une **architecture logicielle** : structure du projet, règles, façon dont les composants interagissent
+- Des **outils** prêts à l'emploi (routing, accès BDD, formulaires...) regroupés dans des librairies
+- Des **conventions** et des **patterns** éprouvés (MVC, injection de dépendances...)
 
-Vous ne partez plus d'une page blanche. Vous remplissez les cases d'un puzzle déjà dessiné.
+</Definition>
 
-</v-click>
+<Analogy title="Comme un kit de construction" icon="🏗️">
+
+Un framework, c'est un kit de construction standardisé : vous ne partez plus d'une page blanche, vous remplissez les cases d'un puzzle déjà dessiné.
+
+</Analogy>
 
 <!--
 Différence clé avec une librairie : un framework vous appelle, vous n'appelez pas seulement le framework.
@@ -76,29 +90,31 @@ C'est le principe d'inversion de contrôle.
 ---
 layout: two-cols-header
 layoutClass: gap-x-8
+transition: slide-up | slide-down
 ---
 
-# Qu'est-ce qu'un framework ?
-Bibliothèque vs Framework : qui appelle qui ?
+# Librairie vs Framework
+
+Qui appelle qui ?
 
 ::left::
 
 <div class="flex flex-col items-center gap-2">
 
-**📚 Bibliothèque**
+**📚 Librairie**
 
 <div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code</div>
-<div class="text-sm opacity-70">↓ appelle</div>
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-gray-400 bg-gray-400/10 font-semibold">Bibliothèque</div>
+<div class="text-sm opacity-70">↓ appelle quand vous voulez</div>
+<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-gray-400 bg-gray-400/10 font-semibold">Librairie</div>
 <div class="text-sm opacity-70">↓ retourne un résultat</div>
 <div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code continue</div>
-<div class="text-sm opacity-70">🎮 Vous gardez le contrôle</div>
+<div class="text-sm opacity-70">🎮 Vous contrôlez le flux</div>
 
 </div>
 
 <div v-click="1">
 
-Une bibliothèque **répond à vos questions**
+Une librairie **résout un problème précis**, à la demande
 
 </div>
 
@@ -109,38 +125,43 @@ Une bibliothèque **répond à vos questions**
 **🏗️ Framework**
 
 <div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
-<div class="text-sm opacity-70">↓ appelle selon ses conventions</div>
+<div class="text-sm opacity-70">↓ appelle votre code selon ses règles</div>
 <div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code<br><span class="text-sm font-normal opacity-70">contrôleur, vue, modèle</span></div>
 <div class="text-sm opacity-70">↓ rend la main</div>
 <div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
-<div class="text-sm opacity-70">🔄 Le framework a le contrôle</div>
+<div class="text-sm opacity-70">🔄 Le framework contrôle le flux</div>
 
 </div>
 
 <div v-click="1">
 
-Un framework **pose le cadre de vos réponses**
+Un framework **impose la structure** et dicte les règles
 
 </div>
 
 <!--
-Analogie bibliothèque = un dictionnaire que vous consultez quand vous voulez.
+Analogie librairie = un dictionnaire que vous consultez quand vous voulez.
 Framework = un guide de rédaction qui structure votre document.
 Ce renversement s'appelle l'inversion de contrôle.
+Source / lecture complémentaire : https://laconsole.dev/blog/differences-librairie-framework
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Qu'est-ce qu'un framework ?
-Frameworks populaires côté serveur
+# Frameworks populaires côté serveur
 
-| Langage | Frameworks |
-|---------|------------|
-| PHP | Symfony, **Laravel** |
-| JavaScript / TypeScript | NestJS, Express, AdonisJS |
-| Python | Django, Flask, FastAPI |
-| Ruby | Ruby on Rails |
-| Java | Spring Boot |
+<ImageGrid :cols="4" size="md" :images="[
+  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Laravel', caption: 'Laravel — PHP' },
+  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Symfony', caption: 'Symfony — PHP' },
+  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=NestJS', caption: 'NestJS — TypeScript' },
+  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Express', caption: 'Express — JavaScript' },
+  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Django', caption: 'Django — Python' },
+  { src: 'https://placeholdit.com/200x200/00b5ff/f1f5f9?text=FastAPI', caption: 'FastAPI — Python' },
+  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Rails', caption: 'Ruby on Rails — Ruby' },
+  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Spring+Boot', caption: 'Spring Boot — Java' }
+]" />
 
 <!--
 Insister sur la transversalité des concepts : routing, contrôleur, ORM, injection de dépendances.
@@ -148,26 +169,22 @@ Ceux qui connaissent NestJS reconnaîtront beaucoup d'idées.
 -->
 
 ---
+layout: fact
+transition: slide-up | slide-down
+---
 
-# Talk — Stack Overflow Developer Survey 2025
-Le paysage des frameworks web
+# Stack Overflow Developer Survey 2025
 
 Le **Stack Overflow Developer Survey 2025** interroge plus de 49 000 développeurs dans 177 pays sur les technologies qu'ils utilisent.
 
-<v-click>
+Dans la catégorie **Web frameworks and technologies** :
 
-Dans la catégorie **Web frameworks and technologies**, on observe :
-
-</v-click>
-
-<v-click>
-
-- **Node.js** ~49 % — le runtime JavaScript côté serveur le plus cité
-- **React** ~45 % — leader des frameworks frontaux
-- **Next.js** ~21 % — framework React full-stack en forte croissance
-- **Express** ~20 % — framework Node.js léger et très répandu
-
-</v-click>
+<div class="grid grid-cols-4 gap-4 mt-6">
+  <Stat value="49%" label="Node.js" color="green" />
+  <Stat value="45%" label="React" color="blue" />
+  <Stat value="21%" label="Next.js" color="purple" />
+  <Stat value="20%" label="Express" color="gray" />
+</div>
 
 <!--
 Ces chiffres montrent que JavaScript/TypeScript domine le paysage web mondial.
@@ -175,11 +192,10 @@ Mais les frameworks PHP restent très présents, notamment en Europe.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Talk — Stack Overflow Developer Survey 2025
-Où se situent PHP et Laravel ?
-
-<v-click>
+# PHP et Laravel dans le classement
 
 Dans le même classement :
 
@@ -188,8 +204,6 @@ Dans le même classement :
 - **NestJS** ~7 % *(TypeScript)*
 - **Symfony** ~4 % *(PHP)*
 - **Drupal** ~2 % *(CMS PHP)*
-
-</v-click>
 
 <v-click>
 
@@ -210,23 +224,45 @@ Chiffres SO 2025 : NestJS 6,7 %, Laravel 8,9 %.
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
 
-# Talk — Stack Overflow Developer Survey 2025
-Pourquoi ce choix pour ce cours ?
+# Pourquoi ce choix pour ce cours ?
 
-- **Laravel** combine une courbe d'apprentissage accessible avec un écosystème mature
-- Il est très demandé dans les **startups, agences web et SaaS**
-- Il expose les mêmes concepts fondamentaux que Symfony ou NestJS : routing, ORM, injection de dépendances, tests
-- Une fois ces bases acquises, passer à un autre framework devient beaucoup plus simple
+::left::
+
+| | Laravel | Symfony | NestJS |
+|---|---|---|---|
+| Langage | PHP | PHP | TypeScript |
+| Prise en main | Rapide | Plus exigeante | Rapide si TS connu |
+| Marché FR | Startups, agences, SaaS | Grands comptes, CMS | Équipes Node.js |
+| Concepts | Routing, ORM, DI, tests | Les mêmes | Les mêmes |
+
+::right::
+
+- **Laravel** : courbe d'apprentissage accessible, écosystème mature, très demandé
+- **Symfony** : très présent en France, vous le croiserez en entreprise
+- **NestJS** : mêmes idées côté TypeScript
+
+<KeyPoint variant="tip" title="Apprenez-en plusieurs" icon="🧭">
+
+Les concepts sont transversaux. Maîtriser un framework, c'est pouvoir en apprendre un deuxième en quelques semaines — et savoir distinguer ce qui est **fondamental** de ce qui est **convention**.
+
+</KeyPoint>
 
 <!--
 Le but n'est pas de dire que Laravel est "le meilleur", mais qu'il est un excellent compromis pédagogique et professionnel pour cette formation.
+Rappeler que la France est historiquement un marché Symfony-fort : connaître Laravel facilite énormément la bascule vers Symfony (et inversement).
+Ceux qui ont déjà fait du NestJS retrouveront modules/décorateurs sous forme de service providers/attributs.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Qu'est-ce qu'un framework ?
-Frameworks côté client
+# Frameworks côté client
 
 Les navigateurs utilisent aussi des frameworks pour construire l'interface :
 
@@ -249,17 +285,22 @@ On pourra évoquer en fin de module les possibilités API.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Qu'est-ce qu'un framework ?
-Pourquoi utiliser un framework ?
+# Pourquoi utiliser un framework ?
 
-- **Productivité** : on écrit moins de code répétitif
-- **Maintenabilité** : la structure est connue de tous
-- **Sécurité** : les failles courantes sont déjà anticipées
-- **Recrutement** : un standard industriel reconnu
-- **Évolutivité** : on peut remplacer un composant sans tout casser
+<ProsCons
+  :pros="[
+    'Productivité : on écrit moins de code répétitif',
+    'Maintenabilité : la structure est connue de tous',
+    'Sécurité : les failles courantes sont déjà anticipées',
+    'Recrutement : un standard industriel reconnu',
+    'Évolutivité : on peut remplacer un composant sans tout casser'
+  ]"
+  :cons="[]"
+/>
 
 <!--
 Donner un exemple concret : la protection CSRF dans les formulaires est gérée nativement.
 -->
-

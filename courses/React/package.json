@@ -14,7 +14,6 @@
     "build:router": "slidev build slides-router.md --out dist/router",
     "build:router-avance": "slidev build slides-router-avance.md --out dist/router-avance",
     "build:hooks-personnalises": "slidev build slides-hooks-personnalises.md --out dist/hooks-personnalises",
-    "dev": "slidev slides-setup.md --open --port 3030 & slidev slides-component.md --open --port 3031 & slidev slides-props.md --open --port 3032 & slidev slides-state.md --open --port 3033",
     "dev:setup": "slidev slides-setup.md --open",
     "dev:component": "slidev slides-component.md --open",
     "dev:props": "slidev slides-props.md --open",

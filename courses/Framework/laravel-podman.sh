@@ -35,14 +35,30 @@ sed -E -i \
     compose.yaml
 
 if [ "$ROOTLESS" == "true" ]; then
-    # Map your host UID to the same UID inside the app container so the "sail" user can write to the project.
-    grep -q 'userns_mode' compose.yaml || \
-        sed -E -i "s#^(\s+)laravel\.test:\s*\$#&\n\1    userns_mode: keep-id#" compose.yaml
+    # Rootless Podman mappe déjà le root du conteneur sur l'utilisateur hôte.
+    # Sail doit démarrer en root dans le conteneur, puis basculer vers "sail".
+    # Ne pas ajouter userns_mode: keep-id.
 
-    # Rootless Podman cannot bind ports below net.ipv4.ip_unprivileged_port_start (default 1024).
-    if [ "$(sysctl -n net.ipv4.ip_unprivileged_port_start 2>/dev/null || echo 1024)" -gt 80 ] && ! grep -q '^APP_PORT=' .env; then
-        echo "APP_PORT=8080" >> .env
+    HOST_UID="$(id -u)"
+    HOST_GID="$(id -g)"
+
+    if ! grep -q '^WWWUSER=' .env; then
+        echo "WWWUSER=${HOST_UID}" >> .env
     fi
+
+    if ! grep -q '^WWWGROUP=' .env; then
+        echo "WWWGROUP=${HOST_GID}" >> .env
+    fi
+fi
+
+APP_PORT=8080
+# Listen :8080 to prevent conflict of existing app listening :80
+if grep -q '^APP_PORT=' .env; then
+    sed -i "s/^APP_PORT=.*/APP_PORT=${APP_PORT}/" .env
+elif grep -q '^APP_URL=' .env; then
+    sed -i "/^APP_URL=/a APP_PORT=${APP_PORT}" .env
+else
+    echo "APP_PORT=${APP_PORT}" >> .env
 fi
 
 # Tell Sail to use Podman instead of Docker (Sail sources .env).

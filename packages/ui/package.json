@@ -14,7 +14,9 @@
   },
   "files": [
     "index.ts",
-    "components"
+    "components",
+    "layouts",
+    "global-bottom.vue"
   ],
   "engines": {
     "node": ">=18.0.0",

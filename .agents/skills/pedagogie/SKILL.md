@@ -26,21 +26,27 @@ Les slides sont lus à la fois par le formateur (support de présentation) ET pa
 
 ### Organisation par Chapitres (OBLIGATOIRE)
 
-Chaque slide reprend le titre du chapitre en H1, suivi du concept spécifique :
+Chaque chapitre s'ouvre par une slide `layout: chapter` (addon `@k.school/slidev-addon-ui`). Le rappel « Chapitre XX · Titre » est ensuite **affiché automatiquement en pied de page** de toutes les slides du chapitre : le H1 de chaque slide est donc **directement le concept**, sans répéter le titre du chapitre.
 
 ```markdown
 ---
-layout: cover
+layout: chapter
+number: 3
+duration: 30 min
+transition: slide-up
 ---
 
-# Chapitre XX - Titre
+# Titre du chapitre
+
+- Objectif 1
+- Objectif 2
 
 ---
 
-# Titre du Chapitre
-
-Concept spécifique
+# Concept spécifique
 ```
+
+❌ Ancienne convention (ne plus l'utiliser) : H1 = titre du chapitre + sous-titre = concept.
 
 ### Principes Clés
 
@@ -61,7 +67,7 @@ Concept spécifique
 
 Chaque support de cours doit inclure une slide "Lexique" positionnée **immédiatement après la slide "Ressources pour ce cours"**, au début du cours.
 
-> Règles complètes de format, sélection des termes et qualité du contenu : skill `slides-kschool`
+> Règles complètes de format, sélection des termes et qualité du contenu : skill `slides`
 
 ## Règles Essentielles pour les Exercices
 

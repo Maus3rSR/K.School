@@ -22,6 +22,7 @@
     "framework:dev": "turbo run dev --filter @k.school/framework",
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",
     "framework:ex:installation": "pnpm --filter @k.school/exercices-framework 01-installation-architecture",
+    "pilote:dev": "turbo run dev --filter @k.school/pilote",
     "tdd:dev": "turbo run dev --filter @k.school/tdd",
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",
     "vscode:dev": "turbo run dev --filter @k.school/vscode",

@@ -1,5 +1,5 @@
 ---
-name: slides-kschool
+name: slides
 description: Règles de mise en oeuvre technique des slides K.School avec Slidev — structure, layouts, code, animations, anti-patterns, slide lexique et slide ressources. Invoquer quand on travaille sur des fichiers markdown de slides dans courses/.
 ---
 
@@ -57,9 +57,45 @@ sections/
 
 > Référence technique Slidev : invoquer le skill `slidev` pour la syntaxe, les options et les APIs détaillées.
 
-`<VClick>`, `<Transform>`, `<mark>`, `<Toc>`, `<Arrow>`, `<AutoFitText>`, `magic-move`
+**Natifs Slidev** : `<VClick>`, `<Transform>`, `<mark>`, `<Toc>`, `<Arrow>`, `<AutoFitText>`, `magic-move`, `v-mark`, `v-motion`, Mermaid (`flowchart`, `sequenceDiagram`, `gitGraph`, `stateDiagram`, `classDiagram`), icônes `<carbon-* />` (collection fournie avec Slidev, rien à installer).
 
-`<Quiz>` (addon `@k.school/slidev-addon-ui`) : quiz à choix unique. Usage : `<Quiz question="..." :options="['A','B','C','D']" :answer="1" />` — 4 réponses, 1 seule juste (`answer` = index 0-based) ; bonne réponse en vert, mauvaise en rouge avec la bonne réponse affichée en vert.
+**Addon `@k.school/slidev-addon-ui`** — API détaillée, exemples et règles d'usage : `references/composants.md`. Cours de démonstration de TOUS les composants : `courses/Pilote`.
+
+| Besoin                                        | Composant                         |
+| --------------------------------------------- | --------------------------------- |
+| Processus / étapes / cycle de vie             | `<Steps>` (remplace la liste 1-2-3) |
+| Avantages vs inconvénients                    | `<ProsCons>`                      |
+| Bon vs mauvais code / ❌ ✅                    | `<Compare>`                       |
+| Règle, « à retenir », avertissement           | `<KeyPoint>` (court) / `<Alert>` (1 ligne) |
+| Introduire un concept                         | `<Definition>` + `<Analogy>`      |
+| Annoter un mot (de quelle techno il vient)    | `<Tag label="TypeScript">mot</Tag>` |
+| Commandes shell + sortie                      | `<Terminal>` (jamais `{monaco}` pour une sortie statique) |
+| Arborescence de fichiers                      | `<FileTree>` (jamais d'ASCII art) |
+| Capture / rendu d'app                         | `<Browser>`                       |
+| Grille de logos / captures                    | `<ImageGrid>`                     |
+| Chiffre marquant                              | `<Stat>` (dans `layout: fact`)    |
+| Consignes d'exercice                          | `<Exercise>`                      |
+| Vérification de compréhension                 | `<Quiz>`, `<Flashcard>`           |
+| Image pas encore disponible                   | `<Placeholder>`                   |
+| Raccourci clavier                             | `<Shortcut>`                      |
+| Lexique                                       | `<TermCard>`                      |
+
+**Règle anti-monotonie** : une slide « texte seul » (titre + bullets) ne doit jamais être suivie de plus de **2 autres slides texte seul**. Casser la série avec un composant ci-dessus, un diagramme Mermaid, une image ou un layout `statement` / `fact` / `quote`.
+
+### Images et placeholders (OBLIGATOIRE quand l'image n'existe pas encore)
+
+Ne jamais laisser une slide sans visuel « en attendant l'image » : utiliser `<Placeholder>` ou une URL `https://placeholdit.com/{w}x{h}/{bg}/{fg}?text=Mot+Cle` (hex sans `#`, espaces → `+`). Presets à utiliser tels quels :
+
+| Preset         | Dimensions | Usage                                   | URL                                                              |
+| -------------- | ---------- | --------------------------------------- | ---------------------------------------------------------------- |
+| `screenshot`   | 800×500    | capture d'écran, dans `<Browser>`       | `https://placeholdit.com/800x500/1e293b/94a3b8?text=Capture`     |
+| `logo`         | 200×200    | logo d'outil, dans `<ImageGrid>`        | `https://placeholdit.com/200x200/1e293b/94a3b8?text=Logo`        |
+| `diagram`      | 600×400    | schéma à dessiner plus tard             | `https://placeholdit.com/600x400/1e293b/94a3b8?text=Schema`      |
+| `analogy`      | 400×400    | illustration dans `<Analogy image>`     | `https://placeholdit.com/400x400/a855f7/f1f5f9?text=Analogie`    |
+| `side`         | 800×1200   | `layout: image-left` / `image-right`    | `https://placeholdit.com/800x1200/1e293b/94a3b8?text=Illustration` |
+| `hero`         | 1920×1080  | `layout: image` ou `background:`        | `https://placeholdit.com/1920x1080/0f172a/94a3b8?text=Cours`     |
+
+Le `text` doit décrire l'image attendue (ex. `?text=Dashboard+Docker`) pour que le remplacement soit évident. Couleurs de fond autorisées pour différencier des éléments d'une grille : `00b5ff`, `00a96e`, `ffbe00`, `a855f7`, `ff5861`, `94a3b8` (texte `f1f5f9`).
 
 ---
 
@@ -69,6 +105,70 @@ sections/
 - Deux colonnes : `two-cols-header`
 - **Contenu trop long** : Changer de layout ou diviser en plusieurs slides
 - Référence : `.agents/skills/slidev/references/core-layouts.md`
+
+### Varier les layouts (OBLIGATOIRE)
+
+`two-cols-header` représente aujourd'hui 60 % des slides : l'utiliser pour code + explication, pas par défaut. Palette à exploiter :
+
+| Layout                           | Quand                                                   |
+| -------------------------------- | ------------------------------------------------------- |
+| `chapter` (addon)                | Ouverture de chapitre : `number`, `duration`, H1 + objectifs. Remplace `layout: cover` + `cover.sli.dev` |
+| `two-cols-header`                | Code à gauche, explications synchronisées à droite      |
+| `default`                        | Un seul composant pleine largeur (`<Steps>`, `<Compare>`, Mermaid) |
+| `center`                         | Schéma, `<Arrow>`, flux à 2-3 cartes                    |
+| `statement`                      | Une phrase d'impact à mémoriser                         |
+| `fact`                           | 1 à 3 `<Stat>`                                          |
+| `quote`                          | Témoignage, citation (2-3 lignes + attribution)         |
+| `image-left` / `image-right`     | Illustration pleine hauteur + 3-4 points                |
+| `iframe-right`                   | Doc officielle ou démo live à côté du texte             |
+| `section`                        | Séparateur de sous-partie (sobre, sans question)        |
+| `end`                            | Dernière slide                                          |
+
+```md
+---
+layout: chapter
+number: 3
+duration: 30 min
+---
+
+# Titre du chapitre
+
+- Objectif 1
+- Objectif 2
+```
+
+- Le footer « Chapitre 03 · Titre » est injecté par l'addon (`global-bottom.vue`) sur toutes les slides suivantes jusqu'au prochain chapitre ; il est masqué sur `cover`, `chapter`, `section`, `end`. **Le H1 d'une slide de contenu = le concept**, jamais le titre du chapitre.
+- Headmatter : `monaco: true` — Monaco est actif en développement et dans le build statique. Attention : le build peut alors dépasser le heap Node par défaut (~2 Go) à cause des workers TypeScript. En cas d'OOM, relancer avec `NODE_OPTIONS=--max-old-space-size=6144`.
+- Si vous n'avez pas besoin de Monaco dans l'export statique, `monaco: dev` exclut les workers du build (plus rapide, plus léger) tout en le gardant en serveur de dev.
+
+### Convention de transitions (horizontal vs vertical)
+
+Slidev a une navigation **linéaire** : les slides défilent toujours l'une après l'autre. « Vertical / horizontal » n'est que la **direction visuelle** de la transition.
+
+| Type de slide                                  | Transition conseillée                          | Lecture pédagogique |
+| ----------------------------------------------- | --------------------------------------------- | ------------------- |
+| Cover, Ressources, Lexique, Section, End, `chapter` | `transition: slide-left \| slide-right`   | Séparateurs de haut niveau, navigation horizontale |
+| Slides de contenu d'un chapitre                 | `transition: slide-up \| slide-down`         | On descend dans le contenu du chapitre, on remonte en revenant au chapitre |
+
+Deck headmatter : `transition: slide-left` (défaut). Seules les **slides de contenu** ajoutent explicitement `transition: slide-up \| slide-down`.
+
+```md
+---
+layout: chapter
+number: 1
+duration: 20 min
+---
+
+# Découvrir Nimbus
+
+---
+transition: slide-up | slide-down
+---
+
+# Le cycle de vie d'une requête
+
+<Steps ... />
+```
 
 ### Longueur de Texte par Layout
 
@@ -238,7 +338,27 @@ Une **liste numérotée décrivant un processus étape par étape** (ex : pipeli
 - Une étape = un concept clairement identifié
 - Line highlighting `{5-8}` pour mettre en évidence les changements
 - Commentaires guidants dans le code
-- **OBLIGATOIRE** : Chaque étape du Magic Move doit avoir un `<div v-click="N">` correspondant avec explication
+- **OBLIGATOIRE — synchronisation** : la **première étape est visible au click 0** (sans clic). Un Magic Move à N étapes consomme donc **N-1 clicks**. L'explication de l'étape 1 n'a **pas** de `v-click` ; l'étape 2 → `v-click="1"` ; l'étape k → `v-click="k-1"`.
+
+````md
+::right::
+
+**Étape 1** — visible immédiatement, sans v-click
+
+<div v-click="1">
+
+**Étape 2** — …
+
+</div>
+
+<div v-click="2">
+
+**Étape 3** — …
+
+</div>
+````
+
+❌ INTERDIT : `v-click="1"` sur l'explication de l'étape 1 → le texte est en retard d'une étape sur le code.
 
 ### Line Highlighting
 

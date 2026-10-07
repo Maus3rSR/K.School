@@ -68,6 +68,7 @@ background: https://cover.sli.dev?1
 highlighter: shiki
 lineNumbers: true
 monaco: true
+transition: slide-left
 addons:
   - "@k.school/slidev-addon-ui"
 ---

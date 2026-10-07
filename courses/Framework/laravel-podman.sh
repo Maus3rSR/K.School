@@ -35,19 +35,25 @@ sed -E -i \
     compose.yaml
 
 if [ "$ROOTLESS" == "true" ]; then
-    # Rootless Podman mappe déjà le root du conteneur sur l'utilisateur hôte.
-    # Sail doit démarrer en root dans le conteneur, puis basculer vers "sail".
-    # Ne pas ajouter userns_mode: keep-id.
-
-    HOST_UID="$(id -u)"
-    HOST_GID="$(id -g)"
-
-    if ! grep -q '^WWWUSER=' .env; then
-        echo "WWWUSER=${HOST_UID}" >> .env
+    # Rootless Podman mappe déjà le root du conteneur sur l'utilisateur hôte :
+    # les fichiers créés par root dans le conteneur appartiennent à l'utilisateur hôte.
+    # L'UID hôte n'est PAS mappé dans le user namespace du conteneur : ne jamais
+    # le passer en WWWUSER (usermod/setuid échoueraient -> php exit 127).
+    # On fait donc tourner PHP en root dans le conteneur. Ne pas ajouter userns_mode: keep-id.
+    if ! grep -q '^WWWGROUP=' .env; then
+        echo "WWWGROUP=1337" >> .env
     fi
 
-    if ! grep -q '^WWWGROUP=' .env; then
-        echo "WWWGROUP=${HOST_GID}" >> .env
+    if ! grep -q '^SUPERVISOR_PHP_USER=' .env; then
+        echo "SUPERVISOR_PHP_USER=root" >> .env
+    fi
+
+    # Le compose.yaml de Sail ne transmet pas SUPERVISOR_PHP_USER au conteneur
+    # (le ENV du Dockerfile vaut "sail") : on l'ajoute au bloc environment.
+    if ! grep -q 'SUPERVISOR_PHP_USER' compose.yaml; then
+        sed -E -i \
+            -e "s/^(\s+)(WWWUSER:.*)\$/\1\2\n\1SUPERVISOR_PHP_USER: '\${SUPERVISOR_PHP_USER:-sail}'/" \
+            compose.yaml
     fi
 fi
 

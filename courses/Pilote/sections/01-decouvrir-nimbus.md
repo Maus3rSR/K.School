@@ -49,8 +49,10 @@ transition: slide-up | slide-down
 
 Dans Nimbus, le mot-clé <Tag label="TypeScript">interface</Tag> décrit la forme de vos données, la fonction <Tag label="Nimbus">defineView</Tag> déclare une page, et la balise <Tag label="HTML">template</Tag> contient votre markup — le tout <span v-mark.circle.orange="1">sans configuration supplémentaire</span>.
 
+Chaque <KeyTerm>composant</KeyTerm> et chaque <KeyTerm>slot</KeyTerm> font partie du lexique : vous les retrouverez en QCM.
+
 <!--
-Démontre `<Tag>` (label coloré au-dessus d'un mot, inline dans une phrase) et `v-mark.circle.orange` (surlignage manuscrit natif Slidev au click 1). À utiliser pour annoter du vocabulaire dans un texte courant.
+Démontre `<Tag>` (label coloré au-dessus d'un mot, inline dans une phrase), `<KeyTerm>` (surlignage inline d'un terme du lexique, sans label) et `v-mark.circle.orange` (surlignage manuscrit natif Slidev au click 1). À utiliser pour annoter du vocabulaire dans un texte courant.
 -->
 
 ---

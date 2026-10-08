@@ -1,0 +1,33 @@
+.quest-list {
+    display: grid;
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.quest-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.quest-card:hover { outline: 2px solid var(--accent); }
+
+.xp { color: #facc15; font-weight: 700; }
+
+.badge {
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    background: #334155;
+}
+
+.badge--easy { background: #166534; }
+.badge--hard { background: #991b1b; }
+
+.filters { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }

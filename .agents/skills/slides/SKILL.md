@@ -11,14 +11,19 @@ description: Règles de mise en oeuvre technique des slides K.School avec Slidev
 
 **Principe de base** : Les chapitres sont **toujours découpés** en fichiers séparés dans `sections/`.
 
-**Sous-découper un chapitre en sous-sections** si **≥ 2 critères** sur 4 :
+**Un chapitre = un seul concept (OBLIGATOIRE)** : le titre du chapitre ne doit jamais fusionner deux concepts. Si un titre contient « et » entre deux concepts, **scinder en deux chapitres**. Un chapitre court est acceptable (**≥ 3 slides, 5-10 min**).
 
-| Critère                    | Seuil                |
-| -------------------------- | -------------------- |
-| Nombre de slides           | ≥ 12 slides          |
-| Concepts distincts         | ≥ 3 concepts majeurs |
-| Sections `layout: section` | ≥ 3 sections         |
-| Exercices pratiques        | ≥ 2 exercices        |
+❌ `Blade et layouts` · `Vite et pages d'erreur` · `Contrôleurs, requêtes et réponses`
+✅ `Blade : la vue` + `Blade : les layouts`
+
+**Sous-découper un chapitre en sous-sections** si **≥ 2 critères** sur 4 (un chapitre reste une seule entrée, même découpé en plusieurs fichiers) :
+
+| Critère                    | Seuil             |
+| -------------------------- | ----------------- |
+| Nombre de slides           | ≥ 12 slides       |
+| Sous-concepts distincts    | ≥ 3 sous-concepts |
+| Sections `layout: section` | ≥ 3 sections      |
+| Exercices pratiques        | ≥ 2 exercices     |
 
 **Structure avec sous-découpage** :
 
@@ -40,9 +45,9 @@ sections/
 
 **Nommage** : `[numéro]-[concept-principal].md` (ex: `01-jsx-intro.md`)
 
-**Numérotation des chapitres** : Les chapitres **doivent commencer à 01**, jamais à 00. Un fichier `00-` est réservé aux éléments hors chapitre (lexique, ressources).
+**Numérotation des chapitres** : Les chapitres **doivent commencer à 01**, jamais à 00. Un fichier `00-` est réservé aux éléments hors chapitre (lexique, ressources). La numérotation est **relative au deck** (séance / cours) : le préfixe de fichier et le `number:` du frontmatter repartent à `01` pour chaque deck (ex. S1 : `01`–`04`, S2 : `01`–`xx`, pas `05`–`08`). Le footer « Chapitre NN » reflète donc le rang du chapitre **dans le deck**, pas dans le cours.
 
-**Ne PAS sous-découper un chapitre** : < 10 slides, 1-2 concepts, durée < 30 min
+**Ne PAS sous-découper un chapitre** : < 10 slides, un seul concept, durée < 30 min
 
 ### Positionnement des Slides Spéciales (OBLIGATOIRE)
 
@@ -61,24 +66,25 @@ sections/
 
 **Addon `@k.school/slidev-addon-ui`** — API détaillée, exemples et règles d'usage : `references/composants.md`. Cours de démonstration de TOUS les composants : `courses/Pilote`.
 
-| Besoin                                        | Composant                         |
-| --------------------------------------------- | --------------------------------- |
-| Processus / étapes / cycle de vie             | `<Steps>` (remplace la liste 1-2-3) |
-| Avantages vs inconvénients                    | `<ProsCons>`                      |
-| Bon vs mauvais code / ❌ ✅                    | `<Compare>`                       |
-| Règle, « à retenir », avertissement           | `<KeyPoint>` (court) / `<Alert>` (1 ligne) |
-| Introduire un concept                         | `<Definition>` + `<Analogy>`      |
-| Annoter un mot (de quelle techno il vient)    | `<Tag label="TypeScript">mot</Tag>` |
-| Commandes shell + sortie                      | `<Terminal>` (jamais `{monaco}` pour une sortie statique) |
-| Arborescence de fichiers                      | `<FileTree>` (jamais d'ASCII art) |
-| Capture / rendu d'app                         | `<Browser>`                       |
-| Grille de logos / captures                    | `<ImageGrid>`                     |
-| Chiffre marquant                              | `<Stat>` (dans `layout: fact`)    |
-| Consignes d'exercice                          | `<Exercise>`                      |
-| Vérification de compréhension                 | `<Quiz>`, `<Flashcard>`           |
-| Image pas encore disponible                   | `<Placeholder>`                   |
-| Raccourci clavier                             | `<Shortcut>`                      |
-| Lexique                                       | `<TermCard>`                      |
+| Besoin                                            | Composant                                                 |
+| ------------------------------------------------- | --------------------------------------------------------- |
+| Processus / étapes / cycle de vie                 | `<Steps>` (remplace la liste 1-2-3)                       |
+| Avantages vs inconvénients                        | `<ProsCons>`                                              |
+| Bon vs mauvais code / ❌ ✅                       | `<Compare>`                                               |
+| Règle, « à retenir », avertissement               | `<KeyPoint>` (court) / `<Alert>` (1 ligne)                |
+| Introduire un concept                             | `<Definition>` + `<Analogy>`                              |
+| Annoter un mot (de quelle techno il vient)        | `<Tag label="TypeScript">mot</Tag>`                       |
+| Mot-clé du lexique / susceptible de tomber en QCM | `<KeyTerm>mot</KeyTerm>`                                  |
+| Commandes shell + sortie                          | `<Terminal>` (jamais `{monaco}` pour une sortie statique) |
+| Arborescence de fichiers                          | `<FileTree>` (jamais d'ASCII art)                         |
+| Capture / rendu d'app                             | `<Browser>`                                               |
+| Grille de logos / captures                        | `<ImageGrid>`                                             |
+| Chiffre marquant                                  | `<Stat>` (dans `layout: fact`)                            |
+| Consignes d'exercice                              | `<Exercise>`                                              |
+| Vérification de compréhension                     | `<Quiz>`, `<Flashcard>`                                   |
+| Image pas encore disponible                       | `<Placeholder>`                                           |
+| Raccourci clavier                                 | `<Shortcut>`                                              |
+| Lexique                                           | `<TermCard>`                                              |
 
 **Règle anti-monotonie** : une slide « texte seul » (titre + bullets) ne doit jamais être suivie de plus de **2 autres slides texte seul**. Casser la série avec un composant ci-dessus, un diagramme Mermaid, une image ou un layout `statement` / `fact` / `quote`.
 
@@ -86,14 +92,14 @@ sections/
 
 Ne jamais laisser une slide sans visuel « en attendant l'image » : utiliser `<Placeholder>` ou une URL `https://placeholdit.com/{w}x{h}/{bg}/{fg}?text=Mot+Cle` (hex sans `#`, espaces → `+`). Presets à utiliser tels quels :
 
-| Preset         | Dimensions | Usage                                   | URL                                                              |
-| -------------- | ---------- | --------------------------------------- | ---------------------------------------------------------------- |
-| `screenshot`   | 800×500    | capture d'écran, dans `<Browser>`       | `https://placeholdit.com/800x500/1e293b/94a3b8?text=Capture`     |
-| `logo`         | 200×200    | logo d'outil, dans `<ImageGrid>`        | `https://placeholdit.com/200x200/1e293b/94a3b8?text=Logo`        |
-| `diagram`      | 600×400    | schéma à dessiner plus tard             | `https://placeholdit.com/600x400/1e293b/94a3b8?text=Schema`      |
-| `analogy`      | 400×400    | illustration dans `<Analogy image>`     | `https://placeholdit.com/400x400/a855f7/f1f5f9?text=Analogie`    |
-| `side`         | 800×1200   | `layout: image-left` / `image-right`    | `https://placeholdit.com/800x1200/1e293b/94a3b8?text=Illustration` |
-| `hero`         | 1920×1080  | `layout: image` ou `background:`        | `https://placeholdit.com/1920x1080/0f172a/94a3b8?text=Cours`     |
+| Preset       | Dimensions | Usage                                | URL                                                                |
+| ------------ | ---------- | ------------------------------------ | ------------------------------------------------------------------ |
+| `screenshot` | 800×500    | capture d'écran, dans `<Browser>`    | `https://placeholdit.com/800x500/1e293b/94a3b8?text=Capture`       |
+| `logo`       | 200×200    | logo d'outil, dans `<ImageGrid>`     | `https://placeholdit.com/200x200/1e293b/94a3b8?text=Logo`          |
+| `diagram`    | 600×400    | schéma à dessiner plus tard          | `https://placeholdit.com/600x400/1e293b/94a3b8?text=Schema`        |
+| `analogy`    | 400×400    | illustration dans `<Analogy image>`  | `https://placeholdit.com/400x400/a855f7/f1f5f9?text=Analogie`      |
+| `side`       | 800×1200   | `layout: image-left` / `image-right` | `https://placeholdit.com/800x1200/1e293b/94a3b8?text=Illustration` |
+| `hero`       | 1920×1080  | `layout: image` ou `background:`     | `https://placeholdit.com/1920x1080/0f172a/94a3b8?text=Cours`       |
 
 Le `text` doit décrire l'image attendue (ex. `?text=Dashboard+Docker`) pour que le remplacement soit évident. Couleurs de fond autorisées pour différencier des éléments d'une grille : `00b5ff`, `00a96e`, `ffbe00`, `a855f7`, `ff5861`, `94a3b8` (texte `f1f5f9`).
 
@@ -110,19 +116,19 @@ Le `text` doit décrire l'image attendue (ex. `?text=Dashboard+Docker`) pour que
 
 `two-cols-header` représente aujourd'hui 60 % des slides : l'utiliser pour code + explication, pas par défaut. Palette à exploiter :
 
-| Layout                           | Quand                                                   |
-| -------------------------------- | ------------------------------------------------------- |
-| `chapter` (addon)                | Ouverture de chapitre : `number`, `duration`, H1 + objectifs. Remplace `layout: cover` + `cover.sli.dev` |
-| `two-cols-header`                | Code à gauche, explications synchronisées à droite      |
-| `default`                        | Un seul composant pleine largeur (`<Steps>`, `<Compare>`, Mermaid) |
-| `center`                         | Schéma, `<Arrow>`, flux à 2-3 cartes                    |
-| `statement`                      | Une phrase d'impact à mémoriser                         |
-| `fact`                           | 1 à 3 `<Stat>`                                          |
-| `quote`                          | Témoignage, citation (2-3 lignes + attribution)         |
-| `image-left` / `image-right`     | Illustration pleine hauteur + 3-4 points                |
-| `iframe-right`                   | Doc officielle ou démo live à côté du texte             |
-| `section`                        | Séparateur de sous-partie (sobre, sans question)        |
-| `end`                            | Dernière slide                                          |
+| Layout                       | Quand                                                                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chapter` (addon)            | Ouverture de chapitre : `number` (rang dans le deck, repart à `01`), `duration`, H1 + objectifs. Remplace `layout: cover` + `cover.sli.dev` |
+| `two-cols-header`            | Code à gauche, explications synchronisées à droite                                                                                          |
+| `default`                    | Un seul composant pleine largeur (`<Steps>`, `<Compare>`, Mermaid)                                                                          |
+| `center`                     | Schéma, `<Arrow>`, flux à 2-3 cartes                                                                                                        |
+| `statement`                  | Une phrase d'impact à mémoriser                                                                                                             |
+| `fact`                       | 1 à 3 `<Stat>`                                                                                                                              |
+| `quote`                      | Témoignage, citation (2-3 lignes + attribution)                                                                                             |
+| `image-left` / `image-right` | Illustration pleine hauteur + 3-4 points                                                                                                    |
+| `iframe-right`               | Doc officielle ou démo live à côté du texte                                                                                                 |
+| `section`                    | Séparateur de sous-partie (sobre, sans question)                                                                                            |
+| `end`                        | Dernière slide                                                                                                                              |
 
 ```md
 ---
@@ -145,10 +151,10 @@ duration: 30 min
 
 Slidev a une navigation **linéaire** : les slides défilent toujours l'une après l'autre. « Vertical / horizontal » n'est que la **direction visuelle** de la transition.
 
-| Type de slide                                  | Transition conseillée                          | Lecture pédagogique |
-| ----------------------------------------------- | --------------------------------------------- | ------------------- |
-| Cover, Ressources, Lexique, Section, End, `chapter` | `transition: slide-left \| slide-right`   | Séparateurs de haut niveau, navigation horizontale |
-| Slides de contenu d'un chapitre                 | `transition: slide-up \| slide-down`         | On descend dans le contenu du chapitre, on remonte en revenant au chapitre |
+| Type de slide                                       | Transition conseillée                   | Lecture pédagogique                                                        |
+| --------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------- |
+| Cover, Ressources, Lexique, Section, End, `chapter` | `transition: slide-left \| slide-right` | Séparateurs de haut niveau, navigation horizontale                         |
+| Slides de contenu d'un chapitre                     | `transition: slide-up \| slide-down`    | On descend dans le contenu du chapitre, on remonte en revenant au chapitre |
 
 Deck headmatter : `transition: slide-left` (défaut). Seules les **slides de contenu** ajoutent explicitement `transition: slide-up \| slide-down`.
 
@@ -162,8 +168,8 @@ duration: 20 min
 # Découvrir Nimbus
 
 ---
-transition: slide-up | slide-down
----
+
+## transition: slide-up | slide-down
 
 # Le cycle de vie d'une requête
 
@@ -340,7 +346,7 @@ Une **liste numérotée décrivant un processus étape par étape** (ex : pipeli
 - Commentaires guidants dans le code
 - **OBLIGATOIRE — synchronisation** : la **première étape est visible au click 0** (sans clic). Un Magic Move à N étapes consomme donc **N-1 clicks**. L'explication de l'étape 1 n'a **pas** de `v-click` ; l'étape 2 → `v-click="1"` ; l'étape k → `v-click="k-1"`.
 
-````md
+```md
 ::right::
 
 **Étape 1** — visible immédiatement, sans v-click
@@ -356,7 +362,7 @@ Une **liste numérotée décrivant un processus étape par étape** (ex : pipeli
 **Étape 3** — …
 
 </div>
-````
+```
 
 ❌ INTERDIT : `v-click="1"` sur l'explication de l'étape 1 → le texte est en retard d'une étape sur le code.
 

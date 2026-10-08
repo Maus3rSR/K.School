@@ -43,6 +43,7 @@ exercices/
 ## Contenu des Fichiers d'Exercice
 
 **OBLIGATOIRE** : Les fichiers de code des exercices ne doivent **jamais** contenir :
+
 - Les consignes ou instructions de l'exercice (déjà dans le README.md)
 - Les commentaires mentionnant le nom de l'exercice
 - Les blocs d'instructions étape par étape
@@ -56,6 +57,7 @@ exercices/
 ## Structure d'un Exercice
 
 Chaque exercice doit contenir un `README.md` avec :
+
 - Objectif
 - Prérequis
 - Instructions étape par étape
@@ -66,7 +68,9 @@ Chaque exercice doit contenir un `README.md` avec :
 
 ## Scripts dans package.json
 
-Chaque package de cours a ses propres scripts dans `exercices/<cours>/package.json` :
+**Uniquement quand le script fait un vrai travail** : génération de fichiers, démarrage d'un environnement, tests automatisés. Un script qui ne fait qu'afficher le chemin du README (echo) n'apporte rien — la slide renvoie directement au fichier README.
+
+Quand ils existent, chaque package de cours a ses propres scripts dans `exercices/<cours>/package.json` :
 
 ```json
 {
@@ -80,6 +84,7 @@ Chaque package de cours a ses propres scripts dans `exercices/<cours>/package.js
 **Convention** : Le nom du script correspond au nom du dossier de l'exercice.
 
 **Exemples** :
+
 - `exercices/vscode/package.json` → `"01-navigation"`, `"02-refactoring"`
 - `exercices/git/package.json` → `"01-multiverse"`
 - `exercices/typescript/package.json` → `"01-types"`
@@ -88,17 +93,22 @@ Chaque package de cours a ses propres scripts dans `exercices/<cours>/package.js
 
 ## Types d'Exercices
 
-| Type | Description |
-|------|-------------|
-| **IDE** | Manipulation directe dans l'éditeur |
+| Type       | Description                                 |
+| ---------- | ------------------------------------------- |
+| **IDE**    | Manipulation directe dans l'éditeur         |
 | **Script** | Génération d'environnement via script shell |
-| **Code** | Complétion de code avec tests automatisés |
+| **Code**   | Complétion de code avec tests automatisés   |
 
 ---
 
 ## Lien avec les Slides
 
-**Ne pas inclure les exercices dans les slides**. Utiliser une slide de transition avec la commande `pnpm <exercice>` et référence au README.md.
+**Ne pas inclure les exercices dans les slides**. Utiliser une slide d'exercice (`<Exercise>`) qui indique **comment l'exercice est distribué**, selon le contexte :
+
+- README dans le dépôt : `exercices/<cours>/<XX-nom>/README.md`
+- un dépôt à cloner
+- une archive ou un lien LMS (Moodle) fourni par le formateur
+- `pnpm <exercice>` **uniquement** quand le script fait réellement quelque chose (génère des fichiers, démarre un environnement) — jamais pour un script qui ne fait qu'afficher le chemin du README
 
 ---
 
@@ -108,7 +118,7 @@ Avant de publier un exercice :
 
 - [ ] Placé dans `exercices/<cours>/<XX-nom>/`
 - [ ] README.md avec structure complète (objectif, prérequis, instructions, critères, temps)
-- [ ] Script ajouté dans `exercices/<cours>/package.json`
+- [ ] Script ajouté dans `exercices/<cours>/package.json` (uniquement s'il fait un vrai travail : génération, environnement, tests)
 - [ ] Instructions claires et étape par étape
 - [ ] Critères de réussite mesurables
 - [ ] Temps estimé indiqué

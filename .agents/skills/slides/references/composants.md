@@ -27,6 +27,16 @@ Le mot-clé <Tag label="TypeScript">interface</Tag> n'est pas une notion <Tag la
 
 **Quand** : lever une ambiguïté sur l'origine d'un concept (TypeScript vs React, HTML vs JSX, Git vs GitHub). **Max 3 par phrase**, 1 couleur par techno dans tout le cours.
 
+### `<KeyTerm>` — mot-clé du lexique en surbrillance
+
+```md
+La <KeyTerm>route</KeyTerm> associe une URL au code qui la traite.
+```
+
+Pas de props : le slot par défaut est le terme (fond primaire discret, inline, sans label).
+
+**Quand** : première occurrence significative d'un terme présent dans le lexique, ou mot-clé susceptible de tomber en QCM. **≤ 3 par slide**, uniquement dans du texte courant (prose, items de liste, `<KeyPoint>`) — jamais dans les titres, le code, les tableaux ni les props. Différence avec `<Tag>` : `Tag` annote l'origine techno d'un mot (label au-dessus), `KeyTerm` marque un terme à retenir (surlignage inline).
+
 ### `<Definition>` — concept central d'une slide
 
 ```md
@@ -138,8 +148,11 @@ Props : `title` (`À retenir`), `icon` (`💡`), `variant` : `tip` (bleu) / `rul
 />
 ```
 
-Props : `lines` (requis, `{ cmd?, out? }`), `title` (`bash`), `prompt` (`$`), `clicks`. Le `out` conserve les retours à la ligne (`\n`).
+Props : `lines` (requis, `{ cmd?, out? }`), `title` (`bash`), `prompt` (`$`), `clicks`. Le `out` conserve les retours à la ligne (`\n`). Les caractères `<`, `>` et `|` peuvent être écrits tels quels dans `cmd`/`out` — pas besoin de séquences d'échappement.
+
 **Quand** : toute commande + sortie **statique**. Réserver ` ```shell {monaco} ` aux cas où l'apprenant doit éditer/exécuter.
+
+**Variantes par OS** : garder **un seul `<Terminal>`** quand la commande est identique partout — noter la différence d'environnement en une ligne (ex. `<Alert>` « Sous Windows : exécutez dans un terminal WSL2 »). N'utiliser `::code-group` (`comark: true`) que si les commandes diffèrent réellement selon l'OS.
 
 ### `<FileTree>` — arborescence
 
@@ -149,11 +162,11 @@ Props : `lines` (requis, `{ cmd?, out? }`), `title` (`bash`), `prompt` (`$`), `c
     { name: 'App.tsx', highlight: true },
     { name: 'main.tsx' }
   ]},
-  { name: 'package.json' }
+  { name: 'package.json', comment: 'Dépendances et scripts' }
 ]" />
 ```
 
-`children` → dossier ; `highlight: true` → fichier mis en avant (1-2 max). **Quand** : structure d'un projet généré ou attendu. Interdit : arborescence en ASCII dans un bloc de code.
+`children` → dossier ; `highlight: true` → fichier mis en avant (1-2 max) ; `comment` → courte note en italique alignée à droite de la ligne. **Quand** : structure d'un projet généré ou attendu. Interdit : arborescence en ASCII dans un bloc de code.
 
 ### `<Browser>` — rendu d'application
 
@@ -268,4 +281,4 @@ background: https://placeholdit.com/1920x1080/0f172a/94a3b8?text=Chapitre   # op
 - Objectif 3
 ```
 
-Props frontmatter : `number` (affiché « Chapitre 03 »), `duration`, `background` (image avec overlay sombre). **Quand** : première slide de chaque chapitre, à la place de `layout: cover` + `cover.sli.dev`. 2 à 4 objectifs formulés en verbes d'action.
+Props frontmatter : `number` (rang du chapitre **dans le deck** — repart à `01` pour chaque deck ; affiché « Chapitre 03 »), `duration`, `background` (image avec overlay sombre). **Quand** : première slide de chaque chapitre, à la place de `layout: cover` + `cover.sli.dev`. 2 à 4 objectifs formulés en verbes d'action.

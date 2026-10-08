@@ -125,7 +125,7 @@ class QuestController extends Controller
 
 <div v-click="1">
 
-`$quests` — les données de démo : un **tableau PHP**, remplacé par la base de données en S3.
+`$quests` — les données de démo : un **tableau PHP**, remplacé par la base de données plus tard.
 
 </div>
 

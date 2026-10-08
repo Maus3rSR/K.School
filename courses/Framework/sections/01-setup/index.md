@@ -13,3 +13,7 @@ src: ./03-installation.md
 ---
 src: ./04-architecture.md
 ---
+
+---
+src: ./05-exercice.md
+---

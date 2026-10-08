@@ -12,108 +12,84 @@ duration: 40 min
 - Identifier le rôle d'Artisan et des fichiers de configuration
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Arborescence principale
+# Architecture d'un projet Laravel
+Arborescence principale
 
-Voici les répertoires que vous allez utiliser chaque jour :
+::left::
+
+**✍️ Votre code** <span class="text-xs opacity-70">— les dossiers où vous travaillez chaque jour : <KeyTerm>routes</KeyTerm>, <KeyTerm>contrôleurs</KeyTerm>, vues <KeyTerm>Blade</KeyTerm></span>
+
+<div class="text-sm">
 
 <FileTree :tree="[
   {
     name: 'mon-projet/',
     children: [
-      { name: 'app/', highlight: true, children: [
+      { name: 'app/', highlight: true, comment: 'Votre code PHP : modèles, contrôleurs', children: [
         { name: 'Models/' },
         { name: 'Http/Controllers/' },
         { name: 'Providers/' }
       ]},
-      { name: 'bootstrap/', children: [
-        { name: 'app.php' },
-        { name: 'cache/' }
-      ]},
-      { name: 'config/' },
       { name: 'database/', highlight: true, children: [
-        { name: 'migrations/' },
-        { name: 'seeders/' },
-        { name: 'factories/' }
+        { name: 'migrations/', comment: 'Versionnement du schéma' },
+        { name: 'seeders/', comment: 'Données initiales ou de test' }
       ]},
-      { name: 'public/', children: [
-        { name: 'index.php' }
-      ]},
-      { name: 'resources/', highlight: true, children: [
-        { name: 'views/' },
+      { name: 'resources/', highlight: true, comment: 'Templates et assets front', children: [
+        { name: 'views/', comment: 'Templates Blade' },
         { name: 'css/' },
         { name: 'js/' }
       ]},
       { name: 'routes/', highlight: true, children: [
-        { name: 'web.php' },
-        { name: 'api.php' },
-        { name: 'console.php' }
+        { name: 'web.php', comment: 'Les URLs de votre site' },
+        { name: 'api.php', comment: 'Endpoints API' }
       ]},
-      { name: 'storage/', children: [
-        { name: 'logs/' },
-        { name: 'framework/cache/' },
-        { name: 'app/' }
-      ]},
-      { name: 'tests/' },
-      { name: 'vendor/' },
-      { name: '.env' },
-      { name: 'artisan' },
-      { name: 'composer.json' },
-      { name: 'package.json' },
-      { name: 'compose.yaml' }
+      { name: 'tests/', comment: 'Tests Feature et Unit' }
     ]
   }
 ]" />
 
+</div>
+
+::right::
+
+**⚙️ Fourni par Laravel** <span class="text-xs opacity-70">— configuration et fichiers générés, vous y touchez rarement</span>
+
+<div class="text-sm">
+
+<FileTree :tree="[
+  {
+    name: 'mon-projet/',
+    children: [
+      { name: 'bootstrap/', children: [
+        { name: 'app.php' },
+        { name: 'cache/', comment: 'Cache de démarrage' }
+      ]},
+      { name: 'config/', comment: 'Configuration — valeurs sensibles dans .env' },
+      { name: 'public/', children: [
+        { name: 'index.php', comment: 'Seul fichier accessible depuis le web' }
+      ]},
+      { name: 'storage/', comment: 'Logs, caches, fichiers uploadés' },
+      { name: 'vendor/', comment: 'Dépendances Composer — ne jamais modifier' },
+      { name: '.env', comment: 'Secrets et environnement — jamais versionné' },
+      { name: 'artisan', comment: 'Console Laravel' },
+      { name: 'composer.json', comment: 'Dépendances PHP' },
+      { name: 'package.json', comment: 'Dépendances JS' },
+      { name: 'compose.yaml', comment: 'Services Docker de Sail' }
+    ]
+  }
+]" />
+
+</div>
+
 <!--
 Insister : app/, resources/views/, routes/ et database/migrations/ sont le code de l'apprenant.
-vendor/, bootstrap/cache/ et storage/framework/ sont générés ou utilisés par le framework.
-Le contenu est maintenant présenté via le composant <FileTree>.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Les dossiers que vous écrivez
-
-- **`app/`** : classes PHP de votre application
-  - `Models/` : modèles Eloquent
-  - `Http/Controllers/` : contrôleurs
-  - `Providers/` : configuration du service container
-- **`routes/`** : définition des routes web, API, console
-- **`resources/views/`** : templates Blade
-- **`database/migrations/`** : versionnement du schéma
-- **`tests/`** : tests Feature et Unit
-
-<!--
 Analogie : app/ c'est votre cuisine, resources/views/ c'est la salle, routes/ c'est le plan d'accès.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Les dossiers générés automatiquement
-
-- **`storage/`** : fichiers produits automatiquement
-  - `logs/` : journaux d'erreurs
-  - `framework/cache/` : cache de configuration et vues
-  - `app/` : fichiers uploadés
-- **`vendor/`** : dépendances Composer
-  - Ne jamais modifier à la main
-  - Généré par `composer install`
-- **`bootstrap/cache/`** : cache de démarrage du framework
-
-<v-click>
-
-> 💡 Ces dossiers sont listés dans `.gitignore`. Ils n'ont pas vocation à être versionnés.
-
-</v-click>
-
-<!--
+vendor/, bootstrap/cache/ et storage/framework/ sont générés ou utilisés par le framework — listés dans .gitignore, ils ne se versionnent pas.
 Expliquer que vider `storage/framework/cache/` ou `bootstrap/cache/` peut résoudre certains comportements étranges.
 -->
 
@@ -121,7 +97,8 @@ Expliquer que vider `storage/framework/cache/` ou `bootstrap/cache/` peut résou
 transition: slide-up | slide-down
 ---
 
-# Le front controller
+# Architecture d'un projet Laravel
+Le front controller
 
 Le fichier `public/index.php` est le **seul fichier PHP** accessible directement depuis le web.
 
@@ -145,7 +122,7 @@ $response = $kernel->handle(
 
 - Toutes les URLs passent par lui
 - Il crée l'application via `bootstrap/app.php`
-- Le kernel reçoit la requête et retourne la réponse
+- Le kernel reçoit la <KeyTerm>requête</KeyTerm> et retourne la <KeyTerm>réponse</KeyTerm>
 
 </v-click>
 
@@ -158,7 +135,8 @@ L'essentiel est ici : un seul point d'entrée qui charge l'application.
 transition: slide-up | slide-down
 ---
 
-# Cycle requête → réponse
+# Architecture d'un projet Laravel
+Cycle requête → réponse
 
 <Steps direction="vertical" :clicks="true" :items="[
   { icon: '🌐', title: 'Requête HTTP', desc: 'Le navigateur appelle public/index.php' },
@@ -179,7 +157,8 @@ Le contenu est maintenant présenté via le composant <Steps>.
 transition: slide-up | slide-down
 ---
 
-# Les environnements
+# Architecture d'un projet Laravel
+Les environnements
 
 Laravel utilise des **environnements** pour adapter le comportement :
 
@@ -207,7 +186,8 @@ En production, on surchargerait APP_ENV dans un fichier .env.production qui n'es
 transition: slide-up | slide-down
 ---
 
-# Artisan : la console Laravel
+# Architecture d'un projet Laravel
+Artisan : la console Laravel
 
 Le fichier `artisan` donne accès à des **commandes pratiques** :
 
@@ -215,7 +195,7 @@ Le fichier `artisan` donne accès à des **commandes pratiques** :
 
 <v-click>
 
-> 💡 Artisan est aussi un point d'entrée de l'application, comme `public/index.php`, mais en ligne de commande.
+> 💡 <KeyTerm>Artisan</KeyTerm> est aussi un point d'entrée de l'application, comme `public/index.php`, mais en ligne de commande.
 
 </v-click>
 
@@ -223,72 +203,4 @@ Le fichier `artisan` donne accès à des **commandes pratiques** :
 Montrer `artisan list` et quelques commandes utiles.
 Dire qu'on utilisera souvent `make:model`, `make:controller`, `migrate`, `db:seed`, etc.
 Le contenu est maintenant présenté via le composant <Terminal>.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Fichiers de configuration
-
-Laravel centralise la configuration dans le dossier `config/` :
-
-- `config/app.php` : configuration générale
-- `config/database.php` : connexions aux bases de données
-- `config/auth.php` : authentification
-- `config/cache.php` : cache
-- `config/services.php` : services tiers (API keys)
-
-<v-click>
-
-> 💡 La plupart des valeurs sensibles ne sont pas dans ces fichiers : elles viennent du fichier `.env`.
-
-</v-click>
-
-<!--
-Expliquer le principe : configuration versionnée, secrets dans .env non versionné.
-C'est une bonne pratique de sécurité transverse à tous les frameworks.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Résumé visuel
-
-```mermaid
-flowchart LR
-    subgraph Votre code
-        A[routes/web.php]
-        B[app/Http/Controllers]
-        C[app/Models]
-        D[resources/views]
-        E[database/migrations]
-        F[.env]
-    end
-    subgraph Laravel
-        G[Router]
-        H[Kernel / Pipeline]
-        I[Eloquent ORM]
-        J[Blade]
-        K[Schema Builder]
-        L[Config / Services]
-    end
-    A <---> G
-    B <---> H
-    C <---> I
-    D <---> J
-    E <---> K
-    F <---> L
-```
-
-<v-click>
-
-Laravel fournit la structure. Vous remplissez les cases avec votre logique métier.
-
-</v-click>
-
-<!--
-Cette slide est une synthèse des relations entre le code de l'apprenant et les composants Laravel.
-Le diagramme ASCII est remplacé par un diagramme Mermaid.
 -->

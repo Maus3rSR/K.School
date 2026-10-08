@@ -15,7 +15,8 @@ duration: 40 min
 transition: slide-up | slide-down
 ---
 
-# Diagnostic
+# Qu'est-ce qu'un framework ?
+Diagnostic
 
 Et vous, qu'en pensez-vous ?
 
@@ -39,12 +40,13 @@ Pas de jugement sur les réponses — on y reviendra tout au long du chapitre (d
 transition: slide-up | slide-down
 ---
 
-# Le problème du code "from scratch"
+# Qu'est-ce qu'un framework ?
+Le problème du code "from scratch"
 
 Sans framework, chaque projet PHP doit réinventer :
 
-- Le **routage** des URLs
-- La **gestion des requêtes** et des réponses HTTP
+- Le **<KeyTerm>routage</KeyTerm>** des URLs
+- La **gestion des <KeyTerm>requêtes</KeyTerm> et des <KeyTerm>réponses</KeyTerm> HTTP**
 - L'accès à la base de données
 - La **sécurité** (CSRF, authentification)
 - La **gestion des formulaires**
@@ -64,7 +66,8 @@ Un framework, c'est un kit de construction standardisé.
 transition: slide-up | slide-down
 ---
 
-# Définition
+# Qu'est-ce qu'un framework ?
+Définition
 
 <Definition term="Framework" translation="(Cadre de travail)">
 
@@ -72,7 +75,7 @@ Un framework fournit à la fois :
 
 - Une **architecture logicielle** : structure du projet, règles, façon dont les composants interagissent
 - Des **outils** prêts à l'emploi (routing, accès BDD, formulaires...) regroupés dans des librairies
-- Des **conventions** et des **patterns** éprouvés (MVC, injection de dépendances...)
+- Des **conventions** et des **patterns** éprouvés (MVC, <KeyTerm>injection de dépendances</KeyTerm>...)
 
 </Definition>
 
@@ -93,9 +96,8 @@ layoutClass: gap-x-8
 transition: slide-up | slide-down
 ---
 
-# Librairie vs Framework
-
-Qui appelle qui ?
+# Qu'est-ce qu'un framework ?
+Librairie vs framework : qui appelle qui ?
 
 ::left::
 
@@ -114,7 +116,7 @@ Qui appelle qui ?
 
 <div v-click="1">
 
-Une librairie **résout un problème précis**, à la demande
+Une <KeyTerm>librairie</KeyTerm> **résout un problème précis**, à la demande
 
 </div>
 
@@ -135,7 +137,7 @@ Une librairie **résout un problème précis**, à la demande
 
 <div v-click="1">
 
-Un framework **impose la structure** et dicte les règles
+Un <KeyTerm>framework</KeyTerm> **impose la structure** et dicte les règles
 
 </div>
 
@@ -150,7 +152,8 @@ Source / lecture complémentaire : https://laconsole.dev/blog/differences-librai
 transition: slide-up | slide-down
 ---
 
-# Frameworks populaires côté serveur
+# Qu'est-ce qu'un framework ?
+Frameworks populaires côté serveur
 
 <ImageGrid :cols="4" size="md" :images="[
   { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Laravel', caption: 'Laravel — PHP' },
@@ -173,7 +176,8 @@ layout: fact
 transition: slide-up | slide-down
 ---
 
-## Stack Overflow Developer Survey 2025
+# Qu'est-ce qu'un framework ?
+Stack Overflow Developer Survey 2025
 
 Le **Stack Overflow Developer Survey 2025** interroge plus de 49 000 développeurs dans 177 pays sur les technologies qu'ils utilisent.
 
@@ -195,7 +199,8 @@ Mais les frameworks PHP restent très présents, notamment en Europe.
 transition: slide-up | slide-down
 ---
 
-# PHP et Laravel dans le classement
+# Qu'est-ce qu'un framework ?
+PHP et Laravel dans le classement
 
 Dans le même classement :
 
@@ -229,7 +234,8 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Pourquoi ce choix pour ce cours ?
+# Qu'est-ce qu'un framework ?
+Pourquoi ce choix pour ce cours ?
 
 ::left::
 
@@ -262,7 +268,8 @@ Ceux qui ont déjà fait du NestJS retrouveront modules/décorateurs sous forme 
 transition: slide-up | slide-down
 ---
 
-# Frameworks côté client
+# Qu'est-ce qu'un framework ?
+Frameworks côté client
 
 Les navigateurs utilisent aussi des frameworks pour construire l'interface :
 
@@ -273,8 +280,8 @@ Les navigateurs utilisent aussi des frameworks pour construire l'interface :
 
 Laravel, lui, travaille **côté serveur** :
 
-- Il reçoit une requête HTTP
-- Il prépare une réponse (souvent en HTML avec Blade)
+- Il reçoit une <KeyTerm>requête</KeyTerm> HTTP
+- Il prépare une réponse (souvent en HTML avec <KeyTerm>Blade</KeyTerm>)
 - Il peut servir de **back-end** pour une SPA ou une API
 
 </v-click>
@@ -288,18 +295,36 @@ On pourra évoquer en fin de module les possibilités API.
 transition: slide-up | slide-down
 ---
 
-# Pourquoi utiliser un framework ?
+# Qu'est-ce qu'un framework ?
+Pourquoi utiliser un framework ?
 
-<ProsCons
-  :pros="[
-    'Productivité : on écrit moins de code répétitif',
-    'Maintenabilité : la structure est connue de tous',
-    'Sécurité : les failles courantes sont déjà anticipées',
-    'Recrutement : un standard industriel reconnu',
-    'Évolutivité : on peut remplacer un composant sans tout casser'
-  ]"
-  :cons="[]"
-/>
+<div class="grid grid-cols-3 gap-4 mt-6">
+  <div class="rounded-xl border-2 border-gray-400/30 bg-gray-400/5 px-4 py-3">
+    <div class="text-2xl">🚀</div>
+    <div class="font-bold mt-1">Productivité</div>
+    <div class="text-sm opacity-80">Moins de code répétitif à écrire.</div>
+  </div>
+  <div class="rounded-xl border-2 border-gray-400/30 bg-gray-400/5 px-4 py-3">
+    <div class="text-2xl">🧩</div>
+    <div class="font-bold mt-1">Maintenabilité</div>
+    <div class="text-sm opacity-80">Une structure connue de toute l'équipe.</div>
+  </div>
+  <div class="rounded-xl border-2 border-gray-400/30 bg-gray-400/5 px-4 py-3">
+    <div class="text-2xl">🛡️</div>
+    <div class="font-bold mt-1">Sécurité</div>
+    <div class="text-sm opacity-80">Les failles courantes sont déjà anticipées.</div>
+  </div>
+  <div class="rounded-xl border-2 border-gray-400/30 bg-gray-400/5 px-4 py-3">
+    <div class="text-2xl">💼</div>
+    <div class="font-bold mt-1">Recrutement</div>
+    <div class="text-sm opacity-80">Un standard industriel reconnu par les employeurs.</div>
+  </div>
+  <div class="rounded-xl border-2 border-gray-400/30 bg-gray-400/5 px-4 py-3">
+    <div class="text-2xl">🔧</div>
+    <div class="font-bold mt-1">Évolutivité</div>
+    <div class="text-sm opacity-80">Remplacer un composant sans tout casser.</div>
+  </div>
+</div>
 
 <!--
 Donner un exemple concret : la protection CSRF dans les formulaires est gérée nativement.

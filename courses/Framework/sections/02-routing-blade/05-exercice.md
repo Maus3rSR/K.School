@@ -8,7 +8,7 @@ Vos premières pages dynamiques
     'La fiche /game/{id} affiche un jeu — ou renvoie une 404'
   ]">
 
-Lancez `pnpm 02-routing-blade` à la racine du dépôt, puis suivez le **README** de l'exercice.
+Consignes dans le **README** de l'exercice `02-routing-blade`.
 
 Au programme : CSS et Vite, layout Blade commun, page d'accueil dynamique et fiche jeu `/game/{id}` — en transposant sur WishFlix ce que vous venez de voir.
 

@@ -15,11 +15,12 @@ duration: 30 min
 transition: slide-up | slide-down
 ---
 
-# Qu'est-ce que Laravel ?
+# Découvrir Laravel
+Qu'est-ce que Laravel ?
 
 <Definition term="Laravel">
 
-Laravel est un **framework PHP** complet, moderne et open-source.
+Laravel est un **<KeyTerm>framework</KeyTerm> PHP** complet, moderne et open-source.
 
 - Créé en **2011** par Taylor Otwell
 - Conçu autour de la **productivité** et de l'**élégance du code**
@@ -29,7 +30,7 @@ Laravel est un **framework PHP** complet, moderne et open-source.
 
 <Analogy title="La boîte à outils du développeur PHP" icon="🧰">
 
-Laravel fournit les outils essentiels (routing, ORM, templating, console...) déjà calibrés pour travailler ensemble. Le développeur n'a plus qu'à se concentrer sur la logique métier de son application.
+Laravel fournit les outils essentiels (<KeyTerm>routing</KeyTerm>, <KeyTerm>ORM</KeyTerm>, templating, console...) déjà calibrés pour travailler ensemble. Le développeur n'a plus qu'à se concentrer sur la logique métier de son application.
 
 </Analogy>
 
@@ -48,18 +49,43 @@ Son slogan historique est "The PHP Framework for Web Artisans".
 transition: slide-up | slide-down
 ---
 
-# Les briques principales
+# Découvrir Laravel
+Les briques principales
 
-<ImageGrid :cols="4" size="sm" :images="[
-  { src: 'https://placeholdit.com/200x200/4f8ef7/f1f5f9?text=Eloquent', caption: 'Eloquent' },
-  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Blade', caption: 'Blade' },
-  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Artisan', caption: 'Artisan' },
-  { src: 'https://placeholdit.com/200x200/ffbe00/f1f5f9?text=Routing', caption: 'Routing' },
-  { src: 'https://placeholdit.com/200x200/a855f7/f1f5f9?text=Validation', caption: 'Validation' },
-  { src: 'https://placeholdit.com/200x200/00b5ff/f1f5f9?text=Migration', caption: 'Migration' },
-  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Sanctum+%2F+Breeze', caption: 'Sanctum / Breeze' },
-  { src: 'https://placeholdit.com/200x200/ff8c42/f1f5f9?text=Vite', caption: 'Vite' }
-]" />
+<div class="grid grid-cols-2 gap-3 mt-4">
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Eloquent</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">L'ORM : chaque table devient une classe PHP.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Blade</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Le moteur de templates qui génère le HTML.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Artisan</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">La console qui génère du code et lance les tâches.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Routing</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Associe chaque URL au code qui la traite.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Validation</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Vérifie les données des formulaires avant traitement.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Migration</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Versionne la structure de la base de données.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Sanctum / Breeze</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Authentification prête : tokens d'API ou pages de connexion.</div>
+  </div>
+  <div class="rounded-lg border-2 border-gray-400/30 bg-gray-400/5 px-4 py-2">
+    <KeyTerm>Vite</KeyTerm>
+    <div class="text-sm opacity-80 mt-1">Compile les assets front-end (CSS, JavaScript).</div>
+  </div>
+</div>
 
 <!--
 Pas besoin de retenir tous les noms maintenant. On les reverra pratiquement dans les prochaines séances.
@@ -69,7 +95,8 @@ Pas besoin de retenir tous les noms maintenant. On les reverra pratiquement dans
 transition: slide-up | slide-down
 ---
 
-# Comparaison avec Symfony et NestJS
+# Découvrir Laravel
+Comparaison avec Symfony et NestJS
 
 | Aspect | Laravel | Symfony | NestJS |
 |--------|---------|---------|--------|
@@ -82,7 +109,7 @@ transition: slide-up | slide-down
 
 <v-click>
 
-> Les trois partagent les mêmes fondamentaux : routing, ORM, injection de dépendances, validation, tests.
+> Les trois partagent les mêmes fondamentaux : <KeyTerm>routing</KeyTerm>, <KeyTerm>ORM</KeyTerm>, <KeyTerm>injection de dépendances</KeyTerm>, validation, tests.
 
 </v-click>
 

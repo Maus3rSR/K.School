@@ -27,6 +27,18 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 
 ---
 
+## Échauffement (optionnel) — Une première route
+
+Si vous n'avez pas encore écrit de route vous-même, commencez par cet échauffement de ~10 minutes avant la Partie A.
+
+Ajoutez dans `routes/web.php` une route qui affiche le texte « Hello WishFlix ! » sur l'URL `/hello`, en vous inspirant de la route `/` déjà présente. Testez sur [http://localhost/hello](http://localhost/hello), puis vérifiez qu'elle apparaît dans `./vendor/bin/sail artisan route:list`.
+
+Pour aller plus loin : ajoutez une route `/hello/{name}` qui affiche « Hello Alice ! » quand vous visitez `/hello/Alice` — la section [Route Parameters](https://laravel.com/framework/docs/12.x/routing#route-parameters) de la documentation montre comment récupérer le paramètre.
+
+> 💡 Ici, on utilise une **closure** directement dans la route. Dans cette séance, vous la remplacerez par des contrôleurs.
+
+---
+
 ## Partie A — En séance (atelier WishFlix)
 
 ### A1 — CSS et Vite

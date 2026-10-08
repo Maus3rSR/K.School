@@ -29,12 +29,10 @@ Installer un projet Laravel 12 avec Docker (via Laravel Sail), le faire tourner 
 Dans le répertoire où vous stockez vos projets, exécutez :
 
 ```bash
-# macOS / Linux / WSL2
 curl -s "https://laravel.build/wishflix?with=mariadb,redis" | bash
-
-# Windows (PowerShell)
-curl -s "https://laravel.build/wishflix?with=mariadb,redis" | cmd /c
 ```
+
+> Sous Windows : exécutez cette commande dans un terminal **WSL2** (pas dans PowerShell).
 
 > Cette commande utilise un conteneur temporaire pour installer Laravel et ses dépendances, sans installer PHP ni Composer sur votre machine. `with=mariadb,redis` limite les services à une base de données et un cache.
 
@@ -168,16 +166,14 @@ Pour une question sur un fichier, demandez-vous d'abord à quelle famille il app
 
 ---
 
-## Bonus
+## Bonus — Explorer les commandes Artisan
 
-### Bonus 1 — Une première route
+Artisan propose bien plus de commandes que `about` et `migrate`. Commencez par `./vendor/bin/sail artisan list` pour découvrir le catalogue complet, puis relevez les défis ci-dessous. Notez vos trouvailles dans `REPONSES.md`.
 
-Ajoutez dans `routes/web.php` une route qui affiche le texte « Hello WishFlix ! » sur l'URL `/hello`, en vous inspirant de la route `/` déjà présente. Testez sur [http://localhost/hello](http://localhost/hello), puis vérifiez qu'elle apparaît dans `./vendor/bin/sail artisan route:list`.
+1. Dans la liste affichée par `artisan list`, repérez une commande qui **vide un cache** et une qui **indique l'état des migrations**. Quelles sont leurs noms exacts ?
+2. Exécutez `./vendor/bin/sail artisan make:controller --help`. Quelles options permettent de générer **d'autres fichiers** en même temps que le contrôleur ? Choisissez-en une, générez un contrôleur, puis observez (et nettoyez) les fichiers créés.
+3. Lancez `./vendor/bin/sail artisan tinker` : c'est une console PHP interactive branchée sur votre application. Essayez d'y afficher la valeur `APP_NAME` de votre `.env` sans ouvrir le fichier — une fonction d'aide de Laravel permet de lire la configuration (regardez comment `config/app.php` récupère ses valeurs).
 
-> 💡 Ici, on utilise une **closure** directement dans la route. Dans les prochaines séances, on remplacera cela par des contrôleurs.
+> 💡 La [documentation Artisan](https://laravel.com/framework/docs/12.x/artisan) liste les commandes par famille — utile si vous êtes bloqué.
 
-### Bonus 2 — Une route avec paramètre
-
-Ajoutez une route `/hello/{name}` qui affiche « Hello Alice ! » quand on visite `/hello/Alice`. Cherchez comment récupérer le paramètre dans la section [Route Parameters](https://laravel.com/framework/docs/12.x/routing#route-parameters) de la documentation.
-
-Committez vos deux routes et poussez sur GitHub.
+Quand vous avez terminé, committez `REPONSES.md` et poussez sur GitHub.

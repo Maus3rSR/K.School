@@ -86,16 +86,23 @@ defineProps({
   font-size: 0.78em;
   line-height: 1.55;
   color: #e2e8f0;
+  user-select: text;
+  cursor: text;
 }
 .term-cmd {
   color: #4ade80;
+  user-select: text;
+  cursor: text;
 }
 .term-prompt {
   color: #94a3b8;
   font-weight: 700;
+  user-select: none;
 }
 .term-out {
   color: #94a3b8;
   white-space: pre-wrap;
+  user-select: text;
+  cursor: text;
 }
 </style>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -98,25 +98,25 @@
             </div>
             <div class="wish-section__actions">
               <div class="wish-home__filters">
-                <label class="form-control wish-home__search" for="game-search">
-                  <span class="label-text">Rechercher</span>
+                <fieldset class="fieldset wish-home__search">
+                  <legend class="fieldset-legend">Rechercher</legend>
                   <input
                     id="game-search"
                     type="search"
-                    class="input input-bordered"
+                    class="input w-full"
                     placeholder="Titre ou mot-cle"
                   />
-                </label>
+                </fieldset>
 
-                <label class="form-control" for="game-category">
-                  <span class="label-text">Categorie</span>
-                  <select id="game-category" class="select select-bordered">
+                <fieldset class="fieldset">
+                  <legend class="fieldset-legend">Categorie</legend>
+                  <select id="game-category" class="select w-full">
                     <option value="all">Toutes</option>
                     <option value="RPG">RPG</option>
                     <option value="Action">Action</option>
                     <option value="Aventure">Aventure</option>
                   </select>
-                </label>
+                </fieldset>
 
                 <button class="btn btn-secondary">
                   Disponibles uniquement
@@ -184,7 +184,7 @@
 
                   <div class="card-actions game-card__actions">
                     <a
-                      class="btn btn-sm btn-ghost"
+                      class="link link-hover game-card__link"
                       href="game-detail.html"
                       aria-label="Voir les details de The Witcher 3"
                     >
@@ -228,7 +228,7 @@
                   </p>
 
                   <div class="card-actions game-card__actions">
-                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                    <a class="link link-hover game-card__link" href="game-detail.html">
                       Details
                     </a>
                     <button class="btn btn-sm btn-secondary">Retirer</button>
@@ -269,7 +269,7 @@
                   </p>
 
                   <div class="card-actions game-card__actions">
-                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                    <a class="link link-hover game-card__link" href="game-detail.html">
                       Details
                     </a>
                     <button class="btn btn-sm btn-outline">Wishlist</button>
@@ -312,7 +312,7 @@
                   </p>
 
                   <div class="card-actions game-card__actions">
-                    <a class="btn btn-sm btn-ghost" href="game-detail.html">
+                    <a class="link link-hover game-card__link" href="game-detail.html">
                       Details
                     </a>
                     <button class="btn btn-sm btn-secondary">Retirer</button>

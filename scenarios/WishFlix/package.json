@@ -1,5 +1,5 @@
 {
-  "name": "wishflix",
+  "name": "@k.scenario/wishflix",
   "version": "1.0.0",
   "description": "WishFlix - Plateforme de catalogue de jeux vidéo",
   "main": "server.js",

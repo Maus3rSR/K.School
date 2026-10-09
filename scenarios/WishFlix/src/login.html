@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,19 +51,15 @@
               </p>
 
               <form class="wish-login__form" novalidate>
-                <label class="form-control" for="email">
-                  <span class="label-text">Email</span>
-                  <input id="email" type="email" class="input input-bordered" />
-                </label>
+                <fieldset class="fieldset">
+                  <legend class="fieldset-legend">Email</legend>
+                  <input id="email" type="email" class="input w-full" />
+                </fieldset>
 
-                <label class="form-control" for="password">
-                  <span class="label-text">Mot de passe</span>
-                  <input
-                    id="password"
-                    type="password"
-                    class="input input-bordered"
-                  />
-                </label>
+                <fieldset class="fieldset">
+                  <legend class="fieldset-legend">Mot de passe</legend>
+                  <input id="password" type="password" class="input w-full" />
+                </fieldset>
 
                 <button class="btn btn-primary" type="submit">
                   Se connecter

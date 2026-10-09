@@ -27,7 +27,7 @@ Route::get('/quests', function () {
 ```
 Test : `localhost/quests`. Expliquer verbe / URL / closure.
 
-## b. Paramètre, contrainte, nom — `01-routing.md` (« URL dynamiques », « contrainte », « Nommer »)
+## b. Paramètre, contrainte, nom — `01-routing.md` (« Faire évoluer la route », « Générer les URL avec route() »)
 
 ```php
 Route::get('/quests/{id}', function ($id) {
@@ -61,7 +61,7 @@ private array $quests = [
 ```
 Ajouter `use Illuminate\Http\Request;` au passage (étape f).
 
-## e. `index` / `show`, routes et vues — `02-controleurs.md` + `03-blade.md`
+## e. `index` / `show`, routes et vues — `02-controleurs.md` + `03-blade-vue.md`
 
 ```php
 public function index()
@@ -113,7 +113,7 @@ public function index(Request $request)
 ```
 Test : `/quests?difficulty=easy`, puis `?difficulty=nope` (→ `@empty`).
 
-## g. Layout — `03-blade.md` (« Le layout », « La page enfant »)
+## g. Layout — `04-blade-layouts.md` (« Le layout : des trous à remplir », « La page enfant remplit les trous »)
 
 Créer `resources/views/layouts/app.blade.php`
 ```blade
@@ -152,7 +152,7 @@ Réécrire `quests/index.blade.php` :
 ```
 Bug du quiz à provoquer : `@section('contenu')` au lieu de `content` → trou vide, aucune erreur.
 
-## h. CSS par page avec `@vite` — `04-vite-erreurs.md` (« Vite compile… », « Une CSS par page »)
+## h. CSS par page avec `@vite` — `05-vite.md` (« Vite compile… », « Une CSS par page »)
 
 1. Montrer l'erreur « Vite manifest not found » en arrêtant `npm run dev`, puis le relancer.
 2. `vite.config.js` : ajouter `'resources/css/quests.css'` dans `input`.
@@ -165,7 +165,7 @@ Bug du quiz à provoquer : `@section('contenu')` au lieu de `content` → trou v
 Pour un rendu plus joli, utiliser les classes de `quests.css` : `quest-list`, `quest-card`, `xp`, `badge badge--easy|hard`, `filters`. Voir `../solution/resources/views/quests/index.blade.php`.
 Si `quests.css` n'est pas dans `input` : erreur « Unable to locate file in Vite manifest » → à montrer volontairement.
 
-## i. `abort(404)` + page 404 — `04-vite-erreurs.md` (« La page 404 personnalisée »)
+## i. `abort(404)` + page 404 — `06-erreurs.md` (« La page 404 personnalisée »)
 
 ```php
 public function show(int $id)

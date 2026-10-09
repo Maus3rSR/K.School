@@ -227,6 +227,12 @@ body {
   gap: 0.5rem;
 }
 
+.game-card__link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgb(255 255 255 / 85%);
+}
+
 @media (min-width: 52rem) {
   .wishflix-shell__menu {
     display: inline-flex;

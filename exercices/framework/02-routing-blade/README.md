@@ -41,21 +41,23 @@ Pour aller plus loin : ajoutez une route `/hello/{name}` qui affiche « Hello Al
 
 ## Partie A — En séance (atelier WishFlix)
 
-### A1 — CSS et Vite
+### A1 — Démarrer Vite et copier les CSS
 
-1. Copiez `app.css` dans `resources/css/wishflix.css`, puis `home.css` et `game-detail.css` dans `resources/css/` (gardez leurs noms).
-2. Dans `vite.config.js`, ajoutez ces fichiers au tableau `input` du plugin `laravel(...)` — chaque fichier CSS/JS chargé par `@vite` doit y figurer.
-3. Gardez pour l'instant dans le `<head>` les liens **CDN DaisyUI et Tailwind** présents dans les maquettes (la migration vers Tailwind via Vite est un bonus).
-4. Lancez `./vendor/bin/sail npm install` puis `./vendor/bin/sail npm run dev` (ce terminal reste ouvert).
+1. Ouvrez `vite.config.js` : le tableau `input` du plugin `laravel(...)` déclare déjà `resources/css/app.css` et `resources/js/app.js`. Laissez aussi la ligne `tailwindcss()` en place : elle servira au Bonus 1. Dans ce fichier, vous toucherez uniquement au tableau `input`.
+2. Lancez `./vendor/bin/sail npm install` puis `./vendor/bin/sail npm run dev` dans un second terminal (il reste ouvert).
    > Le premier `npm install` peut prendre quelques minutes : c'est normal.
-5. Vérifiez que la page Laravel s'affiche toujours — si vous voyez « Vite manifest not found », `npm run dev` ne tourne pas.
+3. **Remplacez tout le contenu** de `resources/css/app.css` par celui du `app.css` des maquettes. Les lignes d'origine (`@import 'tailwindcss'`, `@source`…) servent à Tailwind via Vite : vous les retrouverez au Bonus 1. Copiez aussi `home.css` et `game-detail.css` dans `resources/css/` (gardez leurs noms).
+
+> 💡 Les maquettes utilisent **Tailwind** et **DaisyUI** (les classes `navbar`, `badge`, `btn`, `card`…) chargés par deux balises **CDN** dans le `<head>`. Vous n'avez pas besoin de connaître ces outils : gardez ces deux balises telles quelles et recopiez les classes HTML des maquettes, elles fonctionneront.
 
 ### A2 — Le layout `app.blade.php`
 
 1. Créez `resources/views/layouts/app.blade.php` à partir de la **coquille commune** de `home.html` : le `<!doctype>`, le `<head>`, la navbar et le footer — c'est-à-dire tout ce qui est identique d'une page à l'autre.
 2. Remplacez les trois endroits qui changent d'une page à l'autre par des `@yield` : le titre de l'onglet, les CSS propres à la page (`@yield('styles')` dans le `<head>`), et le contenu du `<main>` (`@yield('content')`).
-3. Mettez `@vite(['resources/css/wishflix.css'])` dans le `<head>` pour charger la CSS commune.
+3. Dans le `<head>`, **gardez** les deux balises CDN (DaisyUI et `@tailwindcss/browser`) et **supprimez** les deux `<link rel="stylesheet">` vers `app.css` et `home.css` : à leur place, mettez `@vite(['resources/css/app.css'])` pour la CSS commune (déjà déclarée dans `input`). Les CSS propres à chaque page passeront par `@yield('styles')`.
 4. (Optionnel mais recommandé) Sortez la navbar dans `resources/views/partials/nav.blade.php` et insérez-la avec `@include('partials.nav')`.
+
+> 💡 Le layout ne s'affiche pas tout seul : vous le verrez à l'écran à la fin de A3, quand une page l'étendra.
 
 ### A3 — `GameController` et la page d'accueil
 
@@ -64,12 +66,15 @@ Pour aller plus loin : ajoutez une route `/hello/{name}` qui affiche « Hello Al
 3. Écrivez l'action `index()` qui passe ce tableau à une vue `home` (fichier `resources/views/home.blade.php`).
 4. Dans `routes/web.php`, remplacez la route `/` par une route vers `[GameController::class, 'index']`, nommée `home`.
 5. Construisez la vue `home.blade.php` à partir du **contenu du `<main>`** de `home.html` (hero + section catalogue), en la faisant `@extends('layouts.app')`. La grille de cartes ne doit contenir **qu'une seule carte** qui boucle sur vos jeux (`@forelse` sur `$games`, en récupérant l'id dans la clé `$id => $game`).
+6. Chargez la CSS de la page : ajoutez `'resources/css/home.css'` au `input` de `vite.config.js` — **chaque fichier CSS/JS chargé par `@vite` doit y figurer** — puis dans la vue `@section('styles')` + `@vite('resources/css/home.css')`.
+7. Ouvrez [http://localhost](http://localhost) : l'accueil WishFlix s'affiche avec ses styles. Si vous voyez « Vite manifest not found », `sail npm run dev` ne tourne pas.
+   > La page Laravel par défaut ne déclenche jamais cette erreur (elle vérifie d'abord que Vite tourne) : c'est la première fois que vous pouvez la rencontrer.
 
 ### A4 — La fiche jeu `/game/{id}`
 
 1. Ajoutez l'action `show(int $id)` : si l'id n'existe pas dans le tableau → `abort(404)`, sinon passe le jeu (et son id) à une vue `game-detail` (`resources/views/game-detail.blade.php`).
 2. Déclarez la route `GET /game/{id}` : paramètre **contrainte numérique** (`whereNumber`), nommée `games.show`, vers `[GameController::class, 'show']`.
-3. La vue `game-detail.blade.php` étend le layout et reprend le `<main>` de `game-detail.html`, rempli avec le jeu reçu. Sa CSS : `@section('styles')` + `@vite('resources/css/game-detail.css')`.
+3. La vue `game-detail.blade.php` étend le layout et reprend le `<main>` de `game-detail.html`, rempli avec le jeu reçu. Sa CSS : `'resources/css/game-detail.css'` ajouté au `input` de `vite.config.js`, puis `@section('styles')` + `@vite('resources/css/game-detail.css')`.
 4. Vérifiez : `/game/1` affiche la fiche, `/game/999` → 404 par `abort`, `/game/abc` → 404 par la contrainte.
 
 ### A5 — Des liens générés, pas écrits en dur
@@ -131,7 +136,49 @@ Critères d'acceptation :
 
 ### Bonus 1 — Tailwind et DaisyUI via Vite
 
-Remplacez les balises CDN (link DaisyUI + script `@tailwindcss/browser`) par une installation Tailwind CSS + DaisyUI **via Vite**, en suivant la [documentation officielle Laravel](https://laravel.com/framework/docs/12.x/vite) et les docs de Tailwind v4 / DaisyUI 5. Critère : le rendu est identique **sans** aucune balise CDN dans le layout.
+Remplacez les balises CDN (link DaisyUI + script `@tailwindcss/browser`) par Tailwind CSS + DaisyUI servis **via Vite**. Critère : le rendu est identique **sans** aucune balise CDN dans le layout.
+
+Bon à savoir : Tailwind est **déjà installé** dans votre projet Laravel (paquet npm + plugin `tailwindcss()` dans `vite.config.js`) — ne suivez pas un guide d'installation Tailwind « from scratch ». Il reste à ajouter DaisyUI et à réactiver Tailwind dans `app.css` : voir la [page d'installation DaisyUI pour Laravel](https://daisyui.com/docs/install/laravel/).
+
+<details>
+<summary>Indice 1 — Par où commencer</summary>
+
+En A1, vous avez retiré de `app.css` les lignes qui activaient Tailwind. DaisyUI est un **plugin** de Tailwind : il s'installe avec npm, puis se déclare dans ce même `app.css`, à côté de Tailwind.
+
+</details>
+
+<details>
+<summary>Indice 2 — Les étapes</summary>
+
+1. Installer le paquet `daisyui` en dépendance de développement (via `sail npm`)
+2. Remettre en **tête** de `resources/css/app.css` l'import de Tailwind et ses `@source`, puis une ligne `@plugin` pour DaisyUI — votre CSS WishFlix reste en dessous
+3. Supprimer les deux balises CDN du layout (`app.css` est déjà chargé par `@vite`)
+
+</details>
+
+<details>
+<summary>Indice 3 — Squelette</summary>
+
+```bash
+./vendor/bin/sail npm install -D daisyui@latest
+```
+
+En tête de `resources/css/app.css`, au-dessus de votre CSS WishFlix :
+
+```css
+@import "tailwindcss";
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "daisyui";
+```
+
+Gardez `data-theme="dark"` sur la balise `<html>` : c'est lui qui active le thème sombre de DaisyUI.
+
+</details>
 
 ### Bonus 2 — Lien actif dans la navbar
 
@@ -202,7 +249,7 @@ Boucle de la vue d'accueil :
 ## Critères de réussite
 
 - [ ] Le projet tourne (`sail up -d` + `sail npm run dev`) sans « Vite manifest not found »
-- [ ] `vite.config.js` déclare `wishflix.css` + les CSS de chaque page utilisée
+- [ ] `vite.config.js` déclare `app.css` + les CSS de chaque page utilisée
 - [ ] `layouts/app.blade.php` contient navbar + footer en un seul endroit, avec `@yield('title')`, `@yield('styles')`, `@yield('content')`
 - [ ] `/` (route `home`) affiche au moins 4 jeux issus du tableau PHP, chacun avec titre, catégorie, note, jaquette
 - [ ] `/game/{id}` (route `games.show`, `whereNumber`) affiche la fiche du bon jeu ; `/game/999` → 404 ; `/game/abc` → 404

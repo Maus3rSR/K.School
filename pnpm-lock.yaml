@@ -223,8 +223,6 @@ importers:
         specifier: 'catalog:'
         version: 3.5.32(typescript@5.9.3)
 
-  exercices/framework: {}
-
   exercices/hexagonal-architecture: {}
 
   exercices/hexagonal-architecture/01-coffee-shop:

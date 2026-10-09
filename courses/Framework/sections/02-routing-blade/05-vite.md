@@ -1,22 +1,25 @@
 ---
 layout: chapter
-number: 8
+transition: slide-left | slide-right
+number: 05
 duration: 10 min
 ---
 
-# Vite et pages d'erreur
+# Vite
 
 - Servir vos CSS et JS avec Vite
 - Charger une CSS propre à chaque page
-- Personnaliser la page 404 de l'application
 
 <!--
-Dernier chapitre du cours : deux sujets courts mais indispensables pour l'atelier.
+Vite est le choix par défaut de Laravel — nécessaire pour Breeze (S6) et le JS fetch (S7).
+Chapitre volontairement réduit : l'essentiel pour l'atelier, pas un cours Vite.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Vite et pages d'erreur
+# Vite
 Vite compile et sert vos assets (CSS, JS)
 
 Vous ouvrez la page et Laravel affiche **« Vite manifest not found »** : la page réclame ses CSS, mais personne ne les a compilées.
@@ -53,9 +56,10 @@ Le premier npm install sous Sail peut être long : c'est normal.
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-up | slide-down
 ---
 
-# Vite et pages d'erreur
+# Vite
 Une CSS par page
 
 ::left::
@@ -96,51 +100,10 @@ export default defineConfig({
 
 <div v-click="3">
 
-Côté Blade : la page charge sa CSS avec `@vite('resources/css/quests.css')` dans `@section('styles')` (vu au chapitre 7).
+Côté Blade : la page charge sa CSS avec `@vite('resources/css/quests.css')` dans `@section('styles')` (vu au chapitre 4).
 
 </div>
 
 <!--
 Après chaque ajout dans input, vérifier que npm run dev tourne — sinon l'entrée n'est pas compilée.
--->
-
----
-layout: two-cols-header
-layoutClass: gap-x-6
----
-
-# Vite et pages d'erreur
-La page 404 personnalisée
-
-::left::
-
-```php
-public function show(int $id)
-{
-    abort_unless(isset($this->quests[$id]), 404);
-
-    return view('quests.show',
-        ['quest' => $this->quests[$id], 'id' => $id]);
-}
-```
-
-`abort(404)` cherche `resources/views/errors/404.blade.php` — qui peut `@extends('layouts.app')` comme n'importe quelle page :
-
-- Titre : « Cette quête n'existe pas (encore) »
-- Lien retour : `route('quests.index')`
-- Déclenchée aussi par **toute URL inconnue**
-
-::right::
-
-<v-click>
-
-<Browser url="localhost/quests/999" title="Campus Quest">
-  <Placeholder :w="800" :h="500" text="Erreur 404" />
-</Browser>
-
-</v-click>
-
-<!--
-Option : sail artisan vendor:publish --tag=laravel-errors récupère les vues d'erreur par défaut comme point de départ.
-Tester en direct : /quests/999 ET /nimportequoi renvoient la même page.
 -->

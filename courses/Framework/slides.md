@@ -36,5 +36,9 @@ src: ./sections/02-routing-blade/00-lexique.md
 ---
 
 ---
+src: ./sections/02-routing-blade/00-campus-quest.md
+---
+
+---
 src: ./sections/02-routing-blade/index.md
 ---

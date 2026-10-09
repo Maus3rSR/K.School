@@ -1,6 +1,7 @@
 ---
 layout: chapter
-number: 5
+transition: slide-left | slide-right
+number: 01
 duration: 25 min
 ---
 
@@ -15,26 +16,7 @@ Transition : en S1 on a vu l'architecture ; aujourd'hui on fait répondre le sit
 -->
 
 ---
-layout: image-right
-image: https://placeholdit.com/800x1200/1e293b/94a3b8?text=Campus+Quest
----
-
-# Routing
-La rentrée commence sur Campus Quest
-
-**Campus Quest** — la rentrée commence. Le campus est rempli de défis cachés. Gagnez de l'XP, débloquez des badges et grimpez dans le classement de votre promo.
-
-- Une page liste les **quêtes** disponibles
-- Chaque quête a sa **fiche** (`/quests/3`)
-- En S2, les quêtes vivent dans un **tableau PHP** — la base de données arrive en S3
-
-> 🎯 Chaque notion démontrée sur Campus Quest sera transposée sur **WishFlix** en atelier.
-
-<!--
-Faire réagir la salle : qui jouerait à ça pendant la semaine d'intégration ?
-Répéter le pacte : démo sur Campus Quest, transposition sur WishFlix — jamais de recopie.
--->
-
+transition: slide-up | slide-down
 ---
 
 # Routing
@@ -64,6 +46,7 @@ Le "router" est la partie de Laravel qui lit routes/web.php et choisit la route 
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-up | slide-down
 ---
 
 # Routing
@@ -103,6 +86,8 @@ Question probable : "c'est quoi function () { } ?" → closure, vue en S1.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
 # Routing
 Un verbe HTTP par intention
@@ -120,9 +105,22 @@ Mentionner que Route::post, Route::put, Route::delete existent avec la même syn
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
 
 # Routing
-Des URL dynamiques avec des paramètres
+Faire évoluer la route
+
+::left::
+
+````md magic-move
+```php
+Route::get('/quests', function () {
+    return 'Liste des quêtes';
+});
+```
 
 ```php
 Route::get('/quests/{id}', function ($id) {
@@ -130,77 +128,59 @@ Route::get('/quests/{id}', function ($id) {
 });
 ```
 
-<v-click>
-
-- `/quests/3` → « Quête n°3 » — `{id}` capture le segment et le passe à l'action
-- `/quests/abc` → accepté aussi : sans contrainte, tout segment convient
-
-</v-click>
-
-<v-click>
-
-> 💡 Un paramètre peut être **optionnel** : `/quests/{difficulty?}` répond aussi à `/quests`.
-
-</v-click>
-
-<!--
-Piège classique : oublier le nom identique entre {id} et le paramètre $id.
-Sur /quests/abc : "pourquoi ce n'est pas une 404 ?" — parfait pour introduire la slide suivante.
--->
-
----
-
-# Routing
-Restreindre les paramètres avec une contrainte
-
-<Compare badLabel="❌ Sans contrainte" goodLabel="✅ Avec whereNumber">
-  <template #bad>
-
 ```php
 Route::get('/quests/{id}', function ($id) {
-    // /quests/abc arrive ici
-    // et casse la logique
-});
-```
-
-  </template>
-  <template #good>
-
-```php
-Route::get('/quests/{id}', function ($id) {
-    // ...
+    return "Quête n°{$id}";
 })->whereNumber('id');
-// /quests/abc → 404 automatique
 ```
-
-  </template>
-</Compare>
-
-<!--
-Une contrainte est une règle qui filtre les valeurs acceptées : whereNumber, whereAlpha, where('id', '[0-9]+').
-La 404 est renvoyée par le router, avant même d'entrer dans l'action.
--->
-
----
-
-# Routing
-Nommer les routes pour générer leurs URL
 
 ```php
 Route::get('/quests/{id}', function ($id) {
     return "Quête n°{$id}";
 })->whereNumber('id')->name('quests.show');
 ```
+````
 
-<v-click>
+::right::
 
-Dans une vue ou un contrôleur, on génère l'URL à partir du nom :
+La route `/quests` de tout à l'heure, **enrichie étape par étape**.
+
+<div v-click="1">
+
+`{id}` — le paramètre **capture** un segment d'URL et le passe à l'action : `/quests/3` → « Quête n°3 ». Sans contrainte, `/quests/abc` est accepté aussi. Un paramètre peut être **optionnel** : `{difficulty?}` répond aussi à `/quests`.
+
+</div>
+
+<div v-click="2">
+
+`->whereNumber('id')` — la **contrainte** filtre les valeurs acceptées : `/quests/abc` → **404** renvoyée par le router, avant même d'entrer dans l'action.
+
+</div>
+
+<div v-click="3">
+
+`->name('quests.show')` — la route est **nommée** : on pourra générer son URL avec `route()`.
+
+</div>
+
+<!--
+Piège classique : oublier le nom identique entre {id} et le paramètre $id.
+Autres contraintes : whereAlpha, where('id', '[0-9]+').
+La 404 d'un paramètre invalide est renvoyée par le router, sans jamais entrer dans l'action.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Routing
+Générer les URL avec route()
+
+Dans une vue ou un contrôleur, l'URL se génère à partir du **nom** de la route :
 
 ```blade
 {{ route('quests.show', 3) }}   →   /quests/3
 ```
-
-</v-click>
 
 <v-click>
 
@@ -216,6 +196,8 @@ N'écrivez jamais une URL en dur (`href="/quests/3"`). Générez-la avec `route(
 Anecdote : un projet où l'on passe de /quest/{id} à /defis/{id} — avec route() on change une ligne, en dur on chasse 40 liens.
 -->
 
+---
+transition: slide-up | slide-down
 ---
 
 # Routing

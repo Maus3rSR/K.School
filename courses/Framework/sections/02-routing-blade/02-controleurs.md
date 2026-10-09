@@ -1,10 +1,11 @@
 ---
 layout: chapter
-number: 6
+transition: slide-left | slide-right
+number: 02
 duration: 25 min
 ---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 
 - Sortir la logique des routes vers un contrôleur
 - Lire les paramètres d'URL avec l'objet `Request`
@@ -15,8 +16,10 @@ Transition : la closure marche pour une démo, pas pour un vrai projet.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 Pourquoi sortir la logique des routes ?
 
 <Compare badLabel="❌ Tout dans web.php" goodLabel="✅ Routes fines + contrôleur">
@@ -50,9 +53,10 @@ Un contrôleur regroupe les actions d'une même ressource. web.php redevient une
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-up | slide-down
 ---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 Générer un contrôleur avec Artisan
 
 ::left::
@@ -93,9 +97,10 @@ Question probable : "pourquoi Http/Controllers ?" → ce sont les contrôleurs q
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-up | slide-down
 ---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 Le contrôleur Campus Quest
 
 ::left::
@@ -149,18 +154,26 @@ Un contrôleur = des **méthodes publiques** (les *actions*), chacune appelée p
 
 <!--
 Version simplifiée du contrôleur de démo : le filtre ?difficulty arrive à la slide Request.
-show() ne vérifie rien : /quests/99 → erreur "Undefined array key". On le sécurise avec abort_unless au chapitre 8.
+show() ne vérifie rien : /quests/99 → erreur "Undefined array key". On le sécurise avec abort_unless au chapitre 6.
 -->
 
 ---
 layout: two-cols-header
 layoutClass: gap-x-6
+transition: slide-up | slide-down
 ---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 Brancher les routes sur le contrôleur
 
 ::left::
+
+````md magic-move
+```php
+Route::get('/quests', function () {
+    return 'Liste des quêtes';
+});
+```
 
 ```php
 use App\Http\Controllers\QuestController;
@@ -172,10 +185,15 @@ Route::get('/quests/{id}', [QuestController::class, 'show'])
     ->whereNumber('id')
     ->name('quests.show');
 ```
+````
 
-`[Classe::class, 'méthode']` remplace la closure : la route délègue au contrôleur.
+<div v-click="1">
 
-<div v-click="2">
+`[Classe::class, 'méthode']` remplace la closure : la route **délègue** au contrôleur.
+
+</div>
+
+<div v-click="3">
 
 <Analogy title="Comme au restaurant" icon="🍽️">
 
@@ -187,7 +205,7 @@ Le router est l'hôte d'accueil qui vous conduit à une table. Le contrôleur es
 
 ::right::
 
-<div v-click="1">
+<div v-click="2">
 
 ```mermaid
 sequenceDiagram
@@ -205,8 +223,10 @@ Faire le lien avec le cycle requête → réponse vu en S1.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 L'objet Request : lire les paramètres d'URL
 
 Comment filtrer la liste : `/quests?difficulty=easy` ?
@@ -249,8 +269,10 @@ Insister sur l'injection : on ne crée pas l'objet, on le déclare et Laravel le
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 Choisir sa réponse
 
 | Code | Cas d'usage |
@@ -262,12 +284,14 @@ Choisir sa réponse
 
 <!--
 Question probable : "quand utiliser redirect ?" → après un POST réussi, pour éviter la resoumission du formulaire (S5).
-abort(404) prépare la slide sur les pages d'erreur du chapitre 8.
+abort(404) prépare la slide sur les pages d'erreur du chapitre 6.
 -->
 
 ---
+transition: slide-up | slide-down
+---
 
-# Contrôleurs, requêtes et réponses
+# Contrôleurs
 À vous de jouer
 
 <Quiz

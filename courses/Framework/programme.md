@@ -71,6 +71,7 @@ Le projet est donc construit **en continu** : il n'y a pas de « projet de fin �
 - Authentification Laravel (Breeze / Sanctum overview, ou auth manuelle selon le temps)
 - Middleware `auth`, gates et policies
 - Hash des mots de passe, protection CSRF
+- Démo XSS : `{!! !!}` vs `{{ }}`
 - Wishlist liée à l'utilisateur connecté
 - 🛠️ Atelier : connexion avec un compte démo, back-office réservé aux admins, ajout d'un jeu à sa wishlist
 

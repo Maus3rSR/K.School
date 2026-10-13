@@ -103,6 +103,15 @@ Ne jamais laisser une slide sans visuel « en attendant l'image » : utiliser `<
 
 Le `text` doit décrire l'image attendue (ex. `?text=Dashboard+Docker`) pour que le remplacement soit évident. Couleurs de fond autorisées pour différencier des éléments d'une grille : `00b5ff`, `00a96e`, `ffbe00`, `a855f7`, `ff5861`, `94a3b8` (texte `f1f5f9`).
 
+### Tableaux
+
+Le style des tableaux est **global**, fourni par l'addon (`packages/ui/styles/index.css`) : en-tête sur fond gris léger, lignes zébrées (une ligne sur deux), séparateurs fins, coins arrondis. Il fonctionne en thème clair et sombre.
+
+- Écrire des tableaux Markdown **sans couleur inline** (pas de `<span class="text-red-500">` dans les cellules) : la lisibilité vient du style global
+- Mettre en **gras** la première colonne quand elle sert de libellé de ligne (`| **Langage** | ... |`)
+- 3 à 6 lignes, 2 à 4 colonnes ; au-delà → diviser ou changer de composant (`<Compare>`, `<ProsCons>`)
+- Ne pas redéfinir le style des tableaux dans un `<style>` de slide ; modifier l'addon si besoin
+
 ---
 
 ## Layout des Slides

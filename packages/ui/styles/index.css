@@ -1,0 +1,36 @@
+/* Tableaux : en-tête distinct, lignes zébrées, style minimaliste */
+.slidev-layout table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.85em;
+}
+
+.slidev-layout table th,
+.slidev-layout table td {
+  padding: 0.5em 0.9em;
+  border: none;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.slidev-layout table thead th {
+  background: rgba(148, 163, 184, 0.2);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.slidev-layout table tbody tr {
+  border: none;
+}
+
+.slidev-layout table tbody tr + tr td {
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.slidev-layout table tbody tr:nth-child(even) {
+  background: rgba(148, 163, 184, 0.07);
+}

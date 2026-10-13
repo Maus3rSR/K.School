@@ -29,12 +29,12 @@ Installer un projet Laravel 12 avec Docker (via Laravel Sail), le faire tourner 
 Dans le répertoire où vous stockez vos projets, exécutez :
 
 ```bash
-curl -s "https://laravel.build/wishflix?with=mariadb,redis" | bash
+curl -s "https://laravel.build/wishflix?with=mariadb" | bash
 ```
 
 > Sous Windows : exécutez cette commande dans un terminal **WSL2** (pas dans PowerShell).
 
-> Cette commande utilise un conteneur temporaire pour installer Laravel et ses dépendances, sans installer PHP ni Composer sur votre machine. `with=mariadb,redis` limite les services à une base de données et un cache.
+> Cette commande utilise un conteneur temporaire pour installer Laravel et ses dépendances, sans installer PHP ni Composer sur votre machine. `with=mariadb` limite les services à la base de données (Redis n'est pas nécessaire pour ce cours).
 
 Puis rendez-vous dans le dossier créé :
 

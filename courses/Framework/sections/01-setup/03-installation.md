@@ -67,7 +67,7 @@ La console en ligne de commande fournie par Laravel. Elle sert à lancer des tâ
 
 <Definition term="Sail">
 
-L'environnement Docker officiel de Laravel : un fichier `compose.yaml` + un script `sail` qui pilote les conteneurs (PHP, base de données, Redis) pour vous.
+L'environnement Docker officiel de Laravel : un fichier `compose.yaml` + un script `sail` qui pilote les conteneurs (PHP, base de données) pour vous.
 
 </Definition>
 
@@ -142,7 +142,7 @@ Avant de commencer, vérifiez que vous avez :
 
 <v-click>
 
-> ⚠️ Le premier lancement est **long** : Docker télécharge PHP, MySQL/PostgreSQL, Redis et toutes les dépendances Composer.
+> ⚠️ Le premier lancement est **long** : Docker télécharge PHP, MariaDB et toutes les dépendances Composer.
 
 </v-click>
 
@@ -162,7 +162,7 @@ transition: slide-up | slide-down
 
 Laravel fournit un installeur qui crée un projet prêt à l'emploi, avec <KeyTerm>Sail</KeyTerm> intégré. *Sous Windows : la même commande, dans un terminal **WSL2**.*
 
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET>?with=mariadb,redis | bash', out: 'Application ready! Build something amazing.' }]" />
+<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET>?with=mariadb | bash', out: 'Application ready! Build something amazing.' }]" />
 
 <v-click>
 
@@ -170,7 +170,7 @@ Cette commande :
 
 1. Crée le dossier `<NOM_DE_VOTRE_PROJET>/`
 2. Installe Laravel 12 et ses dépendances dans un conteneur temporaire
-3. `with=mariadb,redis` : ajoute MariaDB (base) et Redis (cache) comme services
+3. `with=mariadb` : ajoute uniquement MariaDB (base de données) comme service
 4. Configure automatiquement **[Laravel Sail](https://laravel.com/framework/docs/12.x/sail)**
 
 </v-click>
@@ -189,7 +189,7 @@ transition: slide-up | slide-down
 
 Rendez-vous dans le dossier du projet et démarrez Sail :
 
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'cd <NOM_DE_VOTRE_PROJET>' }, { cmd: './vendor/bin/sail up -d', out: 'Containers started (PHP, MariaDB, Redis).' }, { cmd: './vendor/bin/sail artisan migrate', out: 'Database migrated successfully.' }]" />
+<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'cd <NOM_DE_VOTRE_PROJET>' }, { cmd: './vendor/bin/sail up -d', out: 'Containers started (PHP, MariaDB).' }, { cmd: './vendor/bin/sail artisan migrate', out: 'Database migrated successfully.' }]" />
 
 <v-click>
 
@@ -198,7 +198,6 @@ Cette commande démarre :
 - Le conteneur PHP / Laravel
 - Le serveur web
 - La base de données (MariaDB par défaut avec `with=mariadb`)
-- Le système de cache (Redis)
 - Avec le CLI `artisan`, on lance la <KeyTerm>migration</KeyTerm> de la base de données
 
 </v-click>
@@ -209,17 +208,19 @@ Cette commande démarre :
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-8
 transition: slide-up | slide-down
 ---
 
 # Installer Laravel avec Docker
 Étape 3 — Vérifier l'installation
 
+::left::
+
 Ouvrez [http://localhost](http://localhost) dans votre navigateur.
 
-<Browser url="http://localhost">
-  <Placeholder text="Page d'accueil Laravel" />
-</Browser>
+<small>_(Ou [http://localhost:8080](http://localhost:8080) selon votre configuration du port)_</small>
 
 <v-click>
 
@@ -231,8 +232,13 @@ Vous devriez voir la page d'accueil Laravel avec :
 
 </v-click>
 
+::right::
+
+<Browser url="http://localhost">
+  <img src="/laravel-welcome.png" alt="Page d'accueil Laravel" />
+</Browser>
+
 <!--
-Préparer un screenshot de la page d'accueil Laravel pour montrer le résultat attendu.
 Contrairement à Symfony Docker, Sail utilise HTTP et non HTTPS par défaut en local.
 -->
 

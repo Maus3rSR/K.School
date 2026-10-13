@@ -101,50 +101,51 @@ Librairie vs framework : qui appelle qui ?
 
 ::left::
 
-<div class="flex flex-col items-center gap-2">
+<div class="flex flex-col items-center gap-1">
 
 **📚 Librairie**
 
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code</div>
-<div class="text-sm opacity-70">↓ appelle quand vous voulez</div>
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-gray-400 bg-gray-400/10 font-semibold">Librairie</div>
-<div class="text-sm opacity-70">↓ retourne un résultat</div>
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code continue</div>
-<div class="text-sm opacity-70">🎮 Vous contrôlez le flux</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code</div>
+<div class="text-xs opacity-70">↓ appelle quand vous voulez</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-gray-400 bg-gray-400/10 font-semibold">Librairie</div>
+<div class="text-xs opacity-70">↓ retourne un résultat</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code continue</div>
+<div class="text-xs opacity-70">🎮 Vous contrôlez le flux</div>
 
 </div>
 
-<div v-click="1">
+<div v-click="1" class="text-sm mt-4">
 
-Une <KeyTerm>librairie</KeyTerm> **résout un problème précis**, à la demande
+Une <KeyTerm>librairie</KeyTerm> répond à **un besoin précis**. Vous l'appelez quand vous voulez, elle n'impose rien à votre projet. *Ex : Axios, Lodash*
 
 </div>
 
 ::right::
 
-<div class="flex flex-col items-center gap-2">
+<div class="flex flex-col items-center gap-1">
 
 **🏗️ Framework**
 
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
-<div class="text-sm opacity-70">↓ appelle votre code selon ses règles</div>
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code<br><span class="text-sm font-normal opacity-70">contrôleur, vue, modèle</span></div>
-<div class="text-sm opacity-70">↓ rend la main</div>
-<div class="w-60 text-center px-4 py-2 rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
-<div class="text-sm opacity-70">🔄 Le framework contrôle le flux</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
+<div class="text-xs opacity-70">↓ appelle votre code selon ses règles</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-blue-500 bg-blue-500/10 font-semibold">Votre code<br><span class="text-xs font-normal opacity-70">contrôleur, vue, modèle</span></div>
+<div class="text-xs opacity-70">↓ rend la main</div>
+<div class="w-56 text-center px-3 py-1 text-sm rounded-lg border-2 border-orange-500 bg-orange-500/10 font-semibold">Framework</div>
+<div class="text-xs opacity-70">🔄 Le framework contrôle le flux</div>
 
 </div>
 
-<div v-click="1">
+<div v-click="1" class="text-sm mt-4">
 
-Un <KeyTerm>framework</KeyTerm> **impose la structure** et dicte les règles
+Un <KeyTerm>framework</KeyTerm> **impose la structure** du projet et appelle votre code au bon moment : c'est l'**inversion de contrôle**. *Ex : Laravel, Symfony*
 
 </div>
 
 <!--
 Analogie librairie = un dictionnaire que vous consultez quand vous voulez.
 Framework = un guide de rédaction qui structure votre document.
-Ce renversement s'appelle l'inversion de contrôle.
+Ce renversement s'appelle l'inversion de contrôle (« principe d'Hollywood » : ne nous appelez pas, c'est nous qui vous appellerons).
+Un framework contient lui-même des librairies : la différence n'est pas la taille, mais qui pilote le flux d'exécution.
 Source / lecture complémentaire : https://laconsole.dev/blog/differences-librairie-framework
 -->
 
@@ -156,14 +157,14 @@ transition: slide-up | slide-down
 Frameworks populaires côté serveur
 
 <ImageGrid :cols="4" size="md" :images="[
-  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Laravel', caption: 'Laravel — PHP' },
-  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Symfony', caption: 'Symfony — PHP' },
-  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=NestJS', caption: 'NestJS — TypeScript' },
-  { src: 'https://placeholdit.com/200x200/94a3b8/f1f5f9?text=Express', caption: 'Express — JavaScript' },
-  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Django', caption: 'Django — Python' },
-  { src: 'https://placeholdit.com/200x200/00b5ff/f1f5f9?text=FastAPI', caption: 'FastAPI — Python' },
-  { src: 'https://placeholdit.com/200x200/ff5861/f1f5f9?text=Rails', caption: 'Ruby on Rails — Ruby' },
-  { src: 'https://placeholdit.com/200x200/00a96e/f1f5f9?text=Spring+Boot', caption: 'Spring Boot — Java' }
+  { src: '/logos/laravel.png', alt: 'Laravel', caption: 'Laravel — PHP' },
+  { src: '/logos/symfony.png', alt: 'Symfony', caption: 'Symfony — PHP' },
+  { src: '/logos/nestjs.png', alt: 'NestJS', caption: 'NestJS — TypeScript' },
+  { src: '/logos/express.png', alt: 'Express', caption: 'Express — JavaScript' },
+  { src: '/logos/django.png', alt: 'Django', caption: 'Django — Python' },
+  { src: '/logos/fastapi.png', alt: 'FastAPI', caption: 'FastAPI — Python' },
+  { src: '/logos/rails.png', alt: 'Ruby on Rails', caption: 'Ruby on Rails — Ruby' },
+  { src: '/logos/springboot.png', alt: 'Spring Boot', caption: 'Spring Boot — Java' }
 ]" />
 
 <!--
@@ -177,25 +178,28 @@ transition: slide-up | slide-down
 ---
 
 # Qu'est-ce qu'un framework ?
-Stack Overflow Developer Survey 2025
+[Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/technology#1-web-frameworks-and-technologies)
 
 Le **Stack Overflow Developer Survey 2025** interroge plus de 49 000 développeurs dans 177 pays sur les technologies qu'ils utilisent.
 
 Dans la catégorie **Web frameworks and technologies** :
 
 <div class="grid grid-cols-4 gap-4 mt-6">
-  <Stat value="49%" label="Node.js" color="green" />
-  <Stat value="45%" label="React" color="blue" />
   <Stat value="21%" label="Next.js" color="purple" />
   <Stat value="20%" label="Express" color="gray" />
+  <Stat value="20%" label="ASP.NET Core" color="blue" />
+  <Stat value="15%" label="FastAPI" color="green" />
 </div>
 
 <!--
-Ces chiffres montrent que JavaScript/TypeScript domine le paysage web mondial.
-Mais les frameworks PHP restent très présents, notamment en Europe.
+Seuls des frameworks sont affichés ici : Node.js est un environnement d'exécution et React une librairie, ils sont volontairement exclus du top.
+Les frameworks PHP restent très présents, notamment en Europe.
 -->
 
 ---
+layout: image-right
+image: /so-survey-2025.png
+backgroundSize: contain
 transition: slide-up | slide-down
 ---
 
@@ -209,12 +213,6 @@ Dans le même classement :
 - **NestJS** ~7 % *(TypeScript)*
 - **Symfony** ~4 % *(PHP)*
 - **Drupal** ~2 % *(CMS PHP)*
-
-<v-click>
-
-> 💡 Laravel est le framework PHP le plus cité, devant Symfony, et même devant NestJS, son équivalent côté TypeScript.
-
-</v-click>
 
 <v-click>
 
@@ -273,7 +271,7 @@ Frameworks côté client
 
 Les navigateurs utilisent aussi des frameworks pour construire l'interface :
 
-- **React**, **Vue**, **Angular**, **Svelte**
+- **Vue** et **React** sont les plus utilisés
 - Ils manipulent le DOM et gèrent l'état de l'application
 
 <v-click>

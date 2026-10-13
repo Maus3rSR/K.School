@@ -100,12 +100,12 @@ Comparaison avec Symfony et NestJS
 
 | Aspect | Laravel | Symfony | NestJS |
 |--------|---------|---------|--------|
-| Langage | PHP | PHP | TypeScript / Node.js |
-| Paradigme | MVC, conventions | OOP, composants | Modules, décorateurs |
-| ORM | Eloquent | Doctrine | TypeORM / Prisma |
-| Templates | Blade | Twig | Aucun par défaut |
-| Philosophie | Productivité, DX | Architecture explicite | API-first, modulaire |
-| Courbe | Modérée | Plus élevée | Modérée si TypeScript connu |
+| **Langage** | PHP | PHP | TypeScript / Node.js |
+| **Paradigme** | MVC, conventions | OOP, composants | Modules, décorateurs |
+| **ORM** | Eloquent | Doctrine | TypeORM / Prisma |
+| **Templates** | Blade | Twig | Aucun par défaut |
+| **Philosophie** | Productivité, DX | Architecture explicite | API-first, modulaire |
+| **Courbe** | Modérée | Plus élevée | Modérée si TypeScript connu |
 
 <v-click>
 

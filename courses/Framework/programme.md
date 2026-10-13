@@ -174,7 +174,7 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 - Installer **Git** et créer un compte **GitHub**
 - Prévoir ≈ 5 Go d'espace disque libre
 - Vérifier que les ports **80** et **3306** sont libres (arrêter XAMPP / Apache / MySQL s'ils tournent)
-- Lancer une première fois `curl -s "https://laravel.build/wishflix?with=mariadb,redis" | bash` pour télécharger les images à la maison
+- Lancer une première fois `curl -s "https://laravel.build/wishflix?with=mariadb" | bash` pour télécharger les images à la maison
 
 ⚠️ À vérifier côté IUT : disponibilité de Docker et des droits administrateur sur les postes. Plan B : PC personnels, ou **Laravel Herd** en local.
 

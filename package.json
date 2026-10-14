@@ -21,6 +21,7 @@
     "scenario:wishflix": "pnpm --filter @k.scenario/wishflix start",
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",
     "framework:routing:dev": "pnpm --filter @k.school/framework dev:routing",
+    "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent",
     "pilote:dev": "turbo run dev --filter @k.school/pilote",
     "tdd:dev": "turbo run dev --filter @k.school/tdd",
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",

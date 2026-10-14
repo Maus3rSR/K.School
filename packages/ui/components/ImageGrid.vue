@@ -21,6 +21,7 @@ const props = defineProps({
   }
 })
 
+const resolve = (src) => (src && src.startsWith('/') ? import.meta.env.BASE_URL + src.slice(1) : src)
 const heights = { sm: '80px', md: '120px', lg: '180px' }
 const imgHeight = computed(() => heights[props.size])
 </script>
@@ -29,11 +30,11 @@ const imgHeight = computed(() => heights[props.size])
   <div class="image-grid" :style="{ gridTemplateColumns: `repeat(${cols}, 1fr)` }">
     <template v-for="(img, i) in images" :key="i">
       <div v-if="clicks" v-click class="image-card">
-        <img :src="img.src" :alt="img.alt || ''" :style="{ height: imgHeight }" />
+        <img :src="resolve(img.src)" :alt="img.alt || ''" :style="{ height: imgHeight }" />
         <div v-if="img.caption" class="image-caption">{{ img.caption }}</div>
       </div>
       <div v-else class="image-card">
-        <img :src="img.src" :alt="img.alt || ''" :style="{ height: imgHeight }" />
+        <img :src="resolve(img.src)" :alt="img.alt || ''" :style="{ height: imgHeight }" />
         <div v-if="img.caption" class="image-caption">{{ img.caption }}</div>
       </div>
     </template>

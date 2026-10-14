@@ -4,9 +4,9 @@
 
 Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dynamiques** : un layout Blade commun, une page d'accueil qui liste les jeux depuis un tableau PHP, et une fiche jeu `/game/{id}` avec gestion du 404.
 
-**Durée estimée** : 4h (Partie A : 2h en séance · Partie B : ~2h chez vous · Bonus : au choix)
+**Durée estimée** : 4h45 (Partie A : 2h en séance · Partie B : ~2h chez vous · Partie C : ~45 min chez vous · Bonus : au choix)
 
-> **Déroulé** — En séance (2h) : Partie A · Chez vous (~2h) : Partie B · Bonus : au choix · ⚠️ **Requis pour la séance 3** : la Partie A terminée (layout, accueil, fiche jeu) — en S3 le tableau PHP sera remplacé par la base de données.
+> **Déroulé** — En séance (2h) : Partie A · Chez vous : Partie B (~2h) + Partie C (~45 min) · Bonus : au choix · ⚠️ **Requis pour la séance 3** : la Partie A terminée (layout, accueil, fiche jeu) — en S3 le tableau PHP sera remplacé par la base de données.
 
 **Référence officielle** :
 
@@ -129,6 +129,250 @@ Critères d'acceptation :
 - `resources/views/errors/404.blade.php` construit depuis `404.html`, qui étend le layout avec `404.css`
 - Vérifiée **deux façons** : `/game/999` (via `abort`) et `/url-inexistante` (aucune route) affichent toutes deux la page WishFlix
 - Le lien de retour utilise `route('home')`
+
+---
+
+## Partie C — Sous le capot (chez vous, ~45 min)
+
+Vous avez écrit `{{ ... }}`, `->whereNumber('id')`, `abort(404)` — et « ça marche ». Mais que se passe-t-il vraiment quand Laravel lit ces lignes ? Dans cette partie, vous allez ouvrir le code source du framework — dans `vendor/laravel/framework/src/Illuminate/` — pour suivre le fil de trois mécanismes que vous venez d'utiliser.
+
+Bonne nouvelle : il n'y a pas de magie, c'est du PHP, et vous savez lire du PHP. Lire du code qu'on n'a pas écrit soi-même, c'est d'ailleurs une bonne part du métier de développeur au quotidien — autant s'y entraîner dès maintenant.
+
+> 🧭 **Règle d'or** : vous n'avez **pas besoin de tout comprendre**. Chaque concept vous donne un fil à suivre — un fichier, une méthode. Suivez ce fil et ignorez le reste du fichier, même s'il fait des milliers de lignes.
+
+> 🔧 **Outils pour naviguer dans le code**
+>
+> - `Ctrl+P` : ouvrir un fichier par son nom (tapez le début du nom, ex. `Route.php`)
+> - `Ctrl+Shift+O` : sauter à une méthode dans le fichier ouvert (tapez son nom, ex. `where`)
+> - `Ctrl+F` : chercher un mot dans le fichier ouvert
+> - `Ctrl+clic` sur le nom d'une méthode ou d'une classe : aller à sa définition
+>
+> L'extension **PHP Intelephense** rend ces raccourcis bien plus efficaces dans `vendor/` — installez-la si ce n'est pas déjà fait.
+>
+> ⚠️ `vendor/` est en **lecture seule** pour vous : ne modifiez jamais ces fichiers — ils seraient écrasés au prochain `composer install`.
+
+**Rendu** : dans `REPONSES.md` (à la racine du projet, créé en S1), ajoutez une section `## Séance 2 — Sous le capot`. Pour chaque réponse, indiquez aussi le **chemin suivi** : le fichier ouvert et la méthode qui vous a donné la réponse (ex. `Illuminate/Routing/Route.php` → méthode `where`).
+
+### C1 — Ce que devient votre `{{ ... }}` (Observer, ~10 min)
+
+**Point de départ** : dans `resources/views/home.blade.php`, le `{{ $game['title'] }}` que vous avez écrit en A3.
+
+Laravel n'exécute pas vos `.blade.php` tels quels : il les **compile** une fois en PHP pur et range le résultat dans `storage/framework/views/`, sous un nom haché illisible. Chaque fichier compilé se termine par un commentaire `<?php /**PATH /chemin/vers/la/vue.blade.php ENDPATH**/ ?>` qui dit de quelle vue il vient.
+
+| # | Question |
+|---|----------|
+| 1 | Ouvrez `storage/framework/views/` et retrouvez le fichier compilé de `home.blade.php` (lisez la toute fin de chaque fichier). Qu'est devenue votre ligne `{{ $game['title'] }}` ? Recopiez-la. |
+| 2 | Ce fichier compilé, c'est encore du Blade ou du PHP ? Cherchez-y votre `@forelse` : qu'est-il devenu ? (Constatez que c'est du PHP — inutile de le détailler ligne à ligne.) |
+| 3 | Votre `{{ }}` a été remplacé par un appel à une fonction `e(...)`. Ouvrez `Illuminate/Support/helpers.php` (Ctrl+P, tapez `Support/helpers.php` pour éviter les homonymes), puis la fonction `e` (Ctrl+Shift+O). Quelle fonction **native de PHP** termine son `return` ? |
+| 4 | Expérience : dans `GameController`, mettez temporairement `<script>alert('XSS')</script>` comme `title` d'un jeu et rechargez l'accueil. Que voyez-vous ? Remplacez ensuite `{{ $game['title'] }}` par `{!! $game['title'] !!}` dans la vue, rechargez : que se passe-t-il ? (Une **XSS**, *cross-site scripting*, est une attaque où du JavaScript injecté s'exécute dans le navigateur d'un visiteur.) Expliquez la différence entre les deux syntaxes, puis **remettez tout comme avant**. |
+| 5 | Exécutez `./vendor/bin/sail artisan view:clear` puis regardez `storage/framework/views/` : qu'observez-vous ? Rechargez la page d'accueil et regardez le dossier à nouveau : que s'est-il passé, et qu'en déduisez-vous sur le moment où Laravel compile les vues ? |
+
+### C2 — Qui répond à `->whereNumber('id')` (Relier, ~15 min)
+
+**Point de départ** : dans `routes/web.php`, le `->whereNumber('id')` écrit en A4.
+
+`whereNumber` s'utilise sur votre route… pourtant vous ne le trouverez pas dans la classe `Route` elle-même : il vient d'un **trait**. Un trait est une « boîte d'outils » de méthodes qu'une classe branche sur elle avec le mot-clé `use` (dans le corps de la classe) — les méthodes du trait deviennent alors des méthodes de la classe.
+
+| # | Question |
+|---|----------|
+| 6 | Ouvrez `Illuminate/Routing/CreatesRegularExpressionRouteConstraints.php`. Quel mot-clé, à la place de `class`, montre que ce fichier n'est **pas** une classe ? Trouvez la méthode `whereNumber` : quelle **expression régulière** (« regex », un motif qui décrit la forme autorisée d'un texte — ici « au moins un chiffre ») lui est associée ? |
+| 7 | `whereNumber` délègue à `assignExpressionToParameters` : lisez-la. Quelle méthode appelle-t-elle en fin de compte, et à quoi associe-t-elle le paramètre `id` ? |
+| 8 | Ce trait est branché sur une classe : dans `Illuminate/Routing/Route.php`, cherchez `CreatesRegularExpressionRouteConstraints` (Ctrl+F). Sur quelle ligne `use` apparaît-il, et dans quelle classe ? |
+| 9 | Toujours dans `Route.php`, ouvrez la méthode `where` (Ctrl+Shift+O). Dans quelle propriété range-t-elle la contrainte ? |
+| 10 | De retour dans le trait : quelles regex se cachent derrière `whereAlpha` et `whereAlphaNumeric` ? Pour chacune, donnez un exemple de valeur que `/game/{id}` accepterait. Que remarquez-vous chez les voisines `whereUuid` et `whereIn` (sans entrer dans le détail) ? |
+| 11 | Expérience : dans `routes/web.php`, remplacez `->whereNumber('id')` par `->where('id', '[0-9]+')`. Vérifiez que `/game/1` fonctionne toujours et que `/game/abc` donne toujours une 404. Qu'en concluez-vous sur `whereNumber` ? Remettez ensuite `whereNumber`. |
+
+### C3 — De `abort(404)` à votre page 404 (Raisonner, ~20 min)
+
+**Prérequis** : l'US3 terminée — votre `resources/views/errors/404.blade.php` existe.
+
+**Point de départ** : dans `GameController::show`, le `abort(404)` / `abort_unless(...)` écrit en A4 — et cette même page 404 WishFlix qui s'affiche aussi sur `/url-inexistante`.
+
+Vocabulaire : une **exception** est un signal d'erreur qu'un bout de code **lance** avec le mot-clé `throw` pour dire « je ne peux pas continuer » ; un autre bout du framework, plus loin, le rattrape et décide quoi répondre. Toute la question de ce C3 : qui lance l'exception du 404, et qui choisit votre vue ?
+
+| # | Question |
+|---|----------|
+| 12 | `abort` n'est pas une méthode de classe : c'est une **fonction globale**, rangée dans `Illuminate/Foundation/helpers.php`. Lisez-la : pour un code d'erreur comme `404`, quel appel fait-elle, et sur quel objet ? |
+| 13 | Suivez cet appel jusqu'à `Illuminate/Foundation/Application.php`, méthode `abort`. Que `throw`-t-elle quand le code vaut 404 ? Et quand le code est différent de 404 ? |
+| 14 | L'exception remonte jusqu'au gestionnaire d'erreurs : `Illuminate/Foundation/Exceptions/Handler.php`. Dans sa méthode `renderHttpException`, quelles sont les deux actions faites avant de produire la réponse ? Puis dans `getHttpExceptionView` : quel **nom de vue** est construit à partir du code d'erreur, pour un 404 ? |
+| 15 | Si cette vue n'existe pas, quel nom de vue « de secours » est essayé ensuite (lisez la ligne qui transforme `$view`) ? Et si celle-là non plus n'existe pas ? |
+| 16 | Ouvrez `Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php`. Le préfixe `errors::` pointe vers une **liste de dossiers** : lesquels, et dans quel ordre ? Expliquez pourquoi votre `resources/views/errors/404.blade.php` l'emporte sur la page 404 livrée par Laravel. |
+| 17 | Et `/url-inexistante`, qui ne correspond à aucune route ? Cherchez le message `The route %s could not be found` dans `vendor/laravel/framework/src/Illuminate/Routing/` : quelle méthode de quel fichier lance une `NotFoundHttpException` — la **même exception** qu'`abort(404)` ? |
+| 18 | (Facultatif) Remplacez temporairement `abort(404)` par `abort(403)` dans `show`, puis rechargez `/game/999`. Quelle page s'affiche, et pourquoi (reliez aux questions 14 et 16 : quelle vue `errors::403` est trouvée, et dans quel dossier) ? Remettez `abort(404)`. |
+| 19 | **Pour finir, reformulez** : en 3 à 5 phrases, racontez toute la chaîne qui transforme `abort(404)` — ou une URL sans route — en votre page 404 WishFlix, en nommant le fichier et la méthode de chaque étape. |
+
+### Indices de la Partie C
+
+<details>
+<summary>Niveau 1 — Où chercher</summary>
+
+- **C1** : le résultat de la compilation est dans `storage/` — le dossier où Laravel range ce qu'il génère à l'exécution — sous-dossier `framework/views/`. `e()` est une fonction d'aide du framework : les helpers « génériques » vivent dans `Illuminate/Support/`.
+- **C2** : le code des `whereXxx` n'est pas dans `Route.php` mais dans un autre fichier du dossier `Illuminate/Routing/`, dont le nom parle d'« expressions régulières ».
+- **C3** : `abort` vit dans un `helpers.php` — celui d'`Illuminate/Foundation/` (pas celui de `Support`). Le choix de la vue d'erreur se joue dans `Illuminate/Foundation/Exceptions/`. Pour l'URL sans route, restez dans `Illuminate/Routing/`.
+
+</details>
+
+<details>
+<summary>Niveau 2 — Quel fichier, quelle méthode</summary>
+
+- **C1** : `Illuminate/View/Compilers/Concerns/CompilesEchos.php` → `compileRegularEchos` (le `{{ }}`) et `compileRawEchos` (le `{!! !!}`) ; le format `e(%s)` est la constante `DEFAULT_ECHO_FORMAT` de `Illuminate/View/Compilers/BladeCompiler.php`. `Illuminate/Support/helpers.php` → fonction `e`.
+- **C2** : `Illuminate/Routing/CreatesRegularExpressionRouteConstraints.php` (le trait) → `whereNumber`, `assignExpressionToParameters` ; `Illuminate/Routing/Route.php` → la ligne `use` des traits en haut de la classe, puis la méthode `where`.
+- **C3** : `Illuminate/Foundation/helpers.php` → `abort` ; `Illuminate/Foundation/Application.php` → `abort` ; `Illuminate/Foundation/Exceptions/Handler.php` → `renderHttpException` puis `getHttpExceptionView` ; `Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php` → `__invoke` ; `Illuminate/Routing/AbstractRouteCollection.php` → `handleMatchedRoute`.
+
+</details>
+
+<details>
+<summary>Niveau 3 — Extraits du framework (annotés)</summary>
+
+**C1 — la compilation des `{{ }}` et des `{!! !!}`** (`Illuminate/View/Compilers/Concerns/CompilesEchos.php`) :
+
+```php
+protected function compileRegularEchos($value)     // pour {{ ... }}
+{
+    $callback = function ($matches) {
+        // ...
+        $wrapped = sprintf($this->echoFormat, $this->wrapInEchoHandler($matches[2]));
+        // echoFormat vaut 'e(%s)' → $wrapped contient e($game['title'])
+        return $matches[1] ? substr($matches[0], 1)
+                           : "<?php echo {$wrapped}; ?>{$whitespace}";
+        // résultat : <?php echo e($game['title']); ?>
+    };
+}
+
+protected function compileRawEchos($value)         // pour {!! ... !!}
+{
+    $callback = function ($matches) {
+        // ...
+        return $matches[1] ? substr($matches[0], 1)
+                           : "<?php echo {$this->wrapInEchoHandler($matches[2])}; ?>{$whitespace}";
+        // résultat : <?php echo $game['title']; ?> — pas de e(), le HTML est brut
+    };
+}
+```
+
+**C1 — la fin de `e()`** (`Illuminate/Support/helpers.php`) :
+
+```php
+function e($value, $doubleEncode = true): string
+{
+    // ... cas particuliers (enum, objet Htmlable) ...
+    return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
+    // htmlspecialchars : fonction PHP native qui transforme <, >, ", ' en entités
+    // $value ?? '' : l'opérateur ?? renvoie la gauche si elle existe et n'est pas
+    // null, sinon la droite — ici '' (chaîne vide) quand $value est null
+}
+```
+
+**C2 — le trait des contraintes** (`Illuminate/Routing/CreatesRegularExpressionRouteConstraints.php`) :
+
+```php
+trait CreatesRegularExpressionRouteConstraints    // ← un trait, pas une classe
+{
+    public function whereNumber($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[0-9]+');
+    }
+
+    public function whereAlpha($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[a-zA-Z]+');
+    }
+
+    public function whereAlphaNumeric($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[a-zA-Z0-9]+');
+    }
+
+    protected function assignExpressionToParameters($parameters, $expression)
+    {
+        return $this->where(Collection::wrap($parameters)
+            ->mapWithKeys(fn ($parameter) => [$parameter => $expression])
+            ->all());                        // appelle where(['id' => '[0-9]+'])
+    }
+}
+```
+
+**C2 — le rangement** (`Illuminate/Routing/Route.php`) :
+
+```php
+class Route
+{
+    use Conditionable, CreatesRegularExpressionRouteConstraints, /* ... */;
+    // ↑ le trait est « branché » ici : whereNumber devient une méthode de Route
+
+    public function where($name, $expression = null)
+    {
+        foreach ($this->parseWhere($name, $expression) as $name => $expression) {
+            $this->wheres[$name] = $expression;     // la regex est rangée ici
+        }
+        return $this;
+    }
+}
+```
+
+**C3 — la chaîne du 404** :
+
+```php
+// Illuminate/Foundation/helpers.php
+function abort($code, $message = '', array $headers = [])
+{
+    // ...
+    app()->abort($code, $message, $headers);   // délègue à l'objet Application
+}
+
+// Illuminate/Foundation/Application.php
+public function abort($code, $message = '', array $headers = [])
+{
+    if ($code == 404) {
+        throw new NotFoundHttpException($message, null, 0, $headers);  // cas 404
+    }
+    throw new HttpException($code, $message, null, $headers);          // les autres codes
+}
+
+// Illuminate/Foundation/Exceptions/Handler.php
+protected function renderHttpException(HttpExceptionInterface $e)
+{
+    $this->registerErrorViewPaths();                // 1) enregistrer les dossiers errors::
+    if ($view = $this->getHttpExceptionView($e)) {  // 2) trouver la vue d'erreur
+        // ... response()->view($view, ...) ...
+    }
+    // sinon : page d'erreur par défaut
+}
+
+protected function getHttpExceptionView(HttpExceptionInterface $e)
+{
+    $view = 'errors::'.$e->getStatusCode();         // 'errors::404'
+    if (view()->exists($view)) {
+        return $view;
+    }
+    $view = substr($view, 0, -2).'xx';              // 'errors::4xx' — le plan B
+    if (view()->exists($view)) {
+        return $view;
+    }
+    return null;
+}
+```
+
+**C3 — les dossiers `errors::`** (`Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php`) :
+
+```php
+View::replaceNamespace('errors', (new Collection(config('view.paths')))
+    ->map(fn ($path) => "{$path}/errors")   // resources/views/errors : VOTRE dossier, en premier
+    ->push(__DIR__.'/views')                 // puis les vues d'erreur du framework
+    ->all()
+);
+```
+
+**C3 — l'URL sans route** (`Illuminate/Routing/AbstractRouteCollection.php`, méthode `handleMatchedRoute`) :
+
+```php
+throw new NotFoundHttpException(sprintf(
+    'The route %s could not be found.',
+    $request->path()
+));
+```
+
+</details>
 
 ---
 
@@ -255,6 +499,7 @@ Boucle de la vue d'accueil :
 - [ ] `/game/{id}` (route `games.show`, `whereNumber`) affiche la fiche du bon jeu ; `/game/999` → 404 ; `/game/abc` → 404
 - [ ] Aucun `href="/..."` en dur : tous les liens internes passent par `route()`
 - [ ] US1–US3 : `/wishlist`, `/login` et la 404 personnalisée fonctionnent et étendent le layout
+- [ ] `REPONSES.md` contient la section « Séance 2 — Sous le capot » avec les réponses de C1–C3 et le chemin suivi (fichier → méthode) pour chacune
 - [ ] Commits réguliers poussés sur le dépôt GitHub privé
 
-**Temps estimé** : Partie A ≈ 2h · Partie B ≈ 2h · Bonus ≈ 1h chacun
+**Temps estimé** : Partie A ≈ 2h · Partie B ≈ 2h · Partie C ≈ 45 min · Bonus ≈ 1h chacun

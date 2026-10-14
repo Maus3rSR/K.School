@@ -97,3 +97,20 @@ Example for a React course:
 ## Step 8: Confirm Success
 
 Inform the user that the course has been created successfully and provide the path to the new course.
+
+## Adding a deck to an existing course
+
+When a course has several decks (e.g. `courses/Framework/slides-routing.md`), a new deck `slides-[DECK].md` needs scripts in **two** places, otherwise it cannot be launched from the repo root:
+
+1. `courses/[FOLDER_NAME]/package.json`: `build:[DECK]` and `dev:[DECK]`
+
+```json
+"build:eloquent": "slidev build slides-eloquent.md --out dist/eloquent",
+"dev:eloquent": "slidev slides-eloquent.md --open"
+```
+
+2. Root `package.json`: `[COURSE_NAME]:[DECK]:dev`, placed next to the other decks of the same course
+
+```json
+"framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent"
+```

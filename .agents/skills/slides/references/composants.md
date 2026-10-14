@@ -250,7 +250,15 @@ Props : `value` (requis), `label`, `color` (`blue`). **Quand** : 1 à 3 chiffres
 <Quiz question="Quel hook gère un état local ?" :options="['useEffect', 'useState', 'useRef', 'useMemo']" :answer="1" />
 ```
 
-4 options, `answer` = index 0-based. **Quand** : fin de chapitre, 1 question par slide.
+4 options, `answer` = index 0-based, 1 question par slide.
+
+**Quand (règle pédagogique)** : le quiz sert à **faire réfléchir AVANT d'introduire un concept** (pré-test / prédiction), jamais à vérifier ce qui vient d'être vu. Il se place **juste avant la slide qui explique la réponse**, et la slide suivante y revient (« Vous aviez deviné ? »).
+
+- La question doit être **réfléchissable sans connaître le concept** : à partir du bon sens, d'une analogie ou d'un concept déjà vu au chapitre précédent
+- Les mauvaises réponses sont des **intuitions plausibles** (celles que fait un débutant), pas des pièges absurdes
+- La bonne réponse n'est jamais déjà écrite sur une slide précédente
+- Exemples : « Une catégorie a plusieurs quêtes : où placer la clé étrangère ? » avant `belongsTo` / `hasMany` ; « Qu'est-ce qu'un framework ? » avant la définition
+- ❌ Interdit : quiz en fin de chapitre qui redemande la définition, la syntaxe ou la commande qui vient d'être montrée
 
 ### `<Flashcard>` — carte recto/verso
 

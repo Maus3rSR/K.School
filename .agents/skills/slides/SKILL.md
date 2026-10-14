@@ -81,7 +81,7 @@ sections/
 | Grille de logos / captures                        | `<ImageGrid>`                                             |
 | Chiffre marquant                                  | `<Stat>` (dans `layout: fact`)                            |
 | Consignes d'exercice                              | `<Exercise>`                                              |
-| Vérification de compréhension                     | `<Quiz>`, `<Flashcard>`                                   |
+| Faire deviner un concept AVANT de l'expliquer     | `<Quiz>` (pré-test, voir `references/composants.md`) ; `<Flashcard>` pour réviser |
 | Image pas encore disponible                       | `<Placeholder>`                                           |
 | Raccourci clavier                                 | `<Shortcut>`                                              |
 | Lexique                                           | `<TermCard>`                                              |

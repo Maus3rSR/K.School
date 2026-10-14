@@ -55,6 +55,7 @@ transition: slide-up
 - **Analogies concrètes** : Relier au quotidien
 - **Pas de sauts conceptuels** : Éviter "évidemment", "simplement"
 - **Pas de question de transition** entre chapitres : la transition se fait à l'oral (notes du présentateur), pas via une slide dédiée
+- **Quiz = pré-test** : un `<Quiz>` s'utilise pour faire réfléchir à un concept **avant** de l'introduire (prédiction, intuition), pas pour vérifier ce qui vient d'être vu en fin de chapitre. Règles détaillées : skill `slides` (`references/composants.md`)
 - **Animations pédagogiques** : Révélation progressive (v-click)
 - **Notes du présentateur** : Anecdotes, pièges, questions probables
 - **Adresse directe** : Le contenu visible s'adresse au lecteur — pas de méta-référence au formateur ou aux apprenants (réservé aux notes `<!-- -->`)

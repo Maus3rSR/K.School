@@ -51,6 +51,7 @@ Le projet est donc construit **en continu** : il n'y a pas de « projet de fin �
 - Relations `belongsTo`, `hasMany`, `belongsToMany`
 - Factories et seeders pour générer des données de test
 - 🛠️ Atelier : modèles `Game`, `Category`, `Platform` + migrations + seeders → le catalogue lit la base
+- 🛠️ Exercice : `exercices/framework/03-eloquent`
 
 ### **Séance 4 — Requêtes Eloquent et optimisation** (4h)
 - Query Builder vs Eloquent : `where`, `orderBy`, `with`, `paginate`

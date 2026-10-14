@@ -17,4 +17,5 @@ Au programme : CSS et Vite, layout Blade commun, page d'accueil dynamique et fic
 <!--
 L'atelier transpose tout le chapitre sur WishFlix : les apprenants repartent des maquettes statiques fournies.
 La partie A est requise pour la S3 (le tableau PHP sera remplacé par la base de données).
+Le README ajoute une Partie C « Sous le capot » (~45 min, chez vous) : lecture guidée du code du framework (Blade compilé, whereNumber, chaîne abort(404) → page d'erreur), réponses notées dans REPONSES.md.
 -->

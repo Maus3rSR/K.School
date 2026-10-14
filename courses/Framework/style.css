@@ -3,5 +3,30 @@ pre,
 .slidev-code,
 .monaco-editor {
   font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "calt" 0;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
+}
+
+/* Code inline : fond teinté + texte contrasté dans les deux thèmes.
+   Cible uniquement le code hors blocs Shiki (pre > code exclu). */
+.slidev-layout :not(pre) > code {
+  background-color: color-mix(
+    in srgb,
+    var(--slidev-theme-primary, #4f8ef7) 12%,
+    transparent
+  );
+  color: #1d4ed8;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+html.dark .slidev-layout :not(pre) > code,
+.dark .slidev-layout :not(pre) > code {
+  background-color: color-mix(
+    in srgb,
+    var(--slidev-theme-primary, #4f8ef7) 22%,
+    transparent
+  );
+  color: #bfdbfe;
 }

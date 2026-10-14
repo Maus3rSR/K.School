@@ -1,14 +1,14 @@
 # Fil à suivre — Séance 2 : Routing, contrôleurs et Blade
 
 Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/02-routing-blade/`.
-Le projet est livré **sans le code des étapes** ; la solution complète est dans `../solution/`.
+Le projet Laravel est dans `../app/` ; il est livré **sans le code des étapes** — la solution complète est dans `solution/` (à copier avec `cp -r solution/* ../app/`).
 
 ## Avant la séance
 
 - [ ] `./vendor/bin/sail up -d` puis `sail npm install && sail npm run dev` (second terminal)
 - [ ] `http://localhost` affiche la page Laravel
 - [ ] Éditeur ouvert sur `routes/web.php`, terminal prêt (`sail artisan ...`)
-- [ ] Filet de sécurité : `../solution/` contient chaque fichier final
+- [ ] Filet de sécurité : `solution/` contient chaque fichier final
 
 ## État de départ
 
@@ -162,7 +162,7 @@ Bug du quiz à provoquer : `@section('contenu')` au lieu de `content` → trou v
     @vite('resources/css/quests.css')
 @endsection
 ```
-Pour un rendu plus joli, utiliser les classes de `quests.css` : `quest-list`, `quest-card`, `xp`, `badge badge--easy|hard`, `filters`. Voir `../solution/resources/views/quests/index.blade.php`.
+Pour un rendu plus joli, utiliser les classes de `quests.css` : `quest-list`, `quest-card`, `xp`, `badge badge--easy|hard`, `filters`. Voir `solution/resources/views/quests/index.blade.php`.
 Si `quests.css` n'est pas dans `input` : erreur « Unable to locate file in Vite manifest » → à montrer volontairement.
 
 ## i. `abort(404)` + page 404 — `06-erreurs.md` (« La page 404 personnalisée »)
@@ -193,6 +193,6 @@ Tester `/quests/999` **et** `/nimportequoi` : même page.
 ## Rejouer la démo
 
 ```bash
-git restore .   # ou git clean -fd resources app routes (attention : supprime vos essais)
+git restore ../app   # ou git clean -fd ../app/resources ../app/app ../app/routes (attention : supprime vos essais)
 ```
-Pour sauter à la solution : `cp -r ../solution/* .` depuis le dossier `laravel/`.
+Pour sauter à la solution : `cp -r solution/* ../app/` depuis `seance-02/`.

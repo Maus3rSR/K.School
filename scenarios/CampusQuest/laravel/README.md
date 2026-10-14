@@ -1,38 +1,27 @@
-# Campus Quest — projet de démonstration (S2)
+# Campus Quest — projet de démonstration
 
-Projet Laravel 12 + Sail utilisé par le formateur pour le **live coding** de la séance 2 (Routing, contrôleurs et Blade) du cours Framework.
+Projet Laravel 12 + Sail utilisé par le formateur pour les **live coding** du cours Framework.
 
-## Contexte
+## Structure
 
-**Campus Quest** : une app de défis de campus. Chaque **quête** a un `title`, des points d'**XP** et une `difficulty` (`easy` / `hard`). Les données vivent dans un **tableau PHP** du contrôleur (la BDD arrive en S3). Ce n'est pas l'atelier étudiant (WishFlix).
-
-## Installation (première fois)
-
-```bash
-cp .env.example .env
-docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html \
-    laravelsail/php84-composer:latest composer install --ignore-platform-reqs
-./vendor/bin/sail up -d
-./vendor/bin/sail artisan key:generate
-./vendor/bin/sail npm install
-./vendor/bin/sail npm run dev   # garder ouvert dans un second terminal
+```
+laravel/
+├── app/          # le projet Laravel (à lancer avec Sail) — état de départ de la S2
+├── seance-02/    # live coding S2 : routing, contrôleurs, Blade
+│   ├── LIVECODING.md   # fil à suivre, calé sur les slides 02-routing-blade
+│   └── solution/       # fichiers finaux à copier dans app/
+└── seance-03/    # live coding S3 : Eloquent, migrations, relations, seeders
+    ├── LIVECODING.md   # fil à suivre, calé sur les slides 03-eloquent
+    └── solution/       # fichiers finaux à copier dans app/ (prérequis : solution S2 appliquée)
 ```
 
-Puis ouvrir <http://localhost>.
+## Appliquer une séance
 
-## Commandes utiles
+Depuis `laravel/` :
 
 ```bash
-./vendor/bin/sail up -d            # démarrer
-./vendor/bin/sail down             # arrêter
-./vendor/bin/sail artisan route:list
-./vendor/bin/sail npm run build    # assets sans serveur Vite
+cp -r seance-02/solution/* app/   # état final de la S2
+cp -r seance-03/solution/* app/   # état final de la S3 (après la S2)
 ```
 
-## État du projet
-
-Installation standard, **sans le code des étapes** (routes, contrôleur, vues). Prêts à l'emploi : `resources/css/app.css` et `resources/css/quests.css`. La solution complète est dans [`../solution/`](../solution) : copier avec `cp -r ../solution/* .`.
-
-## Déroulé
-
-Voir [LIVECODING.md](LIVECODING.md).
+L'installation et les commandes Sail sont décrites dans [`base/README.md`](base/README.md).

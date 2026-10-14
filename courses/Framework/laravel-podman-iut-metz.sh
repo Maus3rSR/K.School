@@ -55,6 +55,72 @@ if [ "$ROOTLESS" == "true" ]; then
             -e "s/^(\s+)(WWWUSER:.*)\$/\1\2\n\1SUPERVISOR_PHP_USER: '\${SUPERVISOR_PHP_USER:-sail}'/" \
             compose.yaml
     fi
+
+    # Sans session systemd (bus utilisateur absent), le réseau bridge (aardvark-dns)
+    # et les timers de healthcheck échouent : laravel.test passe en network_mode: pasta,
+    # les autres services partagent son réseau (network_mode: 'service:laravel.test')
+    # et leurs ports sont rapatriés sur laravel.test.
+    awk '
+    NR == FNR {
+        if ($0 ~ /^[^ ]/) { top = $1 }
+        else if (top == "services:" && $0 ~ /^    [^ ]/) { svc = $1 }
+        else if (top == "services:" && $0 ~ /^        [^ ]/) { prop = $1 }
+        else if (top == "services:" && svc != "laravel.test:" && prop == "ports:" && $0 ~ /^            - /) {
+            extra_ports = extra_ports $0 "\n"
+        }
+        next
+    }
+    function flush() { if (in_ports) { printf "%s", extra_ports; in_ports = 0 } }
+    function end_svc() {
+        flush()
+        if (svc == "laravel.test:") print "        network_mode: pasta"
+        else if (svc != "") print "        network_mode: '\''service:laravel.test'\''"
+    }
+    {
+        if ($0 ~ /^[^ ]/) {
+            if (top == "services:") end_svc()
+            top = $1; svc = ""; prop = ""; skip_prop = 0; skip = (top == "networks:")
+            if (!skip) print $0
+            next
+        }
+        if (skip) next
+        if (top == "services:" && $0 ~ /^    [^ ]/) {
+            end_svc()
+            svc = $1; prop = ""; skip_prop = 0
+            print $0
+            next
+        }
+        if (top == "services:" && $0 ~ /^        [^ ]/) {
+            flush()
+            prop = $1; skip_prop = 0
+            if (prop == "networks:" || prop == "depends_on:" || prop == "healthcheck:") skip_prop = 1
+            else if (svc != "laravel.test:" && (prop == "ports:" || prop == "extra_hosts:")) skip_prop = 1
+            else if (svc == "laravel.test:" && prop == "ports:") in_ports = 1
+            if (!skip_prop) print $0
+            next
+        }
+        if (skip_prop) next
+        print $0
+    }
+    END { if (top == "services:") end_svc() }
+    ' compose.yaml compose.yaml > compose.yaml.tmp && mv compose.yaml.tmp compose.yaml
+
+    # Les services partagent le réseau de laravel.test : accès via 127.0.0.1.
+    if grep -Eq '^#?\s*DB_HOST=' .env; then
+        sed -E -i 's/^#?\s*DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+    else
+        echo "DB_HOST=127.0.0.1" >> .env
+    fi
+
+    sed -E -i \
+        -e 's/^REDIS_HOST=.*/REDIS_HOST=127.0.0.1/' \
+        -e 's/^MEMCACHED_HOST=.*/MEMCACHED_HOST=127.0.0.1/' \
+        -e 's/^MAIL_HOST=mailpit/MAIL_HOST=127.0.0.1/' \
+        -e 's#^MEILISEARCH_HOST=http://meilisearch:#MEILISEARCH_HOST=http://127.0.0.1:#' \
+        -e 's/^TYPESENSE_HOST=.*/TYPESENSE_HOST=127.0.0.1/' \
+        -e 's#^AWS_ENDPOINT=http://minio:#AWS_ENDPOINT=http://127.0.0.1:#' \
+        -e 's/^PUSHER_HOST=soketi/PUSHER_HOST=127.0.0.1/' \
+        .env
 fi
 
 APP_PORT=8080

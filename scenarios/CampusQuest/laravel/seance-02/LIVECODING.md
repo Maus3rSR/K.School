@@ -1,7 +1,7 @@
 # Fil à suivre — Séance 2 : Routing, contrôleurs et Blade
 
 Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/02-routing-blade/`.
-Le projet Laravel est dans `../app/` ; il est livré **sans le code des étapes** — la solution complète est dans `solution/` (à copier avec `cp -r solution/* ../app/`).
+Le projet Laravel est dans `../base/` ; il est livré **sans le code des étapes** — la solution complète est dans `solution/` (à copier avec `cp -r solution/* ../base/`).
 
 ## Avant la séance
 
@@ -193,6 +193,6 @@ Tester `/quests/999` **et** `/nimportequoi` : même page.
 ## Rejouer la démo
 
 ```bash
-git restore ../app   # ou git clean -fd ../app/resources ../app/app ../app/routes (attention : supprime vos essais)
+git restore ../app   # ou git clean -fd ../base/resources ../base/app ../base/routes (attention : supprime vos essais)
 ```
-Pour sauter à la solution : `cp -r solution/* ../app/` depuis `seance-02/`.
+Pour sauter à la solution : `cp -r solution/* ../base/` depuis `seance-02/`.

@@ -1,7 +1,7 @@
 # Fil à suivre — Séance 3 : Eloquent — modèles, relations, migrations
 
 Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/03-eloquent/`.
-Le projet Laravel est dans `../app/` ; les fichiers finaux à coller sont dans `solution/` (à copier avec `cp -r solution/* ../app/`).
+Le projet Laravel est dans `../base/` ; les fichiers finaux à coller sont dans `solution/` (à copier avec `cp -r solution/* ../base/`).
 
 ## Avant la séance
 
@@ -221,4 +221,4 @@ Revenir sur `/quests` : la page affiche désormais les 30 quêtes seedées.
 sail artisan migrate:fresh    # repartir d'une base vide (données perdues)
 ```
 
-Pour sauter à la solution : `cp -r solution/* ../app/` depuis `seance-03/`.
+Pour sauter à la solution : `cp -r solution/* ../base/` depuis `seance-03/`.

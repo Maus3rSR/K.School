@@ -32,52 +32,204 @@ Remplacer le **tableau PHP** du `GameController` par une **vraie base de donnée
 
 ### A1 — Vérifier la connexion et créer les modèles
 
-1. Ouvrez `.env` et vérifiez que la connexion pointe sur le service MariaDB de Sail : `DB_CONNECTION=mariadb`, `DB_HOST=mariadb`, `DB_PORT=3306`. Lancez `./vendor/bin/sail artisan migrate` : les tables par défaut de Laravel (users, cache, jobs…) doivent se créer — c'est la preuve que la connexion fonctionne.
-2. Générez les trois modèles **dans cet ordre** — important pour les clés étrangères :
-   - `./vendor/bin/sail artisan make:model Category -m`
-   - `./vendor/bin/sail artisan make:model Platform -m`
-   - `./vendor/bin/sail artisan make:model Game -m`
-3. Repérez les fichiers créés : les modèles dans `app/Models/`, les migrations dans `database/migrations/` (le timestamp du nom de fichier fixe leur ordre d'exécution).
-   > Le modèle généré est **vide** et la migration un **squelette** (`id()` + `timestamps()` seulement) : rien n'est déduit — les colonnes s'écrivent à la main dans le `up()` de la migration, et le `$fillable` à la main dans le modèle.
+**Étape 1 — Vérifier la configuration de la base**
+
+Ouvrez `.env` et vérifiez que la connexion pointe sur le service MariaDB de Sail :
+
+```env
+DB_CONNECTION=mariadb
+DB_HOST=mariadb
+DB_PORT=3306
+```
+
+**Étape 2 — Tester la connexion**
+
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+✅ Vérification : les tables par défaut de Laravel (users, cache, jobs…) se créent — c'est la preuve que la connexion fonctionne.
+
+**Étape 3 — Générer les trois modèles**
+
+Générez les modèles **dans cet ordre** — important pour les clés étrangères :
+
+```bash
+./vendor/bin/sail artisan make:model Category -m
+./vendor/bin/sail artisan make:model Platform -m
+./vendor/bin/sail artisan make:model Game -m
+```
+
+**Étape 4 — Repérer les fichiers créés**
+
+- Les modèles : dans `app/Models/`.
+- Les migrations : dans `database/migrations/` — le timestamp du nom de fichier fixe leur ordre d'exécution.
+
+> 💡 Le modèle généré est **vide** et la migration un **squelette** (`id()` + `timestamps()` seulement) : rien n'est déduit — les colonnes s'écrivent à la main dans le `up()` de la migration, et le `$fillable` à la main dans le modèle.
 
 ### A2 — Les migrations
 
-1. Complétez les `up()` des trois migrations générées :
-   - `categories` : `id()`, `string('name')`, `timestamps()`
-   - `platforms` : `id()`, `string('name')`, `timestamps()`
-   - `games` : `id()`, `string('title')`, `text('synopsis')`, `unsignedSmallInteger('release_year')`, `decimal('rating', 3, 1)`, `unsignedSmallInteger('playtime_hours')`, `string('cover_url')`, `boolean('featured')->default(false)`, `string('status')`, `foreignId('category_id')->constrained()`, `timestamps()`
-2. Créez la migration de la **table pivot** : `./vendor/bin/sail artisan make:migration create_game_platform_table`, puis dans son `up()` : `foreignId('game_id')->constrained()`, `foreignId('platform_id')->constrained()` et la clé primaire composite `primary(['game_id', 'platform_id'])`.
-3. Jouez les migrations : `./vendor/bin/sail artisan migrate`, puis vérifiez avec `./vendor/bin/sail artisan migrate:status` — tout doit être à `Ran`.
+**Étape 1 — Compléter les migrations `categories` et `platforms`**
+
+Dans `database/migrations/`, ouvrez la migration de `categories` et ajoutez dans son `up()` :
+
+```php
+$table->string('name');
+```
+
+Faites de même dans la migration de `platforms`. (`id()` et `timestamps()` sont déjà générés : laissez-les.)
+
+**Étape 2 — Compléter la migration `games`**
+
+Ouvrez la migration de `games` et complétez son `up()` avec ces colonnes :
+
+| Colonne | Ligne à écrire |
+|---------|----------------|
+| `title` | `$table->string('title');` |
+| `synopsis` | `$table->text('synopsis');` |
+| `release_year` | `$table->unsignedSmallInteger('release_year');` |
+| `rating` | `$table->decimal('rating', 3, 1);` |
+| `playtime_hours` | `$table->unsignedSmallInteger('playtime_hours');` |
+| `cover_url` | `$table->string('cover_url');` |
+| `featured` | `$table->boolean('featured')->default(false);` |
+| `status` | `$table->string('status');` |
+| `category_id` | `$table->foreignId('category_id')->constrained();` |
+
+**Étape 3 — Créer la table pivot**
+
+```bash
+./vendor/bin/sail artisan make:migration create_game_platform_table
+```
+
+Puis, dans le `up()` de la migration créée :
+
+```php
+$table->foreignId('game_id')->constrained();
+$table->foreignId('platform_id')->constrained();
+$table->primary(['game_id', 'platform_id']);
+```
+
+**Étape 4 — Jouer les migrations**
+
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate:status
+```
+
+✅ Vérification : `migrate:status` indique toutes les migrations à `Ran`.
 
 > 💡 La pivot se nomme **au singulier, dans l'ordre alphabétique** : `game_platform`. C'est cette convention qui permet à `belongsToMany` de la trouver sans configuration.
+
 > 💡 `foreignId('category_id')->constrained()` s'écrit **à la main** dans la migration de `games`, comme toute colonne — Artisan ne génère aucune clé étrangère.
 
 ### A3 — Les relations et le mass assignment
 
-1. Dans `app/Models/Game.php`, ajoutez :
-   - `category()` → `belongsTo(Category::class)`
-   - `platforms()` → `belongsToMany(Platform::class)`
-   - `$fillable` avec toutes les colonnes remplissables (`title`, `synopsis`, `release_year`, `rating`, `playtime_hours`, `cover_url`, `featured`, `status`, `category_id`)
-   - `casts()` renvoyant `'featured' => 'boolean'`
-2. Dans `app/Models/Category.php` : `games()` → `hasMany(Game::class)`
-3. Dans `app/Models/Platform.php` : `games()` → `belongsToMany(Game::class)`
-4. Testez dans `./vendor/bin/sail artisan tinker` : `Game::count()` renvoie `0` — c'est normal, la base est encore vide.
+**Étape 1 — Déclarer les relations de `Game`**
+
+Ouvrez `app/Models/Game.php` et ajoutez :
+
+- `category()` → `belongsTo(Category::class)`
+- `platforms()` → `belongsToMany(Platform::class)`
+
+**Étape 2 — Autoriser le mass assignment**
+
+Toujours dans `app/Models/Game.php`, ajoutez :
+
+- `$fillable` avec toutes les colonnes remplissables : `title`, `synopsis`, `release_year`, `rating`, `playtime_hours`, `cover_url`, `featured`, `status`, `category_id` ;
+- `casts()` renvoyant `'featured' => 'boolean'`.
+
+**Étape 3 — Déclarer la relation inverse dans `Category`**
+
+Ouvrez `app/Models/Category.php` et ajoutez `games()` → `hasMany(Game::class)`.
+
+**Étape 4 — Déclarer la relation inverse dans `Platform`**
+
+Ouvrez `app/Models/Platform.php` et ajoutez `games()` → `belongsToMany(Game::class)`.
+
+**Étape 5 — Tester dans Tinker**
+
+```bash
+./vendor/bin/sail artisan tinker
+```
+
+Puis, dans Tinker :
+
+```php
+Game::count()
+```
+
+✅ Vérification : `Game::count()` renvoie `0` — c'est normal, la base est encore vide.
 
 ### A4 — Les seeders
 
-1. Générez les seeders : `./vendor/bin/sail artisan make:seeder CategorySeeder`, `PlatformSeeder`, `GameSeeder`.
-2. `CategorySeeder` : insérez **au moins 4 catégories** (RPG, Action, Aventure, Stratégie…).
-3. `PlatformSeeder` : insérez **au moins 3 plateformes** (PC, PS5, Xbox, Switch…).
-4. `GameSeeder` : insérez **au moins 6 jeux** — reprenez les **4 jeux de votre tableau PHP** de la S2 (avec leur `category_id`) et ajoutez-en au moins 2 ; puis attachez à chaque jeu 1 à 3 plateformes (`$game->platforms()->attach(...)`).
-5. Dans `DatabaseSeeder::run()`, appelez les trois seeders **dans le bon ordre** : catégories et plateformes avant les jeux (ce qui est référencé avant ce qui référence).
-6. Reconstruisez tout : `./vendor/bin/sail artisan migrate:fresh --seed`, puis vérifiez dans Tinker : `Game::count()` → au moins 6, `Game::first()->category->name` → une catégorie, `Game::first()->platforms` → une Collection non vide.
+**Étape 1 — Générer les seeders**
+
+```bash
+./vendor/bin/sail artisan make:seeder CategorySeeder
+./vendor/bin/sail artisan make:seeder PlatformSeeder
+./vendor/bin/sail artisan make:seeder GameSeeder
+```
+
+**Étape 2 — Remplir `CategorySeeder`**
+
+Ouvrez `database/seeders/CategorySeeder.php` et insérez **au moins 4 catégories** (RPG, Action, Aventure, Stratégie…).
+
+**Étape 3 — Remplir `PlatformSeeder`**
+
+Ouvrez `database/seeders/PlatformSeeder.php` et insérez **au moins 3 plateformes** (PC, PS5, Xbox, Switch…).
+
+**Étape 4 — Remplir `GameSeeder`**
+
+Ouvrez `database/seeders/GameSeeder.php` et insérez **au moins 6 jeux** :
+
+- reprenez les **4 jeux de votre tableau PHP** de la S2, avec leur `category_id` ;
+- ajoutez-en au moins 2 ;
+- attachez à chaque jeu 1 à 3 plateformes avec `$game->platforms()->attach(...)`.
+
+**Étape 5 — Ordonner les seeders**
+
+Ouvrez `database/seeders/DatabaseSeeder.php` et, dans `run()`, appelez les trois seeders **dans le bon ordre** : catégories et plateformes avant les jeux (ce qui est référencé avant ce qui référence).
+
+**Étape 6 — Reconstruire la base**
+
+```bash
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+Puis vérifiez dans Tinker (`./vendor/bin/sail artisan tinker`) :
+
+```php
+Game::count()
+Game::first()->category->name
+Game::first()->platforms
+```
+
+✅ Vérification : `Game::count()` renvoie au moins 6, `category->name` affiche une catégorie, `platforms` renvoie une Collection non vide.
 
 ### A5 — Brancher le catalogue sur la base
 
-1. Dans `GameController::index()`, remplacez le tableau par `Game::all()` et supprimez la propriété `$games`.
-2. Dans `show(int $id)`, remplacez le tableau et son `abort_unless` par `Game::findOrFail($id)` — la 404 est automatique.
-3. Adaptez les vues : `$game['title']` devient `$game->title`, la catégorie s'affiche avec `$game->category->name`, et `route('games.show', $id)` devient `route('games.show', $game->id)`.
-4. Vérifiez : `/` liste les jeux **depuis la base**, `/game/1` affiche la fiche avec sa catégorie, `/game/999` → 404 (via `findOrFail`), `/game/abc` → 404 (contrainte de route inchangée).
+**Étape 1 — Brancher `index()` sur la base**
+
+Ouvrez `app/Http/Controllers/GameController.php`. Dans `index()`, remplacez le tableau par `Game::all()` et supprimez la propriété `$games`.
+
+**Étape 2 — Brancher `show()` sur la base**
+
+Toujours dans `GameController.php`, dans `show(int $id)`, remplacez le tableau et son `abort_unless` par `Game::findOrFail($id)` — la 404 est automatique.
+
+**Étape 3 — Adapter les vues**
+
+Dans `resources/views/home.blade.php` et `resources/views/game-detail.blade.php` :
+
+- `$game['title']` devient `$game->title` (et de même pour les autres champs) ;
+- la catégorie s'affiche avec `$game->category->name` ;
+- `route('games.show', $id)` devient `route('games.show', $game->id)`.
+
+✅ Vérification :
+
+- `/` liste les jeux **depuis la base** ;
+- `/game/1` affiche la fiche avec sa catégorie ;
+- `/game/999` → 404 (via `findOrFail`) ;
+- `/game/abc` → 404 (contrainte de route inchangée).
 
 ### ✅ Checkpoint de fin de séance
 
@@ -152,12 +304,48 @@ Bonne nouvelle : il n'y a pas de magie, c'est du PHP, et vous savez lire du PHP.
 
 **Point de départ** : votre classe `App\Models\Game` (dans `app/Models/Game.php`) est liée à la table `games`… sans que vous ayez rien configuré.
 
-| # | Question |
-|---|----------|
-| 1 | Ouvrez `Illuminate/Database/Eloquent/Model.php` et trouvez la méthode `getTable` (Ctrl+Shift+O). Recopiez son `return`. L'opérateur `??` (« coalescence des nuls ») renvoie la valeur de gauche si elle existe et n'est pas `null`, sinon celle de droite : que signifie donc `$this->table ?? ...` pour votre modèle ? |
-| 2 | Le nom de table est fabriqué par trois étapes enchaînées : `class_basename`, `Str::pluralStudly`, `Str::snake`. Dans `./vendor/bin/sail artisan tinker`, testez chaque étape séparément : `class_basename(App\Models\Game::class)`, puis `\Illuminate\Support\Str::pluralStudly('Game')`, puis `\Illuminate\Support\Str::snake('Games')`. Que renvoie chacune ? Vérifiez ensuite le résultat complet : `(new App\Models\Game)->getTable()`. |
-| 3 | Prédisez : pour un modèle `GameReview` (qui n'existe pas — c'est un exercice de papier), quel nom de table la convention donnerait-elle ? Rejouez les trois étapes de la question 2 avec ce nom pour vérifier votre prédiction. |
-| 4 | Votre table `games` suit la convention, mais un jour vous croiserez une table qui ne la suit pas. D'après le `??` de `getTable`, comment forcer un autre nom dans le modèle ? Écrivez la ligne exacte dans `REPONSES.md` (sans l'ajouter à `Game` : la convention vous convient). |
+**Question 1** — Le `??` de `getTable`.
+
+- Ouvrez `Illuminate/Database/Eloquent/Model.php`.
+- Trouvez la méthode `getTable` (`Ctrl+Shift+O`) et recopiez son `return`.
+
+> 💡 L'opérateur `??` (« coalescence des nuls ») renvoie la valeur de gauche si elle existe et n'est pas `null`, sinon celle de droite.
+
+**À noter dans `REPONSES.md`** : que signifie donc `$this->table ?? ...` pour votre modèle ?
+
+**Question 2** — Les trois étapes du calcul.
+
+Le nom de table est fabriqué par trois étapes enchaînées : `class_basename`, `Str::pluralStudly`, `Str::snake`.
+
+- Lancez `./vendor/bin/sail artisan tinker`.
+- Testez chaque étape séparément :
+
+  ```php
+  class_basename(App\Models\Game::class)
+  \Illuminate\Support\Str::pluralStudly('Game')
+  \Illuminate\Support\Str::snake('Games')
+  ```
+
+- Vérifiez ensuite le résultat complet :
+
+  ```php
+  (new App\Models\Game)->getTable()
+  ```
+
+**À noter dans `REPONSES.md`** : ce que renvoie chaque étape, et le résultat complet.
+
+**Question 3** — Prédiction sur papier.
+
+- Prédisez : pour un modèle `GameReview` (qui n'existe pas — c'est un exercice de papier), quel nom de table la convention donnerait-elle ?
+- Rejouez les trois étapes de la question 2 avec ce nom pour vérifier votre prédiction.
+
+**À noter dans `REPONSES.md`** : votre prédiction, et le résultat vérifié.
+
+**Question 4** — Forcer un autre nom.
+
+Votre table `games` suit la convention, mais un jour vous croiserez une table qui ne la suit pas. D'après le `??` de `getTable`, comment forcer un autre nom dans le modèle ?
+
+**À noter dans `REPONSES.md`** : la ligne exacte (sans l'ajouter à `Game` : la convention vous convient).
 
 ### C2 — Comment `belongsToMany` devine la table pivot (Relier, ~15 min)
 
@@ -165,14 +353,45 @@ Bonne nouvelle : il n'y a pas de magie, c'est du PHP, et vous savez lire du PHP.
 
 Le code des relations vit dans `Illuminate/Database/Eloquent/Concerns/HasRelationships.php` : un **trait** (cette « boîte d'outils » de méthodes branchée sur une classe, déjà croisée en S2 avec les `whereXxx`) que `Model` utilise.
 
-| # | Question |
-|---|----------|
-| 5 | Dans `belongsToMany` (Ctrl+Shift+O), repérez le moment où le nom de la table pivot est choisi : cherchez `is_null($table)`. Que fait Laravel quand vous ne donnez pas de nom de table — quelle méthode est alors appelée ? |
-| 6 | Ouvrez `joiningTable`. Commencez par lire **le commentaire écrit par les développeurs de Laravel** — oui, le framework s'explique lui-même, et lire les commentaires du code fait partie des bons réflexes. Quels sont les deux morceaux (« segments ») empilés dans `$segments` quand l'appel vient de `Game::platforms()` ? |
-| 7 | Que font ensuite `sort($segments)` puis `strtolower(implode('_', $segments))` ? |
-| 8 | Imaginez maintenant l'appel depuis l'autre côté, `Platform::games()` : quels seraient les segments **avant** le `sort`, et après ? Pourquoi ce tri alphabétique est-il indispensable pour que les deux côtés de la relation trouvent la même table ? |
-| 9 | Vérifiez dans Tinker : `(new App\Models\Game)->joiningTable(App\Models\Platform::class)`. Que renvoie-t-il ? |
-| 10 | Prédiction : plus tard, WishFlix reliera `User` et `Game` pour la wishlist. Quel nom de table pivot la convention attendra-t-elle ? (Faites le calcul à la main, comme `joiningTable`.) |
+**Question 5** — Où le nom est choisi.
+
+- Dans `HasRelationships.php`, ouvrez la méthode `belongsToMany` (`Ctrl+Shift+O`).
+- Cherchez `is_null($table)` : c'est le moment où le nom de la table pivot est choisi.
+
+**À noter dans `REPONSES.md`** : que fait Laravel quand vous ne donnez pas de nom de table — quelle méthode est alors appelée ?
+
+**Question 6** — Lire le commentaire du framework.
+
+- Ouvrez la méthode `joiningTable`.
+- Commencez par lire **le commentaire écrit par les développeurs de Laravel** — oui, le framework s'explique lui-même, et lire les commentaires du code fait partie des bons réflexes.
+
+**À noter dans `REPONSES.md`** : quels sont les deux morceaux (« segments ») empilés dans `$segments` quand l'appel vient de `Game::platforms()` ?
+
+**Question 7** — Le tri et l'assemblage.
+
+- Toujours dans `joiningTable`, lisez les lignes `sort($segments)` puis `strtolower(implode('_', $segments))`.
+
+**À noter dans `REPONSES.md`** : que font ces deux lignes ?
+
+**Question 8** — L'autre côté de la relation.
+
+- Imaginez maintenant l'appel depuis l'autre côté, `Platform::games()`.
+
+**À noter dans `REPONSES.md`** : quels seraient les segments **avant** le `sort`, et après ? Pourquoi ce tri alphabétique est-il indispensable pour que les deux côtés de la relation trouvent la même table ?
+
+**Question 9** — Vérifier dans Tinker.
+
+```php
+(new App\Models\Game)->joiningTable(App\Models\Platform::class)
+```
+
+**À noter dans `REPONSES.md`** : ce que renvoie cette instruction.
+
+**Question 10** — Prédiction : la pivot de la wishlist.
+
+Plus tard, WishFlix reliera `User` et `Game` pour la wishlist.
+
+**À noter dans `REPONSES.md`** : quel nom de table pivot la convention attendra-t-elle ? (Faites le calcul à la main, comme `joiningTable`.)
 
 ### C3 — `$game->title` et `$game->category` : deux lectures, deux chemins (Raisonner, ~20 min)
 
@@ -180,17 +399,71 @@ Le code des relations vit dans `Illuminate/Database/Eloquent/Concerns/HasRelatio
 
 Comment PHP accepte-t-il de lire une propriété qui n'existe pas ? Grâce à une **méthode magique** : une méthode au nom réservé (elles commencent par `__`) que PHP appelle tout seul dans une situation précise. Ici, `__get($key)` est appelée automatiquement quand on lit une propriété absente de l'objet.
 
-| # | Question |
-|---|----------|
-| 11 | Pourquoi `Game` n'a-t-il pas besoin d'un `public $title` ? Ouvrez `Illuminate/Database/Eloquent/Model.php`, méthode `__get` : vers quelle méthode redirige-t-elle la lecture ? |
-| 12 | Suivez dans `Illuminate/Database/Eloquent/Concerns/HasAttributes.php`, méthode `getAttribute`. Quel test (`if`) trie le cas « colonne » du cas « relation » ? Quelles méthodes sont appelées dans chacun des deux cas ? Et dans quelle propriété tableau du modèle les valeurs des colonnes sont-elles stockées ? |
-| 13 | Appliquez : pour `$game->title` puis pour `$game->category`, quel chemin prend `getAttribute` dans chaque cas ? |
-| 14 | Côté relation, `getRelationValue` finit par appeler `getRelationshipFromMethod`. Trouvez-y la ligne `$relation = $this->$method();` : quelle méthode de **votre** modèle `Game` est ainsi appelée quand la vue lit `$game->category` ? |
-| 15 | Toujours dans `getRelationshipFromMethod` : que se passe-t-il si votre méthode ne renvoie pas un objet `Relation` ? Quelle **exception** (ce signal d'erreur lancé avec `throw`, croisé en S2) est levée, et que suggère son message ? Recopiez le message dans `REPONSES.md`. |
-| 16 | Dans Tinker : `$g = App\Models\Game::first();` puis `$g->relationLoaded('category')` — que renvoie-t-il ? Lisez ensuite `$g->category;` puis redemandez `$g->relationLoaded('category')` : qu'est-ce qui a changé, et quelle ligne de `getRelationshipFromMethod` en est responsable ? |
-| 17 | Comptez les requêtes SQL, toujours dans Tinker : `\Illuminate\Support\Facades\DB::enableQueryLog();` puis `$g = App\Models\Game::first();` puis `$g->category;` puis à nouveau `$g->category;` et enfin `count(\Illuminate\Support\Facades\DB::getQueryLog());`. Combien de requêtes ? Pourquoi la deuxième lecture de `category` n'en ajoute-t-elle aucune ? |
-| 18 | Prédiction : la page d'accueil fait `Game::all()` puis la boucle lit `$game->category->name` pour chaque jeu. Avec 20 jeux, combien de requêtes SQL au total ? Gardez ce nombre en tête : la séance 4 traitera précisément ce problème de performance. |
-| 19 | **Pour finir, reformulez** : en 3 à 5 phrases, racontez ce qui se passe entre « la vue lit `$game->category` » et « la catégorie s'affiche » — les méthodes traversées, la requête exécutée, la mise en mémoire. |
+**Question 11** — La méthode magique.
+
+- Ouvrez `Illuminate/Database/Eloquent/Model.php`, méthode `__get`.
+
+**À noter dans `REPONSES.md`** : pourquoi `Game` n'a-t-il pas besoin d'un `public $title` ? Vers quelle méthode `__get` redirige-t-elle la lecture ?
+
+**Question 12** — Le tri colonne / relation.
+
+- Suivez dans `Illuminate/Database/Eloquent/Concerns/HasAttributes.php`, méthode `getAttribute`.
+
+**À noter dans `REPONSES.md`** : quel test (`if`) trie le cas « colonne » du cas « relation » ? Quelles méthodes sont appelées dans chacun des deux cas ? Et dans quelle propriété tableau du modèle les valeurs des colonnes sont-elles stockées ?
+
+**Question 13** — À vous d'appliquer.
+
+**À noter dans `REPONSES.md`** : pour `$game->title` puis pour `$game->category`, quel chemin prend `getAttribute` dans chaque cas ?
+
+**Question 14** — Votre méthode, appelée par le framework.
+
+- Côté relation, `getRelationValue` finit par appeler `getRelationshipFromMethod` : ouvrez-la.
+- Trouvez-y la ligne `$relation = $this->$method();`.
+
+**À noter dans `REPONSES.md`** : quelle méthode de **votre** modèle `Game` est ainsi appelée quand la vue lit `$game->category` ?
+
+**Question 15** — Le garde-fou.
+
+- Toujours dans `getRelationshipFromMethod`, lisez ce qui se passe si votre méthode ne renvoie pas un objet `Relation`.
+
+**À noter dans `REPONSES.md`** : quelle **exception** (ce signal d'erreur lancé avec `throw`, croisé en S2) est levée, et que suggère son message ? Recopiez le message.
+
+**Question 16** — La mise en mémoire.
+
+Dans Tinker :
+
+```php
+$g = App\Models\Game::first();
+$g->relationLoaded('category')
+$g->category;
+$g->relationLoaded('category')
+```
+
+**À noter dans `REPONSES.md`** : que renvoie `relationLoaded` avant puis après la lecture de `category` ? Qu'est-ce qui a changé, et quelle ligne de `getRelationshipFromMethod` en est responsable ?
+
+**Question 17** — Comptez les requêtes SQL.
+
+Dans Tinker :
+
+```php
+\Illuminate\Support\Facades\DB::enableQueryLog();
+$g = App\Models\Game::first();
+$g->category;
+$g->category;
+count(\Illuminate\Support\Facades\DB::getQueryLog());
+```
+
+**À noter dans `REPONSES.md`** : combien de requêtes ? Pourquoi la deuxième lecture de `category` n'en ajoute-t-elle aucune ?
+
+**Question 18** — Prédiction : le coût de l'accueil.
+
+La page d'accueil fait `Game::all()` puis la boucle lit `$game->category->name` pour chaque jeu.
+
+**À noter dans `REPONSES.md`** : avec 20 jeux, combien de requêtes SQL au total ? Gardez ce nombre en tête : la séance 4 traitera précisément ce problème de performance.
+
+**Question 19** — Pour finir, reformulez.
+
+**À noter dans `REPONSES.md`** : en 3 à 5 phrases, racontez ce qui se passe entre « la vue lit `$game->category` » et « la catégorie s'affiche » — les méthodes traversées, la requête exécutée, la mise en mémoire.
 
 ### Indices de la Partie C
 
@@ -311,7 +584,13 @@ return tap($relation->getResults(), function ($results) use ($method) {
 
 ### Bonus 1 — Le slug dans l'URL
 
-Remplacez `/game/{id}` par `/game/{slug}` : une nouvelle migration `add_slug_to_games_table` (colonne `slug` unique), un slug renseigné pour chaque jeu, et le **route model binding** de Laravel sur la colonne `slug`. Critère : `/game/hollow-knight` affiche la fiche, un slug inconnu renvoie 404, et `route('games.show', $game)` génère l'URL avec le slug.
+Remplacez `/game/{id}` par `/game/{slug}` :
+
+- une nouvelle migration `add_slug_to_games_table` (colonne `slug` unique) ;
+- un slug renseigné pour chaque jeu ;
+- le **route model binding** de Laravel sur la colonne `slug`.
+
+✅ Vérification : `/game/hollow-knight` affiche la fiche, un slug inconnu renvoie 404, et `route('games.show', $game)` génère l'URL avec le slug.
 
 <details>
 <summary>Indice 1 — Par où commencer</summary>
@@ -348,7 +627,9 @@ public function show(Game $game)
 
 ### Bonus 2 — `status` en enum PHP 8.3
 
-Remplacez la chaîne `status` par un **enum** `GameStatus` (dans `app/Enums/`) backed par `string` — par exemple `Released`, `Upcoming`, `EarlyAccess` — puis déclarez `'status' => GameStatus::class` dans `casts()`. Critère : `$game->status` renvoie un `GameStatus`, la vue affiche `$game->status->value` (ou un libellé déduit), et les seeders/factory produisent des statuts valides.
+Remplacez la chaîne `status` par un **enum** `GameStatus` (dans `app/Enums/`), backed par `string` — par exemple `Released`, `Upcoming`, `EarlyAccess` — puis déclarez `'status' => GameStatus::class` dans `casts()`.
+
+✅ Vérification : `$game->status` renvoie un `GameStatus`, la vue affiche `$game->status->value` (ou un libellé déduit), et les seeders/factory produisent des statuts valides.
 
 <details>
 <summary>Indice — L'anatomie</summary>

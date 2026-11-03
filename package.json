@@ -22,6 +22,7 @@
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",
     "framework:routing:dev": "pnpm --filter @k.school/framework dev:routing",
     "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent",
+    "framework:form:dev": "pnpm --filter @k.school/framework dev:formulaires",
     "pilote:dev": "turbo run dev --filter @k.school/pilote",
     "tdd:dev": "turbo run dev --filter @k.school/tdd",
     "ubiquitous-language:dev": "turbo run dev --filter @k.school/ubiquitous-language",

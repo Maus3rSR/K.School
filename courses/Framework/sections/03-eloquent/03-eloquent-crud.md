@@ -65,7 +65,7 @@ class Quest extends Model
 
 <Alert type="warning">
 
-`create()` avec une colonne absente de `$fillable` lève `MassAssignmentException` — une protection contre les formulaires détournés.
+Une colonne absente de `$fillable` est **ignorée en silence** par `create()` — un `is_admin` glissé dans un formulaire détourné n'atteint jamais la base.
 
 </Alert>
 
@@ -193,6 +193,7 @@ Tinker : on joue avec les données
 La base est **réellement modifiée** : rechargez `/quests`, la quête créée dans Tinker apparaît.
 
 <!--
-Montrer aussi l'échec : Quest::create(['nope' => 1]) → MassAssignmentException, la liste blanche protège.
+Montrer aussi la liste blanche : (new Quest(['title' => 'Test', 'nope' => 1]))->getAttributes() → seul title reste, nope a disparu sans erreur.
+Pour qu'Eloquent lève une MassAssignmentException en dev : Model::preventSilentlyDiscardingAttributes() dans AppServiceProvider::boot().
 Faire le lien : Tinker est le terrain de jeu, mais les données qui doivent exister pour tous iront dans les seeders (chapitre 8).
 -->

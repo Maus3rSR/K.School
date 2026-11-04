@@ -657,7 +657,7 @@ Dans le modèle : `'status' => GameStatus::class` dans `casts()`. Dans la factor
 <summary>Niveau 1 — Où regarder</summary>
 
 - `Cannot add foreign key constraint` au `migrate` → l'ordre des fichiers : `categories` et `platforms` doivent précéder `games` et `game_platform`
-- `MassAssignmentException` → la colonne n'est pas dans le `$fillable` du modèle
+- `Field 'title' doesn't have a default value`, ou une colonne qui reste vide après `create()` → la colonne n'est pas dans le `$fillable` du modèle (Eloquent l'ignore en silence)
 - `$game->category` renvoie `null` → `category_id` n'est pas rempli dans le seeder
 - `Base table or view not found: game_platform` → la pivot n'a pas été créée, ou son nom ne suit pas la convention singulier-alphabétique
 - La fiche n'affiche aucune plateforme → le `attach()` du seeder n'a pas tourné : `migrate:fresh --seed` rejoué ?

@@ -120,7 +120,7 @@ protected function casts(): array
 }
 ```
 
-`$fillable` s'écrit à la main lui aussi : Eloquent lit les colonnes **en base**, le modèle ne les déclare pas. Provoquer la `MassAssignmentException` en Tinker : `Quest::create(['nope' => 1])`.
+`$fillable` s'écrit à la main lui aussi : Eloquent lit les colonnes **en base**, le modèle ne les déclare pas. Montrer la liste blanche en Tinker : `(new Quest(['title' => 'Test', 'nope' => 1]))->getAttributes()` → seul `title` reste, `nope` est ignoré **sans erreur** (pas de `MassAssignmentException` par défaut — sauf si `Model::preventSilentlyDiscardingAttributes()` est activé).
 
 ## g. Relations dans les modèles — `04-…` et `06-relations-…` (« Déclarer la relation », « belongsToMany »)
 

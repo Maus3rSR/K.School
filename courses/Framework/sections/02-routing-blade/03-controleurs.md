@@ -1,36 +1,39 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 02
-duration: 25 min
+number: 03
+duration: 40 min
 ---
 
 # Contrôleurs
 
 - Sortir la logique des routes vers un contrôleur
 - Lire les paramètres d'URL avec l'objet `Request`
-- Choisir la bonne réponse : vue, JSON, redirection, erreur
+- Choisir la bonne réponse : vue, JSON, redirection
 
 <!--
-Transition : la closure marche pour une démo, pas pour un vrai projet.
+Transition : à la fin du chapitre 2, les deux closures recopient le même tableau de quêtes. La closure marche pour une démo, pas pour un vrai projet.
+Durée (40 min) = slides (≈ 12 min) + livecoding étapes 6 → 8 (≈ 10 min) + « À vous » A3 (≈ 18 min).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-Pourquoi sortir la logique des routes ?
+# Pourquoi sortir la logique des routes ?
 
 <Compare badLabel="❌ Tout dans web.php" goodLabel="✅ Routes fines + contrôleur">
   <template #bad>
 
 ```php
 Route::get('/quests', function () {
-    $quests = [ /* 30 lignes */ ];
-    // + filtre + vue : illisible
+    $quests = [ /* le tableau… */ ];
+    return view('quests.index', /* … */);
 });
-// × 15 pages = web.php géant
+Route::get('/quests/{id}', function ($id) {
+    $quests = [ /* …recopié ! */ ];
+    return view('quests.show', /* … */);
+});
 ```
 
   </template>
@@ -40,13 +43,17 @@ Route::get('/quests', function () {
 Route::get('/quests',
     [QuestController::class, 'index'])
     ->name('quests.index');
-// la logique vit dans le contrôleur
+Route::get('/quests/{id}',
+    [QuestController::class, 'show'])
+    ->name('quests.show');
+// données et logique : dans le contrôleur
 ```
 
   </template>
 </Compare>
 
 <!--
+C'est exactement l'état du projet de démo à la fin du chapitre 2 : le montrer à l'écran.
 Un contrôleur regroupe les actions d'une même ressource. web.php redevient une table des matières lisible.
 -->
 
@@ -56,8 +63,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-Générer un contrôleur avec Artisan
+# Générer un contrôleur avec Artisan
 
 ::left::
 
@@ -90,7 +96,7 @@ Artisan crée la classe dans `app/Http/Controllers/`, avec le bon `namespace` PH
 </v-click>
 
 <!--
-Montrer le fichier généré : quasi vide, une classe qui extends Controller.
+Livecoding étape 6. Montrer le fichier généré : quasi vide, une classe qui extends Controller.
 Question probable : "pourquoi Http/Controllers ?" → ce sont les contrôleurs qui répondent aux requêtes HTTP.
 -->
 
@@ -100,8 +106,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-Le contrôleur Campus Quest
+# Le contrôleur Campus Quest
 
 ::left::
 
@@ -130,7 +135,7 @@ class QuestController extends Controller
 
 <div v-click="1">
 
-`$quests` — les données de démo : un **tableau PHP**, remplacé par la base de données plus tard.
+`$quests` — le tableau des closures, rangé **une seule fois** dans une propriété.
 
 </div>
 
@@ -154,7 +159,7 @@ Un contrôleur = des **méthodes publiques** (les *actions*), chacune appelée p
 
 <!--
 Version simplifiée du contrôleur de démo : le filtre ?difficulty arrive à la slide Request.
-show() ne vérifie rien : /quests/99 → erreur "Undefined array key". On le sécurise avec abort_unless au chapitre 6.
+show() ne vérifie rien : /quests/99 → erreur "Undefined array key". On le sécurise au chapitre 6.
 -->
 
 ---
@@ -163,16 +168,16 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-Brancher les routes sur le contrôleur
+# Brancher les routes sur le contrôleur
 
 ::left::
 
 ````md magic-move
 ```php
 Route::get('/quests', function () {
-    return 'Liste des quêtes';
-});
+    $quests = [ /* … */ ];
+    return view('quests.index', ['quests' => $quests]);
+})->name('quests.index');
 ```
 
 ```php
@@ -189,7 +194,7 @@ Route::get('/quests/{id}', [QuestController::class, 'show'])
 
 <div v-click="1">
 
-`[Classe::class, 'méthode']` remplace la closure : la route **délègue** au contrôleur.
+`[Classe::class, 'méthode']` remplace la closure : la route **délègue** au contrôleur. Le nom et la contrainte ne bougent pas.
 
 </div>
 
@@ -218,16 +223,17 @@ sequenceDiagram
 </div>
 
 <!--
+Livecoding étape 7 : remplacer les closures par les routes vers le contrôleur.
 Le paramètre {id} est injecté dans show(int $id) par nom.
-Faire le lien avec le cycle requête → réponse vu en S1.
+Même trajet qu'au chapitre 2 : seule la closure est remplacée par une méthode de contrôleur.
+`sail artisan route:list` affiche maintenant QuestController@index dans la colonne de droite.
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-L'objet Request : lire les paramètres d'URL
+# L'objet Request : lire les paramètres d'URL
 
 Comment filtrer la liste : `/quests?difficulty=easy` ?
 
@@ -260,52 +266,55 @@ Laravel **injecte** `Request $request` dans l'action : `$request->query('difficu
 
 <div v-click="2">
 
-Testez : `/quests?difficulty=easy` n'affiche que les quêtes faciles.
+Testez : `/quests?difficulty=easy` n'affiche que les quêtes faciles ; `?difficulty=nope` affiche le cas `@empty`.
 
 </div>
 
 <!--
+Livecoding étape 8. Ne pas oublier `use Illuminate\Http\Request;` en haut du contrôleur.
 Insister sur l'injection : on ne crée pas l'objet, on le déclare et Laravel le fournit — c'est l'inversion de contrôle vue en S1.
+Côté WishFlix, le filtre par paramètre d'URL est la user story bonus de l'exercice (il sera refait avec la base en S4).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-Choisir sa réponse
+# Choisir sa réponse
 
 | Code | Cas d'usage |
 |------|-------------|
 | `view('quests.index', $data)` | Renvoyer une page HTML |
 | `response()->json($this->quests)` | Renvoyer du JSON (API, front JS) |
 | `redirect()->route('quests.index')` | Renvoyer le navigateur vers une route nommée |
-| `abort(404)` | Stopper avec une erreur (quête introuvable) |
 
 <!--
+Livecoding optionnel : return response()->json($this->quests); puis redirect()->route('quests.index'), à retirer ensuite.
 Question probable : "quand utiliser redirect ?" → après un POST réussi, pour éviter la resoumission du formulaire (S5).
-abort(404) prépare la slide sur les pages d'erreur du chapitre 6.
+Il existe une 4e réponse, l'erreur : elle a son propre chapitre (6).
+Moment léger : remplacer index() par un redirect vers… quests.index → boucle de redirection infinie, « ERR_TOO_MANY_REDIRECTS » : la quête sans fin.
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Contrôleurs
-À vous de jouer
+# À vous : le GameController
 
-<Quiz
-  question="« /quests/abc » renvoie une 404 alors que « /quests/2 » fonctionne. Pourquoi ?"
-  :options="[
-    'Le contrôleur appelle abort(404) car « abc » est absent du tableau',
-    'La contrainte ->whereNumber(\'id\') bloque la route avant d\'atteindre le contrôleur',
-    'La vue quests.show plante en affichant un titre inexistant',
-    'Laravel interdit par défaut les lettres dans un paramètre de route'
-  ]"
-  :answer="1"
-/>
+<Exercise title="WishFlix — étapes A3.1 à A3.6" duration="18 min" level="guidé"
+  :criteria="[
+    'Le tableau des jeux vit dans GameController, plus dans web.php',
+    'L\'accueil s\'affiche à l\'identique, servi par GameController@index',
+    '/game/1 affiche la fiche du jeu n°1 (vue game-detail)'
+  ]">
+
+Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A3**.
+
+Déplacez la logique de vos closures dans un contrôleur, puis ajoutez la vraie fiche jeu.
+
+</Exercise>
 
 <!--
-La bonne réponse est la contrainte : sans whereNumber, /quests/abc atteint show(int $id) et lève une TypeError → erreur 500, pas une 404 via abort_unless.
-Le point à retenir : la contrainte renvoie la 404 au niveau du router, avant le contrôleur.
+Point de contrôle 3. Palier de rattrapage : tag Campus Quest s2-ch3-controleurs.
+/game/999 plante encore (« Undefined array key ») : normal, c'est le chapitre 6.
 -->

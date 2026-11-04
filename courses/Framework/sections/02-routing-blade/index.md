@@ -3,11 +3,11 @@ src: ./01-routing.md
 ---
 
 ---
-src: ./02-controleurs.md
+src: ./02-blade-vue.md
 ---
 
 ---
-src: ./03-blade-vue.md
+src: ./03-controleurs.md
 ---
 
 ---

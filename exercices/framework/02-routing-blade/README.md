@@ -2,11 +2,17 @@
 
 ## Objectif
 
-Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dynamiques** : un layout Blade commun, une page d'accueil qui liste les jeux depuis un tableau PHP, et une fiche jeu `/game/{id}` avec gestion du 404.
+Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dynamiques** : une route, une vue Blade, un contrôleur, un layout commun, des CSS servies par Vite et une page 404, puis deux nouvelles pages (wishlist, connexion).
 
-**Durée estimée** : 4h45 (Partie A : 2h en séance · Partie B : ~2h chez vous · Partie C : ~45 min chez vous · Bonus : au choix)
+## Charge
 
-> **Déroulé** — En séance (2h) : Partie A · Chez vous : Partie B (~2h) + Partie C (~45 min) · Bonus : au choix · ⚠️ **Requis pour la séance 3** : la Partie A terminée (layout, accueil, fiche jeu) — en S3 le tableau PHP sera remplacé par la base de données.
+| | Contenu | Estimation indicative |
+|---|---|---|
+| **Socle** | Étape 0 + Partie A, **en séance** (6 chapitres, 6 points de contrôle) | ≈ 95 min de pratique à un rythme d'élève ; ≈ 40 min au rythme du formateur |
+| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot », **chez vous** | ≈ 1h15 + ≈ 45 min |
+| **Bonus** | 3e user story et défis | ≈ 30 à 60 min chacun |
+
+> Ces estimations sont indicatives : un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 3** : la Partie A terminée (point de contrôle 6) — en S3 le tableau PHP sera remplacé par la base de données.
 
 **Référence officielle** :
 
@@ -20,165 +26,92 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 ## Prérequis
 
 - Le projet `wishflix` de la séance 1 qui démarre (`./vendor/bin/sail up -d`, page Laravel sur [http://localhost](http://localhost))
-- Les **maquettes statiques** fournies : `home.html`, `game-detail.html`, `wishlist.html`, `login.html`, `404.html`, ainsi que `app.css` et une CSS par page (`home.css`, `game-detail.css`, `wishlist.css`, `login.css`, `404.css`)
+- Le dépôt **K.School** cloné sur votre machine (il contient les maquettes dans `scenarios/WishFlix/src/` : `home.html`, `game-detail.html`, `wishlist.html`, `login.html`, `404.html`, `app.css` et une CSS par page) et **Node.js** installé sur votre machine (hors Sail) pour lancer le script de l'étape A5
 - Chaque maquette partage la même coquille : une `<header class="navbar wishflix-shell__navbar">` (logo WishFlix, liens Accueil / Wishlist avec badge, bloc Invité / Se connecter) et un `<footer class="wishflix-footer">` — c'est elle qui deviendra votre layout
 
 > 💡 Les consignes gardent la forme longue `./vendor/bin/sail` ; l'alias `sail` configuré en S1 fonctionne aussi.
 
+> 💡 Les maquettes utilisent **Tailwind** et **DaisyUI** (classes `navbar`, `badge`, `btn`, `card`…) chargés par deux balises **CDN** dans le `<head>`. Vous n'avez pas besoin de connaître ces outils : gardez ces deux balises telles quelles et recopiez les classes HTML des maquettes.
+
 ---
 
-## Partie A — En séance (atelier WishFlix)
+## Étape 0 — Contrôler l'environnement
 
-### A1 — Démarrer Vite et copier les CSS
+- `./vendor/bin/sail up -d`, puis [http://localhost](http://localhost) affiche la page Laravel
+- `git status` : l'arbre de travail est propre (commit de S1 fait)
+- Dans un terminal : `./vendor/bin/sail npm install` (peut prendre quelques minutes : lancez-le maintenant, il sert à l'étape A5)
 
-**Étape 1 — Repérer la configuration Vite**
+✅ Vérification : la page Laravel s'affiche. Sinon, revenez à l'exercice 01.
 
-Ouvrez `vite.config.js` et repérez le tableau `input` du plugin `laravel(...)` :
+---
 
-```js
-input: ['resources/css/app.css', 'resources/js/app.js'],
-```
+## Partie A — Socle (en séance)
 
-C'est la liste des fichiers que Vite peut servir. Dans ce fichier, vous ne modifierez **que** ce tableau.
+Chaque étape indique son **chapitre** du cours. Les maquettes de départ sont celles de `scenarios/WishFlix/src/`.
 
-> ⚠️ Laissez la ligne `tailwindcss()` en place : elle servira au Bonus 1.
+### A1 — Une première route (Chapitre 1)
 
-**Étape 2 — Installer les dépendances front**
+**Étape A1.1** — Ouvrez `routes/web.php` et ajoutez une route `GET /game/{id}` dont la closure renvoie `"Jeu n°{$id}"`.
 
-```bash
-./vendor/bin/sail npm install
-```
+✅ `/game/3` affiche « Jeu n°3 ».
 
-> Le premier `npm install` peut prendre quelques minutes : c'est normal.
+**Étape A1.2** — Ajoutez la contrainte `->whereNumber('id')`.
 
-**Étape 3 — Lancer Vite dans un second terminal** (laissez-le ouvert pendant toute la séance)
+✅ `/game/abc` renvoie une 404.
 
-```bash
-./vendor/bin/sail npm run dev
-```
-
-**Étape 4 — Copier la CSS commune**
-
-Ouvrez `resources/css/app.css` et **remplacez tout son contenu** par celui du `app.css` des maquettes.
-
-> 💡 Les lignes d'origine (`@import 'tailwindcss'`, `@source`…) servent à Tailwind via Vite : vous les retrouverez au Bonus 1.
-
-**Étape 5 — Copier les CSS de page**
-
-Copiez `home.css` et `game-detail.css` des maquettes dans `resources/css/` (gardez leurs noms).
-
-> 💡 Les maquettes utilisent **Tailwind** et **DaisyUI** (les classes `navbar`, `badge`, `btn`, `card`…) chargés par deux balises **CDN** dans le `<head>`. Vous n'avez pas besoin de connaître ces outils : gardez ces deux balises telles quelles et recopiez les classes HTML des maquettes, elles fonctionneront.
-
-### A2 — Le layout `app.blade.php`
-
-**Étape 1 — Créer le layout**
-
-Créez `resources/views/layouts/app.blade.php` à partir de la **coquille commune** de `home.html` : le `<!doctype>`, le `<head>`, la navbar et le footer — c'est-à-dire tout ce qui est identique d'une page à l'autre.
-
-**Étape 2 — Marquer les parties qui changent**
-
-Dans `resources/views/layouts/app.blade.php`, remplacez les trois endroits qui changent d'une page à l'autre par des `@yield` :
-
-- le titre de l'onglet → `@yield('title')`
-- les CSS propres à la page → `@yield('styles')`, dans le `<head>`
-- le contenu du `<main>` → `@yield('content')`
-
-**Étape 3 — Brancher la CSS commune sur Vite**
-
-Toujours dans le `<head>` de `app.blade.php` :
-
-- **gardez** les deux balises CDN (DaisyUI et `@tailwindcss/browser`) ;
-- **supprimez** les deux `<link rel="stylesheet">` vers `app.css` et `home.css` ;
-- à leur place, chargez la CSS commune (déjà déclarée dans `input`) :
-
-  ```blade
-  @vite(['resources/css/app.css'])
-  ```
-
-Les CSS propres à chaque page passeront par `@yield('styles')`.
-
-**Étape 4 — Extraire la navbar (optionnel mais recommandé)**
-
-Déplacez la navbar dans `resources/views/partials/nav.blade.php`, puis insérez-la dans le layout :
-
-```blade
-@include('partials.nav')
-```
-
-> 💡 Le layout ne s'affiche pas tout seul : vous le verrez à l'écran à la fin de A3, quand une page l'étendra.
-
-### A3 — `GameController` et la page d'accueil
-
-**Étape 1 — Générer le contrôleur**
+**Étape A1.3** — Nommez la route `games.show` et vérifiez-la :
 
 ```bash
-./vendor/bin/sail artisan make:controller GameController
+./vendor/bin/sail artisan route:list
 ```
 
-Le fichier créé est `app/Http/Controllers/GameController.php`.
+✅ `games.show` apparaît dans la liste.
 
-**Étape 2 — Décrire les jeux**
+> ✅ **Point de contrôle 1** — `/game/3` répond, `/game/abc` → 404, `games.show` dans `route:list`.
+> 🛟 Rattrapage : tag Campus Quest `s2-ch1-routing` du dépôt `School_Framework_CampusQuest`.
 
-Ouvrez `app/Http/Controllers/GameController.php` et ajoutez-y une propriété tableau d'**au moins 4 jeux**.
+### A2 — De la route à la vue (Chapitre 2)
+
+**Étape A2.1** — Créez `resources/views/home.blade.php` en copiant **tout** `home.html`. Supprimez les deux balises `<link rel="stylesheet">` vers `app.css` et `home.css` (les CSS arrivent à l'étape A5) ; gardez les deux balises CDN.
+
+**Étape A2.2** — Dans `routes/web.php`, faites répondre la route `/` par `view('home', ['games' => $games])`, nommée `home`. Définissez `$games` juste au-dessus : un tableau d'**au moins 4 jeux**, indexé par id (`1 => [...]`).
 
 Chaque jeu suit le modèle de données du programme : `title`, `synopsis`, `release_year`, `rating`, `category`, `platforms`, `cover_url`.
 
 > 💡 Pour `cover_url`, vous pouvez utiliser `https://via.assets.so/game.png?id=N&q=95&w=300&h=450&fit=cover` avec un `id` différent par jeu.
 
-**Étape 3 — Écrire l'action `index()`**
+✅ `/` affiche la maquette (sans ses couleurs, c'est normal).
 
-Toujours dans `GameController.php`, écrivez l'action `index()` qui passe ce tableau à une vue `home` (fichier `resources/views/home.blade.php`, créé à l'étape 5).
+**Étape A2.3** — Dans la grille de cartes de `home.blade.php`, ne gardez **qu'une carte** et faites-la boucler avec `@forelse ($games as $id => $game)` / `@empty`, en affichant les champs avec `{{ }}`.
 
-**Étape 4 — Brancher la route `/`**
+✅ Une carte par jeu du tableau.
 
-Ouvrez `routes/web.php` et remplacez la route `/` existante par une route vers l'action `index`, nommée `home` :
+**Étape A2.4** — Le bouton « Details » de la carte pointe vers `route('games.show', $id)`.
 
-```php
-Route::get('/', [GameController::class, 'index'])->name('home');
+✅ Le bouton mène à `/game/{id}`.
+
+> ✅ **Point de contrôle 2** — l'accueil est une vue Blade avec ses 4+ cartes générées par la boucle.
+> 🛟 Rattrapage : tag `s2-ch2-blade-vue`.
+
+### A3 — Le contrôleur (Chapitre 3)
+
+**Étape A3.1** — Générez le contrôleur :
+
+```bash
+./vendor/bin/sail artisan make:controller GameController
 ```
 
-**Étape 5 — Construire la vue d'accueil**
+**Étape A3.2** — Déplacez votre tableau dans `app/Http/Controllers/GameController.php`, comme propriété `private array $games` (même contenu, même clés).
 
-Créez `resources/views/home.blade.php` à partir du **contenu du `<main>`** de `home.html` (hero + section catalogue), et faites-la étendre le layout :
+**Étape A3.3** — Écrivez l'action `index()` qui renvoie `view('home', ['games' => $this->games])`, puis remplacez la closure de la route `/` par `[GameController::class, 'index']` (nom `home` conservé).
 
-```blade
-@extends('layouts.app')
-```
+✅ L'accueil s'affiche **à l'identique**.
 
-Dans la grille de cartes, ne gardez **qu'une seule carte** et faites-la boucler sur vos jeux avec `@forelse` sur `$games` — l'id du jeu se récupère dans la clé (`$id => $game`).
+**Étape A3.4** — Créez `resources/views/game-detail.blade.php` en copiant `game-detail.html` (supprimez, comme en A2.1, les `<link>` vers `app.css` et `game-detail.css`), rempli avec la variable `$game`.
 
-**Étape 6 — Déclarer la CSS de la page à Vite**
+**Étape A3.5** — Ajoutez l'action `show(int $id)` qui renvoie `view('game-detail', ['game' => $this->games[$id], 'id' => $id])`.
 
-Ouvrez `vite.config.js` et ajoutez `'resources/css/home.css'` au tableau `input`.
-
-> ⚠️ **Chaque fichier CSS/JS chargé par `@vite` doit figurer dans `input`.**
-
-**Étape 7 — Charger la CSS dans la vue**
-
-Dans `resources/views/home.blade.php`, remplissez la section `styles` :
-
-```blade
-@section('styles')
-    @vite('resources/css/home.css')
-@endsection
-```
-
-✅ Vérification : ouvrez [http://localhost](http://localhost) — l'accueil WishFlix s'affiche avec ses styles. Si vous voyez « Vite manifest not found », `sail npm run dev` ne tourne pas.
-
-> La page Laravel par défaut ne déclenche jamais cette erreur (elle vérifie d'abord que Vite tourne) : c'est la première fois que vous pouvez la rencontrer.
-
-### A4 — La fiche jeu `/game/{id}`
-
-**Étape 1 — Écrire l'action `show()`**
-
-Ouvrez `app/Http/Controllers/GameController.php` et ajoutez l'action `show(int $id)` :
-
-- si l'id n'existe pas dans le tableau → `abort(404)` ;
-- sinon → passer le jeu (et son id) à une vue `game-detail` (fichier `resources/views/game-detail.blade.php`).
-
-**Étape 2 — Déclarer la route**
-
-Ouvrez `routes/web.php` et déclarez la route `GET /game/{id}` vers l'action `show`, nommée `games.show`, avec un paramètre **contrainte numérique** (`whereNumber`) :
+**Étape A3.6** — Remplacez la closure de `/game/{id}` par `[GameController::class, 'show']` ; gardez `whereNumber` et le nom `games.show` :
 
 ```php
 Route::get('/game/{id}', [GameController::class, 'show'])
@@ -186,63 +119,111 @@ Route::get('/game/{id}', [GameController::class, 'show'])
     ->name('games.show');
 ```
 
-**Étape 3 — Construire la vue de la fiche**
+✅ `/game/1` affiche la fiche du jeu n°1. (`/game/999` plante encore : c'est normal, voir A6.)
 
-Créez `resources/views/game-detail.blade.php` : elle étend le layout et reprend le `<main>` de `game-detail.html`, rempli avec le jeu reçu.
+> ✅ **Point de contrôle 3** — plus de tableau dans `web.php`, `route:list` affiche `GameController@index` et `GameController@show`.
+> 🛟 Rattrapage : tag `s2-ch3-controleurs`.
 
-**Étape 4 — Brancher sa CSS**
+### A4 — Le layout (Chapitre 4)
 
-Dans `vite.config.js`, ajoutez `'resources/css/game-detail.css'` au tableau `input`.
+**Étape A4.1** — Créez `resources/views/layouts/app.blade.php` à partir de la **coquille commune** de `home.blade.php` : `<!doctype>`, `<head>` (balises CDN comprises), navbar et footer. Remplacez le titre par `@yield('title')` et le contenu du `<main>` par `@yield('content')`.
 
-Puis dans `resources/views/game-detail.blade.php`, remplissez la section `styles` :
+**Étape A4.2** — Dans `home.blade.php`, ne gardez que le contenu du `<main>` et faites-le étendre le layout :
 
 ```blade
-@section('styles')
-    @vite('resources/css/game-detail.css')
+@extends('layouts.app')
+
+@section('title', 'Accueil')
+
+@section('content')
+    {{-- hero + catalogue --}}
 @endsection
 ```
 
-✅ Vérification :
+**Étape A4.3** — Faites de même pour `game-detail.blade.php` (titre : le titre du jeu).
 
-- [http://localhost/game/1](http://localhost/game/1) affiche la fiche du jeu ;
-- [http://localhost/game/999](http://localhost/game/999) → 404 par `abort` ;
-- [http://localhost/game/abc](http://localhost/game/abc) → 404 par la contrainte.
+**Étape A4.4** — Déplacez la navbar dans `resources/views/partials/nav.blade.php` et insérez-la dans le layout avec `@include('partials.nav')`.
 
-### A5 — Des liens générés, pas écrits en dur
+✅ Modifier un libellé de la navbar change les **deux** pages.
 
-**Étape 1 — Le bouton « Details » des cartes**
+> ✅ **Point de contrôle 4** — navbar et footer n'existent qu'une fois ; les deux pages étendent le layout.
+> 🛟 Rattrapage : tag `s2-ch4-layouts`.
 
-Dans la boucle de `resources/views/home.blade.php`, faites pointer le bouton « Details » de chaque carte vers la route nommée :
+### A5 — Vite et les CSS (Chapitre 5)
 
-```blade
-route('games.show', $id)
+**Étape A5.1** — Lancez Vite dans un second terminal (laissez-le ouvert) :
+
+```bash
+./vendor/bin/sail npm run dev
 ```
 
-**Étape 2 — Les liens de la navbar**
+**Étape A5.2** — Copiez les CSS des maquettes avec le **script fourni**. Depuis le dossier `exercices/framework` du dépôt K.School :
 
-Dans la navbar (le layout, ou `partials/nav.blade.php` si vous l'avez extraite), utilisez les routes nommées pour les liens « Accueil », « Wishlist » et « Se connecter » : `home` existe déjà ; `wishlist` et `login` arriveront en partie B — en attendant, mettez `#` ou la route quand elle existe.
+```bash
+npm run 02-routing-blade -- /chemin/vers/wishflix
+```
 
-**Étape 3 — Le bouton du hero**
+Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`, `login`, `404`) dans `resources/css/` de votre projet. Votre ancien `app.css` est sauvegardé en `app.css.orig`. Utilisez un chemin **absolu** pour éviter les erreurs de dossier.
 
-Toujours dans `home.blade.php`, faites pointer le bouton « Voir la fiche » du hero vers la fiche du jeu mis en avant.
+> 💡 Distribution : le script vit dans le dépôt K.School (que vous avez cloné ou téléchargé), à côté des maquettes. Si vous n'avez pas Node.js hors Sail, copiez à la main les six fichiers CSS de `scenarios/WishFlix/src/` dans `resources/css/` de votre projet.
 
-### ✅ Checkpoint de fin de séance
+✅ `resources/css/` contient `app.css`, `home.css`, `game-detail.css`, `wishlist.css`, `login.css`, `404.css`.
 
-- [ ] `sail up -d` et `sail npm run dev` tournent, pas d'erreur « Vite manifest not found »
-- [ ] `/` affiche l'accueil WishFlix avec la navbar, le hero et **vos 4+ jeux** en cartes
-- [ ] Chaque carte mène à `/game/{id}` via `route('games.show', $id)`
-- [ ] `/game/999` et `/game/abc` renvoient une 404
-- [ ] La navbar et le footer n'existent que dans le layout (et `partials.nav` si extrait)
-- [ ] `sail artisan route:list` montre vos deux routes nommées
-- [ ] Commit poussé sur votre dépôt GitHub privé
+**Étape A5.3** — Ouvrez `vite.config.js` et ajoutez `'resources/css/home.css'` et `'resources/css/game-detail.css'` au tableau `input` (ne modifiez que ce tableau ; laissez `tailwindcss()`).
 
-> Tout est coché ? Vous venez de transformer un site statique en application Laravel : c'est sur cette base que s'appuie tout le reste du module.
+> ⚠️ **Chaque fichier CSS/JS chargé par `@vite` doit figurer dans `input`.**
+
+**Étape A5.4** — Dans le `<head>` du layout, après le titre, ajoutez :
+
+```blade
+@vite(['resources/css/app.css'])
+@yield('styles')
+```
+
+**Étape A5.5** — Dans `home.blade.php` puis `game-detail.blade.php`, chargez la CSS de la page :
+
+```blade
+@section('styles')
+    @vite('resources/css/home.css')
+@endsection
+```
+
+(`game-detail.css` pour la fiche.)
+
+✅ L'accueil et la fiche ont les couleurs WishFlix. Si vous voyez « Vite manifest not found », `sail npm run dev` ne tourne pas.
+
+> ✅ **Point de contrôle 5** — pages stylées, Vite tourne.
+> 🛟 Rattrapage : tag `s2-ch5-vite`.
+
+### A6 — La page 404 (Chapitre 6)
+
+**Étape A6.1** — Dans `show()`, avant le `return` :
+
+```php
+abort_unless(isset($this->games[$id]), 404);
+```
+
+✅ `/game/999` affiche la 404 de Laravel.
+
+**Étape A6.2** — Créez `resources/views/errors/404.blade.php` depuis `404.html` : elle étend le layout, charge `404.css` (ajoutez-la à `input`) et son lien de retour utilise `route('home')`.
+
+**Étape A6.3** — Vérifiez les **deux** cas : `/game/999` (via `abort`) et `/url-inexistante` (aucune route).
+
+> ✅ **Point de contrôle 6 (fin de la Partie A, requis pour la S3)**
+>
+> - [ ] `sail up -d` et `sail npm run dev` tournent, pas de « Vite manifest not found »
+> - [ ] `/` affiche vos 4+ jeux, chaque carte mène à `/game/{id}` via `route('games.show', $id)`
+> - [ ] `/game/999` et `/url-inexistante` affichent la 404 WishFlix ; `/game/abc` renvoie aussi une 404 (contrainte)
+> - [ ] `sail artisan route:list` montre `home` et `games.show`
+> - [ ] Commit poussé sur votre dépôt GitHub privé
+>
+> 🛟 Rattrapage : tag `s2-ch6-erreurs`.
 
 ---
 
-## Partie B — Chez vous (user stories)
+## Partie B — Attendu (chez vous, ≈ 1h15)
 
-### US1 — Page wishlist
+### US1 — Page wishlist (≈ 40 min)
 
 **En tant que** joueur, **je veux** consulter ma wishlist sur `/wishlist`, **afin de** retrouver les jeux mis de côté.
 
@@ -253,7 +234,7 @@ Critères d'acceptation :
 - Le lien « Wishlist » de la navbar pointe vers cette route nommée
 - Contenu statique accepté (les vraies données utilisateur arrivent en S6)
 
-### US2 — Page de connexion
+### US2 — Page de connexion (≈ 35 min)
 
 **En tant que** joueur, **je veux** voir le formulaire de connexion sur `/login`, **afin de** préparer mon compte.
 
@@ -262,16 +243,6 @@ Critères d'acceptation :
 - Route `GET /login` nommée `login`, vue issue de `login.html` qui étend le layout, avec `login.css`
 - **GET uniquement** : le formulaire ne fonctionne pas encore (traitement en S6) — c'est normal et attendu
 - Le bouton « Se connecter » de la navbar pointe vers cette route
-
-### US3 — Page 404 personnalisée
-
-**En tant que** joueur, **je veux** une page d'erreur aux couleurs WishFlix, **afin de** ne pas tomber sur l'erreur brute de Laravel.
-
-Critères d'acceptation :
-
-- `resources/views/errors/404.blade.php` construit depuis `404.html`, qui étend le layout avec `404.css`
-- Vérifiée **deux façons** : `/game/999` (via `abort`) et `/url-inexistante` (aucune route) affichent toutes deux la page WishFlix
-- Le lien de retour utilise `route('home')`
 
 ---
 
@@ -298,7 +269,7 @@ Bonne nouvelle : il n'y a pas de magie, c'est du PHP, et vous savez lire du PHP.
 
 ### C1 — Ce que devient votre `{{ ... }}` (Observer, ~10 min)
 
-**Point de départ** : dans `resources/views/home.blade.php`, le `{{ $game['title'] }}` que vous avez écrit en A3.
+**Point de départ** : dans `resources/views/home.blade.php`, le `{{ $game['title'] }}` que vous avez écrit en A2.
 
 Laravel n'exécute pas vos `.blade.php` tels quels : il les **compile** une fois en PHP pur et range le résultat dans `storage/framework/views/`, sous un nom haché illisible. Chaque fichier compilé se termine par un commentaire `<?php /**PATH /chemin/vers/la/vue.blade.php ENDPATH**/ ?>` qui dit de quelle vue il vient.
 
@@ -348,7 +319,7 @@ Votre `{{ }}` a été remplacé par un appel à une fonction `e(...)`.
 
 ### C2 — Qui répond à `->whereNumber('id')` (Relier, ~15 min)
 
-**Point de départ** : dans `routes/web.php`, le `->whereNumber('id')` écrit en A4.
+**Point de départ** : dans `routes/web.php`, le `->whereNumber('id')` écrit en A1.
 
 `whereNumber` s'utilise sur votre route… pourtant vous ne le trouverez pas dans la classe `Route` elle-même : il vient d'un **trait**. Un trait est une « boîte d'outils » de méthodes qu'une classe branche sur elle avec le mot-clé `use` (dans le corps de la classe) — les méthodes du trait deviennent alors des méthodes de la classe.
 
@@ -399,9 +370,9 @@ Votre `{{ }}` a été remplacé par un appel à une fonction `e(...)`.
 
 ### C3 — De `abort(404)` à votre page 404 (Raisonner, ~20 min)
 
-**Prérequis** : l'US3 terminée — votre `resources/views/errors/404.blade.php` existe.
+**Prérequis** : l'étape A6 terminée — votre `resources/views/errors/404.blade.php` existe.
 
-**Point de départ** : dans `GameController::show`, le `abort(404)` / `abort_unless(...)` écrit en A4 — et cette même page 404 WishFlix qui s'affiche aussi sur `/url-inexistante`.
+**Point de départ** : dans `GameController::show`, le `abort(404)` / `abort_unless(...)` écrit en A6 — et cette même page 404 WishFlix qui s'affiche aussi sur `/url-inexistante`.
 
 Vocabulaire : une **exception** est un signal d'erreur qu'un bout de code **lance** avec le mot-clé `throw` pour dire « je ne peux pas continuer » ; un autre bout du framework, plus loin, le rattrape et décide quoi répondre. Toute la question de ce C3 : qui lance l'exception du 404, et qui choisit votre vue ?
 
@@ -462,6 +433,255 @@ Et `/url-inexistante`, qui ne correspond à aucune route ?
 **À noter dans `REPONSES.md`** : en 3 à 5 phrases, racontez toute la chaîne qui transforme `abort(404)` — ou une URL sans route — en votre page 404 WishFlix, en nommant le fichier et la méthode de chaque étape.
 
 ### Indices de la Partie C
+
+<details>
+<summary>Niveau 1 — Où chercher</summary>
+
+- **C1** : le résultat de la compilation est dans `storage/` — le dossier où Laravel range ce qu'il génère à l'exécution — sous-dossier `framework/views/`. `e()` est une fonction d'aide du framework : les helpers « génériques » vivent dans `Illuminate/Support/`.
+- **C2** : le code des `whereXxx` n'est pas dans `Route.php` mais dans un autre fichier du dossier `Illuminate/Routing/`, dont le nom parle d'« expressions régulières ».
+- **C3** : `abort` vit dans un `helpers.php` — celui d'`Illuminate/Foundation/` (pas celui de `Support`). Le choix de la vue d'erreur se joue dans `Illuminate/Foundation/Exceptions/`. Pour l'URL sans route, restez dans `Illuminate/Routing/`.
+
+</details>
+
+<details>
+<summary>Niveau 2 — Quel fichier, quelle méthode</summary>
+
+- **C1** : `Illuminate/View/Compilers/Concerns/CompilesEchos.php` → `compileRegularEchos` (le `{{ }}`) et `compileRawEchos` (le `{!! !!}`) ; le format `e(%s)` est la constante `DEFAULT_ECHO_FORMAT` de `Illuminate/View/Compilers/BladeCompiler.php`. `Illuminate/Support/helpers.php` → fonction `e`.
+- **C2** : `Illuminate/Routing/CreatesRegularExpressionRouteConstraints.php` (le trait) → `whereNumber`, `assignExpressionToParameters` ; `Illuminate/Routing/Route.php` → la ligne `use` des traits en haut de la classe, puis la méthode `where`.
+- **C3** : `Illuminate/Foundation/helpers.php` → `abort` ; `Illuminate/Foundation/Application.php` → `abort` ; `Illuminate/Foundation/Exceptions/Handler.php` → `renderHttpException` puis `getHttpExceptionView` ; `Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php` → `__invoke` ; `Illuminate/Routing/AbstractRouteCollection.php` → `handleMatchedRoute`.
+
+</details>
+
+<details>
+<summary>Niveau 3 — Extraits du framework (annotés)</summary>
+
+**C1 — la compilation des `{{ }}` et des `{!! !!}`** (`Illuminate/View/Compilers/Concerns/CompilesEchos.php`) :
+
+```php
+protected function compileRegularEchos($value)     // pour {{ ... }}
+{
+    $callback = function ($matches) {
+        // ...
+        $wrapped = sprintf($this->echoFormat, $this->wrapInEchoHandler($matches[2]));
+        // echoFormat vaut 'e(%s)' → $wrapped contient e($game['title'])
+        return $matches[1] ? substr($matches[0], 1)
+                           : "<?php echo {$wrapped}; ?>{$whitespace}";
+        // résultat : <?php echo e($game['title']); ?>
+    };
+}
+
+protected function compileRawEchos($value)         // pour {!! ... !!}
+{
+    $callback = function ($matches) {
+        // ...
+        return $matches[1] ? substr($matches[0], 1)
+                           : "<?php echo {$this->wrapInEchoHandler($matches[2])}; ?>{$whitespace}";
+        // résultat : <?php echo $game['title']; ?> — pas de e(), le HTML est brut
+    };
+}
+```
+
+**C1 — la fin de `e()`** (`Illuminate/Support/helpers.php`) :
+
+```php
+function e($value, $doubleEncode = true): string
+{
+    // ... cas particuliers (enum, objet Htmlable) ...
+    return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
+    // htmlspecialchars : fonction PHP native qui transforme <, >, ", ' en entités
+    // $value ?? '' : l'opérateur ?? renvoie la gauche si elle existe et n'est pas
+    // null, sinon la droite — ici '' (chaîne vide) quand $value est null
+}
+```
+
+**C2 — le trait des contraintes** (`Illuminate/Routing/CreatesRegularExpressionRouteConstraints.php`) :
+
+```php
+trait CreatesRegularExpressionRouteConstraints    // ← un trait, pas une classe
+{
+    public function whereNumber($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[0-9]+');
+    }
+
+    public function whereAlpha($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[a-zA-Z]+');
+    }
+
+    public function whereAlphaNumeric($parameters)
+    {
+        return $this->assignExpressionToParameters($parameters, '[a-zA-Z0-9]+');
+    }
+
+    protected function assignExpressionToParameters($parameters, $expression)
+    {
+        return $this->where(Collection::wrap($parameters)
+            ->mapWithKeys(fn ($parameter) => [$parameter => $expression])
+            ->all());                        // appelle where(['id' => '[0-9]+'])
+    }
+}
+```
+
+**C2 — le rangement** (`Illuminate/Routing/Route.php`) :
+
+```php
+class Route
+{
+    use Conditionable, CreatesRegularExpressionRouteConstraints, /* ... */;
+    // ↑ le trait est « branché » ici : whereNumber devient une méthode de Route
+
+    public function where($name, $expression = null)
+    {
+        foreach ($this->parseWhere($name, $expression) as $name => $expression) {
+            $this->wheres[$name] = $expression;     // la regex est rangée ici
+        }
+        return $this;
+    }
+}
+```
+
+**C3 — la chaîne du 404** :
+
+```php
+// Illuminate/Foundation/helpers.php
+function abort($code, $message = '', array $headers = [])
+{
+    // ...
+    app()->abort($code, $message, $headers);   // délègue à l'objet Application
+}
+
+// Illuminate/Foundation/Application.php
+public function abort($code, $message = '', array $headers = [])
+{
+    if ($code == 404) {
+        throw new NotFoundHttpException($message, null, 0, $headers);  // cas 404
+    }
+    throw new HttpException($code, $message, null, $headers);          // les autres codes
+}
+
+// Illuminate/Foundation/Exceptions/Handler.php
+protected function renderHttpException(HttpExceptionInterface $e)
+{
+    $this->registerErrorViewPaths();                // 1) enregistrer les dossiers errors::
+    if ($view = $this->getHttpExceptionView($e)) {  // 2) trouver la vue d'erreur
+        // ... response()->view($view, ...) ...
+    }
+    // sinon : page d'erreur par défaut
+}
+
+protected function getHttpExceptionView(HttpExceptionInterface $e)
+{
+    $view = 'errors::'.$e->getStatusCode();         // 'errors::404'
+    if (view()->exists($view)) {
+        return $view;
+    }
+    $view = substr($view, 0, -2).'xx';              // 'errors::4xx' — le plan B
+    if (view()->exists($view)) {
+        return $view;
+    }
+    return null;
+}
+```
+
+**C3 — les dossiers `errors::`** (`Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php`) :
+
+```php
+View::replaceNamespace('errors', (new Collection(config('view.paths')))
+    ->map(fn ($path) => "{$path}/errors")   // resources/views/errors : VOTRE dossier, en premier
+    ->push(__DIR__.'/views')                 // puis les vues d'erreur du framework
+    ->all()
+);
+```
+
+**C3 — l'URL sans route** (`Illuminate/Routing/AbstractRouteCollection.php`, méthode `handleMatchedRoute`) :
+
+```php
+throw new NotFoundHttpException(sprintf(
+    'The route %s could not be found.',
+    $request->path()
+));
+```
+
+</details>
+
+---
+
+## Bonus
+
+### US3 (bonus) — Filtrer le catalogue
+
+**En tant que** joueur, **je veux** filtrer l'accueil avec `/?category=RPG`, **afin de** ne voir qu'un genre de jeux.
+
+Critères d'acceptation :
+
+- `GameController::index` reçoit l'objet `Request` et lit `$request->query('category')`
+- Sans paramètre, tous les jeux s'affichent ; avec une catégorie inconnue, le cas `@empty` s'affiche
+- Contenu filtré avec `array_filter` (la version avec la base arrive en S4)
+
+### Bonus 1 — Des liens générés partout
+
+- Le bouton « Voir la fiche » du hero pointe vers la fiche du jeu mis en avant via `route('games.show', ...)`
+- Les liens « Accueil », « Wishlist » et « Se connecter » de la navbar utilisent `route()`
+- Plus aucun `href="/..."` interne en dur
+
+### Bonus 2 — Tailwind et DaisyUI via Vite
+
+Remplacez les balises CDN (link DaisyUI + script `@tailwindcss/browser`) par Tailwind CSS + DaisyUI servis **via Vite**.
+
+✅ Vérification : le rendu est identique **sans** aucune balise CDN dans le layout.
+
+Bon à savoir : Tailwind est **déjà installé** dans votre projet Laravel (paquet npm + plugin `tailwindcss()` dans `vite.config.js`) — ne suivez pas un guide d'installation Tailwind « from scratch ». Il reste à ajouter DaisyUI et à réactiver Tailwind dans `app.css` : voir la [page d'installation DaisyUI pour Laravel](https://daisyui.com/docs/install/laravel/).
+
+<details>
+<summary>Indice 1 — Par où commencer</summary>
+
+Le script de l'étape A5.2 a remplacé les lignes de `app.css` qui activaient Tailwind (l'ancien fichier est dans `resources/css/app.css.orig`). DaisyUI est un **plugin** de Tailwind : il s'installe avec npm, puis se déclare dans ce même `app.css`, à côté de Tailwind.
+
+</details>
+
+<details>
+<summary>Indice 2 — Les étapes</summary>
+
+1. Installer le paquet `daisyui` en dépendance de développement (via `sail npm`)
+2. Remettre en **tête** de `resources/css/app.css` l'import de Tailwind et ses `@source`, puis une ligne `@plugin` pour DaisyUI — votre CSS WishFlix reste en dessous
+3. Supprimer les deux balises CDN du layout (`app.css` est déjà chargé par `@vite`)
+
+</details>
+
+<details>
+<summary>Indice 3 — Squelette</summary>
+
+```bash
+./vendor/bin/sail npm install -D daisyui@latest
+```
+
+En tête de `resources/css/app.css`, au-dessus de votre CSS WishFlix :
+
+```css
+@import "tailwindcss";
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "daisyui";
+```
+
+Gardez `data-theme="dark"` sur la balise `<html>` : c'est lui qui active le thème sombre de DaisyUI.
+
+</details>
+
+### Bonus 3 — Lien actif dans la navbar
+
+Mettez en évidence le lien de navbar correspondant à la page courante (la classe `wishflix-shell__link--active` des maquettes).
+
+> 💡 `request()->routeIs('...')` permet de tester le nom de la route courante — voir la [documentation Requests](https://laravel.com/framework/docs/12.x/requests). La navbar ne doit pas connaître la page : c'est la vue/le layout qui décide.
+
+---
+
+## Indices de la Partie C
 
 <details>
 <summary>Niveau 1 — Où chercher</summary>
@@ -759,11 +979,8 @@ Boucle de la vue d'accueil :
 - [ ] Le projet tourne (`sail up -d` + `sail npm run dev`) sans « Vite manifest not found »
 - [ ] `vite.config.js` déclare `app.css` + les CSS de chaque page utilisée
 - [ ] `layouts/app.blade.php` contient navbar + footer en un seul endroit, avec `@yield('title')`, `@yield('styles')`, `@yield('content')`
-- [ ] `/` (route `home`) affiche au moins 4 jeux issus du tableau PHP, chacun avec titre, catégorie, note, jaquette
-- [ ] `/game/{id}` (route `games.show`, `whereNumber`) affiche la fiche du bon jeu ; `/game/999` → 404 ; `/game/abc` → 404
-- [ ] Aucun `href="/..."` en dur : tous les liens internes passent par `route()`
-- [ ] US1–US3 : `/wishlist`, `/login` et la 404 personnalisée fonctionnent et étendent le layout
+- [ ] `/` (route `home`) affiche au moins 4 jeux issus du tableau PHP du `GameController`, chacun avec titre, catégorie, note, jaquette
+- [ ] `/game/{id}` (route `games.show`, `whereNumber`) affiche la fiche du bon jeu ; `/game/999` → 404 ; `/game/abc` → 404 ; la 404 est celle de WishFlix
+- [ ] US1–US2 : `/wishlist` et `/login` fonctionnent et étendent le layout
 - [ ] `REPONSES.md` contient la section « Séance 2 — Sous le capot » avec les réponses de C1–C3 et le chemin suivi (fichier → méthode) pour chacune
 - [ ] Commits réguliers poussés sur le dépôt GitHub privé
-
-**Temps estimé** : Partie A ≈ 2h · Partie B ≈ 2h · Partie C ≈ 45 min · Bonus ≈ 1h chacun

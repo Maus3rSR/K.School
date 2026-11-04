@@ -21,9 +21,11 @@ transition: slide-left | slide-right
 
 🐳 [Laravel Sail](https://laravel.com/docs/sail) - Environnement Docker officiel basé sur Docker Compose
 
-�️ [Laravel Herd](https://herd.laravel.com/) - Outil local de développement rapide (plan B sans Docker)
+🖥️ [Laravel Herd](https://herd.laravel.com/) - Outil local de développement rapide (plan B sans Docker)
 
 📊 [Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/technology) - Données sur l'usage des frameworks web
+
+🧭 [Symfony](https://symfony.com/doc/current/index.html) et [NestJS](https://docs.nestjs.com/) - Frameworks comparés à Laravel (annexe en fin de deck)
 
 <!--
 Insister sur le fait que la doc officielle Laravel est la source de vérité.

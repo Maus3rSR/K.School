@@ -156,6 +156,18 @@ duration: 30 min
 - Headmatter : `monaco: true` — Monaco est actif en développement et dans le build statique. Attention : le build peut alors dépasser le heap Node par défaut (~2 Go) à cause des workers TypeScript. En cas d'OOM, relancer avec `NODE_OPTIONS=--max-old-space-size=6144`.
 - Si vous n'avez pas besoin de Monaco dans l'export statique, `monaco: dev` exclut les workers du build (plus rapide, plus léger) tout en le gardant en serveur de dev.
 
+#### Cohérence de `duration` et densité (OBLIGATOIRE)
+
+- `duration` est un **repère** qui couvre tout le cycle du chapitre : slides + livecoding + micro-pratique « à vous ».
+- Somme des `duration` des chapitres + pratique en séance + pauses ≤ durée de la séance **− 10 %** (marge). Les durées de séance sont déclarées dans le `programme.md` du cours.
+- Une slide d'exercice et le README correspondant annoncent la **même** charge.
+- Densité : un chapitre introduit **une notion** (règle « un chapitre = un concept ») et reste sous ≈ 12 slides de contenu ; au-delà, scinder ou passer une partie en démo / bonus.
+
+#### Alignement avec le livecoding (OBLIGATOIRE)
+
+- Quand le cours a un livecoding (`LIVECODING.md`), ses étapes suivent **l'ordre des slides** et indiquent le chapitre de chacune. Une étape qui revient sur un chapitre déjà clos est un défaut.
+- Un concept spatial ou de flux (requête, relation, cycle de vie) exige un **schéma animé** : Mermaid avec révélation, `v-click`, `magic-move`.
+
 ### Convention de transitions (horizontal vs vertical)
 
 Slidev a une navigation **linéaire** : les slides défilent toujours l'une après l'autre. « Vertical / horizontal » n'est que la **direction visuelle** de la transition.

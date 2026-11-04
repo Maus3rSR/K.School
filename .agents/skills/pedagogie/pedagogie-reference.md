@@ -2,10 +2,46 @@
 
 ## Public Cible
 
-- **Profil**: Adultes en reconversion professionnelle
-- **Niveau**: Débutants sans expérience préalable
-- **Contexte**: Apprentissage intensif avec objectif d'employabilité
+- **Profil**: Débutants sur le sujet du cours (adultes en reconversion, étudiants de BUT…)
+- **Niveau et prérequis**: déclarés dans le `programme.md` de chaque cours (ex. bases de programmation acquises en BUT)
+- **Contexte**: Apprentissage intensif, application immédiate sur un projet
 - **Besoins**: Confiance, progression visible, applicabilité immédiate
+
+## Séquencement et Rythme
+
+### Le cycle « notion complète »
+
+1. **Accroche** : un problème concret, souvent provoqué en direct (erreur, code qui grossit, page lente)
+2. **Démo** : livecoding sur le sujet de démonstration du cours
+3. **Micro-pratique « à vous »** : la même notion transposée sur le projet des apprenants, terminée par un point de contrôle vérifiable
+
+Une séance enchaîne ces cycles sans coupure fixe entre théorie et pratique.
+
+### Un seul ordre pour tout
+
+L'ordre des slides, l'ordre des étapes du livecoding et l'ordre des étapes du TP sont **identiques**. Diagnostic : pour chaque étape du TP, retrouver le chapitre qui l'enseigne ; il doit précéder l'étape. Un « ping-pong » (le livecoding revient sur un chapitre déjà clos, le TP demande une notion pas encore vue) est un défaut à corriger.
+
+### La douleur avant la solution
+
+Une abstraction (helper, raccourci, couche, package) s'introduit **après** que les apprenants ont ressenti le problème qu'elle résout. Ex. : écrire les routes une par une avant le raccourci qui les génère ; provoquer l'erreur de sécurité avant d'ajouter la protection ; laisser un contrôleur grossir avant d'extraire un service.
+
+### Budget de densité
+
+- 3-4 notions nouvelles par séance
+- Un seul « aperçu » au maximum (notion montrée, non pratiquée)
+- Ce qui dépasse passe en démo, en bonus, ou dans une autre séance
+
+### Visuel et humour
+
+- Tout flux ou relation a un schéma **animé** (révélation progressive, `magic-move`, Mermaid)
+- Chaque chapitre prévoit dans les notes un moment léger : erreur volontaire, running gag, anecdote
+
+### Marge et lenteur
+
+- Somme des durées planifiées ≤ durée de la séance − 10 %
+- Hypothèse : les apprenants pratiquent 2 à 3 fois moins vite que la démo
+- Les retards se rattrapent par des paliers (état de référence récupérable), jamais en rallongeant la séance
+- Aucune durée fixe dans les skills : elles sont déclarées dans le cours
 
 ## Principes Fondamentaux
 
@@ -88,10 +124,10 @@
 
 ### Rythme et Charge Cognitive
 
-- **Pauses régulières**: Toutes les 45-60 minutes
+- **Pauses régulières**: prévues dans le format de séance du cours
 - **Récapitulatifs**: Fin de chaque section
 - **Répétition espacée**: Revoir les concepts clés plusieurs fois
-- **Charge cognitive limitée**: 3-5 nouveaux concepts par session
+- **Charge cognitive limitée**: 3-4 nouveaux concepts par séance, un seul aperçu
 
 ## Architecture des Slides
 

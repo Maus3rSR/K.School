@@ -59,10 +59,29 @@ exercices/
 Chaque exercice doit contenir un `README.md` avec :
 
 - Objectif
-- Prérequis
+- Prérequis (chapitres du cours nécessaires)
+- Charge (voir ci-dessous)
 - Instructions étape par étape
 - Critères de réussite
-- Temps estimé
+
+> Avant d'écrire un exercice, lire le `programme.md` du cours (section « Format de séance ») et son `AGENTS.md` s'il existe : structure des parties, budget de travail personnel et mode de rattrapage y sont définis.
+
+### Charge plutôt que « temps estimé »
+
+Une durée affichée devient une promesse que l'apprenant lent ne tient pas. Indiquer à la place :
+
+- La **charge en trois niveaux** : **socle** (en séance, obligatoire), **attendu** (travail personnel), **bonus** (facultatif)
+- Un **socle faisable par un apprenant lent** : les estimations du concepteur supposent un rythme rapide ; compter 2 à 3 fois plus pour un apprenant
+- Si un ordre de grandeur est donné, il est **indicatif** et le README le dit explicitement
+
+### Règles de rédaction des étapes
+
+- **Étape 0 — contrôle d'environnement** : une commande ou une page à ouvrir qui prouve que l'environnement fonctionne avant de commencer
+- **Une action vérifiable par étape** : consigne courte, résultat observable (page, commande, sortie attendue)
+- **Partie en séance découpée en micro-étapes** alignées sur les chapitres du cours, dans le même ordre ; chaque étape indique le chapitre qui l'enseigne (dépendance explicite, jamais vers un chapitre futur)
+- **Point de contrôle** à la fin de chaque groupe d'étapes, avec son **palier de rattrapage** : l'état de référence défini par le cours (ex. tag d'un dépôt de démonstration). Ne jamais créer de tag Git dans ce dépôt pour un rattrapage
+- **Jamais de première installation lourde en séance** (téléchargement d'images, d'outils) : elle se fait avant, ou se lance tôt en arrière-plan
+- Une copie manuelle répétitive (fichiers à recopier un par un) se remplace par un script fourni (voir « Scripts dans package.json »)
 
 ---
 
@@ -117,10 +136,13 @@ Quand ils existent, chaque package de cours a ses propres scripts dans `exercice
 Avant de publier un exercice :
 
 - [ ] Placé dans `exercices/<cours>/<XX-nom>/`
-- [ ] README.md avec structure complète (objectif, prérequis, instructions, critères, temps)
+- [ ] README.md avec structure complète (objectif, prérequis, charge, instructions, critères)
 - [ ] Script ajouté dans `exercices/<cours>/package.json` (uniquement s'il fait un vrai travail : génération, environnement, tests)
-- [ ] Instructions claires et étape par étape
+- [ ] Étape 0 de contrôle d'environnement
+- [ ] Instructions claires, une action vérifiable par étape, chapitre source indiqué
+- [ ] Ordre des étapes = ordre des chapitres du cours
+- [ ] Points de contrôle avec palier de rattrapage (sans tag Git dans ce dépôt)
 - [ ] Critères de réussite mesurables
-- [ ] Temps estimé indiqué
+- [ ] Charge indiquée (socle / attendu / bonus), socle faisable par un apprenant lent
 - [ ] Testé et fonctionnel
 - [ ] Fichiers de code sans consignes intégrées

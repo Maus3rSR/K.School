@@ -114,3 +114,16 @@ When a course has several decks (e.g. `courses/Framework/slides-routing.md`), a 
 ```json
 "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent"
 ```
+
+## Pedagogical frame of a course
+
+Before writing slides or exercises for a course (new or existing), make sure its `programme.md` declares a **« Format de séance »** section (in French, like the rest of the content):
+
+- audience level and prerequisites;
+- session length and rhythm in cycles (short theory → live demo → hands-on « à vous »), with a ≥ 10 % margin;
+- demo subject vs. project subject (never the same), and how learners catch up when late (reference state per checkpoint);
+- personal-work budget per week and evaluation weights.
+
+Course-specific rules for AI agents go in `courses/[FOLDER_NAME]/AGENTS.md` (and `exercices/[course]/AGENTS.md`), never in the global skills. Durations live in the course (`duration` of each chapter, `programme.md`), never in the skills.
+
+When a deck relies on live coding, create a `LIVECODING.md` next to the demo code (e.g. `scenarios/<Demo>/<stack>/seance-XX/LIVECODING.md`) whose steps follow the order of the slides and name the chapter of each step (see skills `pedagogie` and `slides`).

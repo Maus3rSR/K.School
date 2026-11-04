@@ -1,13 +1,31 @@
 ---
 name: pedagogie
-description: Guide d'ingénierie pédagogique K.School pour créer des cours et exercices destinés à des adultes en reconversion professionnelle. Invoquer quand on travaille sur les dossiers courses/ ou exercices/.
+description: Guide d'ingénierie pédagogique K.School pour créer des cours et exercices destinés à un public débutant sur le sujet (reconversion professionnelle, étudiants BUT…). Invoquer quand on travaille sur les dossiers courses/ ou exercices/.
 ---
 
-# Ingénierie Pédagogique - Public Débutant en Reconversion
+# Ingénierie Pédagogique - Public Débutant sur le Sujet
 
 ## Public Cible
 
-Adultes en reconversion professionnelle, débutants, apprentissage intensif avec objectif d'employabilité.
+Débutants **sur le sujet du cours** : adultes en reconversion, étudiants de BUT, etc. Le niveau, les prérequis et le format de séance sont **déclarés par chaque cours** dans son `programme.md` (section « Format de séance »).
+
+**Avant de créer ou modifier du contenu** : lire le `programme.md` du cours (et son `AGENTS.md` s'il existe). Les règles de ce skill sont communes à tous les cours ; les durées et les spécificités vivent dans le cours.
+
+## Séquencement et Rythme (OBLIGATOIRE)
+
+- **Une notion se traite complète** : accroche → démo (livecoding) → micro-pratique « à vous ». La séance est une suite de ces cycles, pas un bloc théorie suivi d'un bloc pratique.
+- **Un seul ordre** : ordre des slides = ordre de construction du livecoding = ordre des étapes du TP. Aucune slide ni étape de TP ne dépend d'une notion qui arrive plus tard.
+- **La douleur avant la solution** : chaque abstraction arrive **après** le problème qu'elle résout (ex. écrire 7 routes à la main avant `Route::resource`, provoquer l'erreur avant d'introduire la protection).
+- **Budget de densité** : peu de notions nouvelles par séance (3-4), et **un seul « aperçu »** (notion montrée sans être pratiquée) au maximum.
+- **Schéma animé obligatoire** pour tout concept de flux ou de relation (requête, cycle de vie, clé étrangère, table pivot…) : Mermaid, `v-click`, `magic-move`.
+- **Un moment léger par chapitre** dans les notes du présentateur : erreur volontaire, running gag du fil rouge, anecdote.
+- **Pas de durée fixe dans les skills** : le rythme se décrit en cycles. Les durées vivent dans le cours (`duration` des chapitres, `programme.md`).
+
+### Marge
+
+- Le contenu planifié **ne remplit jamais toute la séance** : garder **au moins 10 %** de marge (démarrage en retard, libération anticipée, souci technique, explication plus longue).
+- Les aléas de pratique se gèrent par des **paliers de rattrapage** (état de référence à récupérer à chaque point de contrôle), pas par du temps supplémentaire.
+- Les apprenants vont **2 à 3 fois moins vite** que la démo : dimensionner la pratique en séance sur cette hypothèse.
 
 ## Règles Essentielles pour les Slides
 
@@ -106,6 +124,10 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 
 - [ ] Termes techniques définis
 - [ ] Progression logique
+- [ ] Ordre slides = ordre du livecoding = ordre du TP, aucune dépendance vers une notion future
+- [ ] Chaque abstraction suit le problème qu'elle résout
+- [ ] Schéma animé pour chaque flux ou relation, un moment léger par chapitre (notes)
+- [ ] Marge ≥ 10 % sur la séance
 - [ ] Exemples concrets variés
 - [ ] Notes présentateur complètes
 
@@ -115,7 +137,7 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 - [ ] Instructions étape par étape
 - [ ] Indices à 3 niveaux
 - [ ] Critères de réussite mesurables
-- [ ] Temps estimé
+- [ ] Charge indiquée (socle / attendu / bonus), socle faisable par un apprenant lent
 - [ ] Sujet différent des slides de démonstration et des exercices précédents du même chapitre
 
 ## Langage Bienveillant
@@ -125,5 +147,5 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 
 ## Application
 
-**Objectif** : Donner confiance et compétence aux personnes en reconversion.
+**Objectif** : Donner confiance et compétence à des personnes qui débutent sur le sujet.
 **Principe** : Privilégier TOUJOURS la simplicité et la clarté sur la sophistication technique.

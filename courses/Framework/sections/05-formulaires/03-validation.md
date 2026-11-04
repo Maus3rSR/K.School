@@ -1,8 +1,8 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 04
-duration: 25 min
+number: 03
+duration: 40 min
 ---
 
 # La validation
@@ -12,7 +12,10 @@ duration: 25 min
 - Choisir les règles adaptées à chaque champ
 
 <!--
-Transition : le CRUD fonctionne… et accepte n'importe quoi. On ferme la porte aux données pourries.
+Transition : le formulaire fonctionne… et accepte n'importe quoi. On ferme la porte aux données pourries.
+Moment léger : soumettre une quête « Sauver la BU » avec 9 999 999 XP et un titre vide — « le Maître du jeu a mis son chat sur le clavier ».
+Durée : ≈ 25 min de slides + livecoding, ≈ 15 min de micro-pratique WishFlix (slide « À vous »).
+Tag Campus Quest de fin de chapitre : s5-ch3-validation.
 -->
 
 ---
@@ -33,7 +36,8 @@ transition: slide-up | slide-down
 />
 
 <!--
-Réponse précise : MariaDB en mode strict lève une erreur → QueryException → page 500.
+Réponse précise : MariaDB en mode strict lève une erreur → QueryException → page 500 (c'est ce que verront les étudiants sous Sail).
+Le projet de démo tourne en SQLite, plus permissif : il avale « beaucoup » sans broncher — encore pire, la donnée pourrie est enregistrée.
 Le titre vide aussi : le middleware ConvertEmptyStringsToNull transforme '' en null → violation NOT NULL, autre 500.
 Le remède arrive à la slide suivante : filtrer AVANT d'atteindre la base.
 -->
@@ -59,9 +63,9 @@ public function store(Request $request)
         'category_id' => ['required', 'exists:categories,id'],
     ]);
 
-    Quest::create($validated);
+    $quest = Quest::create($validated);
 
-    return redirect()->route('quests.index')->with('success', 'Quête créée !');
+    return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
 }
 ```
 
@@ -94,7 +98,7 @@ Et quand une règle échoue ? Le code n'atteint **jamais** `Quest::create` — l
 <!--
 N'oubliez pas l'import : use Illuminate\Validation\Rule; en tête du contrôleur.
 validate() est disponible sur l'objet Request — pas besoin d'instancier quoi que ce soit.
-À l'atelier : les mêmes règles seront copiées dans update() — gardez l'idée, le chapitre 5 la factorise.
+Au chapitre 04 les mêmes règles seront copiées dans update() — gardez cette douleur en tête, le chapitre 06 la supprime.
 -->
 
 ---
@@ -170,19 +174,51 @@ transition: slide-up | slide-down
 
 - `old('title')` = la **saisie de la tentative ratée**, flashée en session : le champ garde ce qu'on avait tapé
 - `@error('title')` affiche `$message` **uniquement** si ce champ a échoué
-- En édition : `old('title', $quest->title)` — la valeur actuelle en **repli**
-
-<v-click>
-
-<Browser url="campus-quest.test/quests/create" title="Campus Quest">
-  <Placeholder :w="640" :h="300" text="Formulaire avec erreurs de validation" />
-</Browser>
-
-</v-click>
 
 <!--
 $errors est une variable globale injectée dans toutes les vues : $errors->any() pour un récapitulatif en haut du formulaire.
 Réflexe : value="{{ old('champ') }}" sur CHAQUE champ — sans quoi l'utilisateur retape tout à chaque erreur.
+Démo : soumettre avec un titre vide, montrer le message rouge et les autres champs conservés.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# `old()` sur un `<select>` et un `<textarea>`
+
+::left::
+
+```blade {all|1-2|4-8|all}
+<textarea id="description" name="description">{{ old('description') }}</textarea>
+@error('description') <p class="error">{{ $message }}</p> @enderror
+
+<select id="difficulty" name="difficulty">
+    <option value="easy" @selected(old('difficulty') === 'easy')>Facile</option>
+    <option value="medium" @selected(old('difficulty') === 'medium')>Moyenne</option>
+    <option value="hard" @selected(old('difficulty') === 'hard')>Difficile</option>
+</select>
+```
+
+::right::
+
+<div v-click="1">
+
+Un `<textarea>` n'a pas d'attribut `value` : `old()` se place **entre les balises**.
+
+</div>
+
+<div v-click="2">
+
+Un `<select>` ne se pré-remplit pas non plus : la directive `@selected(condition)` ajoute `selected` sur **l'option** dont la condition est vraie.
+
+</div>
+
+<!--
+Même logique pour une catégorie : @selected((int) old('category_id') === $category->id) dans la boucle foreach.
+Piège : old() renvoie une chaîne, l'id est un entier — d'où le cast (int) ou la comparaison souple ==.
 -->
 
 ---
@@ -257,4 +293,34 @@ Pour **tout** traduire d'un coup : `sail artisan lang:publish` puis un paquet de
 Sans personnalisation, les messages sont en anglais (« The title field is required. ») — acceptable en démo,
 pas en production pour un public francophone.
 laravel-lang/lang fournit les traductions maintenues par la communauté — bien plus rapide que tout écrire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : un jeu validé
+
+<Exercise title="WishFlix — valider la création d'un jeu" duration="15 min" level="guidé"
+  :criteria="[
+    'store() appelle validate() avec une règle par champ du formulaire',
+    'Un titre vide ramène au formulaire avec un message d\'erreur sous le champ',
+    'La saisie est conservée (old()) y compris dans le select des catégories',
+    'Un jeu valide est toujours créé puis affiché'
+  ]"
+  :hints="[
+    'Le `<select>` se pré-remplit avec @selected, le <textarea> avec old() entre les balises',
+    'Une catégorie inexistante ? La règle exists:categories,id la refuse',
+    'Rechargez la page après une erreur : les messages disparaissent, ils étaient flashés'
+  ]">
+
+**Exercice** `05-formulaires-validation` — étape **A3** du README, puis **point de contrôle 1**.
+
+Ajoutez la validation à **votre** formulaire de jeu, avec les règles choisies pour chaque champ.
+
+</Exercise>
+
+<!--
+Point de contrôle 1 dans le README (après A3). Palier de rattrapage : tag Campus Quest s5-ch3-validation
+(relire le diff du chapitre, refaire sur WishFlix — pas de copie).
 -->

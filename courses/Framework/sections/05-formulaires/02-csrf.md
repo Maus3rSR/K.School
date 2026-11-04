@@ -2,17 +2,20 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 02
-duration: 10 min
+duration: 30 min
 ---
 
 # Le jeton CSRF
 
+- Comprendre l'erreur 419 du chapitre précédent
 - Décrire l'attaque par requête intersite forgée
-- Expliquer le rôle du jeton `_token`
 - Protéger chaque formulaire avec `@csrf`
 
 <!--
-Transition : un formulaire, ça s'écrit… mais aussi ça se détourne. Petit détour sécurité avant le CRUD complet.
+Transition : le 419 n'est pas un bug, c'est une protection. Pour la comprendre, il faut voir l'attaque qu'elle bloque.
+Durée : ≈ 15 min de slides + démo, puis ≈ 15 min de micro-pratique WishFlix (slide « À vous »).
+Moment léger : « 419, c'est le code HTTP de l'oubli » — laisser un @csrf manquant volontairement dans un second formulaire, puis le retrouver ensemble.
+Tag Campus Quest de fin de chapitre : s5-ch2-csrf.
 -->
 
 ---
@@ -35,7 +38,6 @@ transition: slide-up | slide-down
 <!--
 Faites voter : beaucoup croient que le navigateur bloque — non : il attache vos cookies à TOUTE requête
 vers campus-quest.test, d'où qu'elle vienne. La slide suivante rejoue l'attaque pas à pas.
-On reste en POST simple vers store() : _method=DELETE n'est vu qu'au chapitre 3.
 -->
 
 ---
@@ -48,16 +50,45 @@ transition: slide-up | slide-down
 
 ::left::
 
-```mermaid
+<v-switch>
+<template #0>
+
+```mermaid {scale: 0.8}
+sequenceDiagram
+    participant V as Vous (navigateur)
+    participant P as site-piege.example
+    participant C as Campus Quest
+    V->>P: visite une page piégée
+```
+
+</template>
+<template #1>
+
+```mermaid {scale: 0.8}
 sequenceDiagram
     participant V as Vous (navigateur)
     participant P as site-piege.example
     participant C as Campus Quest
     V->>P: visite une page piégée
     P->>V: formulaire caché, soumis par JavaScript
-    V->>C: POST /quests (title=Quête offerte…) + cookie de session
+```
+
+</template>
+<template #2>
+
+```mermaid {scale: 0.8}
+sequenceDiagram
+    participant V as Vous (navigateur)
+    participant P as site-piege.example
+    participant C as Campus Quest
+    V->>P: visite une page piégée
+    P->>V: formulaire caché, soumis par JavaScript
+    V->>C: POST /quests + cookie de session
     C-->>V: requête « authentifiée » → quête créée
 ```
+
+</template>
+</v-switch>
 
 ::right::
 
@@ -67,7 +98,7 @@ Un site tiers fait émettre par **votre** navigateur une requête authentifiée 
 
 </Definition>
 
-<v-click>
+<div v-click="3">
 
 <Analogy title="Comme un badge présenté automatiquement" icon="🪪">
 
@@ -75,7 +106,7 @@ Un site tiers fait émettre par **votre** navigateur une requête authentifiée 
 
 </Analogy>
 
-</v-click>
+</div>
 
 <!--
 Le cookie est envoyé par le navigateur pour TOUTE requête vers le domaine — c'est le principe même des cookies.
@@ -92,7 +123,7 @@ transition: slide-up | slide-down
 
 ::left::
 
-```blade
+```blade {all|2|3-4|all}
 <form method="POST" action="{{ route('quests.store') }}">
     @csrf
     {{-- compilé en : --}}
@@ -103,20 +134,29 @@ transition: slide-up | slide-down
 
 ::right::
 
-- Laravel génère un **jeton aléatoire** par session et le stocke côté serveur — `@csrf` l'affiche dans chaque formulaire
-- Le middleware `ValidateCsrfToken` **compare** le `_token` reçu au jeton de session : identiques → la requête passe
-- Jeton **absent ou faux** → erreur **419 « Page Expired »**, la requête est jetée
+<div v-click="1">
 
-<v-click>
+`@csrf` : **une ligne** à ajouter juste après la balise `<form>`.
 
-Le site piégé ne connaît pas votre jeton — impossible de forger une requête qui passe.
+</div>
 
-</v-click>
+<div v-click="2">
+
+Blade la compile en champ caché `_token`, qui contient un **jeton aléatoire** propre à votre session.
+
+</div>
+
+<div v-click="3">
+
+Le middleware `ValidateCsrfToken` **compare** le `_token` reçu au jeton de session : identiques → la requête passe. Absent ou faux → **419**. Le site piégé ne connaît pas votre jeton : impossible de forger une requête qui passe.
+
+</div>
 
 <!--
+Démo : ajouter @csrf dans create.blade.php, recharger, renvoyer → la quête est créée, redirection vers la fiche,
+bannière « Quête créée ! ». Ouvrir DevTools > Éléments : montrer l'input caché _token.
 ValidateCsrfToken (Illuminate\Foundation\Http\Middleware\ValidateCsrfToken) est dans le groupe de middlewares
-web, actif par défaut : aucune configuration à faire.
-Le jeton change à chaque régénération de session — il ne peut ni se deviner ni se réutiliser.
+web, actif par défaut : aucune configuration à faire. Les GET ne sont pas vérifiés (lecture seule).
 -->
 
 ---
@@ -155,7 +195,7 @@ transition: slide-up | slide-down
 
 <KeyPoint variant="rule" title="Règle d'or" icon="📏">
 
-Tout formulaire **POST, PUT, PATCH ou DELETE** contient `@csrf` — un oubli = un 419 pour vous, une faille pour le site.
+Tout formulaire **POST** contient `@csrf` — un oubli = un 419 pour vous, une faille pour le site.
 
 </KeyPoint>
 
@@ -163,5 +203,35 @@ Tout formulaire **POST, PUT, PATCH ou DELETE** contient `@csrf` — un oubli = u
 
 <!--
 Le 419 en dev est le signal d'un @csrf oublié — c'est même rassurant : la protection fonctionne.
+Moment léger : « 419, c'est le code HTTP de l'oubli. Vous allez le croiser souvent, et c'est très bien. »
 Périmètre : le CSRF protège les formulaires « session + cookie ». XSS, authentification et autorisation = séance 6.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : créer un jeu
+
+<Exercise title="WishFlix — formulaire de création d'un jeu" duration="15 min" level="guidé"
+  :criteria="[
+    '/games/create affiche un formulaire avec tous les champs du jeu et le select des catégories',
+    'L\'envoi crée le jeu puis redirige vers sa fiche /game/{id}',
+    'Un message flash « Jeu créé » s\'affiche une seule fois'
+  ]"
+  :hints="[
+    'Deux routes : un GET pour afficher, un POST pour traiter',
+    'Un 419 ? Il manque @csrf sous la balise form',
+    'Le chapitre 01 donne l\'ordre : routes → create() → vue → store() → flash dans le layout'
+  ]">
+
+**Exercice** `05-formulaires-validation` — étapes **A1 à A2** du README (`exercices/framework/`).
+
+Transposez la démo sur les **jeux** WishFlix : formulaire, `@csrf`, enregistrement, redirection.
+
+</Exercise>
+
+<!--
+Pas encore de point de contrôle : il tombe après la validation (chapitre 03). Palier de rattrapage : tag Campus Quest s5-ch2-csrf (relire le diff, refaire sur WishFlix).
+Les champs « simples » du formulaire sont fournis dans le README pour ne pas perdre de temps à taper du HTML.
 -->

@@ -10,9 +10,12 @@ laravel/
 ├── seance-02/    # live coding S2 : routing, contrôleurs, Blade
 │   ├── LIVECODING.md   # fil à suivre, calé sur les slides 02-routing-blade
 │   └── solution/       # fichiers finaux à copier dans app/
-└── seance-03/    # live coding S3 : Eloquent, migrations, relations, seeders
+├── seance-03/    # live coding S3 : Eloquent, migrations, relations, seeders
     ├── LIVECODING.md   # fil à suivre, calé sur les slides 03-eloquent
     └── solution/       # fichiers finaux à copier dans app/ (prérequis : solution S2 appliquée)
+└── seance-05/    # live coding S5 : formulaires, CSRF, validation, Route::resource, Form Request, service
+    ├── LIVECODING.md   # fil à suivre, calé sur les slides 05-formulaires
+    └── solution/       # fichiers finaux à copier dans app/ (prérequis : solutions S2 puis S3 appliquées)
 ```
 
 ## Appliquer une séance
@@ -22,6 +25,7 @@ Depuis `laravel/` :
 ```bash
 cp -r seance-02/solution/* app/   # état final de la S2
 cp -r seance-03/solution/* app/   # état final de la S3 (après la S2)
+cp -r seance-05/solution/* app/   # état final de la S5 (après la S3)
 ```
 
 L'installation et les commandes Sail sont décrites dans [`base/README.md`](base/README.md).

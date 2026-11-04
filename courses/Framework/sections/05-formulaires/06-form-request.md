@@ -1,8 +1,8 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 05
-duration: 15 min
+number: 06
+duration: 25 min
 ---
 
 # Les Form Requests
@@ -12,7 +12,10 @@ duration: 15 min
 - Réutiliser les règles entre `store()` et `update()`
 
 <!--
-Transition : la validation marche, mais elle est collée au contrôleur — et il faudrait la dupliquer pour l'édition. On la sort.
+Transition : la validation marche, mais elle est collée au contrôleur — et elle est recopiée entre store() et update(). On la sort.
+Durée : ≈ 15 min de slides + livecoding, ≈ 10 min de micro-pratique WishFlix.
+Moment léger : « le contrôleur a perdu 12 lignes — il a repris la course à pied ».
+Tag Campus Quest de fin de chapitre : s5-ch6-form-request.
 -->
 
 ---
@@ -30,7 +33,7 @@ public function store(Request $request)
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:100'],
         'xp' => ['required', 'integer', 'min:0', 'max:500'],
-        // … 8 lignes, à recopier dans update()
+        // … 5 règles, déjà recopiées dans update()
     ]);
 }
 ```
@@ -207,4 +210,65 @@ Une classe qui encapsule la validation d'un formulaire : **autorisation + règle
 <!--
 C'est le même mécanisme d'injection que Request ou Quest : déclarer le type, Laravel fournit l'objet validé.
 Si la validation échoue : même comportement qu'au chapitre 4 — redirection, erreurs et old() flashés.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# `UpdateQuestRequest` : la jumelle
+
+```php {all|1|3-6|all}
+class UpdateQuestRequest extends FormRequest
+{
+    public function authorize(): bool { return true; }
+
+    public function rules(): array { /* mêmes règles que StoreQuestRequest */ }
+}
+
+public function update(UpdateQuestRequest $request, Quest $quest)
+{
+    $quest->update($request->validated());
+    return redirect()->route('quests.show', $quest)->with('success', 'Quête mise à jour !');
+}
+```
+
+<v-click>
+
+Deux classes, une par formulaire : le jour où l'édition diffère (champ facultatif, règle `unique`), vous ne touchez que **celle-là**.
+
+</v-click>
+
+<!--
+Pour une règle unique à l'édition : Rule::unique('quests', 'title')->ignore($this->quest) — mention orale seulement.
+Pas d'héritage entre les deux classes dans le cours : deux fichiers explicites, plus simples à lire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : une Form Request
+
+<Exercise title="WishFlix — Form Request des jeux" duration="10 min" level="guidé"
+  :criteria="[
+    'StoreGameRequest et UpdateGameRequest existent dans app/Http/Requests',
+    'store() et update() ne contiennent plus de validate()',
+    'Les messages d\'erreur et old() fonctionnent comme avant'
+  ]"
+  :hints="[
+    'sail artisan make:request StoreGameRequest',
+    'authorize() renvoie true pour l\'instant',
+    'Déplacez vos règles telles quelles dans rules() : c\'est du copier-coller'
+  ]">
+
+**Exercice** `05-formulaires-validation` — étape **A6** du README, puis **point de contrôle 3**.
+
+Déplacez vos règles dans deux classes : le comportement ne change pas.
+
+</Exercise>
+
+<!--
+Point de contrôle 3 dans le README (après A6). Palier de rattrapage : tag Campus Quest s5-ch6-form-request.
+Les services (chapitre suivant) sont une démo : pas de micro-pratique.
 -->

@@ -1,0 +1,530 @@
+---
+layout: chapter
+transition: slide-left | slide-right
+number: 01
+duration: 40 min
+---
+
+# Une table, un objet
+
+- Expliquer ce qu'un ORM fait à votre place
+- Créer un modèle et sa migration, puis jouer la migration
+- Lire et écrire une ligne avec Tinker
+
+<!--
+Transition : le tableau PHP du S2 était une béquille. Aujourd'hui on branche une vraie base — sans écrire de SQL.
+Découpage du chapitre (≈ 40 min) : 12 slides (≈ 15 min), livecoding Location (≈ 10 min), micro-pratique WishFlix « Category » (≈ 15 min).
+Tag Campus Quest de fin de chapitre : s3-ch1-table-objet.
+Moment léger : demandez qui a déjà tapé un SELECT * FROM sans WHERE sur une table de production. Les mains qui se lèvent en grimaçant sont les bonnes.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# ORM : traduire PHP en SQL
+Qu'est-ce qu'un ORM ?
+
+<Definition term="ORM" translation="(Object-Relational Mapping)">
+
+Une couche qui **traduit** vos objets PHP en lignes de base de données — et les lignes SQL en objets PHP — sans que vous écriviez de SQL.
+
+</Definition>
+
+<v-click>
+
+<Analogy title="Comme un traducteur assermenté" icon="🗣️">
+
+Vous parlez PHP, la base parle SQL. L'ORM est le traducteur : vous lui confiez un objet `Location`, il rédige l'`INSERT` ; il reçoit des lignes, il vous rend des objets.
+
+</Analogy>
+
+</v-click>
+
+<!--
+Demander à la salle qui a déjà écrit du SQL à la main : la promesse est de ne plus le faire au quotidien.
+L'ORM de Laravel s'appelle Eloquent ; le pattern qu'il implémente s'appelle Active Record.
+Moment léger : le traducteur assermenté… qui ne sait traduire que ce qui est bien orthographié. Une faute de frappe dans un nom de colonne et il refuse de signer (on le verra en Tinker).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# ORM : traduire PHP en SQL
+Écrire du SQL, ou parler en objets ?
+
+<Compare badLabel="❌ SQL brut" goodLabel="✅ Eloquent">
+  <template #bad>
+
+```php
+$rows = DB::select(
+    'SELECT * FROM locations WHERE id = ?', [2]
+);
+$name = $rows[0]->name;
+DB::insert('INSERT INTO locations
+    (name) VALUES (?)', ['Amphi']);
+```
+
+  </template>
+  <template #good>
+
+```php
+$location = Location::find(2);
+$name = $location->name;
+
+$amphi = new Location();
+$amphi->name = 'Amphi';
+$amphi->save();
+```
+
+  </template>
+</Compare>
+
+<!--
+À gauche : des chaînes SQL et des tableaux — aucune aide de l'IDE, une faute de frappe explose à l'exécution.
+À droite : des objets PHP. Même résultat, zéro SQL écrit à la main.
+Ne montrez pas encore Location::create([...]) : il demande une autorisation (le $fillable) qu'on découvrira au chapitre suivant, quand elle servira.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Active Record : un objet par ligne
+Une ligne de la table, un objet PHP
+
+<div class="relative h-64">
+
+<div class="absolute inset-0" v-click.hide="1">
+
+```mermaid
+flowchart LR
+    subgraph T["table locations"]
+        R1["id 1 · BU"]
+        R2["id 2 · Cafét"]
+    end
+```
+
+</div>
+
+<div class="absolute inset-0" v-click="[1,2]">
+
+```mermaid
+flowchart LR
+    subgraph T["table locations"]
+        R1["id 1 · BU"]
+        R2["id 2 · Cafét"]
+    end
+    R2 -- "Location::find(2)" --> O["$location<br/>name = 'Cafét'"]
+```
+
+</div>
+
+<div class="absolute inset-0" v-click="2">
+
+```mermaid
+flowchart LR
+    subgraph T["table locations"]
+        R1["id 1 · BU"]
+        R2["id 2 · Cafèt (modifiée)"]
+    end
+    O["$location<br/>name = 'Cafèt'"] -- "$location->save() = UPDATE" --> R2
+```
+
+</div>
+
+</div>
+
+<div v-click="1">
+
+**1 classe** = **1 table**, **1 instance** = **1 ligne** : lire `$location->name`, c'est lire la colonne `name`.
+
+</div>
+
+<div v-click="2">
+
+L'objet **sait se sauvegarder lui-même** : on modifie ses propriétés puis on appelle `save()`.
+
+</div>
+
+<!--
+"Active" = l'objet n'est pas une boîte de données inerte : il porte les méthodes save(), delete().
+Moment léger (étape 2) : modifier « Cafét » en « Cafèt » devant la salle et demander qui a vu la faute. Le framework, lui, n'a rien dit : il enregistre ce qu'on lui donne.
+Autres implémentations d'Active Record : Ruby on Rails (qui a inspiré Eloquent), Django s'en rapproche.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Les conventions de nommage
+Eloquent devine à partir du nom de la classe
+
+| Vous écrivez | Eloquent en déduit |
+|---|---|
+| `class Location` | La table `locations` (snake_case, pluriel) |
+| `class Category` | La table `categories` (le pluriel est géré en anglais) |
+| `Location::find(2)` | Clé primaire `id`, auto-incrémentée |
+| `$location->created_at` | Colonnes `created_at` / `updated_at` gérées seules |
+
+<v-click>
+
+<KeyPoint variant="tip" title="Convention over configuration" icon="🪄">
+
+Une classe `Location` dans `app/Models/` suffit : aucun fichier de mapping. Suivez les noms, l'ORM fait le reste.
+
+</KeyPoint>
+
+</v-click>
+
+<!--
+Chaque convention peut être surchargée — à connaître, à ne pas utiliser sans raison :
+$table = 'mes_lieux' ; $primaryKey = 'location_id' ; $timestamps = false ; $incrementing = false + $keyType = 'string' ; $connection.
+Cas typique : reprendre une base legacy aux noms exotiques (tbl_lieux, PK lieuID, sans timestamps). Sinon, chaque override est une convention en moins et une surprise en plus pour le lecteur.
+Moment léger : Category → categories fonctionne parce que Laravel connaît le pluriel anglais. Le pluriel français « un cheval, des chevals » ne lui a pas été enseigné.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Générer le modèle et sa migration
+Ce que produit make:model Location -m
+
+::left::
+
+<Terminal
+  title="bash" prompt="$"
+  :lines="[
+    { cmd: 'sail artisan make:model Location -m', out: '   INFO  Model [app/Models/Location.php] created successfully.\n\n   INFO  Migration [database/migrations/2026_…_create_locations_table.php] created successfully.' }
+  ]"
+/>
+
+```php
+// app/Models/Location.php — généré VIDE
+class Location extends Model
+{
+    //
+}
+```
+
+::right::
+
+<v-click>
+
+```php
+// …_create_locations_table.php — un SQUELETTE
+Schema::create('locations', function (Blueprint $table) {
+    $table->id();
+    $table->timestamps();
+});
+```
+
+</v-click>
+
+<div v-click="2">
+
+Pourquoi `-m` ? **Une seule commande** produit deux fichiers cohérents : le modèle et la migration `create_locations_table`, bien nommés, bien rangés.
+
+</div>
+
+<!--
+Le modèle vit dans app/Models/ — à ne pas confondre avec app/Http/Controllers/.
+Insister : Artisan ne devine RIEN du contenu de la table. Le modèle ne liste pas ses colonnes : Eloquent lit le schéma de la base à l'exécution. Les colonnes sont dans la migration.
+Alternatives à citer en une phrase : make:migration seule, make:model Location -mfs (+ factory + seeder), --all.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# La migration : décrire la table en PHP
+Anatomie d'une migration
+
+::left::
+
+```php {all|7-14|16-19|all}
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('locations', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('locations');
+    }
+};
+```
+
+::right::
+
+<div v-click="1">
+
+`up()` — ce que la migration **fait** : créer la table `locations` et ses colonnes. Le type est une méthode, le nom de colonne son argument.
+
+</div>
+
+<div v-click="2">
+
+`down()` — comment **annuler** : supprimer la table. C'est ce que lance `rollback`.
+
+</div>
+
+<div v-click="3">
+
+<Definition term="Migration">
+
+Un fichier PHP **versionné** qui décrit une évolution du schéma : la base vit dans votre code, comme un `git clone` pour vos tables.
+
+</Definition>
+
+</div>
+
+<!--
+Les trois imports en haut : Migration (classe de base), Blueprint (le plan de table), Schema (le constructeur).
+Question probable : « void, c'est quoi ? » → la méthode ne retourne rien, typage PHP moderne.
+Le timestamp dans le nom du fichier = l'ordre d'exécution. Retenez cette phrase : on en aura besoin au chapitre suivant.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Types et modificateurs de colonnes
+Le type d'abord, les options ensuite
+
+::left::
+
+| Type | Colonne |
+|---|---|
+| `id()` | clé primaire auto-incrémentée |
+| `string('name')` | `VARCHAR` — texte court |
+| `text('description')` | `TEXT` — texte long |
+| `unsignedInteger('xp')` | `INT` positif |
+| `decimal('note', 3, 1)` | nombre exact |
+| `boolean('featured')` | vrai/faux |
+
+::right::
+
+| Modificateur | Effet |
+|---|---|
+| `->nullable()` | accepte `NULL` |
+| `->default(0)` | valeur par défaut |
+| `->unique()` | interdit les doublons |
+| `->index()` | accélère les recherches |
+
+[📖 Types](https://laravel.com/framework/docs/12.x/migrations#available-column-types) · [📖 Modificateurs](https://laravel.com/framework/docs/12.x/migrations#column-modifiers)
+
+<!--
+Ils se chaînent : $table->string('slug')->unique(). Les modificateurs de clé étrangère (constrained, cascadeOnDelete) viennent au chapitre suivant, avec leur problème.
+Règle pratique : réfléchir au contenu avant de choisir — une note = decimal, pas float ni string.
+Moment léger : un prix stocké en string, c'est comme ranger ses clés dans le frigo : ça marche, jusqu'au jour de faire un tri.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Jouer, vérifier, annuler
+La timeline des migrations
+
+::left::
+
+<Terminal
+  class="text-sm"
+  title="bash" prompt="$"
+  :clicks="true"
+  :lines="[
+    { cmd: 'sail artisan migrate', out: '  …_create_locations_table ......... DONE' },
+    { cmd: 'sail artisan migrate:status', out: '  …_create_locations_table ......... [1] Ran' },
+    { cmd: 'sail artisan migrate:rollback', out: '  …_create_locations_table ......... DONE' },
+    { cmd: 'sail artisan migrate', out: '  …_create_locations_table ......... DONE' }
+  ]"
+/>
+
+::right::
+
+<div class="relative h-52">
+
+<div class="absolute inset-0" v-click.hide="1">
+
+```mermaid
+flowchart LR
+    A["create_locations<br/>en attente"]
+```
+
+</div>
+
+<div class="absolute inset-0" v-click="[1,3]">
+
+```mermaid
+flowchart LR
+    A["create_locations<br/>batch 1 ✅ Ran"]
+```
+
+</div>
+
+<div class="absolute inset-0" v-click="[3,4]">
+
+```mermaid
+flowchart LR
+    A["create_locations<br/>annulée (down) ↩️"]
+```
+
+</div>
+
+<div class="absolute inset-0" v-click="4">
+
+```mermaid
+flowchart LR
+    A["create_locations<br/>batch 1 ✅ Ran"]
+```
+
+</div>
+
+</div>
+
+<div v-click="2">
+
+Le **batch** regroupe ce qu'un même `migrate` a joué : `rollback` annule le **dernier lot**. Le suivi est dans la table `migrations`.
+
+</div>
+
+<!--
+Les clicks sont ceux du Terminal (1 commande par click) : migrate → status → rollback → migrate. Le schéma les suit.
+migrate:status est le premier réflexe quand « une colonne n'existe pas » : la migration n'est peut-être pas jouée.
+migrate:fresh (supprime TOUTES les tables puis rejoue tout) : parfait en développement. Moment léger : en production, c'est la commande qui vous vaut un café offert à toute l'équipe — et un nouvel emploi. On le dit, on ne le tape pas.
+Attention à la synchronisation : le Terminal consomme 4 clicks ; le texte du batch apparaît au click 2 (après le status).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Tinker : parler à l'application en direct
+
+<Terminal
+  title="bash" prompt="$"
+  :clicks="true"
+  :lines="[
+    { cmd: 'sail artisan tinker' },
+    { cmd: '$l = new Location()' },
+    { cmd: '$l->name = \'BU\'' },
+    { cmd: '$l->save()', out: '   = true' },
+    { cmd: 'Location::find(1)->name', out: '   = &quot;BU&quot;' },
+    { cmd: 'Location::count()', out: '   = 1' }
+  ]"
+/>
+
+Tinker est une **console REPL** : elle exécute du PHP *dans le contexte de votre application* — vos modèles, votre base.
+
+<!--
+Montrer d'abord l'erreur : avant make:model, Location::count() lève « Class not found » — c'est la preuve que le modèle compte.
+Le count = 0 sur une base vide est NORMAL.
+Étape .env (environnement) : ouvrir .env, montrer DB_CONNECTION, DB_HOST=mariadb (le nom du service dans compose.yaml, pas localhost), DB_DATABASE/USERNAME/PASSWORD créés par Sail. Sail + MariaDB = environnement de développement : en production tout change (serveur géré, identifiants dans les variables d'environnement, jamais de .env commité, migrate --force).
+Piège classique hors Docker : un poste sans Sail aurait DB_HOST=127.0.0.1.
+Moment léger : faire une faute volontaire, $l->nmae = 'Amphi'; $l->save(). Eloquent essaie d'insérer une colonne « nmae » et la base répond « Unknown column ». La faute est dans votre code, mais c'est MariaDB qui vous le dit.
+Tinker disparaît à la fermeture : ce que vous tapez n'est pas dans le code. Les données sont, elles, bien dans la base.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Modifier une table déjà jouée
+Et vous, que feriez-vous ?
+
+<Quiz
+  question="La migration create_locations_table est déjà jouée — par vous ET par toute l'équipe. Vous devez ajouter une colonne address. Que faites-vous ?"
+  :options="[
+    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate',
+    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate:fresh',
+    'Vous créez une nouvelle migration add_address_to_locations_table puis sail artisan migrate',
+    'Vous ajoutez la colonne à la main dans MariaDB, sans migration'
+  ]"
+  :answer="2"
+/>
+
+<!--
+Pré-test AVANT la règle : laissez chacun voter à main levée avant de révéler.
+L'option migrate:fresh est la plus tentante : ça marche sur VOTRE poste… mais c'est une hérésie en équipe (données perdues, schéma désynchronisé). La slide suivante tranche.
+Moment léger : la 4e réponse a un nom — « le hotfix en prod à 23 h ». Personne n'a jamais retrouvé qui l'avait fait.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Modifier une table déjà jouée
+Nouvelle migration, jamais de retouche
+
+::left::
+
+<Terminal
+  class="text-sm"
+  title="bash" prompt="$"
+  :lines="[
+    { cmd: 'sail artisan make:migration add_address_to_locations_table --table=locations', out: '   INFO  Migration [database/migrations/2026_…_add_address_to_locations_table.php] created successfully.' }
+  ]"
+/>
+
+<v-click>
+
+<KeyPoint class="text-sm" variant="rule" title="Règle d'or" icon="📏">
+
+`Schema::table` **modifie** une table existante, `Schema::create` la crée. Modifier un fichier déjà joué n'a aucun effet : `migrate` ne rejoue jamais une migration.
+
+</KeyPoint>
+
+</v-click>
+
+::right::
+
+<v-click>
+
+```php
+public function up(): void
+{
+    Schema::table('locations', function (Blueprint $table) {
+        $table->string('address')->nullable();
+    });
+}
+
+public function down(): void
+{
+    Schema::table('locations', function (Blueprint $table) {
+        $table->dropColumn('address');
+    });
+}
+```
+
+</v-click>
+
+<!--
+Démo jetable en live (facultative, ≈ 2 min) : créer cette migration, la jouer, la rollback, puis SUPPRIMER le fichier — la solution Campus Quest ne contient pas de colonne address.
+Le ->nullable() est nécessaire : la table contient déjà des lignes, qui n'ont pas d'adresse.
+Le down() d'un ajout de colonne : dropColumn — toujours l'inverse exact du up().
+Exception à connaître : tant que personne d'autre n'a joué la migration, un rollback + retouche + migrate reste acceptable sur votre poste. Dès qu'elle est poussée, c'est fini.
+Revenir au vote : qui avait deviné la nouvelle migration ?
+-->

@@ -8,36 +8,57 @@ duration: 45 min
 # Installer Laravel avec Docker
 
 - Comprendre l'intérêt de Docker pour le développement Laravel
-- Créer un projet Laravel avec Laravel Sail
-- Démarrer l'environnement et utiliser Artisan
+- Expliquer ce que la commande `laravel.build` vient de faire
+- Démarrer l'environnement et piloter le projet avec Sail
+
+<!--
+Déroulé : slides (≈ 10 min) → démo guidée sur Campus Quest (≈ 5 min, LIVECODING.md étape a) → « À vous » : étapes A2 à A6 du README (≈ 25 min). Tag de rattrapage : `s1-ch3-installation`.
+Le pas-à-pas complet vit UNIQUEMENT dans le README de l'exercice 01 : ne pas le dérouler slide par slide.
+-->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Installer Laravel avec Docker
-Pourquoi Docker ?
+# Pourquoi Docker ?
 
 Docker permet d'avoir le **même environnement** sur toutes les machines :
 
-<v-click>
-
-- Même version de PHP
-- Même version de Laravel
-- Même extensions PHP
-- Même serveur web (nginx / PHP-FPM)
-
-</v-click>
+- Même version de PHP et des extensions PHP
+- Même base de données (MariaDB)
+- Même serveur web
 
 <v-click>
 
-> Pas de "chez moi ça marche" : tout le monde utilise la même configuration.
+<Analogy title="Une cuisine équipée identique pour tous" icon="🍳">
+
+Chacun suit la même recette dans la même cuisine : tout le monde obtient le même plat. Fini le « chez moi ça marche ».
+
+</Analogy>
 
 </v-click>
 
 <!--
-Analogie : Docker, c'est une cuisine équipée identique chez chaque apprenant.
-On suit la même recette, on obtient le même plat.
+Moment léger : le mème « Ça marche sur ma machine. — Alors on livrera ta machine. » C'est exactement l'idée de Docker.
+Un conteneur = un processus isolé lancé à partir d'une image (PHP, MariaDB…). Ce sont ces images qui se téléchargent depuis le début de la séance.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Ce que la commande a fait pendant ce temps
+
+<Steps direction="vertical" :clicks="true" :items="[
+  { icon: '🌐', title: 'curl laravel.build/wishflix', desc: 'Télécharge un script d\'installation et l\'exécute avec bash' },
+  { icon: '📦', title: 'Conteneur temporaire', desc: 'Composer installe Laravel 12 et ses dépendances dans wishflix/vendor/' },
+  { icon: '🐳', title: 'Sail installé', desc: 'with=mariadb : compose.yaml décrit deux services, PHP et MariaDB' },
+  { icon: '⬇️', title: 'Images téléchargées', desc: 'PHP 8.x et MariaDB : l\'étape longue, faite une seule fois' }
+]" />
+
+<!--
+Rien n'a été installé sur la machine hôte : ni PHP, ni Composer. Tout est dans des conteneurs.
+`with=mariadb` évite Redis, Meilisearch, Mailpit… inutiles pour ce cours (et autant d'images en moins à télécharger).
 -->
 
 ---
@@ -46,8 +67,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Installer Laravel avec Docker
-Trois outils à connaître avant de commencer
+# Trois outils à connaître
 
 ::left::
 
@@ -59,7 +79,7 @@ Le gestionnaire de dépendances de PHP. Il télécharge Laravel et les biblioth�
 
 <Definition term="Artisan">
 
-La console en ligne de commande fournie par Laravel. Elle sert à lancer des tâches (migrations, cache) et à générer du code (`make:controller`...).
+La console en ligne de commande fournie par Laravel. Elle lance des tâches (migrations, cache) et génère du code.
 
 </Definition>
 
@@ -78,219 +98,70 @@ Ces trois noms reviendront dans toutes les commandes du cours.
 </Alert>
 
 <!--
-Composer = npm pour PHP. Artisan = le couteau suisse de Laravel. Sail = Docker Compose emballé pour Laravel.
-Ne pas entrer dans le détail ici, on les manipule concrètement dans les étapes suivantes.
+Composer = npm pour PHP. Artisan = le couteau suisse de Laravel (chapitre 06). Sail = Docker Compose emballé pour Laravel.
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Installer Laravel avec Docker
-Deux méthodes d'installation
+# Deux méthodes d'installation
 
-<Compare badLabel="🖥️ Laravel installer" goodLabel="🐳 Laravel Sail">
+<Compare badLabel="🖥️ Plan B : Herd (PHP sur votre machine)" goodLabel="🐳 Méthode du cours : Laravel Sail (Docker)">
   <template #bad>
 
 ```bash
-laravel new mon-projet
-cd mon-projet
-composer run dev
+laravel new wishflix
+cd wishflix
+php artisan migrate
 ```
 
-PHP, <KeyTerm>Composer</KeyTerm> et Node installés **sur votre machine** — rapide à démarrer, mais chacun a sa version de PHP. Application sur `http://localhost:8000`.
+PHP, <KeyTerm>Composer</KeyTerm> et Node installés **sur votre machine** (Herd s'en charge). Chacun a sa version de PHP.
 
 </template>
   <template #good>
 
 ```bash
-curl -s https://laravel.build/mon-projet | bash
-cd mon-projet
+curl -s "https://laravel.build/wishflix?with=mariadb" | bash
+cd wishflix
 ./vendor/bin/sail up -d
 ```
 
-PHP, Composer et Node **dans des conteneurs Docker** — même environnement pour tous. Application sur `http://localhost`.
+PHP, Composer et Node **dans des conteneurs Docker** : même environnement pour tous. Site sur `http://localhost`.
 
 </template>
 </Compare>
 
-<KeyPoint variant="rule" title="Dans ce cours" icon="🐳" class="mt-4">
-
-Nous utilisons **<KeyTerm>Sail</KeyTerm>** : une seule configuration à dépanner pour toute la promotion.
-
-</KeyPoint>
-
 <!--
-Le Laravel installer est la méthode « officielle » par défaut dans la doc : elle suppose PHP installé localement (via php.new ou Herd).
-Sail encapsule Docker Compose : toutes les commandes php/composer/artisan/npm passent par le script sail.
+Le Laravel installer est la méthode par défaut de la doc : elle suppose PHP installé localement (php.new ou Herd).
 Les deux produisent exactement le même projet Laravel ; seule la façon de l'exécuter change.
+Nous restons sur Sail : une seule configuration à dépanner pour toute la promotion.
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Installer Laravel avec Docker
-Prérequis
+# La carte des commandes
 
-Avant de commencer, vérifiez que vous avez :
-
-- **Docker** installé et en cours d'exécution
-- **Docker Compose** (généralement inclus dans Docker Desktop)
-- Un accès à Internet pour télécharger les images
-- Environ **2 à 4 Go** d'espace disque disponible
-
-<v-click>
-
-> ⚠️ Le premier lancement est **long** : Docker télécharge PHP, MariaDB et toutes les dépendances Composer.
-
-</v-click>
+| Je veux… | Avec Sail | Plan B (Herd) |
+|---|---|---|
+| **Démarrer / arrêter** | `./vendor/bin/sail up -d` / `sail down` | *(Herd tourne en permanence)* |
+| **Lancer Artisan** | `./vendor/bin/sail artisan about` | `php artisan about` |
+| **Lancer Composer** | `./vendor/bin/sail composer …` | `composer …` |
+| **Lancer npm** | `./vendor/bin/sail npm …` | `npm …` |
+| **Lire les logs** | `./vendor/bin/sail logs` | `storage/logs/laravel.log` |
 
 <!--
-Prévenir les apprenants : la première installation peut prendre 10 à 30 minutes selon le réseau.
-C'est normal, c'est le moment où Docker prépare l'environnement.
+Toutes les consignes du cours utilisent la colonne Sail. Les étudiants en plan B traduisent avec la colonne de droite.
+Sur les postes IUT avec Podman, la colonne Sail reste valable (le script a configuré SAIL_DOCKER_BINARY=podman).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Installer Laravel avec Docker
-Étape 1 — Créer le projet
-
-> 📖 [Documentation officielle : Laravel Sail](https://laravel.com/framework/docs/12.x/sail)
-
-Laravel fournit un installeur qui crée un projet prêt à l'emploi, avec <KeyTerm>Sail</KeyTerm> intégré. *Sous Windows : la même commande, dans un terminal **WSL2**.*
-
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'curl -s https://laravel.build/<NOM_DE_VOTRE_PROJET>?with=mariadb | bash', out: 'Application ready! Build something amazing.' }]" />
-
-<v-click>
-
-Cette commande :
-
-1. Crée le dossier `<NOM_DE_VOTRE_PROJET>/`
-2. Installe Laravel 12 et ses dépendances dans un conteneur temporaire
-3. `with=mariadb` : ajoute uniquement MariaDB (base de données) comme service
-4. Configure automatiquement **[Laravel Sail](https://laravel.com/framework/docs/12.x/sail)**
-
-</v-click>
-
-<!--
-Laravel.build est le moyen le plus simple de démarrer avec Docker.
-Il utilise des conteneurs temporaires pour installer les dépendances sans polluer la machine locale.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Installer Laravel avec Docker
-Étape 2 — Lancer l'environnement
-
-Rendez-vous dans le dossier du projet et démarrez Sail :
-
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: 'cd <NOM_DE_VOTRE_PROJET>' }, { cmd: './vendor/bin/sail up -d', out: 'Containers started (PHP, MariaDB).' }, { cmd: './vendor/bin/sail artisan migrate', out: 'Database migrated successfully.' }]" />
-
-<v-click>
-
-Cette commande démarre :
-
-- Le conteneur PHP / Laravel
-- Le serveur web
-- La base de données (MariaDB par défaut avec `with=mariadb`)
-- Avec le CLI `artisan`, on lance la <KeyTerm>migration</KeyTerm> de la base de données
-
-</v-click>
-
-<!--
-`./vendor/bin/sail` est un script qui encapsule `docker compose` avec les bons services pour Laravel.
-`up -d` lance les conteneurs en arrière-plan.
--->
-
----
-layout: two-cols-header
-layoutClass: gap-x-8
-transition: slide-up | slide-down
----
-
-# Installer Laravel avec Docker
-Étape 3 — Vérifier l'installation
-
-::left::
-
-Ouvrez [http://localhost](http://localhost) dans votre navigateur.
-
-<small>_(Ou [http://localhost:8080](http://localhost:8080) selon votre configuration du port)_</small>
-
-<v-click>
-
-Vous devriez voir la page d'accueil Laravel avec :
-
-- le logo Laravel
-- le numéro de version
-- les liens vers la documentation
-
-</v-click>
-
-::right::
-
-<Browser url="http://localhost">
-  <img src="/laravel-welcome.png" alt="Page d'accueil Laravel" />
-</Browser>
-
-<!--
-Contrairement à Symfony Docker, Sail utilise HTTP et non HTTPS par défaut en local.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Installer Laravel avec Docker
-Étape 4 — Utiliser Artisan
-
-Dans Docker, la commande `php` n'est pas directement accessible sur votre machine. Il faut l'exécuter **via Sail** :
-
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: './vendor/bin/sail artisan about', out: 'Laravel 12.x · PHP 8.3.x · Environment local · Debug ENABLED' }]" />
-
-<v-click>
-
-Cette commande affiche :
-
-- La version de Laravel installée
-- La version de PHP
-- L'environnement courant (`local`)
-- Les packages principaux
-
-</v-click>
-
-<!--
-Expliquer le schéma : ./vendor/bin/sail artisan → exécute artisan dans le conteneur PHP.
-C'est l'habitude à prendre pour toutes les commandes Laravel.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Installer Laravel avec Docker
-Premiers réflexes
-
-Pour travailler quotidiennement avec Sail :
-
-<Terminal title="bash" prompt="$" :clicks="true" :lines="[{ cmd: './vendor/bin/sail up -d' }, { cmd: './vendor/bin/sail down' }, { cmd: './vendor/bin/sail logs' }, { cmd: './vendor/bin/sail artisan <commande>' }, { cmd: './vendor/bin/sail composer <commande>' }, { cmd: './vendor/bin/sail npm <commande>' }]" />
-
-<!--
-Insister sur le fait que Sail encapsule Docker Compose.
-Toutes les commandes Laravel passent par `./vendor/bin/sail`.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Installer Laravel avec Docker
-Un alias pour aller plus vite
+# Un alias pour aller plus vite (étape A5)
 
 <Compare badLabel="❌ Sans alias" goodLabel="✅ Avec alias">
   <template #bad>
@@ -298,7 +169,6 @@ Un alias pour aller plus vite
 ```bash
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan migrate
-./vendor/bin/sail composer require laravel/sanctum
 ```
 
 </template>
@@ -307,7 +177,6 @@ Un alias pour aller plus vite
 ```bash
 sail up -d
 sail artisan migrate
-sail composer require laravel/sanctum
 ```
 
 </template>
@@ -326,6 +195,37 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 </v-click>
 
 <!--
-La doc officielle Laravel suppose l'alias configuré : quand elle écrit "sail artisan", c'est "./vendor/bin/sail artisan".
+La doc officielle suppose l'alias configuré : quand elle écrit "sail artisan", c'est "./vendor/bin/sail artisan".
 Sous Windows, l'alias se configure dans le shell WSL2 (bash), pas dans PowerShell.
+-->
+
+---
+layout: two-cols
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+<Exercise title="À vous : démarrer WishFlix" duration="25 min" level="guidé"
+  :criteria="[
+    'http://localhost affiche la page d\'accueil Laravel',
+    'sail artisan about affiche Laravel 12.x et PHP 8.3+',
+    'Le dépôt GitHub privé contient votre commit, sans .env'
+  ]">
+
+README de l'exercice `01-installation-architecture`, **étapes A2 à A6** : démarrer Sail, migrer, vérifier, configurer l'alias, versionner. **Point de contrôle 1.**
+
+Téléchargement encore en cours ? Faites l'étape A5 (alias) en attendant.
+
+</Exercise>
+
+::right::
+
+<Browser url="http://localhost">
+  <img src="/laravel-welcome.png" alt="Page d'accueil Laravel" />
+</Browser>
+
+<!--
+Point de contrôle 1 du README. Palier de rattrapage : tag Campus Quest s1-ch3-installation (projet Laravel neuf) + plan B.
+Passer dans les rangs : erreur fréquente = page d'erreur « no such table: sessions » si `migrate` est oublié.
+Sur les postes Podman : http://localhost:8080.
 -->

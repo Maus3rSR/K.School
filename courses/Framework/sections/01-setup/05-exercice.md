@@ -1,19 +1,25 @@
-# Atelier WishFlix
-Installation et enquête dans l'architecture
+---
+layout: default
+transition: slide-left | slide-right
+---
 
-<Exercise title="WishFlix — installation avec Sail et enquête dans l'arborescence" duration="1 h" level="guidé"
+# Atelier WishFlix
+Terminer le socle puis lancer l'enquête
+
+<Exercise title="WishFlix : finir le socle, démarrer l'enquête" duration="45 min" level="guidé"
   :criteria="[
-    'Le projet démarre et la page d\'accueil s\'affiche sur http://localhost',
-    'La console Artisan confirme Laravel 12.x et PHP 8.3+',
-    'Le dépôt GitHub est créé, sans le fichier `.env`, et `REPONSES.md` répond aux questions de l\'enquête'
+    'Les points de contrôle 1 et 2 du README sont validés',
+    'REPONSES.md existe avec les réponses aux questions 1, 5 et 6',
+    'Les questions 2 à 4 de la partie B sont commencées'
   ]">
 
 Consignes dans le **README** de l'exercice `01-installation-architecture`.
 
-Au programme : installer WishFlix avec Sail, vérifier la console Artisan, puis enquêter dans l'arborescence pour relier les fichiers entre eux.
+Retard ? Rattrapez le point de contrôle manqué avec le tag Campus Quest du chapitre (`s1-ch3-installation`, `s1-ch4-requete`). À la maison : partie B (enquête, ≈ 1 h) et partie C (sous le capot, ≈ 45 min).
 
 </Exercise>
 
 <!--
-L'atelier réutilise l'exercice 01-installation-architecture : installation Sail puis enquête dans l'arborescence.
+Pratique en séance : 45 min. Hors deck : accueil ≈ 15 min au début ; pause ≈ 15 min.
+Total : 10 + 20 + 40 + 60 (chapitres) + 45 (atelier) + 15 (pause) + 15 (accueil) = 205 min ≤ 216.
 -->

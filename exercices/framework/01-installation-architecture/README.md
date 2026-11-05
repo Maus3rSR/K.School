@@ -2,14 +2,24 @@
 
 ## Objectif
 
-Installer un projet Laravel 12 avec Docker (via Laravel Sail), le faire tourner localement, puis **enquêter** dans l'arborescence pour comprendre comment les fichiers s'articulent : qui charge quoi, qui appelle qui.
-
-**Durée estimée** : 2h (A : 1h dont téléchargements, B : 45 min, bonus : 15 min)
+Installer un projet Laravel 12 avec Docker (Laravel Sail), le faire tourner, puis **suivre une requête** de fichier en fichier et **enquêter** dans l'arborescence : qui charge quoi, qui appelle qui.
 
 **Référence officielle** :
 
 - [Laravel Installation](https://laravel.com/framework/docs/12.x/installation)
 - [Laravel Sail](https://laravel.com/framework/docs/12.x/sail)
+
+## Charge
+
+| Niveau | Contenu | Où | Charge indicative |
+|---|---|---|---|
+| **Socle** | Partie A (étapes 0 à 10) | En séance | ≈ 1 h 45 (dont téléchargements) |
+| **Attendu** | Partie B (enquête, ≈ 1 h) + Partie C (≈ 45 min) | À la maison | ≈ 2 h |
+| **Bonus** | Explorer Artisan | Facultatif | ≈ 20 min |
+
+Estimations pour un étudiant qui découvre Laravel : plus lentes que la démo du formateur.
+
+**Répartition de l'enquête** : les 12 questions gardent leur numéro et leurs paliers. En séance, vous répondez à la **1, 5 et 6** (les fichiers que vous venez de suivre). À la maison, la partie B porte sur les paliers **Observer** (2, 3, 4) et **Relier** (7, 8) puis une synthèse ; la partie C (**Raisonner**, 9 à 12) fait expliquer des choix du framework. Les réponses vont dans `REPONSES.md`.
 
 ---
 
@@ -18,79 +28,112 @@ Installer un projet Laravel 12 avec Docker (via Laravel Sail), le faire tourner 
 - Docker et Docker Compose installés et **démarrés** sur votre poste
 - Les ports **80** et **3306** libres (arrêter XAMPP / Apache / MySQL s'ils tournent)
 - Un compte GitHub pour pousser le dépôt du projet
-- Avoir suivi la partie cours de la séance 1 (frameworks, installation, architecture, cycle requête → réponse)
+- Plan B si Docker est indisponible : poste IUT avec Podman (script `laravel-podman-iut-metz.sh wishflix mariadb`, site sur `http://localhost:8080`), PC personnel avec Docker Desktop, ou [Laravel Herd](https://herd.laravel.com/) (`laravel new wishflix`, commandes `php artisan` à la place de `sail artisan`)
 
 ---
 
-## Partie A — Installer WishFlix avec Laravel Sail
+## Partie A — Socle (en séance)
 
-### Étape 1 — Créer le projet
+### Étape 0 — Contrôler l'environnement *(Chapitre 01)*
 
-Dans le répertoire où vous stockez vos projets, exécutez :
+Dans un terminal **WSL2** (pas PowerShell sous Windows) :
+
+```bash
+docker compose version
+docker ps
+```
+
+✅ Vérification : les deux commandes répondent sans `Cannot connect to the Docker daemon`.
+
+### Étape 1 — Lancer la création du projet *(Chapitre 01)*
+
+Dans le répertoire où vous stockez vos projets :
 
 ```bash
 curl -s "https://laravel.build/wishflix?with=mariadb" | bash
 ```
 
-> Sous Windows : exécutez cette commande dans un terminal **WSL2** (pas dans PowerShell).
+> La commande utilise un conteneur temporaire : ni PHP ni Composer ne sont installés sur votre machine. `with=mariadb` limite les services à la base de données. **Le nom `wishflix` est imposé** : les exercices suivants l'attendent.
 
-> Cette commande utilise un conteneur temporaire pour installer Laravel et ses dépendances, sans installer PHP ni Composer sur votre machine. `with=mariadb` limite les services à la base de données (Redis n'est pas nécessaire pour ce cours).
+Laissez tourner (10 à 30 min) : c'est le moment du chapitre 02.
 
-Puis rendez-vous dans le dossier créé :
+✅ Vérification : la commande se termine par un message invitant à faire `cd wishflix`.
+
+### Étape 2 — Démarrer l'environnement *(Chapitre 03)*
 
 ```bash
 cd wishflix
+./vendor/bin/sail up -d
 ```
 
-### Étape 2 — Lancer l'environnement et préparer la base
+`up -d` peut être **long la première fois** (images à télécharger).
+
+### Étape 3 — Préparer la base *(Chapitre 03)*
 
 ```bash
-./vendor/bin/sail up -d
 ./vendor/bin/sail artisan migrate
 ```
 
-- `up -d` peut être **long la première fois** : Docker télécharge l'image PHP, le serveur web et la base de données. C'est normal.
-- `migrate` crée les tables dont Laravel a besoin dès le départ (sessions, cache, jobs). **Sans cette étape, la page d'accueil affichera une erreur.**
+`migrate` crée les tables dont Laravel a besoin dès le départ (sessions, cache, jobs). **Sans cette étape, la page d'accueil affiche une erreur.**
 
-> 💡 Vous pouvez configurer l'alias `sail` vu en cours pour taper `sail up -d` au lieu de `./vendor/bin/sail up -d`. Les consignes gardent la forme longue pour fonctionner partout.
+### Étape 4 — Vérifier le site et la console *(Chapitre 03)*
 
-### Étape 3 — Vérifier que le site répond
-
-Rendez-vous sur [http://localhost](http://localhost).
-
-✅ Vérification : la page d'accueil Laravel s'affiche avec le logo et la version.
-
-### Étape 4 — Vérifier la console Artisan
+Rendez-vous sur [http://localhost](http://localhost), puis :
 
 ```bash
 ./vendor/bin/sail artisan about
 ```
 
-✅ Vérification : la sortie affiche la version de Laravel (12.x), de PHP (8.3+) et l'environnement courant (`local`).
+✅ Vérification : la page d'accueil Laravel s'affiche ; `about` indique Laravel 12.x, PHP 8.3+ et l'environnement `local`.
 
-### Étape 5 — Versionner et pousser sur GitHub
+### Étape 5 — Configurer l'alias `sail` *(Chapitre 03)*
 
-1. Initialisez le dépôt Git et faites le premier commit :
+Ajoutez dans `~/.bashrc` (ou `~/.zshrc`), puis rouvrez le terminal :
 
-   ```bash
-   git init -b main
-   git add .
-   git commit -m "Installation de Laravel 12 avec Sail"
-   ```
+```bash
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+```
 
-2. Créez un dépôt **privé** sur GitHub (sans README, sans `.gitignore`), puis suivez les instructions affichées par GitHub : `git remote add origin ...` puis `git push -u origin main`.
+> Les consignes gardent la forme longue `./vendor/bin/sail` pour fonctionner partout.
 
-✅ Vérification : sur GitHub, le dépôt contient votre commit, et le fichier `.env` **n'apparaît pas** dans le dépôt (vous comprendrez pourquoi en partie B).
+✅ Vérification : `sail artisan about` donne le même résultat.
 
----
+### Étape 6 — Versionner et pousser sur GitHub *(Chapitre 03)*
 
-## Partie B — Enquête dans l'architecture
+```bash
+git init -b main
+git add .
+git commit -m "Installation de Laravel 12 avec Sail"
+```
 
-Ouvrez le répertoire `wishflix/` dans votre éditeur. Répondez aux questions suivantes dans un fichier `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **comment vous l'avez trouvée** (fichier ouvert, commande lancée).
+Créez un dépôt **privé** sur GitHub (sans README, sans `.gitignore`), puis suivez les instructions de GitHub (`git remote add origin ...`, `git push -u origin main`).
 
-Les questions sont organisées en trois paliers de difficulté croissante. Il n'y a pas de réponse « par cœur » : chaque question demande d'ouvrir un fichier ou d'exécuter une commande.
+✅ Vérification : le dépôt contient votre commit et le fichier `.env` **n'apparaît pas**.
 
-### Palier 1 — Observer (ouvrir et lire)
+> **Point de contrôle 1** : étapes 2 à 6 validées. En retard ? Relisez le projet neuf du tag Campus Quest **`s1-ch3-installation`** (dépôt `School_Framework_CampusQuest`), puis **refaites** l'installation de `wishflix` (ou le plan B).
+
+### Étape 7 — Premier fichier d'une requête *(Chapitre 04)*
+
+Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **comment vous l'avez trouvée** (fichier ouvert, commande lancée).
+
+**Question 5** — Le tout premier fichier chargé.
+
+- Ouvrez `public/index.php`.
+- Repérez le **premier** fichier chargé par `require`.
+
+**À noter dans `REPONSES.md`** : ce fichier, le dossier auquel il appartient, et qui a généré ce dossier.
+
+### Étape 8 — Routes déclarées au démarrage *(Chapitre 04)*
+
+**Question 6** — Les routes déclarées au démarrage.
+
+- Ouvrez `bootstrap/app.php`.
+- Repérez les fichiers de routes qui y sont déclarés, ainsi que l'URL de « santé » (*health*) configurée.
+- Visitez cette URL dans votre navigateur.
+
+**À noter dans `REPONSES.md`** : les fichiers de routes déclarés et l'URL de santé.
+
+### Étape 9 — Route et vue d'accueil *(Chapitre 04)*
 
 **Question 1** — La route d'accueil.
 
@@ -98,6 +141,26 @@ Les questions sont organisées en trois paliers de difficulté croissante. Il n'
 - Repérez l'URL définie et ce qu'elle retourne.
 
 **À noter dans `REPONSES.md`** : l'URL définie, ce qu'elle retourne, et le chemin complet du fichier qui contient cette vue.
+
+Puis modifiez un mot dans la vue trouvée et rafraîchissez [http://localhost](http://localhost).
+
+✅ Vérification : votre mot apparaît dans le navigateur.
+
+### Étape 10 — Configuration *(Chapitre 04)*
+
+Changez `APP_NAME` dans `.env`, puis lancez `./vendor/bin/sail artisan about`.
+
+✅ Vérification : le nouveau nom apparaît dans la sortie. Remettez `WishFlix` si vous voulez garder un nom cohérent.
+
+> **Point de contrôle 2** : `REPONSES.md` contient les questions 1, 5 et 6 avec leur méthode. En retard ? Relisez le diff du tag **`s1-ch4-requete`** puis **refaites** les étapes 7 à 10 sur `wishflix`.
+
+---
+
+## Partie B — Attendu : enquête (à la maison, ≈ 1 h)
+
+Continuez `REPONSES.md`. Pour chaque réponse, indiquez **comment vous l'avez trouvée**. Il n'y a pas de réponse « par cœur » : chaque question demande d'ouvrir un fichier ou de lancer une commande.
+
+### Palier 1 — Observer (ouvrir et lire)
 
 **Question 2** — Les valeurs de l'environnement.
 
@@ -125,21 +188,6 @@ Les questions sont organisées en trois paliers de difficulté croissante. Il n'
 
 ### Palier 2 — Relier (suivre le fil entre deux fichiers)
 
-**Question 5** — Le tout premier fichier chargé.
-
-- Ouvrez `public/index.php`.
-- Repérez le **premier** fichier chargé par `require`.
-
-**À noter dans `REPONSES.md`** : ce fichier, le dossier auquel il appartient, et qui a généré ce dossier.
-
-**Question 6** — Les routes déclarées au démarrage.
-
-- Ouvrez `bootstrap/app.php`.
-- Repérez les fichiers de routes qui y sont déclarés, ainsi que l'URL de « santé » (*health*) configurée.
-- Visitez cette URL dans votre navigateur.
-
-**À noter dans `REPONSES.md`** : les fichiers de routes déclarés et l'URL de santé.
-
 **Question 7** — L'inventaire des routes.
 
 - Exécutez :
@@ -157,7 +205,17 @@ Les questions sont organisées en trois paliers de difficulté croissante. Il n'
 
 **À noter dans `REPONSES.md`** : la fonction utilisée pour lire la valeur, et ce qui se passerait si `APP_NAME` était absent du `.env`.
 
-### Palier 3 — Raisonner (expliquer un choix du framework)
+### Synthèse — Votre carte de la requête
+
+Dans `REPONSES.md`, dessinez (liste, schéma ASCII ou Mermaid) le trajet de `GET /` avec **les fichiers de votre projet**, du navigateur à la réponse, en ajoutant pour chaque fichier une phrase sur son rôle. Ajoutez où intervient `.env`.
+
+Poussez ensuite `REPONSES.md` sur GitHub.
+
+---
+
+## Partie C — Sous le capot : raisonner (à la maison, ≈ 45 min)
+
+Palier 3 — Raisonner (expliquer un choix du framework). Les questions 9 à 12 se traitent à la fin, dans `REPONSES.md`.
 
 **Question 9** — Le seul modèle.
 
@@ -225,12 +283,11 @@ Pour une question sur un fichier, demandez-vous d'abord à quelle famille il app
 
 ## Critères de réussite
 
-- [ ] Le projet démarre avec `./vendor/bin/sail up -d`
+- [ ] Points de contrôle 1 et 2 validés (partie A)
 - [ ] `./vendor/bin/sail artisan migrate:status` indique que toutes les migrations sont passées (`Ran`)
-- [ ] La page d'accueil s'affiche sur [http://localhost](http://localhost)
-- [ ] La commande `./vendor/bin/sail artisan about` affiche Laravel 12.x et PHP 8.3+
-- [ ] Le dépôt GitHub privé est créé, contient au moins un commit, et **ne contient pas** `.env`
-- [ ] Le fichier `REPONSES.md` répond aux 12 questions en précisant la méthode utilisée pour chacune
+- [ ] La page d'accueil s'affiche sur [http://localhost](http://localhost) ; `about` affiche Laravel 12.x et PHP 8.3+
+- [ ] Le dépôt GitHub privé contient au moins un commit et **ne contient pas** `.env`
+- [ ] `REPONSES.md` répond aux 12 questions, précise la méthode de chacune et contient la synthèse
 
 ---
 

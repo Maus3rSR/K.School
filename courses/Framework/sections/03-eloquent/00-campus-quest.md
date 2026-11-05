@@ -34,10 +34,11 @@ Une quête a **une** catégorie, mais peut se dérouler dans **plusieurs** lieux
 
 ::bottom::
 
-> 🎯 Objectif : lire et écrire ces tables **sans écrire une ligne de SQL**, grâce à Eloquent.
+> 🎯 Objectif : lire et écrire ces tables **sans écrire une ligne de SQL**, grâce à Eloquent — une notion à la fois : une table, une relation 1-N, une relation N-N, puis des données et l'affichage.
 
 <!--
 Rappeler le pacte : tout est démontré sur Campus Quest, puis transposé sur WishFlix en atelier — jamais de recopie.
+Annoncer le rythme : chaque notion = quelques slides, le livecoding sur Campus Quest, puis vous le refaites sur WishFlix et vous validez un point de contrôle. Cinq chapitres, une pause à mi-parcours.
 Faire réagir : qui a encore ses quêtes en tableau PHP ? Ce tableau disparaît aujourd'hui.
 Le diagramme est le plan de la journée : categories→quests en 1-N, puis la pivot location_quest en N-N.
 -->

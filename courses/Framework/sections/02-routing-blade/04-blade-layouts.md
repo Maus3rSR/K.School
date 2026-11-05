@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 04
-duration: 15 min
+duration: 30 min
 ---
 
 # Blade : les layouts
@@ -13,6 +13,7 @@ duration: 15 min
 
 <!--
 Deuxième partie de Blade : on passe de la vue isolée au gabarit partagé.
+Durée (30 min) = slides (≈ 8 min) + livecoding étape 10 (≈ 7 min) + « À vous » A4 (≈ 15 min).
 -->
 
 ---
@@ -25,7 +26,8 @@ transition: slide-up | slide-down
 Et quand la navigation change… il faut modifier **chaque fichier**.
 
 <!--
-Faire verbaliser : "comment on évite la duplication ?" → un gabarit commun.
+Montrer l'état de la démo : quests/index et quests/show n'ont ni <title> ni navigation. Ajouter une nav… dans les deux fichiers ? Faire verbaliser : "comment on évite la duplication ?" → un gabarit commun.
+Côté WishFlix, les apprenants le vivent déjà : home.blade.php et game-detail.blade.php recopient toute la coquille des maquettes.
 -->
 
 ---
@@ -34,19 +36,16 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Blade : les layouts
-Le layout : des emplacements à remplir
+# Le layout : des emplacements à remplir
 
 ::left::
 
-```blade {all|5,7|10|12|all}
+```blade {all|5|8|10|all}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>@yield('title') — Campus Quest</title>
-    @vite(['resources/css/app.css'])
-    @yield('styles')
 </head>
 <body>
     @include('partials.nav')
@@ -61,7 +60,7 @@ Le layout : des emplacements à remplir
 
 <div v-click="1">
 
-`@yield('title')`, `@yield('styles')` — des **emplacements nommés** que chaque page remplira.
+`@yield('title')` — un **emplacement nommé** que chaque page remplira avec son titre d'onglet.
 
 </div>
 
@@ -84,7 +83,8 @@ Le layout = la **coquille commune** à toutes les pages : écrite une seule fois
 </div>
 
 <!--
-Fichier : resources/views/layouts/app.blade.php. Insister : les noms des yield sont libres mais doivent correspondre aux @section.
+Livecoding étape 10. Fichier : resources/views/layouts/app.blade.php. Insister : les noms des yield sont libres mais doivent correspondre aux @section.
+Pas encore de CSS dans ce layout : elle arrive au chapitre 5, avec Vite.
 -->
 
 ---
@@ -93,8 +93,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Blade : les layouts
-La page enfant remplit les emplacements
+# La page enfant remplit les emplacements
 
 ::left::
 
@@ -102,7 +101,6 @@ La page enfant remplit les emplacements
 
 ```blade
 <title>@yield('title') — Campus Quest</title>
-@yield('styles')
 ...
 <main>@yield('content')</main>
 ```
@@ -118,20 +116,40 @@ La page enfant remplit les emplacements
 
 @section('title', 'Quêtes')
 
-@section('styles')
-    @vite('resources/css/quests.css')
-@endsection
-
 @section('content')
     <h1>Quêtes disponibles</h1>
+    {{-- la boucle du chapitre 2 --}}
 @endsection
 ```
 
 </v-click>
 
 <!--
-@vite dans @section('styles') : la CSS de page est injectée dans le <head> du layout — détail au chapitre 5.
-Question probable : "le nom après @section est imposé ?" → non, mais il doit égaler le nom du @yield.
+@extends choisit le gabarit (layouts.app → layouts/app.blade.php, même convention du point qu'au chapitre 2).
+Forme courte @section('title', '...') pour un texte, forme longue @section ... @endsection pour un bloc.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Et si les noms ne correspondent pas ?
+
+<Quiz
+  question="Le layout attend @yield('content'). Votre page remplit @section('contenu'). Que se passe-t-il ?"
+  :options="[
+    'Blade lève une erreur « section contenu introuvable »',
+    'La page s\'affiche avec la navigation, mais le contenu reste vide, sans erreur',
+    'Blade devine et place le contenu dans l\'emplacement content',
+    'La page s\'affiche sans le layout'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Pré-test avant la slide d'assemblage : faire voter, puis provoquer le bug en direct dans la démo (@section('contenu')).
+Bonne réponse : l'emplacement reste simplement vide, Blade n'affiche aucune erreur — un nom de section ne « remplit » que le @yield du même nom.
+C'est le bug n°1 de l'atelier : le faire repérer maintenant fait gagner du temps.
 -->
 
 ---
@@ -140,8 +158,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Blade : les layouts
-Du layout au HTML final
+# Du layout au HTML final
 
 ::left::
 
@@ -189,9 +206,7 @@ Du layout au HTML final
 
 ::right::
 
-Le layout expose deux **emplacements** : `title` et `content`.
-
-La page enfant fournit ses **sections** : chaque `@section` porte le nom de l'emplacement qu'elle remplit.
+Vous aviez deviné ? Chaque `@section` remplit **le `@yield` du même nom**, et lui seul.
 
 <div v-click="1">
 
@@ -207,15 +222,14 @@ La page enfant fournit ses **sections** : chaque `@section` porte le nom de l'em
 
 <!--
 Montrer le morphing : le @yield devient le contenu — c'est un assemblage, pas une copie.
-@yield('styles') suit exactement le même mécanisme (non montré pour rester lisible).
+Avec @section('contenu'), le second morphing n'a pas lieu : le @yield('content') est remplacé par… rien.
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Blade : les layouts
-Retenir le principe du layout
+# Retenir le principe du layout
 
 <Analogy title="Comme un formulaire à trous" icon="📝">
 
@@ -225,28 +239,29 @@ Le layout est le **formulaire imprimé** : en-tête, cases vides, pied de page i
 
 <!--
 Récap oral : @extends choisit le gabarit, @section(nom) remplit @yield(nom), @include insère un fragment.
+Moment léger : dans partials/nav, renommer « Quêtes » en « Quêtes (dont une introuvable) » → les deux pages changent d'un coup. « Une ligne modifiée, deux pages à jour : voilà l'XP du layout. »
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Blade : les layouts
-À vous de jouer
+# À vous : le layout WishFlix
 
-<Quiz
-  question="Votre page affiche bien la navbar du layout, mais son contenu reste vide. Quelle est la cause la plus probable ?"
-  :options="[
-    'Le contrôleur ne passe pas $quests à la vue',
-    'La page remplit @section(\'contenu\') alors que le layout attend @yield(\'content\')',
-    'Le fichier s\'appelle index.php au lieu de index.blade.php',
-    'sail npm run dev n\'est pas lancé'
-  ]"
-  :answer="1"
-/>
+<Exercise title="WishFlix — étapes A4.1 à A4.4" duration="15 min" level="guidé"
+  :criteria="[
+    'resources/views/layouts/app.blade.php contient la navbar et le footer, une seule fois',
+    'L\'accueil et la fiche jeu étendent le layout',
+    'Modifier un lien de la navbar change les deux pages'
+  ]">
+
+Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A4**.
+
+Extrayez la coquille commune de vos deux vues dans un layout, puis faites-les hériter de celui-ci.
+
+</Exercise>
 
 <!--
-Bonne réponse : les noms de section et de yield ne correspondent pas. Blade n'affiche aucune erreur, l'emplacement reste simplement vide.
-Les autres options produisent des symptômes différents : variable non définie → erreur ; .php → les directives @ s'affichent en texte brut ; Vite → erreur "manifest not found".
-C'est le bug n°1 de l'atelier : le faire repérer maintenant fait gagner du temps.
+Point de contrôle 4. Palier de rattrapage : tag Campus Quest s2-ch4-layouts.
+Les styles WishFlix (couleurs, navbar) manquent encore : c'est le problème que règle le chapitre 5.
 -->

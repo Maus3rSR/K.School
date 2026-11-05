@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 25 min
+duration: 35 min
 ---
 
 # Routing
@@ -13,14 +13,15 @@ duration: 25 min
 
 <!--
 Transition : en S1 on a vu l'architecture ; aujourd'hui on fait répondre le site à de vraies URL.
+Durée (35 min) = accueil + slides (≈ 12 min) + livecoding étapes 1 → 3 (≈ 8 min) + « À vous » A1 (≈ 15 min).
+Avant d'attaquer : faire lancer l'étape 0 du README (sail up, puis `sail npm install` en arrière-plan, utile au chapitre 5).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Routing
-Qu'est-ce qu'une route ?
+# Qu'est-ce qu'une route ?
 
 <Definition term="Route">
 
@@ -49,8 +50,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Routing
-Votre première route
+# Votre première route
 
 ::left::
 
@@ -81,7 +81,7 @@ L'action est ici une **closure** : une fonction anonyme définie à la volée. L
 </div>
 
 <!--
-La route vit dans routes/web.php. La faire taper en direct si le projet de démo existe.
+Livecoding étape 1 : la route vit dans routes/web.php, la taper en direct.
 Question probable : "c'est quoi function () { } ?" → closure, vue en S1.
 -->
 
@@ -89,8 +89,62 @@ Question probable : "c'est quoi function () { } ?" → closure, vue en S1.
 transition: slide-up | slide-down
 ---
 
-# Routing
-Un verbe HTTP par intention
+# Le trajet d'une requête
+
+<v-switch>
+<template #0>
+
+```mermaid
+sequenceDiagram
+    participant N as Navigateur
+    participant R as Router (web.php)
+    N->>R: GET /quests
+```
+
+</template>
+<template #1>
+
+```mermaid
+sequenceDiagram
+    participant N as Navigateur
+    participant R as Router (web.php)
+    participant A as Action (closure)
+    N->>R: GET /quests
+    R->>A: route trouvée : GET /quests
+```
+
+</template>
+<template #2>
+
+```mermaid
+sequenceDiagram
+    participant N as Navigateur
+    participant R as Router (web.php)
+    participant A as Action (closure)
+    N->>R: GET /quests
+    R->>A: route trouvée : GET /quests
+    A-->>N: « Liste des quêtes »
+```
+
+</template>
+</v-switch>
+
+<v-click at="3">
+
+Aucune route ne correspond ? Le router répond directement **404**, sans exécuter d'action.
+
+</v-click>
+
+<!--
+Dérouler clic par clic : la requête arrive, le router cherche la route, l'action répond.
+Le cas 404 du dernier clic prépare la contrainte whereNumber (slide suivante) et le chapitre 6.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Un verbe HTTP par intention
 
 | Verbe | Intention | Exemple Campus Quest |
 |-------|-----------|----------------------|
@@ -110,8 +164,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Routing
-Faire évoluer la route
+# Faire évoluer la route
 
 ::left::
 
@@ -164,23 +217,26 @@ La route `/quests` de tout à l'heure, **enrichie étape par étape**.
 </div>
 
 <!--
+Livecoding étape 2 : montrer d'abord SANS whereNumber que /quests/abc passe, puis l'ajouter → 404.
 Piège classique : oublier le nom identique entre {id} et le paramètre $id.
 Autres contraintes : whereAlpha, where('id', '[0-9]+').
-La 404 d'un paramètre invalide est renvoyée par le router, sans jamais entrer dans l'action.
+Moment léger : la quête n°1 s'appelle « Salle 404 ». Taper /quests/abc → « vous venez de trouver la vraie salle 404 du campus, +50 XP ».
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Routing
-Générer les URL avec route()
+# Générer les URL avec route()
 
-Dans une vue ou un contrôleur, l'URL se génère à partir du **nom** de la route :
+L'URL se génère à partir du **nom** de la route :
 
-```blade
-{{ route('quests.show', 3) }}   →   /quests/3
+```php
+route('quests.show', 3);   // → http://localhost/quests/3
+route('quests.index');     // → http://localhost/quests
 ```
+
+Vous l'utiliserez dès le chapitre suivant, dans les liens de vos pages.
 
 <v-click>
 
@@ -194,24 +250,50 @@ N'écrivez jamais une URL en dur (`href="/quests/3"`). Générez-la avec `route(
 
 <!--
 Anecdote : un projet où l'on passe de /quest/{id} à /defis/{id} — avec route() on change une ligne, en dur on chasse 40 liens.
+On peut le montrer en direct avec `sail artisan tinker` puis route('quests.show', 3).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Routing
-Inspecter toutes les routes de l'application
+# Inspecter toutes les routes de l'application
 
 <Terminal
   title="bash" prompt="$"
   :lines="[
-    { cmd: 'sail artisan route:list', out: '  GET|HEAD   / ........................................................\n  GET|HEAD   quests ......... quests.index › QuestController@index\n  GET|HEAD   quests/{id} ...... quests.show › QuestController@show\n  GET|HEAD   storage/{path} ............................ storage.local\n  GET|HEAD   up ......................................................\n\n                                                  Showing [5] routes' }
+    { cmd: 'sail artisan route:list', out: '  GET|HEAD   / ........................................................\n  GET|HEAD   quests ........................................ quests.index\n  GET|HEAD   quests/{id} .................................... quests.show\n  GET|HEAD   storage/{path} ............................ storage.local\n  GET|HEAD   up ......................................................\n\n                                                  Showing [5] routes' }
   ]"
 />
 
 <!--
+Livecoding étape 3.
 `up` est la route de santé configurée dans bootstrap/app.php (vue en S1, exercice 1).
 `storage/{path}` sert les fichiers du disque public.
-Faire lancer la commande par les apprenants sur leur projet S1 : ils n'y verront que / et up.
+Les routes sont encore des closures : la colonne de droite n'affiche que leur nom. Au chapitre 3, on y verra QuestController@index.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : la route de la fiche jeu
+
+<Exercise title="WishFlix — étapes A1.1 à A1.3" duration="15 min" level="guidé"
+  :criteria="[
+    '/game/3 affiche « Jeu n°3 »',
+    '/game/abc renvoie une 404',
+    'sail artisan route:list affiche la route nommée games.show'
+  ]">
+
+Consignes : `exercices/framework/02-routing-blade/README.md`, **étape 0 puis Partie A, étapes A1**.
+
+Transposez la démo sur WishFlix : une route `GET /game/{id}` qui répond par un simple texte, contrainte et nommée.
+
+</Exercise>
+
+<!--
+Point de contrôle 1. Palier de rattrapage : tag Campus Quest s2-ch1-routing (diff = les deux routes closures).
+Un élève bloqué sur l'étape 0 (Sail) : ne pas attendre, le dépanner pendant la slide suivante.
+Passer dans les rangs : l'erreur la plus fréquente est le nom de paramètre différent entre {id} et $id.
 -->

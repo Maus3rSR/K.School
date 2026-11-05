@@ -5,14 +5,17 @@ number: 01
 duration: 20 min
 ---
 
-# Les formulaires HTML
+# Le formulaire de création
 
-- Distinguer GET et POST pour envoyer des données
-- Écrire un formulaire Blade complet
-- Enregistrer puis rediriger avec un message flash
+- Choisir entre GET et POST pour envoyer des données
+- Afficher un formulaire avec une route GET
+- Traiter l'envoi avec une route POST, puis rediriger
 
 <!--
 Transition : le Maître du jeu veut créer ses quêtes dans le navigateur. Première brique : le formulaire.
+Moment léger (running gag Campus Quest) : « Hier, le Maître du jeu a voulu ajouter une quête… il a ouvert Tinker,
+tapé Quest::create( et refermé le terminal en pleurant. » Aujourd'hui, on lui offre un vrai écran.
+Tag Campus Quest de fin de chapitre : s5-ch1-formulaire.
 -->
 
 ---
@@ -59,6 +62,104 @@ Lien avec S2 : le filtre ?difficulty=easy de la liste était un GET — logique,
 -->
 
 ---
+layout: center
+transition: slide-up | slide-down
+---
+
+# Un formulaire = deux requêtes
+
+<div class="grid grid-cols-2 gap-8 mt-4">
+<div>
+
+**1. Afficher** — une route **GET**
+
+```mermaid {scale: 0.75}
+sequenceDiagram
+    participant N as Navigateur
+    participant L as Laravel
+    N->>L: GET /quests/create
+    L-->>N: HTML du formulaire
+```
+
+</div>
+<div v-click>
+
+**2. Envoyer** — une route **POST**
+
+```mermaid {scale: 0.75}
+sequenceDiagram
+    participant N as Navigateur
+    participant L as Laravel
+    participant B as Base
+    N->>L: POST /quests (title, xp…)
+    L->>B: INSERT INTO quests
+    L-->>N: 302 → /quests/31
+```
+
+</div>
+</div>
+
+<!--
+Deux allers-retours distincts : on affiche (GET, sans effet), puis on envoie (POST, avec effet).
+Le 302 de la fin est le sujet de la slide « Post/Redirect/Get » un peu plus loin.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Les routes et l'action `create()`
+
+::left::
+
+```php {all|2|3|5-11|all}
+// routes/web.php
+Route::get('/quests/create', [QuestController::class, 'create'])->name('quests.create');
+Route::post('/quests', [QuestController::class, 'store'])->name('quests.store');
+
+// app/Http/Controllers/QuestController.php
+public function create()
+{
+    return view('quests.create', [
+        'categories' => Category::all(),
+    ]);
+}
+```
+
+::right::
+
+<div v-click="1">
+
+Le **GET** affiche le formulaire. `/quests/create` n'est pas capturée par `/quests/{id}` : le `whereNumber('id')` de la S2 n'accepte que des chiffres.
+
+</div>
+
+<div v-click="2">
+
+Le **POST** vise la **même URL que la liste** : c'est le verbe qui change l'action.
+
+</div>
+
+<div v-click="3">
+
+`create()` passe `Category::all()` à la vue : le `<select>` des catégories en a besoin.
+
+</div>
+
+<div v-click="4">
+
+Retenez : **une route GET pour afficher, une route POST pour traiter**.
+
+</div>
+
+<!--
+N'oubliez pas l'import use App\Models\Category; en tête du contrôleur.
+Un lien « Nouvelle quête » dans partials/nav.blade.php : route('quests.create').
+-->
+
+---
 layout: two-cols-header
 layoutClass: gap-x-6
 transition: slide-up | slide-down
@@ -69,10 +170,8 @@ transition: slide-up | slide-down
 
 ::left::
 
-```blade {all|1-2|4-11|13-18|20-25|27-28|all}
+```blade {all|1|2-9|11-16|18-23|25|all}{maxHeight:'360px'}
 <form method="POST" action="{{ route('quests.store') }}">
-    @csrf
-
     <label for="title">Titre</label>
     <input id="title" name="title" type="text">
 
@@ -104,13 +203,13 @@ transition: slide-up | slide-down
 
 <div v-click="1">
 
-`method="POST"` vers la **route nommée** `quests.store`. `@csrf` ajoute un jeton de sécurité obligatoire — on y revient **au chapitre 2**.
+`method="POST"` vers la **route nommée** `quests.store`.
 
 </div>
 
 <div v-click="2">
 
-Chaque champ a un `name` : c'est la **clé** sous laquelle la saisie arrivera au serveur (`$request['title']`…).
+Chaque champ a un `name` : c'est la **clé** sous laquelle la saisie arrivera au serveur (`$request->input('title')`…).
 
 </div>
 
@@ -139,25 +238,10 @@ Retenez : **`name` = clé, saisie = valeur** — le serveur reçoit un tableau a
 </div>
 
 <!--
+La vue complète étend le layout (@extends('layouts.app'), @section('content')) comme les vues de la S2.
 Piège classique : oublier le name → le champ n'arrive jamais au serveur, sans erreur visible.
-Le @csrf : une ligne à dire « indispensable, explication au chapitre suivant » — ne pas dérouler le jeton maintenant.
 Les <label for> ne sont pas décoratifs : clic sur le libellé = focus dans le champ + accessibilité.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Le formulaire, côté navigateur
-
-<Browser url="campus-quest.test/quests/create" title="Campus Quest">
-  <Placeholder :w="800" :h="500" text="Formulaire de création de quête" />
-</Browser>
-
-Ce que Blade a produit n'est que **du HTML classique** : directives compilées, `@csrf` devenu un `<input type="hidden">`, la boucle devenue une liste d'`<option>`.
-
-<!--
-Ouvrir les DevTools > Éléments en démo : montrer l'input caché _token et les options du select catégories.
+Volontairement, AUCUN @csrf ici : on le découvre à la fin du chapitre.
 -->
 
 ---
@@ -166,25 +250,20 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Les routes et le contrôleur
+# L'action `store()`
 
 ::left::
 
-```php {all|1-3|5-9|11-15|all}
-// routes/web.php — deux nouvelles routes
-Route::get('/quests/create', [QuestController::class, 'create'])->name('quests.create');
-Route::post('/quests', [QuestController::class, 'store'])->name('quests.store');
-
-// app/Http/Controllers/QuestController.php
-public function create()
-{
-    return view('quests.create', ['categories' => Category::all()]);
-}
-
+```php {all|3|5|7-9|all}
 public function store(Request $request)
 {
-    Quest::create($request->only(['title', 'description', 'xp', 'difficulty', 'category_id']));
-    return redirect()->route('quests.index')->with('success', 'Quête créée !');
+    $data = $request->only(['title', 'description', 'xp', 'difficulty', 'category_id']);
+
+    $quest = Quest::create($data);
+
+    return redirect()
+        ->route('quests.show', $quest)
+        ->with('success', 'Quête créée !');
 }
 ```
 
@@ -192,19 +271,19 @@ public function store(Request $request)
 
 <div v-click="1">
 
-Deux routes : le **GET** affiche le formulaire, le **POST** le traite — même logique qu'en S2.
+`Request` est **injecté** par Laravel ; `only()` ne garde que les champs attendus.
 
 </div>
 
 <div v-click="2">
 
-`create()` passe `Category::all()` à la vue : c'est ce `$categories` que le `<select>` boucle.
+`Quest::create()` insère la ligne — grâce au `$fillable` écrit en S3.
 
 </div>
 
 <div v-click="3">
 
-`store()` — `Request` est **injecté** par Laravel ; `only()` ne retient que les champs attendus (par prudence vis-à-vis du `$fillable`) ; `create()` insère ; `redirect()` + `with()` renvoie vers la liste **avec un message**.
+`redirect()->route(...)` renvoie vers **la fiche de la nouvelle quête** ; `with()` y joint un message.
 
 </div>
 
@@ -215,9 +294,8 @@ Le cycle complet : **soumettre → insérer → rediriger**.
 </div>
 
 <!--
-$request->only() renvoie un tableau limité aux clés listées — un champ parasite envoyé par un formulaire
-trafiqué est ignoré avant même d'atteindre le modèle.
-Question probable : « pourquoi pas return view() après la création ? » → c'est toute la slide suivante (PRG).
+route('quests.show', $quest) : on passe le modèle, Laravel en extrait l'id pour construire /quests/31.
+Question probable : « pourquoi pas return view() après la création ? » → c'est la slide suivante (PRG).
 -->
 
 ---
@@ -231,8 +309,8 @@ transition: slide-up | slide-down
   :items="[
     { title: 'POST /quests', desc: 'Le formulaire envoie les saisies', icon: '📮' },
     { title: 'INSERT', desc: 'store() enregistre la quête en base' },
-    { title: '302 Redirect', desc: 'Le serveur répond « va voir /quests »', icon: '↩️' },
-    { title: 'GET /quests', desc: 'Le navigateur affiche la liste à jour', icon: '✅' }
+    { title: '302 Redirect', desc: 'Le serveur répond « va voir /quests/31 »', icon: '↩️' },
+    { title: 'GET /quests/31', desc: 'Le navigateur affiche la fiche créée', icon: '✅' }
   ]"
 />
 
@@ -270,9 +348,13 @@ Dans `layouts/app.blade.php`, commun à toutes les pages
 
 ```blade
 {{-- resources/views/layouts/app.blade.php --}}
-@if (session('success'))
-    <div class="flash">{{ session('success') }}</div>
-@endif
+<main>
+    @if (session('success'))
+        <div class="flash">{{ session('success') }}</div>
+    @endif
+
+    @yield('content')
+</main>
 ```
 
 ::right::
@@ -280,17 +362,32 @@ Dans `layouts/app.blade.php`, commun à toutes les pages
 - `with('success', '…')` écrit en session une <KeyTerm>donnée flash</KeyTerm> : elle ne survit qu'à **une seule** requête
 - `session('success')` la lit au prochain chargement — puis elle est oubliée : la bannière ne se répète pas à chaque page
 
+<!--
+Comparé à une session classique (panier, login) qui persiste, le flash s'auto-détruit après lecture.
+On le verra fonctionner… dès que le formulaire passera. Slide suivante : premier essai.
+-->
+
+---
+layout: center
+transition: slide-up | slide-down
+---
+
+# Premier envoi…
+
+<Browser url="localhost/quests" title="Campus Quest">
+  <div class="flex flex-col items-center justify-center h-60 text-2xl tracking-widest opacity-70">
+    419 | PAGE EXPIRED
+  </div>
+</Browser>
+
 <v-click>
 
-<Alert type="warning">
-
-Rien n'est **validé** pour l'instant : un titre vide ou `xp = 'beaucoup'` serait enregistré tel quel — ou planterait. Rendez-vous au **chapitre 4**.
-
-</Alert>
+Le formulaire est correct, les routes existent, le contrôleur aussi. **Qui refuse votre requête ?**
 
 </v-click>
 
 <!--
-Démo : créer une quête → bannière « Quête créée ! », puis naviguer : elle a disparu. C'est la définition du flash.
-Comparé à une session classique (panier, login) qui persiste, le flash s'auto-détruit après lecture.
+Moment léger : jouez la surprise (« ça marchait chez moi ! »), faites lancer des hypothèses dans la salle.
+« Page Expired » alors qu'on vient d'ouvrir la page : le message est trompeur, c'est voulu par Laravel.
+Ne donnez pas la réponse : elle ouvre le chapitre suivant.
 -->

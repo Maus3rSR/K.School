@@ -1,7 +1,7 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 06
+number: 07
 duration: 20 min
 ---
 
@@ -13,6 +13,30 @@ duration: 20 min
 
 <!--
 Transition : le back-office marche. Dernière couche de propreté : sortir le métier du contrôleur.
+Chapitre en DÉMO : pas de micro-pratique, rien à reproduire en séance. Le GameService de WishFlix est un bonus de l'exercice.
+Moment léger : « le Maître du jeu veut TOUTES les quêtes à la une — la règle métier dit non ».
+Tag Campus Quest de fin de chapitre : s5-ch7-services.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À votre avis ?
+
+<Quiz
+  question="Une règle métier (« une seule quête à la une ») est nécessaire dans store() et dans update(). Où la placer ?"
+  :options="[
+    'Recopiée dans les deux méthodes du contrôleur',
+    'Dans la vue Blade, avant l\'envoi',
+    'Dans une classe dédiée, appelée par les deux méthodes',
+    'Dans la route, avec un middleware'
+  ]"
+  :answer="2"
+/>
+
+<!--
+La plupart répondent « recopiée » par habitude : c'est exactement ce que la slide suivante fait vivre, et ce qu'on veut éviter.
 -->
 
 ---

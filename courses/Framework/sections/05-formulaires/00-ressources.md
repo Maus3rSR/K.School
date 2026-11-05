@@ -30,5 +30,5 @@ transition: slide-left | slide-right
 <!--
 La page Validation reste ouverte pendant toute la séance : la liste des règles disponibles y est exhaustive.
 CSRF : la section « Preventing CSRF Requests » explique le jeton et l'exemple du formulaire malveillant utilisé en cours.
-Le Service Container a été effleuré en S1 (inversion de contrôle) — le chapitre 6 y revient en situation.
+Le Service Container a été effleuré en S1 (inversion de contrôle) — le chapitre 7 y revient en situation.
 -->

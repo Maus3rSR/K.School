@@ -1,0 +1,35 @@
+form { display: grid; gap: 0.5rem; }
+
+input[type="text"], input[type="number"], textarea, select {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #334155;
+    background: var(--card);
+    color: var(--text);
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: var(--accent);
+    color: #0f172a;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button.danger { background: #991b1b; color: #fff; }
+
+fieldset { border: 1px solid #334155; border-radius: 0.5rem; }
+fieldset label { margin-right: 1rem; }
+
+.flash {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: #166534;
+}
+
+.error { margin: 0; color: #fca5a5; font-size: 0.9rem; }
+
+.actions { display: flex; gap: 1rem; align-items: center; }

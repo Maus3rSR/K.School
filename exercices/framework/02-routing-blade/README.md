@@ -26,7 +26,7 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 ## Prérequis
 
 - Le projet `wishflix` de la séance 1 qui démarre (`./vendor/bin/sail up -d`, page Laravel sur [http://localhost](http://localhost))
-- Le dépôt **K.School** cloné sur votre machine (il contient les maquettes dans `scenarios/WishFlix/src/` : `home.html`, `game-detail.html`, `wishlist.html`, `login.html`, `404.html`, `app.css` et une CSS par page) et **Node.js** installé sur votre machine (hors Sail) pour lancer le script de l'étape A5
+- L'**archive WishFlix fournie par le formateur** (`wishflix-maquettes.zip`, via Moodle), décompressée dans un dossier de votre choix : elle contient les maquettes (`home.html`, `game-detail.html`, `wishlist.html`, `login.html`, `404.html`, `app.css` et une CSS par page) et le script `copy-css.mjs` utilisé à l'étape A5, ainsi que **Node.js** installé sur votre machine (hors Sail) pour lancer ce script
 - Chaque maquette partage la même coquille : une `<header class="navbar wishflix-shell__navbar">` (logo WishFlix, liens Accueil / Wishlist avec badge, bloc Invité / Se connecter) et un `<footer class="wishflix-footer">` — c'est elle qui deviendra votre layout
 
 > 💡 Les consignes gardent la forme longue `./vendor/bin/sail` ; l'alias `sail` configuré en S1 fonctionne aussi.
@@ -47,7 +47,7 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 
 ## Partie A — Socle (en séance)
 
-Chaque étape indique son **chapitre** du cours. Les maquettes de départ sont celles de `scenarios/WishFlix/src/`.
+Chaque étape indique son **chapitre** du cours. Les maquettes de départ sont celles de l'archive `wishflix-maquettes` décompressée (prérequis).
 
 ### A1 — Une première route (Chapitre 1)
 
@@ -157,15 +157,15 @@ Route::get('/game/{id}', [GameController::class, 'show'])
 ./vendor/bin/sail npm run dev
 ```
 
-**Étape A5.2** — Copiez les CSS des maquettes avec le **script fourni**. Depuis le dossier `exercices/framework` du dépôt K.School :
+**Étape A5.2** — Copiez les CSS des maquettes avec le **script fourni dans l'archive**. Depuis le dossier `wishflix-maquettes` décompressé :
 
 ```bash
-npm run 02-routing-blade -- /chemin/vers/wishflix
+node copy-css.mjs /chemin/vers/wishflix
 ```
 
 Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`, `login`, `404`) dans `resources/css/` de votre projet. Votre ancien `app.css` est sauvegardé en `app.css.orig`. Utilisez un chemin **absolu** pour éviter les erreurs de dossier.
 
-> 💡 Distribution : le script vit dans le dépôt K.School (que vous avez cloné ou téléchargé), à côté des maquettes. Si vous n'avez pas Node.js hors Sail, copiez à la main les six fichiers CSS de `scenarios/WishFlix/src/` dans `resources/css/` de votre projet.
+> 💡 Distribution : le script `copy-css.mjs` fait partie de l'archive WishFlix, à côté des maquettes. Si vous n'avez pas Node.js hors Sail, copiez à la main les six fichiers CSS du dossier `wishflix-maquettes` dans `resources/css/` de votre projet.
 
 ✅ `resources/css/` contient `app.css`, `home.css`, `game-detail.css`, `wishlist.css`, `login.css`, `404.css`.
 

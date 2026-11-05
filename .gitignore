@@ -16,6 +16,7 @@ build
 out
 .output
 slides-export.pdf
+wishflix-maquettes.zip
 
 # Debug logs
 npm-debug.log*

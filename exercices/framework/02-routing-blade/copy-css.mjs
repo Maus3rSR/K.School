@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // Copie les CSS des maquettes WishFlix dans resources/css/ du projet de l'étudiant.
-// Usage : npm run 02-routing-blade -- <chemin du projet wishflix>
+// Fourni dans l'archive wishflix-maquettes.zip : les fichiers des maquettes sont
+// dans le même dossier que ce script. Aucun dépôt ni gestionnaire de paquets requis.
+// Usage : node copy-css.mjs <chemin du projet wishflix>
 import { copyFileSync, existsSync, statSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const FILES = ['app.css', 'home.css', 'game-detail.css', 'wishlist.css', 'login.css', '404.css']
 
-const here = dirname(fileURLToPath(import.meta.url))
-const mockups = resolve(here, '../../../scenarios/WishFlix/src')
+const mockups = dirname(fileURLToPath(import.meta.url))
 const target = process.argv[2]
 
 function fail(message) {
@@ -17,13 +18,13 @@ function fail(message) {
 }
 
 if (!target) {
-  fail('indiquez le chemin du projet wishflix.\n  Exemple : npm run 02-routing-blade -- ~/projets/wishflix')
+  fail('indiquez le chemin du projet wishflix.\n  Exemple : node copy-css.mjs ~/projets/wishflix')
 }
 
 const project = resolve(target)
 if (!existsSync(project) || !statSync(project).isDirectory()) fail(`dossier introuvable : ${project}`)
 if (!existsSync(join(project, 'artisan'))) fail(`${project} ne ressemble pas à un projet Laravel (fichier « artisan » absent)`)
-if (!existsSync(mockups)) fail(`maquettes introuvables : ${mockups} (lancez le script depuis le dépôt K.School)`)
+if (!existsSync(join(mockups, 'app.css'))) fail(`maquettes introuvables à côté du script : ${mockups} (archive incomplète ?)`)
 
 const cssDir = join(project, 'resources', 'css')
 if (!existsSync(cssDir)) fail(`dossier introuvable : ${cssDir}`)

@@ -222,11 +222,11 @@ transition: slide-up | slide-down
 
 Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A5**.
 
-Un **script fourni** copie les CSS des maquettes dans votre projet : vous n'avez qu'à lui donner le chemin de `wishflix`. Puis déclarez-les à Vite et chargez-les depuis le layout et les pages.
+Un **script fourni dans l'archive des maquettes** (`copy-css.mjs`, via Moodle) copie les CSS dans votre projet : vous n'avez qu'à lui donner le chemin de `wishflix`. Puis déclarez-les à Vite et chargez-les depuis le layout et les pages.
 
 </Exercise>
 
 <!--
 Point de contrôle 5. Palier de rattrapage : tag Campus Quest s2-ch5-vite.
-Le script se lance depuis exercices/framework du dépôt K.School : montrer la commande au tableau. Erreur fréquente : chemin relatif écrit depuis le mauvais dossier — conseiller un chemin absolu.
+Le script copy-css.mjs fait partie de l'archive wishflix-maquettes.zip (Moodle) ; il se lance avec node depuis le dossier décompressé : montrer la commande au tableau. Erreur fréquente : chemin relatif écrit depuis le mauvais dossier — conseiller un chemin absolu.
 -->

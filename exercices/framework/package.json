@@ -1,9 +1,0 @@
-{
-  "name": "@k.school/exercices-framework",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "02-routing-blade": "node 02-routing-blade/copy-css.mjs"
-  }
-}

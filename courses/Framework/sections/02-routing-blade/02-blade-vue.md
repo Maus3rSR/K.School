@@ -249,7 +249,7 @@ transition: slide-up | slide-down
     'Le bouton « Details » d\'une carte mène à /game/{id}'
   ]">
 
-Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A2**.
+Consignes : README de l'exercice `02-routing-blade`, **Partie A, étapes A2**.
 
 Partez de la maquette `home.html` : elle devient une vue Blade, et ses cartes sont générées par une boucle.
 

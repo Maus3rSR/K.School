@@ -255,7 +255,7 @@ transition: slide-up | slide-down
     'Modifier un lien de la navbar change les deux pages'
   ]">
 
-Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A4**.
+Consignes : README de l'exercice `02-routing-blade`, **Partie A, étapes A4**.
 
 Extrayez la coquille commune de vos deux vues dans un layout, puis faites-les hériter de celui-ci.
 

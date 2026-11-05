@@ -9,7 +9,7 @@ Le catalogue lit la base de données
     'Accueil et /game/{id} lisent la base — 404 via findOrFail'
   ]">
 
-Consignes dans le **README** de l'exercice `03-eloquent` (`exercices/framework/`) : la Partie A est découpée en **5 groupes d'étapes**, un par chapitre, chacun avec son point de contrôle.
+Consignes dans le **README** de l'exercice `03-eloquent` : la Partie A est découpée en **5 groupes d'étapes**, un par chapitre, chacun avec son point de contrôle.
 
 À la maison : 2 user stories (seeders complets avec factory, plateformes sur la fiche) + la Partie C « Sous le capot ». Bonus : compteur par catégorie et slug dans l'URL.
 

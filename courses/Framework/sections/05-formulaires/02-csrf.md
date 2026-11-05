@@ -225,7 +225,7 @@ transition: slide-up | slide-down
     'Le chapitre 01 donne l\'ordre : routes → create() → vue → store() → flash dans le layout'
   ]">
 
-**Exercice** `05-formulaires-validation` — étapes **A1 à A2** du README (`exercices/framework/`).
+**Exercice** `05-formulaires-validation` — étapes **A1 à A2** du README.
 
 Transposez la démo sur les **jeux** WishFlix : formulaire, `@csrf`, enregistrement, redirection.
 

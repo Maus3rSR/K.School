@@ -220,7 +220,7 @@ transition: slide-up | slide-down
     'L\'accueil et la fiche jeu ont les couleurs WishFlix'
   ]">
 
-Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A5**.
+Consignes : README de l'exercice `02-routing-blade`, **Partie A, étapes A5**.
 
 Un **script fourni dans l'archive des maquettes** (`copy-css.mjs`, via Moodle) copie les CSS dans votre projet : vous n'avez qu'à lui donner le chemin de `wishflix`. Puis déclarez-les à Vite et chargez-les depuis le layout et les pages.
 

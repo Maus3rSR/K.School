@@ -286,7 +286,7 @@ transition: slide-up | slide-down
     'sail artisan route:list affiche la route nommée games.show'
   ]">
 
-Consignes : `exercices/framework/02-routing-blade/README.md`, **étape 0 puis Partie A, étapes A1**.
+Consignes : README de l'exercice `02-routing-blade`, **étape 0 puis Partie A, étapes A1**.
 
 Transposez la démo sur WishFlix : une route `GET /game/{id}` qui répond par un simple texte, contrainte et nommée.
 

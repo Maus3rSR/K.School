@@ -308,7 +308,7 @@ transition: slide-up | slide-down
     '/game/1 affiche la fiche du jeu n°1 (vue game-detail)'
   ]">
 
-Consignes : `exercices/framework/02-routing-blade/README.md`, **Partie A, étapes A3**.
+Consignes : README de l'exercice `02-routing-blade`, **Partie A, étapes A3**.
 
 Déplacez la logique de vos closures dans un contrôleur, puis ajoutez la vraie fiche jeu.
 

@@ -9,7 +9,7 @@ Le back-office des jeux
     'Les trois points de contrôle du README sont cochés'
   ]">
 
-Consignes dans le **README** de l'exercice `05-formulaires-validation` (`exercices/framework/`).
+Consignes dans le **README** de l'exercice `05-formulaires-validation`.
 
 **Socle** : les micro-pratiques des chapitres 02 à 06, déjà faites en séance. **Chez vous** : le CRUD des catégories et des plateformes (≈ 1h15), la Partie C (≈ 45 min). **Bonus** : une 3e user story, `GameService`, upload de la jaquette.
 

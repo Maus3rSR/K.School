@@ -299,6 +299,23 @@ Moment léger : remplacer index() par un redirect vers… quests.index → boucl
 transition: slide-up | slide-down
 ---
 
+# Panorama : le contrôleur
+
+<script setup>
+import controllers from '/references/controllers'
+</script>
+
+<Panorama :items="controllers" doc="https://laravel.com/docs/12.x/controllers" at="s2-ch3" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : le GameController
 
 <Exercise title="WishFlix — étapes A3.1 à A3.6" duration="18 min" level="guidé"

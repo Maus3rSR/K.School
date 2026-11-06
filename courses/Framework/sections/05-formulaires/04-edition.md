@@ -334,6 +334,23 @@ Anecdote : les aspirateurs hors-ligne et les prefetch de navigateurs ont déjà 
 transition: slide-up | slide-down
 ---
 
+# Panorama : Blade
+
+<script setup>
+import blade from '/references/blade'
+</script>
+
+<Panorama :items="blade" doc="https://laravel.com/docs/12.x/blade" at="s5-ch4" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : éditer et supprimer un jeu
 
 <Exercise title="WishFlix — modifier et supprimer un jeu" duration="15 min" level="guidé"

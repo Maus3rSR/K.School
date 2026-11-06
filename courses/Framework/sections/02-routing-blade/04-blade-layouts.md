@@ -246,6 +246,23 @@ Moment léger : dans partials/nav, renommer « Quêtes » en « Quêtes (dont un
 transition: slide-up | slide-down
 ---
 
+# Panorama : Blade
+
+<script setup>
+import blade from '/references/blade'
+</script>
+
+<Panorama :items="blade" doc="https://laravel.com/docs/12.x/blade" at="s2-ch4" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : le layout WishFlix
 
 <Exercise title="WishFlix — étapes A4.1 à A4.4" duration="15 min" level="guidé"

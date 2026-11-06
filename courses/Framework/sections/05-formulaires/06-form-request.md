@@ -248,6 +248,40 @@ Pas d'héritage entre les deux classes dans le cours : deux fichiers explicites,
 transition: slide-up | slide-down
 ---
 
+# Panorama : les Form Requests
+
+<script setup>
+import formRequest from '/references/form-request'
+</script>
+
+<Panorama :items="formRequest" doc="https://laravel.com/docs/12.x/validation#form-request-validation" at="s5-ch6" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : Artisan
+
+<script setup>
+import artisan from '/references/artisan'
+</script>
+
+<Panorama :items="artisan" doc="https://laravel.com/docs/12.x/artisan" at="s5-ch6" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : une Form Request
 
 <Exercise title="WishFlix — Form Request des jeux" duration="10 min" level="guidé"

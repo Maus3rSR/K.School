@@ -94,49 +94,28 @@ transition: slide-up | slide-down
 # Active Record : un objet par ligne
 Une ligne de la table, un objet PHP
 
-<div class="relative h-64">
-
-<div class="absolute inset-0" v-click.hide="1">
-
-```mermaid
-flowchart LR
-    subgraph T["table locations"]
-        R1["id 1 · BU"]
-        R2["id 2 · Cafét"]
-    end
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="[1,2]">
-
-```mermaid
-flowchart LR
-    subgraph T["table locations"]
-        R1["id 1 · BU"]
-        R2["id 2 · Cafét"]
-    end
-    R2 -- "Location::find(2)" --> O["$location<br/>name = 'Cafét'"]
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="2">
-
-```mermaid
-flowchart LR
-    subgraph T["table locations"]
-        R1["id 1 · BU"]
-        R2["id 2 · Cafèt (modifiée)"]
-    end
-    O["$location<br/>name = 'Cafèt'"] -- "$location->save() = UPDATE" --> R2
-```
-
-</div>
-
-</div>
+<TableLinks
+  class="mt-4"
+  :tables="[
+    { id: 'locations', name: 'locations', columns: ['id', 'name'], pk: ['id'], rows: [
+      [1, 'BU'],
+      [2, [{ v: 'Cafét', until: 2 }, { v: 'Cafèt', at: 2 }]]
+    ] },
+    { id: 'loc', kind: 'object', name: '$location', at: 1, props: [
+      ['name', [{ v: '\'Cafét\'', at: 1, until: 2 }, { v: '\'Cafèt\'', at: 2 }]]
+    ] }
+  ]"
+  :links="[
+    { from: { table: 'locations', row: 1, col: 'name' }, to: { table: 'loc', row: 0 }, at: 1, until: 2, label: 'Location::find(2)', labelSide: 'below' },
+    { from: { table: 'loc', row: 0 }, to: { table: 'locations', row: 1, col: 'name' }, at: 2, label: 'save() = UPDATE', labelSide: 'below' }
+  ]"
+/>
 
 <div v-click="1">
+
+```php
+$location = Location::find(2);
+```
 
 **1 classe** = **1 table**, **1 instance** = **1 ligne** : lire `$location->name`, c'est lire la colonne `name`.
 
@@ -144,13 +123,19 @@ flowchart LR
 
 <div v-click="2">
 
+```php
+$location->name = 'Cafèt';
+$location->save();
+```
+
 L'objet **sait se sauvegarder lui-même** : on modifie ses propriétés puis on appelle `save()`.
 
 </div>
 
 <!--
 "Active" = l'objet n'est pas une boîte de données inerte : il porte les méthodes save(), delete().
-Moment léger (étape 2) : modifier « Cafét » en « Cafèt » devant la salle et demander qui a vu la faute. Le framework, lui, n'a rien dit : il enregistre ce qu'on lui donne.
+Le schéma suit le code : click 1 = find() ramène la ligne dans l'objet ; click 2 = le code assigne 'Cafèt' et save() réécrit la ligne (UPDATE) — la cellule et l'objet changent au même instant.
+Moment léger (étape 2) : demander qui a vu la faute. Le framework, lui, n'a rien dit : il enregistre ce qu'on lui donne.
 Autres implémentations d'Active Record : Ruby on Rails (qui a inspiré Eloquent), Django s'en rapproche.
 -->
 
@@ -203,6 +188,8 @@ Ce que produit make:model Location -m
   ]"
 />
 
+::right::
+
 ```php
 // app/Models/Location.php — généré VIDE
 class Location extends Model
@@ -210,10 +197,6 @@ class Location extends Model
     //
 }
 ```
-
-::right::
-
-<v-click>
 
 ```php
 // …_create_locations_table.php — un SQUELETTE
@@ -223,13 +206,9 @@ Schema::create('locations', function (Blueprint $table) {
 });
 ```
 
-</v-click>
-
-<div v-click="2">
+::bottom::
 
 Pourquoi `-m` ? **Une seule commande** produit deux fichiers cohérents : le modèle et la migration `create_locations_table`, bien nommés, bien rangés.
-
-</div>
 
 <!--
 Le modèle vit dans app/Models/ — à ne pas confondre avec app/Http/Controllers/.
@@ -330,7 +309,7 @@ Le type d'abord, les options ensuite
 | `->unique()` | interdit les doublons |
 | `->index()` | accélère les recherches |
 
-[📖 Types](https://laravel.com/framework/docs/12.x/migrations#available-column-types) · [📖 Modificateurs](https://laravel.com/framework/docs/12.x/migrations#column-modifiers)
+Les autres types et modificateurs : **Panorama des migrations**, en fin de chapitre.
 
 <!--
 Ils se chaînent : $table->string('slug')->unique(). Les modificateurs de clé étrangère (constrained, cascadeOnDelete) viennent au chapitre suivant, avec leur problème.
@@ -366,39 +345,44 @@ La timeline des migrations
 <div class="relative h-52">
 
 <div class="absolute inset-0" v-click.hide="1">
-
-```mermaid
-flowchart LR
-    A["create_locations<br/>en attente"]
-```
-
+  <div class="mig-card">
+    <carbon-time class="mig-icon mig-pending" />
+    <div>
+      <div class="mig-file">…_create_locations_table.php</div>
+      <div class="mig-status mig-pending">pending</div>
+    </div>
+  </div>
 </div>
 
 <div class="absolute inset-0" v-click="[1,3]">
-
-```mermaid
-flowchart LR
-    A["create_locations<br/>batch 1 ✅ Ran"]
-```
-
+  <div class="mig-card">
+    <carbon-checkmark-filled class="mig-icon mig-ran" />
+    <div>
+      <div class="mig-file">…_create_locations_table.php</div>
+      <div class="mig-status mig-ran">batch 1 · Ran</div>
+    </div>
+  </div>
 </div>
 
 <div class="absolute inset-0" v-click="[3,4]">
-
-```mermaid
-flowchart LR
-    A["create_locations<br/>annulée (down) ↩️"]
-```
-
+  <div class="mig-card">
+    <carbon-time class="mig-icon mig-pending" />
+    <div>
+      <div class="mig-file">…_create_locations_table.php</div>
+      <div class="mig-status mig-pending">pending</div>
+      <div class="mig-sub">down() exécuté — batch 1 annulé</div>
+    </div>
+  </div>
 </div>
 
 <div class="absolute inset-0" v-click="4">
-
-```mermaid
-flowchart LR
-    A["create_locations<br/>batch 1 ✅ Ran"]
-```
-
+  <div class="mig-card">
+    <carbon-checkmark-filled class="mig-icon mig-ran" />
+    <div>
+      <div class="mig-file">…_create_locations_table.php</div>
+      <div class="mig-status mig-ran">batch 1 · Ran</div>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -408,6 +392,39 @@ flowchart LR
 Le **batch** regroupe ce qu'un même `migrate` a joué : `rollback` annule le **dernier lot**. Le suivi est dans la table `migrations`.
 
 </div>
+
+<style>
+.mig-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(148, 163, 184, 0.08);
+}
+.mig-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.mig-file {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7em;
+  opacity: 0.6;
+}
+.mig-status {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  font-size: 1em;
+}
+.mig-sub {
+  font-size: 0.75em;
+  opacity: 0.7;
+  margin-top: 0.15rem;
+}
+.mig-pending { color: #ffbe00; }
+.mig-ran { color: #00a96e; }
+</style>
 
 <!--
 Les clicks sont ceux du Terminal (1 commande par click) : migrate → status → rollback → migrate. Le schéma les suit.
@@ -436,6 +453,12 @@ transition: slide-up | slide-down
 />
 
 Tinker est une **console REPL** : elle exécute du PHP *dans le contexte de votre application* — vos modèles, votre base.
+
+<div class="text-xs opacity-75 mt-6">
+
+Tinker répond « Class not found » ? Écrivez le nom complet `App\Models\Location` (ou `use App\Models\Location;`) — et si le modèle vient d'être généré, lancez `sail composer dump-autoload` puis relancez Tinker.
+
+</div>
 
 <!--
 Montrer d'abord l'erreur : avant make:model, Location::count() lève « Class not found » — c'est la preuve que le modèle compte.
@@ -489,6 +512,12 @@ Nouvelle migration, jamais de retouche
   ]"
 />
 
+<div class="text-xs opacity-75 mt-2">
+
+`--table=locations` dit à Artisan de générer `Schema::table` — **modifier** l'existante — au lieu d'un `Schema::create`.
+
+</div>
+
 <v-click>
 
 <KeyPoint class="text-sm" variant="rule" title="Règle d'or" icon="📏">
@@ -527,6 +556,23 @@ Le ->nullable() est nécessaire : la table contient déjà des lignes, qui n'ont
 Le down() d'un ajout de colonne : dropColumn — toujours l'inverse exact du up().
 Exception à connaître : tant que personne d'autre n'a joué la migration, un rollback + retouche + migrate reste acceptable sur votre poste. Dès qu'elle est poussée, c'est fini.
 Revenir au vote : qui avait deviné la nouvelle migration ?
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : les migrations
+
+<script setup>
+import migrations from '/references/migrations'
+</script>
+
+<Panorama :items="migrations" doc="https://laravel.com/docs/12.x/migrations" at="s3-ch1" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
 -->
 
 ---

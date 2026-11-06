@@ -295,6 +295,23 @@ Fin de séance : exercice WishFlix (Partie A déjà guidée par les points de co
 transition: slide-up | slide-down
 ---
 
+# Panorama : les requêtes Eloquent
+
+<script setup>
+import queries from '/references/queries'
+</script>
+
+<Panorama :items="queries" doc="https://laravel.com/docs/12.x/queries" at="s3-ch5" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : le catalogue lit la base
 
 <Exercise title="WishFlix — étapes A5.1 à A5.3" duration="10 min" level="guidé"

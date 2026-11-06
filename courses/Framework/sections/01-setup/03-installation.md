@@ -152,6 +152,8 @@ transition: slide-up | slide-down
 | **Lancer npm** | `./vendor/bin/sail npm …` | `npm …` |
 | **Lire les logs** | `./vendor/bin/sail logs` | `storage/logs/laravel.log` |
 
+Les autres commandes Sail : **Panorama Sail**, en fin de chapitre.
+
 <!--
 Toutes les consignes du cours utilisent la colonne Sail. Les étudiants en plan B traduisent avec la colonne de droite.
 Sur les postes IUT avec Podman, la colonne Sail reste valable (le script a configuré SAIL_DOCKER_BINARY=podman).
@@ -197,6 +199,29 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 <!--
 La doc officielle suppose l'alias configuré : quand elle écrit "sail artisan", c'est "./vendor/bin/sail artisan".
 Sous Windows, l'alias se configure dans le shell WSL2 (bash), pas dans PowerShell.
+-->
+
+---
+layout: two-cols
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : Sail
+
+<script setup>
+import sail from '/references/sail'
+</script>
+
+<Panorama :items="sail" doc="https://laravel.com/docs/12.x/sail" at="s1-ch3" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
 -->
 
 ---

@@ -346,6 +346,23 @@ Expliquer que vider `storage/framework/cache/` ou `bootstrap/cache/` peut résou
 -->
 
 ---
+transition: slide-up | slide-down
+---
+
+# Panorama : Artisan
+
+<script setup>
+import artisan from '/references/artisan'
+</script>
+
+<Panorama :items="artisan" doc="https://laravel.com/docs/12.x/artisan" at="s1-ch4" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
 
 <Exercise title="À vous : suivre la requête sur WishFlix" duration="25 min" level="guidé"
   :criteria="[

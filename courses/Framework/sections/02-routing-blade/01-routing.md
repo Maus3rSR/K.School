@@ -277,6 +277,23 @@ Les routes sont encore des closures : la colonne de droite n'affiche que leur no
 transition: slide-up | slide-down
 ---
 
+# Panorama : les routes
+
+<script setup>
+import routes from '/references/routes'
+</script>
+
+<Panorama :items="routes" doc="https://laravel.com/docs/12.x/routing" at="s2-ch1" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : la route de la fiche jeu
 
 <Exercise title="WishFlix — étapes A1.1 à A1.3" duration="15 min" level="guidé"

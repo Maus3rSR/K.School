@@ -13,7 +13,7 @@ duration: 45 min
 
 <!--
 Transition : une table seule, c'est un carnet. Une quête appartient à une catégorie : il faut relier deux tables.
-Découpage (≈ 45 min) : 10 slides (≈ 15 min), livecoding Category + Quest (≈ 15 min), micro-pratique WishFlix « Game appartient à Category » (≈ 15 min).
+Découpage (≈ 45 min) : 12 slides (≈ 15 min), livecoding Category + Quest (≈ 15 min), micro-pratique WishFlix « Game appartient à Category » (≈ 15 min).
 Tag Campus Quest de fin de chapitre : s3-ch2-relation-1n.
 Moment léger du chapitre : la FK violée en direct (voir slide « La clé étrangère protège »).
 -->
@@ -49,66 +49,26 @@ transition: slide-up | slide-down
 # La clé étrangère, côté « plusieurs »
 Chaque quête pointe vers une catégorie
 
-<div class="relative h-64">
-
-<div class="absolute inset-0" v-click.hide="1">
-
-```mermaid
-flowchart LR
-    subgraph C["categories"]
-        C1["id 1 · Quiz"]
-        C2["id 2 · Mission"]
-    end
-    subgraph Q["quests"]
-        Q1["Salle 404"]
-        Q2["Selfie mascotte"]
-        Q3["Quiz du RU"]
-    end
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="[1,2]">
-
-```mermaid
-flowchart LR
-    subgraph C["categories"]
-        C1["id 1 · Quiz"]
-        C2["id 2 · Mission"]
-    end
-    subgraph Q["quests"]
-        Q1["Salle 404<br/>category_id = 2"]
-        Q2["Selfie mascotte<br/>category_id = 2"]
-        Q3["Quiz du RU<br/>category_id = 1"]
-    end
-    Q1 --> C2
-    Q2 --> C2
-    Q3 --> C1
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="2">
-
-```mermaid
-flowchart LR
-    subgraph C["categories"]
-        C1["id 1 · Quiz"]
-        C2["id 2 · Mission"]
-    end
-    subgraph Q["quests"]
-        Q1["Salle 404<br/>category_id = 2"]
-        Q2["Selfie mascotte<br/>category_id = 2"]
-        Q3["Quiz du RU<br/>category_id = 3 ❌"]
-    end
-    Q1 --> C2
-    Q2 --> C2
-    Q3 -. "aucune catégorie 3" .-> C1
-```
-
-</div>
-
-</div>
+<TableLinks
+  class="mt-4"
+  :tables="[
+    { id: 'categories', name: 'categories', columns: ['id', 'name'], pk: ['id'], rows: [
+      [1, 'Quiz'],
+      [2, 'Mission']
+    ] },
+    { id: 'quests', name: 'quests', columns: ['id', 'title', 'category_id'], pk: ['id'], fk: ['category_id'], rows: [
+      [1, 'Salle 404', [{ v: '', until: 1 }, { v: 2, at: 1 }]],
+      [2, 'Selfie mascotte', [{ v: '', until: 1 }, { v: 2, at: 1 }]],
+      [3, 'Quiz du RU', [{ v: '', until: 1 }, { v: 1, at: 1, until: 2 }, { v: 3, at: 2 }]]
+    ], badRows: [{ row: 2, at: 2 }] }
+  ]"
+  :links="[
+    { from: { table: 'quests', row: 0, col: 'category_id' }, to: { table: 'categories', row: 1 }, at: 1 },
+    { from: { table: 'quests', row: 1, col: 'category_id' }, to: { table: 'categories', row: 1 }, at: 1 },
+    { from: { table: 'quests', row: 2, col: 'category_id' }, to: { table: 'categories', row: 0 }, at: 1, until: 2 },
+    { from: { table: 'quests', row: 2, col: 'category_id' }, variant: 'error', at: 2, label: 'aucune catégorie 3', labelSide: 'below' }
+  ]"
+/>
 
 <div v-click="1">
 
@@ -138,12 +98,11 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# La FK s'écrit dans la migration
-La table pointée d'abord, la table qui pointe ensuite
+# La table pointée d'abord
+categories avant quests
 
 ::left::
 
-````md magic-move
 ```php
 // …_create_categories_table.php
 public function up(): void
@@ -156,36 +115,72 @@ public function up(): void
 }
 ```
 
-```php {8}
+::right::
+
+On génère `Category` en premier (`make:model Category -m`) : c'est la table **pointée**.
+
+<v-click>
+
+⚠️ `categories` doit exister **avant** `quests` : le **timestamp** du nom de fichier fixe l'ordre d'exécution des migrations.
+
+</v-click>
+
+<!--
+Livecoding : make:model Category -m, colonne name.
+Si l'ordre est inversé : « Cannot add foreign key constraint » au migrate — regénérer le fichier corrige l'ordre.
+Rappel du chapitre 1 : le timestamp du nom de fichier = l'ordre d'exécution — il fait foi pour savoir quelle table existe quand l'autre migre.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# La FK s'écrit dans la migration
+foreignId + constrained()
+
+::left::
+
+```php {none|11|all}
 // …_create_quests_table.php
 public function up(): void
 {
     Schema::create('quests', function (Blueprint $table) {
         $table->id();
         $table->string('title');
-        // … description, xp, difficulty, featured …
+        $table->text('description');
+        $table->unsignedInteger('xp')->default(0);
+        $table->string('difficulty');
+        $table->boolean('featured')->default(false);
         $table->foreignId('category_id')->constrained();
         $table->timestamps();
     });
 }
 ```
-````
 
 ::right::
-
-On génère `Category` en premier (`make:model Category -m`) : c'est la table **pointée**.
 
 <div v-click="1">
 
 `foreignId('category_id')->constrained()` crée la colonne **et** la contrainte vers `categories.id`.
 
-⚠️ `categories` doit exister **avant** `quests` : le timestamp du nom de fichier fixe l'ordre.
+</div>
+
+<div v-click="2" class="mt-8 text-center">
+  <span class="inline-block font-mono text-2xl font-bold text-[#a855f7] border-2 border-[#a855f7]/60 bg-[#a855f7]/10 rounded-xl px-5 py-3">->constrained()</span>
+</div>
+
+::bottom::
+
+<div v-click="2" class="text-sm">
+
+Une **contrainte d'intégrité** : la base refuse un `category_id` absent de `categories`. `constrained()` déduit la table `categories` et la colonne `id` du nom `category_id` — équivaut à `->references('id')->on('categories')`.
 
 </div>
 
 <!--
-Livecoding : make:model Category -m, colonne name, puis make:model Quest -m avec le schéma complet (solution/database/migrations). Artisan ne génère AUCUNE clé étrangère : elle s'écrit à la main.
-Si l'ordre est inversé : « Cannot add foreign key constraint » au migrate — regénérer le fichier corrige l'ordre.
+Livecoding : make:model Quest -m avec le schéma complet (solution/database/migrations). Artisan ne génère AUCUNE clé étrangère : elle s'écrit à la main.
 Côté quests, rappel du chapitre 1 : le fichier vient d'être créé, personne ne l'a joué ; on le complète puis on migre une seule fois.
 Pour migrer : sail artisan migrate (migrate:status pour vérifier le batch).
 -->
@@ -320,6 +315,66 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
+# Cardinalité BDD ↔ méthode Eloquent
+Ce que vous avez vu en BDD devient des méthodes de modèle
+
+::left::
+
+**1–1** — une ligne ↔ une ligne au plus
+
+<TableLinks
+  class="text-xs mt-1"
+  :tables="[
+    { id: 'users', name: 'users', columns: ['id', 'name'], pk: ['id'], rows: [[1, 'Ada']] },
+    { id: 'profiles', name: 'profiles', columns: ['id', 'user_id'], pk: ['id'], fk: ['user_id'], rows: [[1, 1]] }
+  ]"
+  :links="[{ from: { table: 'profiles', row: 0, col: 'user_id' }, to: { table: 'users', row: 0 } }]"
+/>
+
+<div class="text-xs opacity-75 mt-1 mb-4">
+FK **unique** chez l'enfant · `belongsTo` / `hasOne`
+</div>
+
+**1–N** — une ligne ↔ plusieurs lignes
+
+<TableLinks
+  class="text-xs mt-1"
+  :tables="[
+    { id: 'cats', name: 'categories', columns: ['id', 'name'], pk: ['id'], rows: [[1, 'Quiz']] },
+    { id: 'qs', name: 'quests', columns: ['id', 'category_id'], pk: ['id'], fk: ['category_id'], rows: [[1, 1], [2, 1]] }
+  ]"
+  :links="[
+    { from: { table: 'qs', row: 0, col: 'category_id' }, to: { table: 'cats', row: 0 } },
+    { from: { table: 'qs', row: 1, col: 'category_id' }, to: { table: 'cats', row: 0 } }
+  ]"
+/>
+
+<div class="text-xs opacity-75 mt-1">
+FK côté « plusieurs » · `belongsTo` / `hasMany`
+</div>
+
+::right::
+
+| Relation | Où est la FK | Porte la FK | « Possède » |
+|---|---|---|---|
+| **1–1** | chez l'enfant (unique) | `belongsTo` → (0,1) | `hasOne` → (0,1) |
+| **1–N** | côté « plusieurs » | `belongsTo` → (1,1) si NOT NULL, (0,1) si nullable | `hasMany` → (0,n) |
+| **N–N** | table pivot | `belongsToMany` → (0,n) | `belongsToMany` → (0,n) |
+
+<div class="text-xs opacity-75 mt-2">
+N–N : la table pivot arrive au chapitre suivant.
+</div>
+
+<!--
+Rappel BDD : les cardinalités se lisent depuis la FK. belongsTo = le côté qui PORTE la FK : (1,1) car category_id est NOT NULL (toute quête a une catégorie) ; FK nullable → (0,1). hasMany côté « un » : (0,n) — rien en base n'oblige une catégorie à avoir au moins une quête, donc pas de (1,n). N–N = belongsToMany (0,n) des deux côtés, détaillé au chapitre 3.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
 # belongsTo et hasMany
 Déclarer la relation dans les deux modèles
 
@@ -375,7 +430,7 @@ Revenir au quiz : qui avait voté « dans quests » ? La clé est du côté de b
 transition: slide-up | slide-down
 ---
 
-# Propriété magique ou méthode ?
+# Propriété ou méthode ?
 Suivre un lien, ou affiner une requête
 
 | Écriture | Ce que ça renvoie | Requête exécutée ? | À utiliser pour |
@@ -386,7 +441,7 @@ Suivre un lien, ou affiner une requête
 
 <v-click>
 
-« Magique » = `$quest` n'a **pas** de propriété `category` : Laravel intercepte l'accès (`__get`) et appelle la méthode de relation pour vous — puis mémorise le résultat.
+Pourquoi sans parenthèses ? Eloquent **intercepte l'accès** à une propriété absente — le mécanisme [`__get`](https://www.php.net/manual/fr/language.oop5.overloading.php#object.get) de PHP, creusé en exercice (Partie C).
 
 </v-click>
 
@@ -430,6 +485,23 @@ Si la base est vide : créer deux catégories et une quête en Tinker avant.
 Montrer $quest->category sans ->name : Eloquent renvoie l'objet Category complet.
 Garder en tête le prochain sujet : une quête peut se dérouler dans PLUSIEURS lieux — la FK unique ne suffira plus.
 Micro-pratique WishFlix : Game (migration avec category_id), $fillable + casts, belongsTo/hasMany, vérification Tinker.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : le modèle Eloquent
+
+<script setup>
+import model from '/references/model'
+</script>
+
+<Panorama :items="model" doc="https://laravel.com/docs/12.x/eloquent" at="s3-ch2" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
 -->
 
 ---

@@ -116,7 +116,7 @@ transition: slide-up | slide-down
 | `exists:table,colonne` | La valeur existe dans une autre table (clés étrangères) |
 | `unique:table,colonne` | La valeur n'existe pas encore dans la table (email, slug…) |
 
-La liste complète — une centaine de règles — est dans la page [Validation](https://laravel.com/docs/12.x/validation#available-validation-rules) de la doc.
+Les autres règles utiles : **Panorama de la validation**, en fin de chapitre.
 
 <!--
 On peut écrire 'required|max:100' en chaîne ou ['required', 'max:100'] en tableau — équivalent,
@@ -293,6 +293,23 @@ Pour **tout** traduire d'un coup : `sail artisan lang:publish` puis un paquet de
 Sans personnalisation, les messages sont en anglais (« The title field is required. ») — acceptable en démo,
 pas en production pour un public francophone.
 laravel-lang/lang fournit les traductions maintenues par la communauté — bien plus rapide que tout écrire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : la validation
+
+<script setup>
+import validation from '/references/validation'
+</script>
+
+<Panorama :items="validation" doc="https://laravel.com/docs/12.x/validation" at="s5-ch3" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
 -->
 
 ---

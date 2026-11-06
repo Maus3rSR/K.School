@@ -347,6 +347,40 @@ Micro-pratique WishFlix : CategorySeeder, PlatformSeeder, GameSeeder (≥ 6 jeux
 transition: slide-up | slide-down
 ---
 
+# Panorama : factories et seeders
+
+<script setup>
+import factories from '/references/factories'
+</script>
+
+<Panorama :items="factories" doc="https://laravel.com/docs/12.x/eloquent-factories" at="s3-ch4" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : Artisan
+
+<script setup>
+import artisan from '/references/artisan'
+</script>
+
+<Panorama :items="artisan" doc="https://laravel.com/docs/12.x/artisan" at="s3-ch4" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : les seeders WishFlix
 
 <Exercise title="WishFlix — étapes A4.1 à A4.5" duration="10 min" level="guidé"

@@ -71,61 +71,34 @@ Joueurs ↔ terrains d'un tournoi : aucun ne « contient » l'autre. Le tableau 
 
 ::right::
 
-<div class="relative h-72">
-
-<div class="absolute inset-0" v-click.hide="1">
-
-```mermaid
-flowchart LR
-    Q["quests"] -. "?" .- L["locations"]
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="[1,2]">
-
-```mermaid
-flowchart LR
-    Q["quests"] -. "où mettre la FK ?" .- L["locations"]
-    Q --> X1["location_id : une seule valeur ❌"]
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="[2,3]">
-
-```mermaid
-flowchart LR
-    Q["quests"] --- P["location_quest<br/>(pivot)"] --- L["locations"]
-```
-
-</div>
-
-<div class="absolute inset-0" v-click="3">
-
-```mermaid
-flowchart LR
-    subgraph QS["quests"]
-        Q1["Salle 404"]
-        Q2["Quiz du RU"]
-    end
-    subgraph P["location_quest"]
-        P1["quest 1 · location 1"]
-        P2["quest 1 · location 2"]
-        P3["quest 2 · location 2"]
-    end
-    subgraph LS["locations"]
-        L1["BU"]
-        L2["Cafét"]
-    end
-    Q1 --> P1 --> L1
-    Q1 --> P2 --> L2
-    Q2 --> P3 --> L2
-```
-
-</div>
-
-</div>
+<TableLinks
+  class="mt-4"
+  :tables="[
+    { id: 'quests', name: 'quests', columns: ['id', 'title'], pk: ['id'], rows: [
+      [1, 'Salle 404'],
+      [2, 'Quiz du RU']
+    ] },
+    { id: 'pq', name: 'location_quest', columns: ['quest_id', 'location_id'], fk: ['quest_id', 'location_id'], at: 2, rows: [
+      [1, 1],
+      [1, 2],
+      [2, 2]
+    ] },
+    { id: 'locations', name: 'locations', columns: ['id', 'name'], pk: ['id'], rows: [
+      [1, 'BU'],
+      [2, 'Cafét']
+    ] }
+  ]"
+  :links="[
+    { from: { table: 'quests' }, to: { table: 'locations' }, variant: 'muted', until: 2, label: '?' },
+    { from: { table: 'quests' }, variant: 'error', at: 1, until: 2, label: 'location_id : une seule valeur ❌', labelSide: 'below' },
+    { from: { table: 'pq', row: 0, col: 'quest_id' }, to: { table: 'quests', row: 0 }, at: 3 },
+    { from: { table: 'pq', row: 0, col: 'location_id' }, to: { table: 'locations', row: 0 }, at: 3 },
+    { from: { table: 'pq', row: 1, col: 'quest_id' }, to: { table: 'quests', row: 0 }, at: 3 },
+    { from: { table: 'pq', row: 1, col: 'location_id' }, to: { table: 'locations', row: 1 }, at: 3 },
+    { from: { table: 'pq', row: 2, col: 'quest_id' }, to: { table: 'quests', row: 1 }, at: 3 },
+    { from: { table: 'pq', row: 2, col: 'location_id' }, to: { table: 'locations', row: 1 }, at: 3 }
+  ]"
+/>
 
 <!--
 Étapes du schéma : 1) le problème, 2) une FK ne stocke qu'une seule valeur, 3) on introduit la pivot, 4) chaque ligne de la pivot = un couple.
@@ -218,6 +191,12 @@ Eloquent devine la pivot `location_quest` à partir des noms des deux modèles �
 
 </v-click>
 
+<v-click>
+
+Côté BDD, c'est le **(0,n)–(0,n)** classique — sans entité-association côté PHP : `belongsToMany` parle directement à la pivot, vous n'écrivez jamais de `LocationQuest`.
+
+</v-click>
+
 <!--
 En tête : use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 Si la convention n'est pas respectée, belongsToMany accepte le nom de la table en 2e argument — à éviter.
@@ -279,6 +258,23 @@ sync() est le couteau suisse : il ajoute ce qui manque et supprime ce qui est en
 Moment léger (erreur volontaire) : rejouer attach(2) deux fois. « Integrity constraint violation: Duplicate entry » : la clé composite vient de refuser que la Salle 404 se déroule deux fois à la BU. Elle ne peut pas être à deux endroits identiques en même temps.
 Écrire en Tinker les liens préparatoires : $quest = Quest::first() ; Location::create(['name' => ...]) si besoin.
 Micro-pratique WishFlix : Platform + pivot game_platform + belongsToMany + attach, vérifié dans Tinker.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : les relations
+
+<script setup>
+import relations from '/references/relations'
+</script>
+
+<Panorama :items="relations" doc="https://laravel.com/docs/12.x/eloquent-relationships" at="s3-ch3" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
 -->
 
 ---

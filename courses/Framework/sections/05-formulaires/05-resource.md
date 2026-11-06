@@ -291,6 +291,40 @@ make:controller refuse si le fichier existe (« Controller already exists ») sa
 transition: slide-up | slide-down
 ---
 
+# Panorama : les routes
+
+<script setup>
+import routes from '/references/routes'
+</script>
+
+<Panorama :items="routes" doc="https://laravel.com/docs/12.x/routing" at="s5-ch5" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : le contrôleur
+
+<script setup>
+import controllers from '/references/controllers'
+</script>
+
+<Panorama :items="controllers" doc="https://laravel.com/docs/12.x/controllers" at="s5-ch5" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous : passez en ressource
 
 <Exercise title="WishFlix — Route::resource et binding" duration="8 min" level="guidé"

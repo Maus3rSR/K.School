@@ -17,7 +17,8 @@
     "components",
     "layouts",
     "global-bottom.vue",
-    "styles"
+    "styles",
+    "utils"
   ],
   "engines": {
     "node": ">=18.0.0",

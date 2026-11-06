@@ -37,6 +37,30 @@ Démontre `<Terminal>` avec `clicks` : chaque entrée {cmd, out} apparaît à un
 -->
 
 ---
+transition: slide-up | slide-down
+---
+
+# Le vocabulaire d'une commande
+
+<Terminal
+  title="bash" prompt="$" :legend="true"
+  :lines="[
+    { cmd: 'docker compose up -d' },
+    { cmd: 'docker compose down' },
+    { cmd: 'sail artisan migrate' },
+    { cmd: 'sail artisan make:migration create_quests_table' },
+    { cmd: 'git commit -m \'init\'' },
+    { cmd: 'sail up -d' }
+  ]"
+/>
+
+<!--
+Démontre la coloration par rôles (`highlight`, activée par défaut) et `legend` : les pastilles ne listent que les rôles réellement présents — ici les cinq (commande, sous-commande, action, option, argument).
+Cas couverts : `docker compose up -d` (action après compose), `sail artisan …` (action après artisan), `git commit -m "init"` (chaîne entre guillemets = un seul argument), `sail up -d` (sous-commande simple).
+`highlight=false` désactive la coloration et retrouve le rendu uniforme historique.
+-->
+
+---
 layout: two-cols-header
 layoutClass: gap-x-4
 transition: slide-up | slide-down

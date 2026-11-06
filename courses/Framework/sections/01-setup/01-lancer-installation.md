@@ -25,7 +25,7 @@ transition: slide-up | slide-down
 
 Ouvrez un terminal (**WSL2** sous Windows, pas PowerShell) et vérifiez :
 
-<Terminal title="bash" prompt="$" :lines="[
+<Terminal title="bash" prompt="$" :legend="true" :lines="[
   { cmd: 'docker compose version', out: 'Docker Compose version v2.x.x' },
   { cmd: 'docker ps', out: 'CONTAINER ID   IMAGE   COMMAND   CREATED   STATUS   PORTS   NAMES' }
 ]" />

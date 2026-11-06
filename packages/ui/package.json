@@ -26,5 +26,8 @@
   },
   "peerDependencies": {
     "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "shiki": "4.0.2"
   }
 }

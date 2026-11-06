@@ -1,7 +1,6 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { COMMAND_ROLES, ROLE_LABELS, tokenizeCommand } from '../utils/tokenizeCommand.js'
-import { PHP_ROLES, PHP_ROLE_LABELS, tokenizePhp } from '../utils/tokenizePhp.js'
 
 const props = defineProps({
   title: {
@@ -34,16 +33,46 @@ const props = defineProps({
   }
 })
 
-const LEGEND_ORDER = [
-  ...COMMAND_ROLES,
-  ...PHP_ROLES.filter((role) => !COMMAND_ROLES.includes(role)),
-]
-const LEGEND_LABELS = { ...ROLE_LABELS, ...PHP_ROLE_LABELS }
+// Lignes `lang` : coloration Shiki, thème des blocs de code du deck (vitesse-dark).
+// Chargé à la demande : le texte brut s'affiche d'abord, les couleurs arrivent
+// sans saut de mise en page. Si Shiki échoue, le texte reste clair.
+const shikiParts = ref({})
+
+onMounted(async () => {
+  if (!props.highlight) return
+  const langIndexes = props.lines
+    .map((line, i) => (line.lang && line.cmd ? i : -1))
+    .filter((i) => i >= 0)
+  if (!langIndexes.length) return
+  try {
+    const { codeToTokens } = await import('shiki')
+    const parts = {}
+    for (const i of langIndexes) {
+      const { tokens } = await codeToTokens(props.lines[i].cmd, {
+        lang: props.lines[i].lang,
+        theme: 'vitesse-dark'
+      })
+      parts[i] = tokens.flatMap((lineTokens, j) =>
+        j ? [{ content: '\n' }, ...lineTokens] : lineTokens
+      )
+    }
+    shikiParts.value = parts
+  }
+  catch (error) {
+    console.warn('[Terminal] coloration Shiki indisponible', error)
+  }
+})
 
 const tokenizedLines = computed(() =>
-  props.lines.map((line) =>
-    line.cmd ? (line.lang === 'php' ? tokenizePhp(line.cmd) : tokenizeCommand(line.cmd)) : null
-  )
+  props.lines.map((line, i) => {
+    if (!line.cmd) return null
+    if (line.lang) {
+      const parts = shikiParts.value[i]
+      if (parts) return parts.map((t) => ({ text: t.content, color: t.color }))
+      return [{ text: line.cmd, role: null }]
+    }
+    return tokenizeCommand(line.cmd)
+  })
 )
 
 const linePrompt = (line) => (line.lang ? props.codePrompt : props.prompt)
@@ -57,7 +86,7 @@ const legendRoles = computed(() => {
       if (part.role) present.add(part.role)
     }
   }
-  return LEGEND_ORDER.filter((role) => present.has(role))
+  return COMMAND_ROLES.filter((role) => present.has(role))
 })
 </script>
 
@@ -74,7 +103,7 @@ const legendRoles = computed(() => {
         <div v-if="clicks" v-click class="terminal-line">
           <div v-if="line.cmd" class="term-cmd" :class="{ 'term-cmd--roles': highlight }">
             <span class="term-prompt">{{ linePrompt(line) }}</span>
-            <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null">{{ part.text }}</span></template>
+            <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null" :style="part.color ? { color: part.color } : null">{{ part.text }}</span></template>
             <template v-else> {{ line.cmd }}</template>
           </div>
           <div v-if="line.out" class="term-out">{{ line.out }}</div>
@@ -82,7 +111,7 @@ const legendRoles = computed(() => {
         <div v-else class="terminal-line">
           <div v-if="line.cmd" class="term-cmd" :class="{ 'term-cmd--roles': highlight }">
             <span class="term-prompt">{{ linePrompt(line) }}</span>
-            <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null">{{ part.text }}</span></template>
+            <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null" :style="part.color ? { color: part.color } : null">{{ part.text }}</span></template>
             <template v-else> {{ line.cmd }}</template>
           </div>
           <div v-if="line.out" class="term-out">{{ line.out }}</div>
@@ -159,60 +188,27 @@ const legendRoles = computed(() => {
   user-select: text;
   cursor: text;
 }
-.tok-program {
-  color: #00b5ff;
-  font-weight: 700;
-}
-.tok-subcommand {
-  color: #ffbe00;
-}
-.tok-action {
-  color: #00a96e;
-}
-.tok-flag {
-  color: #a855f7;
-}
-.tok-argument {
-  color: #e2e8f0;
-}
 .term-cmd--roles {
   color: #e2e8f0;
 }
+.tok-program {
+  color: #8fb4dc;
+  font-weight: 600;
+}
+.tok-subcommand {
+  color: #d9c58f;
+}
+.tok-action {
+  color: #9fc7a6;
+}
 .tok-separator {
-  color: #ff5861;
-  font-weight: 700;
+  color: #b8a2ab;
 }
-.tok-class {
-  color: #00b5ff;
-  font-weight: 700;
+.tok-flag {
+  color: #b4a6d6;
 }
-.tok-scope {
-  color: #ff5861;
-  font-weight: 700;
-}
-.tok-arrow {
-  color: #ffbe00;
-}
-.tok-method {
-  color: #00a96e;
-}
-.tok-variable {
-  color: #a855f7;
-}
-.tok-string {
-  color: #fde68a;
-}
-.tok-number {
-  color: #00b5ff;
-}
-.tok-operator {
-  color: #94a3b8;
-}
-.tok-colon {
-  color: #ff5861;
-}
-.tok-punct {
-  color: #94a3b8;
+.tok-argument {
+  color: #d3d9e3;
 }
 .terminal-legend {
   display: flex;

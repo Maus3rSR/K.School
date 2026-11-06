@@ -38,7 +38,8 @@ Installation standard, **sans le code des étapes** (état de départ de la S2 :
 
 - [`../seance-02/`](../seance-02) — `LIVECODING.md` + `solution/` : `cp -r ../seance-02/solution/* .`
 - [`../seance-03/`](../seance-03) — `LIVECODING.md` + `solution/` : `cp -r ../seance-03/solution/* .` (prérequis : solution S2 appliquée)
+- [`../seance-04/`](../seance-04) — `LIVECODING.md` + `solution/` : `cp -r ../seance-04/solution/* .` (prérequis : solution S3 appliquée)
 
 ## Déroulé
 
-Voir [seance-02/LIVECODING.md](../seance-02/LIVECODING.md) et [seance-03/LIVECODING.md](../seance-03/LIVECODING.md).
+Voir [seance-02/LIVECODING.md](../seance-02/LIVECODING.md), [seance-03/LIVECODING.md](../seance-03/LIVECODING.md) et [seance-04/LIVECODING.md](../seance-04/LIVECODING.md).

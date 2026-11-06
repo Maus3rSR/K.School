@@ -1,0 +1,71 @@
+.quest-list {
+    display: grid;
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.quest-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.quest-card:hover { outline: 2px solid var(--accent); }
+
+.xp { color: #facc15; font-weight: 700; }
+
+.badge {
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    background: #334155;
+}
+
+.badge--easy { background: #166534; }
+.badge--hard { background: #991b1b; }
+
+.filters { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+.quest-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.quest-filters input,
+.quest-filters select {
+    padding: 0.45rem 0.7rem;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    background: var(--card);
+    color: var(--text);
+}
+
+.quest-filters button {
+    padding: 0.45rem 1rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: var(--accent);
+    color: #0f172a;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.quest-filters .reset { font-size: 0.85rem; }
+
+.ranking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background: var(--card);
+    border-radius: 0.75rem;
+}

@@ -90,6 +90,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - Laravel Debugbar pour profiler les requêtes
 - Recherche par titre, filtres par catégorie
 - 🛠️ Atelier : filtre par catégorie, jeu « À la une », meilleures notes, correction d'un N+1 sur le catalogue
+- 🛠️ Exercice : `exercices/framework/04-requetes`
 
 ### **Séance 5 — Formulaires, validation et services** (4h)
 - Créer : formulaire `GET create` + `POST store`, erreur 419 provoquée en direct (CSRF), `validate()`, `old()` et affichage des erreurs

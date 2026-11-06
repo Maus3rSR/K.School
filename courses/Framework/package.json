@@ -5,14 +5,16 @@
   "type": "module",
   "scripts": {
     "build": "slidev build",
-    "build:setup": "slidev build slides-setup.md --out dist/setup",
-    "build:routing": "slidev build slides-routing.md --out dist/routing",
     "build:eloquent": "slidev build slides-eloquent.md --out dist/eloquent",
     "build:form": "slidev build slides-form.md --out dist/form",
-    "dev:routing": "slidev slides-routing.md --open",
-    "dev:setup": "slidev slides-setup.md --open",
+    "build:requetes": "slidev build slides-requetes.md --out dist/requetes",
+    "build:routing": "slidev build slides-routing.md --out dist/routing",
+    "build:setup": "slidev build slides-setup.md --out dist/setup",
     "dev:eloquent": "slidev slides-eloquent.md --open",
     "dev:form": "slidev slides-form.md --open",
+    "dev:requetes": "slidev slides-requetes.md --open",
+    "dev:routing": "slidev slides-routing.md --open",
+    "dev:setup": "slidev slides-setup.md --open",
     "export": "slidev export"
   },
   "dependencies": {

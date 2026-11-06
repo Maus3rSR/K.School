@@ -1,0 +1,203 @@
+---
+layout: chapter
+transition: slide-left | slide-right
+number: 05
+duration: 20 min
+---
+
+# Agrégats et classement
+
+- Compter et sommer sans charger les lignes : `count`, `sum`, `avg`, `max`
+- Regrouper avec `groupBy` / `having`
+- Construire le classement Campus Quest avec `withSum` / `withCount`
+
+<!--
+Transition : le fil du jour annonce une page Classement. Un classement, c'est
+des agrégats triés — la base calcule, on récupère juste les chiffres.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Agrégats et classement
+La base calcule, pas PHP
+
+::left::
+
+<Terminal
+  title="tinker" prompt=">"
+  :lines="[
+    { cmd: 'Quest::count()', out: '   = 30' },
+    { cmd: 'Quest::sum(\'xp\')', out: '   = 3 128' },
+    { cmd: 'Quest::avg(\'xp\')', out: '   = 104.3' },
+    { cmd: 'Quest::max(\'xp\')', out: '   = 198' }
+  ]"
+/>
+
+::right::
+
+- Ces méthodes génèrent `SELECT count(*)`, `sum(xp)`, `avg(xp)`, `max(xp)` — **un seul chiffre** revient
+- La base fait le calcul : pas de Collection à parcourir en PHP
+
+<v-click>
+
+À ne pas confondre : `$quests->count()` sur une Collection déjà chargée compte **en PHP** — les lignes ont déjà voyagé pour rien.
+
+</v-click>
+
+<!--
+Faire sentir le gaspillage : Quest::all()->count() ramène 30 lignes pour en compter 30 — Quest::count() ramène le chiffre 30.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Agrégats et classement
+`groupBy` : un chiffre par groupe
+
+```php {all|1-2|3|4}
+Quest::select('difficulty')
+    ->selectRaw('avg(xp) as xp_moyen')
+    ->groupBy('difficulty')
+    ->having('xp_moyen', '>', 100)
+    ->get();
+```
+
+<div v-click="1">
+
+`select` + `selectRaw` : les colonnes qu'on veut — le groupe (`difficulty`) et l'agrégat (`avg(xp)` baptisé `xp_moyen`).
+
+</div>
+
+<div v-click="2">
+
+`groupBy('difficulty')` : la base **regroupe** les lignes — une moyenne par difficulté, pas une par quête.
+
+</div>
+
+<div v-click="3">
+
+`having` : le `where` **des groupes** — on ne garde que les difficultés dont la moyenne dépasse 100 XP.
+
+</div>
+
+<!--
+Résultat : 3 lignes max (easy, medium, hard) avec leur xp_moyen — pas une Collection de quêtes.
+Réflexe SQL : where filtre les lignes AVANT le regroupement, having filtre les groupes APRÈS.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Agrégats et classement
+`withCount`, `withSum`, `withAvg`
+
+Le comptage **sans charger la relation** — une sous-requête dans le SELECT :
+
+| Écrire | Attribut créé sur chaque modèle |
+|---|---|
+| `Location::withCount('quests')` | `quests_count` |
+| `Category::withSum('quests', 'xp')` | `quests_sum_xp` |
+| `Category::withAvg('quests', 'xp')` | `quests_avg_xp` |
+| `Category::withMax('quests', 'xp')` | `quests_max_xp` |
+
+<v-click>
+
+<KeyPoint variant="rule" title="Nommage" icon="📏">
+
+L'attribut suit le moule `{relation}_{fonction}_{colonne}` — on lit ensuite `$category->quests_sum_xp` comme une colonne ordinaire.
+
+</KeyPoint>
+
+</v-click>
+
+<!--
+withCount déjà croisé au chapitre 3 — avec les autres fonctions d'agrégat, même principe : la sous-requête calcule, l'attribut transporte.
+withSum : 2 arguments — la relation, puis la colonne à sommer.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Agrégats et classement
+La page Classement de Campus Quest
+
+::left::
+
+```php
+// LeaderboardController
+public function index()
+{
+    return view('leaderboard.index', [
+        'categories' =>
+            Category::withSum('quests', 'xp')
+                ->orderByDesc('quests_sum_xp')
+                ->get(),
+        'locations' =>
+            Location::withCount('quests')
+                ->orderByDesc('quests_count')
+                ->get(),
+    ]);
+}
+```
+
+::right::
+
+```blade
+{{-- podium des catégories --}}
+{{ $category->name }}
+— {{ $category->quests_sum_xp }} XP
+
+{{-- lieux les plus chargés --}}
+{{ $location->name }}
+— {{ $location->quests_count }} quêtes
+```
+
+<v-click>
+
+Route : `GET /classement` → `leaderboard.index` — **2 requêtes** pour tout le podium.
+
+</v-click>
+
+<!--
+Le tri porte sur l'attribut calculé : orderByDesc('quests_sum_xp') — la base trie les catégories par leur total d'XP.
+Le « classement de la promo » (XP par joueur) n'est PAS faisable aujourd'hui : il n'existe pas encore de table user ↔ quest —
+le lien arrive en S6 avec l'authentification. On classe donc les catégories et les lieux : même mécanique, même code.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Agrégats et classement
+Compter en base, afficher en Blade
+
+```mermaid
+flowchart LR
+    A["withSum / withCount"] --> B["sous-requête<br/>dans le SELECT"]
+    B --> C["attribut<br/>quests_sum_xp"]
+    C --> D["orderByDesc"]
+    D --> E["{{ }}<br/>dans la vue"]
+```
+
+<v-click>
+
+<KeyPoint variant="tip" title="Le bon réflexe" icon="🧮">
+
+Un classement, un compteur, une moyenne = **le calcul se fait en SQL**, l'attribut voyage dans le modèle, la vue l'affiche. Pas de boucle PHP pour additionner.
+
+</KeyPoint>
+
+</v-click>
+
+<!--
+La chaîne complète : sous-requête → attribut → tri → affichage. Chaque étape est une ligne — le résultat tient dans le contrôleur de 10 lignes.
+-->

@@ -6,15 +6,13 @@ Construire le **back-office de WishFlix** : créer, modifier et supprimer des je
 
 ## Charge
 
-Estimations indicatives : le premier chiffre est le rythme rapide, un étudiant plus lent met 2 à 3 fois plus.
-
-| Niveau | Contenu | Où | Charge |
+| Niveau | Contenu | Où | Charge indicative |
 |---|---|---|---|
-| **Socle** | Partie A (étapes 0 à A6) | En séance, après chaque chapitre | ≈ 25 min rapide · ≈ 1h élève lent |
-| **Attendu** | Partie B (2 user stories) + Partie C | Chez vous | ≈ 1h15 + ≈ 45 min |
-| **Bonus** | 3e user story, `GameService`, upload de la jaquette | Au choix | ≈ 1h30 |
+| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle) | En séance | ≈ 1 h à un rythme d'élève |
+| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
+| **Bonus** | 3e user story, `GameService`, upload de la jaquette | Facultatif | ≈ 1h30 |
 
-> **Déroulé** — En séance : Partie A, avec un point de contrôle après les étapes A3, A5 et A6. Chez vous : Partie B (≈ 1h15) + Partie C (≈ 45 min). ⚠️ **Requis pour la séance 6** : la Partie A terminée (création validée, édition, suppression) — en S6 on réservera ce back-office aux administrateurs.
+> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 6** : la Partie A terminée (création validée, édition, suppression) — en S6 on réservera ce back-office aux administrateurs.
 
 **Référence officielle** :
 
@@ -23,8 +21,6 @@ Estimations indicatives : le premier chiffre est le rythme rapide, un étudiant 
 - [Resource Controllers](https://laravel.com/docs/12.x/controllers#resource-controllers)
 - [Route Model Binding](https://laravel.com/docs/12.x/routing#route-model-binding)
 - [Form Request Validation](https://laravel.com/docs/12.x/validation#form-request-validation)
-
-**Palier de rattrapage** : si vous êtes en retard à un point de contrôle, relisez le **diff du tag Campus Quest** du chapitre (dépôt `School_Framework_CampusQuest`), puis **refaites** la partie sur WishFlix — transposez, ne copiez pas.
 
 ---
 
@@ -36,7 +32,7 @@ Estimations indicatives : le premier chiffre est le rythme rapide, un étudiant 
 
 ---
 
-## Étape 0 — Contrôle de l'environnement
+## Étape 0 — Contrôler l'environnement
 
 ```bash
 ./vendor/bin/sail up -d
@@ -50,15 +46,17 @@ Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
 ---
 
-## Partie A — En séance (socle)
+## Partie A — Socle (en séance)
 
-Une étape = un chapitre du cours (`Chapitre N`). Faites-les **dans l'ordre**, juste après la démo du chapitre correspondant.
+Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
 ### A1 — Le formulaire de création (Chapitre 1)
 
-1. **Routes** : dans `routes/web.php`, ajoutez `GET /games/create` (action `create`, nom `games.create`) et `POST /games` (action `store`, nom `games.store`) vers `GameController`.
-2. **`create()`** : renvoyez la vue `games.create` en lui passant `Category::all()` et `Platform::all()`.
-3. **Vue** `resources/views/games/create.blade.php` : elle étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur) :
+**Étape A1.1** — **Routes** : dans `routes/web.php`, ajoutez `GET /games/create` (action `create`, nom `games.create`) et `POST /games` (action `store`, nom `games.store`) vers `GameController`.
+
+**Étape A1.2** — **`create()`** : renvoyez la vue `games.create` en lui passant `Category::all()` et `Platform::all()`.
+
+**Étape A1.3** — **Vue** `resources/views/games/create.blade.php` : elle étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur) :
 
 | Champ (`name`) | Contrôle |
 |---|---|
@@ -73,22 +71,25 @@ Une étape = un chapitre du cours (`Chapitre N`). Faites-les **dans l'ordre**, j
 | `platform_ids[]` | cases à cocher alimentées par `$platforms` |
 | `featured` | case à cocher (`value="1"`) |
 
-4. **`store()`** : `Game::create($request->only([...]))` avec les colonnes de `Game`, puis `platforms()->sync($request->input('platform_ids', []))`, puis `redirect()->route('games.show', $game)->with('success', 'Jeu créé !')`.
-5. **Message flash** : dans `layouts/app.blade.php`, affichez `session('success')` au-dessus de `@yield('content')`.
-6. Ajoutez un lien « Nouveau jeu » dans la navbar.
+**Étape A1.4** — **`store()`** : `Game::create($request->only([...]))` avec les colonnes de `Game`, puis `platforms()->sync($request->input('platform_ids', []))`, puis `redirect()->route('games.show', $game)->with('success', 'Jeu créé !')`.
+
+**Étape A1.5** — **Message flash** : dans `layouts/app.blade.php`, affichez `session('success')` au-dessus de `@yield('content')`.
+
+**Étape A1.6** — Ajoutez un lien « Nouveau jeu » dans la navbar.
 
 ✅ Vérification : `/games/create` affiche le formulaire. Remplissez-le et envoyez : vous obtenez une erreur **419 Page Expired**. C'est normal et attendu, l'étape suivante l'explique.
 
 ### A2 — Le jeton CSRF (Chapitre 2)
 
-1. Ajoutez `@csrf` juste après la balise `<form>`.
-2. Inspectez la page avec les DevTools : repérez le champ caché `_token`.
+**Étape A2.1** — Ajoutez `@csrf` juste après la balise `<form>`.
+
+**Étape A2.2** — Inspectez la page avec les DevTools : repérez le champ caché `_token`.
 
 ✅ Vérification : l'envoi crée le jeu, vous arrivez sur `/game/{id}` et la bannière « Jeu créé ! » s'affiche **une seule fois** (rechargez : elle disparaît).
 
 ### A3 — Valider la saisie (Chapitre 3)
 
-1. Dans `store()`, remplacez `only()` par `$request->validate([...])` : une règle par champ.
+**Étape A3.1** — Dans `store()`, remplacez `only()` par `$request->validate([...])` : une règle par champ.
 
 | Champ | Contrainte attendue |
 |---|---|
@@ -103,29 +104,36 @@ Une étape = un chapitre du cours (`Chapitre N`). Faites-les **dans l'ordre**, j
 | `platform_ids` / `platform_ids.*` | tableau facultatif, chaque id doit exister dans `platforms` |
 | `featured` | booléen |
 
-2. Dans la vue, sous chaque champ : `@error('champ')` avec `$message`.
-3. Conservez la saisie : `old('title')` dans les champs texte, entre les balises du `textarea`, `@selected(...)` sur les `select`, `@checked(...)` sur les cases.
-4. `featured` : ajoutez avant la case un `<input type="hidden" name="featured" value="0">` pour que la valeur soit toujours envoyée.
+**Étape A3.2** — Dans la vue, sous chaque champ : `@error('champ')` avec `$message`.
+
+**Étape A3.3** — Conservez la saisie : `old('title')` dans les champs texte, entre les balises du `textarea`, `@selected(...)` sur les `select`, `@checked(...)` sur les cases.
+
+**Étape A3.4** — `featured` : ajoutez avant la case un `<input type="hidden" name="featured" value="0">` pour que la valeur soit toujours envoyée.
 
 ✅ Vérification : un titre vide ramène au formulaire avec un message sous le champ et les autres champs conservés ; une catégorie inexistante (modifiez le `value` dans les DevTools) est refusée ; un jeu valide est créé.
 
-### ✅ Point de contrôle 1
-
-- [ ] `/games/create` s'affiche, l'envoi valide crée un jeu et redirige vers sa fiche
-- [ ] Sans `@csrf` vous obtenez un 419, avec il n'y en a plus
-- [ ] Chaque règle refuse bien une valeur invalide, et la saisie est conservée
-- [ ] Commit : « feat: création validée d'un jeu »
-
-> En retard ? Relisez le diff des tags Campus Quest `s5-ch1-formulaire`, `s5-ch2-csrf` et `s5-ch3-validation`, puis refaites A1 à A3 sur WishFlix.
+> ✅ **Point de contrôle 1**
+>
+> - [ ] `/games/create` s'affiche, l'envoi valide crée un jeu et redirige vers sa fiche
+> - [ ] Sans `@csrf` vous obtenez un 419, avec il n'y en a plus
+> - [ ] Chaque règle refuse bien une valeur invalide, et la saisie est conservée
+> - [ ] Commit : « feat: création validée d'un jeu »
+>
+> 🛟 Rattrapage : relisez le diff des tags Campus Quest `s5-ch1-formulaire`, `s5-ch2-csrf` et `s5-ch3-validation` (dépôt `CampusQuest`), puis **refaites** les étapes A1 à A3 sur WishFlix.
 
 ### A4 — Éditer et supprimer, routes à la main (Chapitre 4)
 
-1. **Routes** (à la main, une par une) : `GET /games/{id}/edit` (`games.edit`), `PUT /games/{id}` (`games.update`), `DELETE /games/{id}` (`games.destroy`).
-2. **`edit(int $id)`** : `Game::findOrFail($id)`, puis la vue `games.edit` avec le jeu, les catégories et les plateformes.
-3. **Vue** `games/edit.blade.php` : même formulaire que la création, avec `@csrf`, `@method('PUT')` et les valeurs actuelles en repli : `old('title', $game->title)`. Pour les plateformes cochées : `$game->platforms->pluck('id')`.
-4. **`update(Request $request, int $id)`** : `findOrFail`, les **mêmes règles** que `store()` (recopiez-les), `$game->update(...)`, `sync()` des plateformes, redirection vers la fiche avec un message.
-5. **`destroy(int $id)`** : `findOrFail`, détachez les plateformes (`platforms()->detach()`), `delete()`, redirection vers `/` avec un message.
-6. Sur `game-detail.blade.php` : un lien « Modifier » et un petit formulaire « Supprimer » (`@csrf` + `@method('DELETE')`).
+**Étape A4.1** — **Routes** (à la main, une par une) : `GET /games/{id}/edit` (`games.edit`), `PUT /games/{id}` (`games.update`), `DELETE /games/{id}` (`games.destroy`).
+
+**Étape A4.2** — **`edit(int $id)`** : `Game::findOrFail($id)`, puis la vue `games.edit` avec le jeu, les catégories et les plateformes.
+
+**Étape A4.3** — **Vue** `games/edit.blade.php` : même formulaire que la création, avec `@csrf`, `@method('PUT')` et les valeurs actuelles en repli : `old('title', $game->title)`. Pour les plateformes cochées : `$game->platforms->pluck('id')`.
+
+**Étape A4.4** — **`update(Request $request, int $id)`** : `findOrFail`, les **mêmes règles** que `store()` (recopiez-les), `$game->update(...)`, `sync()` des plateformes, redirection vers la fiche avec un message.
+
+**Étape A4.5** — **`destroy(int $id)`** : `findOrFail`, détachez les plateformes (`platforms()->detach()`), `delete()`, redirection vers `/` avec un message.
+
+**Étape A4.6** — Sur `game-detail.blade.php` : un lien « Modifier » et un petit formulaire « Supprimer » (`@csrf` + `@method('DELETE')`).
 
 ✅ Vérification : modifier un jeu change bien sa fiche, un titre invalide ramène au formulaire d'édition avec ses erreurs, supprimer un jeu qui a des plateformes fonctionne (sans le `detach()` vous auriez une erreur 500).
 
@@ -133,55 +141,58 @@ Une étape = un chapitre du cours (`Chapitre N`). Faites-les **dans l'ordre**, j
 
 C'est un **refactor** : les pages ne changent pas.
 
-1. Remplacez vos cinq routes `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy` par :
+**Étape A5.1** — Remplacez vos cinq routes `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy` par :
 
-   ```php
-   Route::resource('games', GameController::class)->except(['index', 'show']);
-   ```
+```php
+Route::resource('games', GameController::class)->except(['index', 'show']);
+```
 
-   `games.show` (`/game/{id}`) existe déjà : il est donc exclu.
-2. Passez `edit`, `update` et `destroy` au **binding** : signatures `edit(Game $game)`, `update(Request $request, Game $game)`, `destroy(Game $game)` ; supprimez les `findOrFail`.
-3. Dans les vues, `route('games.edit', $game)` suffit.
+`games.show` (`/game/{id}`) existe déjà : il est donc exclu.
+
+**Étape A5.2** — Passez `edit`, `update` et `destroy` au **binding** : signatures `edit(Game $game)`, `update(Request $request, Game $game)`, `destroy(Game $game)` ; supprimez les `findOrFail`.
+
+**Étape A5.3** — Dans les vues, `route('games.edit', $game)` suffit.
 
 ✅ Vérification : `sail artisan route:list --name=games` montre vos routes avec `{game}` ; création, édition et suppression marchent toujours.
 
-### ✅ Point de contrôle 2
-
-- [ ] Plus aucun `findOrFail` dans `edit`, `update` et `destroy`
-- [ ] `route:list` montre `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy`
-- [ ] Les trois actions (créer, modifier, supprimer) fonctionnent encore
-- [ ] Commit : « refactor: Route::resource et route model binding »
-
-> En retard ? Relisez le diff des tags `s5-ch4-edition` et `s5-ch5-resource`, puis refaites A4 et A5.
+> ✅ **Point de contrôle 2**
+>
+> - [ ] Plus aucun `findOrFail` dans `edit`, `update` et `destroy`
+> - [ ] `route:list` montre `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy`
+> - [ ] Les trois actions (créer, modifier, supprimer) fonctionnent encore
+> - [ ] Commit : « refactor: Route::resource et route model binding »
+>
+> 🛟 Rattrapage : relisez le diff des tags Campus Quest `s5-ch4-edition` et `s5-ch5-resource` (dépôt `CampusQuest`), puis **refaites** les étapes A4 et A5 sur WishFlix.
 
 ### A6 — Form Request (Chapitre 6)
 
-1. Générez les classes :
+**Étape A6.1** — Générez les classes :
 
-   ```bash
-   ./vendor/bin/sail artisan make:request StoreGameRequest
-   ./vendor/bin/sail artisan make:request UpdateGameRequest
-   ```
+```bash
+./vendor/bin/sail artisan make:request StoreGameRequest
+./vendor/bin/sail artisan make:request UpdateGameRequest
+```
 
-2. Dans chacune : `authorize()` renvoie `true` et `rules()` contient vos règles (déplacées telles quelles depuis le contrôleur).
-3. Dans le contrôleur, remplacez `Request` par `StoreGameRequest` / `UpdateGameRequest` et utilisez `$request->validated()`.
+**Étape A6.2** — Dans chacune : `authorize()` renvoie `true` et `rules()` contient vos règles (déplacées telles quelles depuis le contrôleur).
+
+**Étape A6.3** — Dans le contrôleur, remplacez `Request` par `StoreGameRequest` / `UpdateGameRequest` et utilisez `$request->validated()`.
 
 ✅ Vérification : le comportement est identique à celui du point de contrôle 2, mais `store()` et `update()` ne contiennent plus de `validate()`.
 
-### ✅ Point de contrôle 3
-
-- [ ] `app/Http/Requests/StoreGameRequest.php` et `UpdateGameRequest.php` existent
-- [ ] `store()` et `update()` utilisent `$request->validated()`
-- [ ] Erreurs et `old()` fonctionnent comme avant
-- [ ] Commit : « refactor: Form Requests pour les jeux »
-
-> En retard ? Relisez le diff du tag `s5-ch6-form-request`, puis refaites A6.
+> ✅ **Point de contrôle 3 (fin de la Partie A, requis pour la S6)**
+>
+> - [ ] `app/Http/Requests/StoreGameRequest.php` et `UpdateGameRequest.php` existent
+> - [ ] `store()` et `update()` utilisent `$request->validated()`
+> - [ ] Erreurs et `old()` fonctionnent comme avant
+> - [ ] Commit : « refactor: Form Requests pour les jeux »
+>
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s5-ch6-form-request` (dépôt `CampusQuest`), puis **refaites** l'étape A6 sur WishFlix.
 
 > Le chapitre 7 (services) est une **démo** : rien à reproduire en séance. `GameService` est en Bonus.
 
 ---
 
-## Partie B — Chez vous (≈ 1h15, 2 user stories attendues)
+## Partie B — Attendu (à la maison, ≈ 1h15)
 
 Même démarche que la Partie A, sur de nouvelles ressources. Chaque US réutilise `Route::resource`, le binding et les Form Requests.
 
@@ -208,7 +219,7 @@ Critères d'acceptation :
 - La suppression détache d'abord la plateforme de ses jeux (`games()->detach()`)
 - Le message flash de succès s'affiche après chaque action
 
-### Indices
+### Indices de la Partie B
 
 <details>
 <summary>Niveau 1 — Où regarder</summary>
@@ -252,7 +263,7 @@ public function destroy(Category $category)
 
 ---
 
-## Partie C — Sous le capot (chez vous, ≈ 45 min)
+## Partie C — Sous le capot (à la maison, ≈ 45 min)
 
 Les formulaires de la Partie A semblent marcher « tout seuls » : `@csrf`, `@method('PUT')`, `{game}` qui devient un `Game`. Dans cette partie, vous lisez le code du framework (`vendor/laravel/framework/src/Illuminate/`) pour voir où cela se passe.
 
@@ -288,6 +299,8 @@ Les formulaires de la Partie A semblent marcher « tout seuls » : `@csrf`, `@me
 - Repérez où `findOrFail` / `resolveRouteBinding` est appelé et d'où vient la 404.
 
 **À noter dans `REPONSES.md`** : comment Laravel sait-il que le paramètre est un modèle ? Quelle méthode du modèle charge l'enregistrement ? Quelle exception produit la 404 ?
+
+### Indices de la Partie C
 
 <details>
 <summary>Niveau 1 — Où chercher</summary>
@@ -350,5 +363,3 @@ Ajoutez un champ fichier `cover` au formulaire (`enctype="multipart/form-data"`)
 - [ ] US1 et US2 : CRUD `Category` et `Platform`, suppression sans erreur 500
 - [ ] `REPONSES.md` contient la section « Séance 5 — Sous le capot » avec les réponses de C1 à C3 et le chemin suivi
 - [ ] Commits réguliers poussés sur le dépôt GitHub privé
-
-**Charge** : socle ≈ 25 min rapide (≈ 1h élève lent) · attendu ≈ 2h (B ≈ 1h15 + C ≈ 45 min) · bonus ≈ 1h30

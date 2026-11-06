@@ -17,7 +17,7 @@ Les chapitres 01 (lancer l'installation) et 02 (pourquoi un framework) n'ont **p
 | f | `.env` et `config/app.php` | 04 | `s1-ch4-requete` |
 | g | Artisan : `list`, `about`, `route:list` | 04 | `s1-ch4-requete` |
 
-Tags déclarés pour le futur dépôt `School_Framework_CampusQuest` (non créés ici). `s1-ch3-installation` = projet Laravel 12 neuf, Sail installé ; `s1-ch4-requete` = même projet, `APP_NAME="Campus Quest"` (seul diff).
+Tags déclarés pour le futur dépôt `CampusQuest` (non créés ici). `s1-ch3-installation` = projet Laravel 12 neuf, Sail installé ; `s1-ch4-requete` = même projet, `APP_NAME="Campus Quest"` (seul diff).
 
 ## Avant la séance
 

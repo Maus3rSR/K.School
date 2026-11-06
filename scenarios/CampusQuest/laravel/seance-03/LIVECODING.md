@@ -5,7 +5,7 @@ Le projet Laravel est dans `../base/` ; l'état final est dans `solution/` (à c
 
 ## Étape ↔ chapitre ↔ tag
 
-Les tags sont **déclarés** ici ; ils sont créés dans le dépôt `School_Framework_CampusQuest` (un commit par étape, un tag à la fin de chaque chapitre).
+Les tags sont **déclarés** ici ; ils sont créés dans le dépôt `CampusQuest` (un commit par étape, un tag à la fin de chaque chapitre).
 
 | Étape | Contenu | Chapitre | Tag Campus Quest |
 |---|---|---|---|

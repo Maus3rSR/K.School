@@ -4,20 +4,20 @@
 
 Installer un projet Laravel 12 avec Docker (Laravel Sail), le faire tourner, puis **suivre une requête** de fichier en fichier et **enquêter** dans l'arborescence : qui charge quoi, qui appelle qui.
 
-**Référence officielle** :
-
-- [Laravel Installation](https://laravel.com/framework/docs/12.x/installation)
-- [Laravel Sail](https://laravel.com/framework/docs/12.x/sail)
-
 ## Charge
 
 | Niveau | Contenu | Où | Charge indicative |
 |---|---|---|---|
-| **Socle** | Partie A (étapes 0 à 10) | En séance | ≈ 1 h 45 (dont téléchargements) |
-| **Attendu** | Partie B (enquête, ≈ 1 h) + Partie C (≈ 45 min) | À la maison | ≈ 2 h |
+| **Socle** | Étape 0 + Partie A (étapes 1 à 10) | En séance | ≈ 1 h 45 (dont téléchargements) |
+| **Attendu** | Partie B (enquête, ≈ 1 h) + Partie C « Sous le capot » (≈ 45 min) | À la maison | ≈ 2 h |
 | **Bonus** | Explorer Artisan | Facultatif | ≈ 20 min |
 
-Estimations pour un étudiant qui découvre Laravel : plus lentes que la démo du formateur.
+> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 2** : la Partie A terminée — en S2 les maquettes WishFlix deviennent des pages Laravel dans ce projet.
+
+**Référence officielle** :
+
+- [Laravel Installation](https://laravel.com/docs/12.x/installation)
+- [Laravel Sail](https://laravel.com/docs/12.x/sail)
 
 **Répartition de l'enquête** : les 12 questions gardent leur numéro et leurs paliers. En séance, vous répondez à la **1, 5 et 6** (les fichiers que vous venez de suivre). À la maison, la partie B porte sur les paliers **Observer** (2, 3, 4) et **Relier** (7, 8) puis une synthèse ; la partie C (**Raisonner**, 9 à 12) fait expliquer des choix du framework. Les réponses vont dans `REPONSES.md`.
 
@@ -32,9 +32,7 @@ Estimations pour un étudiant qui découvre Laravel : plus lentes que la démo d
 
 ---
 
-## Partie A — Socle (en séance)
-
-### Étape 0 — Contrôler l'environnement *(Chapitre 01)*
+## Étape 0 — Contrôler l'environnement
 
 Dans un terminal **WSL2** (pas PowerShell sous Windows) :
 
@@ -45,7 +43,13 @@ docker ps
 
 ✅ Vérification : les deux commandes répondent sans `Cannot connect to the Docker daemon`.
 
-### Étape 1 — Lancer la création du projet *(Chapitre 01)*
+---
+
+## Partie A — Socle (en séance)
+
+Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
+
+### Étape 1 — Lancer la création du projet (Chapitre 1)
 
 Dans le répertoire où vous stockez vos projets :
 
@@ -59,7 +63,7 @@ Laissez tourner (10 à 30 min) : c'est le moment du chapitre 02.
 
 ✅ Vérification : la commande se termine par un message invitant à faire `cd wishflix`.
 
-### Étape 2 — Démarrer l'environnement *(Chapitre 03)*
+### Étape 2 — Démarrer l'environnement (Chapitre 3)
 
 ```bash
 cd wishflix
@@ -68,7 +72,7 @@ cd wishflix
 
 `up -d` peut être **long la première fois** (images à télécharger).
 
-### Étape 3 — Préparer la base *(Chapitre 03)*
+### Étape 3 — Préparer la base (Chapitre 3)
 
 ```bash
 ./vendor/bin/sail artisan migrate
@@ -76,7 +80,7 @@ cd wishflix
 
 `migrate` crée les tables dont Laravel a besoin dès le départ (sessions, cache, jobs). **Sans cette étape, la page d'accueil affiche une erreur.**
 
-### Étape 4 — Vérifier le site et la console *(Chapitre 03)*
+### Étape 4 — Vérifier le site et la console (Chapitre 3)
 
 Rendez-vous sur [http://localhost](http://localhost), puis :
 
@@ -86,7 +90,7 @@ Rendez-vous sur [http://localhost](http://localhost), puis :
 
 ✅ Vérification : la page d'accueil Laravel s'affiche ; `about` indique Laravel 12.x, PHP 8.3+ et l'environnement `local`.
 
-### Étape 5 — Configurer l'alias `sail` *(Chapitre 03)*
+### Étape 5 — Configurer l'alias `sail` (Chapitre 3)
 
 Ajoutez dans `~/.bashrc` (ou `~/.zshrc`), puis rouvrez le terminal :
 
@@ -98,7 +102,7 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 ✅ Vérification : `sail artisan about` donne le même résultat.
 
-### Étape 6 — Versionner et pousser sur GitHub *(Chapitre 03)*
+### Étape 6 — Versionner et pousser sur GitHub (Chapitre 3)
 
 ```bash
 git init -b main
@@ -110,9 +114,10 @@ Créez un dépôt **privé** sur GitHub (sans README, sans `.gitignore`), puis s
 
 ✅ Vérification : le dépôt contient votre commit et le fichier `.env` **n'apparaît pas**.
 
-> **Point de contrôle 1** : étapes 2 à 6 validées. En retard ? Relisez le projet neuf du tag Campus Quest **`s1-ch3-installation`** (dépôt `School_Framework_CampusQuest`), puis **refaites** l'installation de `wishflix` (ou le plan B).
+> ✅ **Point de contrôle 1** — étapes 2 à 6 validées : le site répond, `migrate` est passé, le dépôt GitHub contient le commit sans `.env`.
+> 🛟 Rattrapage : relisez le projet neuf du tag Campus Quest `s1-ch3-installation` (dépôt `CampusQuest`), puis **refaites** l'installation de `wishflix` (ou le plan B).
 
-### Étape 7 — Premier fichier d'une requête *(Chapitre 04)*
+### Étape 7 — Premier fichier d'une requête (Chapitre 4)
 
 Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **comment vous l'avez trouvée** (fichier ouvert, commande lancée).
 
@@ -123,7 +128,7 @@ Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **co
 
 **À noter dans `REPONSES.md`** : ce fichier, le dossier auquel il appartient, et qui a généré ce dossier.
 
-### Étape 8 — Routes déclarées au démarrage *(Chapitre 04)*
+### Étape 8 — Routes déclarées au démarrage (Chapitre 4)
 
 **Question 6** — Les routes déclarées au démarrage.
 
@@ -133,7 +138,7 @@ Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **co
 
 **À noter dans `REPONSES.md`** : les fichiers de routes déclarés et l'URL de santé.
 
-### Étape 9 — Route et vue d'accueil *(Chapitre 04)*
+### Étape 9 — Route et vue d'accueil (Chapitre 4)
 
 **Question 1** — La route d'accueil.
 
@@ -146,13 +151,14 @@ Puis modifiez un mot dans la vue trouvée et rafraîchissez [http://localhost](h
 
 ✅ Vérification : votre mot apparaît dans le navigateur.
 
-### Étape 10 — Configuration *(Chapitre 04)*
+### Étape 10 — Configuration (Chapitre 4)
 
 Changez `APP_NAME` dans `.env`, puis lancez `./vendor/bin/sail artisan about`.
 
 ✅ Vérification : le nouveau nom apparaît dans la sortie. Remettez `WishFlix` si vous voulez garder un nom cohérent.
 
-> **Point de contrôle 2** : `REPONSES.md` contient les questions 1, 5 et 6 avec leur méthode. En retard ? Relisez le diff du tag **`s1-ch4-requete`** puis **refaites** les étapes 7 à 10 sur `wishflix`.
+> ✅ **Point de contrôle 2** — `REPONSES.md` contient les questions 1, 5 et 6 avec leur méthode.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s1-ch4-requete` (dépôt `CampusQuest`), puis **refaites** les étapes 7 à 10 sur `wishflix`.
 
 ---
 
@@ -243,55 +249,9 @@ Palier 3 — Raisonner (expliquer un choix du framework). Les questions 9 à 12 
 
 ---
 
-## Indices
+## Bonus
 
-<details>
-<summary>Indice de niveau 1 — Les 3 grandes familles</summary>
-
-L'arborescence se divise en trois grandes familles :
-
-- ce que **vous** écrivez (`app/`, `resources/`, `routes/`, `database/migrations/`)
-- ce que **Composer** gère (`vendor/`)
-- ce que Laravel **génère** ou utilise à l'exécution (`storage/`, `bootstrap/cache/`)
-
-Pour une question sur un fichier, demandez-vous d'abord à quelle famille il appartient.
-
-</details>
-
-<details>
-<summary>Indice de niveau 2 — Où chercher</summary>
-
-- Q1 : les vues Blade portent l'extension `.blade.php`.
-- Q3 : dans `compose.yaml`, cherchez la clé `ports:` de chaque service. La notation est `port_machine:port_conteneur`.
-- Q5 : le fichier chargé en premier a été produit par la commande qui remplit `vendor/`.
-- Q6 : cherchez l'appel `withRouting(...)` et lisez ses arguments nommés.
-- Q8 : la fonction utilisée accepte **deux** arguments ; le second a un rôle précis.
-- Q9 : regardez la [convention de nommage des tables](https://laravel.com/framework/docs/12.x/eloquent#table-names) dans la documentation Eloquent.
-
-</details>
-
-<details>
-<summary>Indice de niveau 3 — Un pas de plus</summary>
-
-- Q10 : une route peut recevoir soit un contrôleur, soit une **fonction anonyme** (closure). Observez la syntaxe dans `routes/web.php`.
-- Q11 : `.env.example` est un **modèle** sans secret ; `.env` contient les vraies valeurs. Pour `vendor/`, relisez la définition de Composer dans le lexique du cours.
-- Q12 : imaginez que `.env` soit accessible via `http://localhost/.env`.
-
-</details>
-
----
-
-## Critères de réussite
-
-- [ ] Points de contrôle 1 et 2 validés (partie A)
-- [ ] `./vendor/bin/sail artisan migrate:status` indique que toutes les migrations sont passées (`Ran`)
-- [ ] La page d'accueil s'affiche sur [http://localhost](http://localhost) ; `about` affiche Laravel 12.x et PHP 8.3+
-- [ ] Le dépôt GitHub privé contient au moins un commit et **ne contient pas** `.env`
-- [ ] `REPONSES.md` répond aux 12 questions, précise la méthode de chacune et contient la synthèse
-
----
-
-## Bonus — Explorer les commandes Artisan
+### Bonus 1 — Explorer les commandes Artisan
 
 Artisan propose bien plus de commandes que `about` et `migrate`. Découvrez le catalogue complet :
 
@@ -323,6 +283,54 @@ Puis relevez les défis ci-dessous. Notez vos trouvailles dans `REPONSES.md`.
 
    C'est une console PHP interactive branchée sur votre application. Essayez d'y afficher la valeur `APP_NAME` de votre `.env` sans ouvrir le fichier — une fonction d'aide de Laravel permet de lire la configuration (regardez comment `config/app.php` récupère ses valeurs).
 
-> 💡 La [documentation Artisan](https://laravel.com/framework/docs/12.x/artisan) liste les commandes par famille — utile si vous êtes bloqué.
+> 💡 La [documentation Artisan](https://laravel.com/docs/12.x/artisan) liste les commandes par famille — utile si vous êtes bloqué.
 
 Quand vous avez terminé, committez `REPONSES.md` et poussez sur GitHub.
+
+---
+
+## Indices
+
+<details>
+<summary>Indice de niveau 1 — Les 3 grandes familles</summary>
+
+L'arborescence se divise en trois grandes familles :
+
+- ce que **vous** écrivez (`app/`, `resources/`, `routes/`, `database/migrations/`)
+- ce que **Composer** gère (`vendor/`)
+- ce que Laravel **génère** ou utilise à l'exécution (`storage/`, `bootstrap/cache/`)
+
+Pour une question sur un fichier, demandez-vous d'abord à quelle famille il appartient.
+
+</details>
+
+<details>
+<summary>Indice de niveau 2 — Où chercher</summary>
+
+- Q1 : les vues Blade portent l'extension `.blade.php`.
+- Q3 : dans `compose.yaml`, cherchez la clé `ports:` de chaque service. La notation est `port_machine:port_conteneur`.
+- Q5 : le fichier chargé en premier a été produit par la commande qui remplit `vendor/`.
+- Q6 : cherchez l'appel `withRouting(...)` et lisez ses arguments nommés.
+- Q8 : la fonction utilisée accepte **deux** arguments ; le second a un rôle précis.
+- Q9 : regardez la [convention de nommage des tables](https://laravel.com/docs/12.x/eloquent#table-names) dans la documentation Eloquent.
+
+</details>
+
+<details>
+<summary>Indice de niveau 3 — Un pas de plus</summary>
+
+- Q10 : une route peut recevoir soit un contrôleur, soit une **fonction anonyme** (closure). Observez la syntaxe dans `routes/web.php`.
+- Q11 : `.env.example` est un **modèle** sans secret ; `.env` contient les vraies valeurs. Pour `vendor/`, relisez la définition de Composer dans le lexique du cours.
+- Q12 : imaginez que `.env` soit accessible via `http://localhost/.env`.
+
+</details>
+
+---
+
+## Critères de réussite
+
+- [ ] Points de contrôle 1 et 2 validés (partie A)
+- [ ] `./vendor/bin/sail artisan migrate:status` indique que toutes les migrations sont passées (`Ran`)
+- [ ] La page d'accueil s'affiche sur [http://localhost](http://localhost) ; `about` affiche Laravel 12.x et PHP 8.3+
+- [ ] Le dépôt GitHub privé contient au moins un commit et **ne contient pas** `.env`
+- [ ] `REPONSES.md` répond aux 12 questions, précise la méthode de chacune et contient la synthèse

@@ -5,7 +5,7 @@ Le projet Laravel est dans `../base/` ; il est livré **sans le code des étapes
 
 ## Étape ↔ chapitre ↔ tag
 
-Les tags sont **déclarés** ici ; ils seront créés dans le dépôt `School_Framework_CampusQuest`. Le tag d'un chapitre = l'état du code **à la fin** du chapitre (palier de rattrapage du point de contrôle).
+Les tags sont **déclarés** ici ; ils seront créés dans le dépôt `CampusQuest`. Le tag d'un chapitre = l'état du code **à la fin** du chapitre (palier de rattrapage du point de contrôle).
 
 | Étapes | Chapitre | Contenu | Tag |
 |--------|----------|---------|-----|

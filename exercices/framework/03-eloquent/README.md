@@ -6,21 +6,21 @@ Remplacer le **tableau PHP** du `GameController` par une **vraie base de donnée
 
 ## Charge
 
-| | Contenu | Estimation indicative |
-|---|---|---|
-| **Socle** | Étape 0 + Partie A, **en séance** (5 chapitres, 5 points de contrôle — la pratique est répartie au fil des chapitres) | ≈ 60 min de pratique à un rythme d'élève ; ≈ 25 min au rythme du formateur |
-| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot », **chez vous** | ≈ 1h15 + ≈ 45 min |
-| **Bonus** | 3e user story et défis | ≈ 30 à 60 min chacun |
+| Niveau | Contenu | Où | Charge indicative |
+|---|---|---|---|
+| **Socle** | Étape 0 + Partie A (5 chapitres, 5 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 60 min à un rythme d'élève |
+| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
+| **Bonus** | 3e user story et défis | Facultatif | ≈ 30 à 60 min chacun |
 
-> Ces estimations sont indicatives : un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 4** : la Partie A terminée (point de contrôle 5) — en S4 on interrogera cette base avec des requêtes plus fines.
+> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 4** : la Partie A terminée (point de contrôle 5) — en S4 on interrogera cette base avec des requêtes plus fines.
 
 **Référence officielle** :
 
-- [Eloquent : Getting Started](https://laravel.com/framework/docs/12.x/eloquent)
-- [Migrations](https://laravel.com/framework/docs/12.x/migrations)
-- [Eloquent Relationships](https://laravel.com/framework/docs/12.x/eloquent-relationships)
-- [Eloquent Factories](https://laravel.com/framework/docs/12.x/eloquent-factories)
-- [Database Seeding](https://laravel.com/framework/docs/12.x/seeding)
+- [Eloquent : Getting Started](https://laravel.com/docs/12.x/eloquent)
+- [Migrations](https://laravel.com/docs/12.x/migrations)
+- [Eloquent Relationships](https://laravel.com/docs/12.x/eloquent-relationships)
+- [Eloquent Factories](https://laravel.com/docs/12.x/eloquent-factories)
+- [Database Seeding](https://laravel.com/docs/12.x/seeding)
 
 ---
 
@@ -80,7 +80,7 @@ Category::count();
 ✅ `Category::find(1)->name` renvoie `"RPG"`, `count()` renvoie `1`.
 
 > ✅ **Point de contrôle 1** — la table `categories` existe, une ligne a été écrite et relue en Tinker.
-> 🛟 Rattrapage : tag Campus Quest `s3-ch1-table-objet` du dépôt `School_Framework_CampusQuest`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch1-table-objet` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A2 — `Game` appartient à `Category` (Chapitre 2)
 
@@ -140,7 +140,7 @@ Category::find(1)->games->count();
 ✅ Le jeu connaît sa catégorie, la catégorie liste ses jeux. (Un `category_id` inexistant serait refusé par la contrainte — c'est voulu.)
 
 > ✅ **Point de contrôle 2** — `Game::create()` fonctionne grâce au `$fillable`, la FK `category_id` est une vraie contrainte, la navigation marche dans les deux sens.
-> 🛟 Rattrapage : tag `s3-ch2-relation-1n`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch2-relation-1n` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A3 — `Game` ↔ `Platform` : la table pivot (Chapitre 3)
 
@@ -192,11 +192,11 @@ $g->platforms()->sync([2]); // la pivot vaut exactement [2]
 ✅ `$g->platforms` reflète chaque `attach`/`sync` — et un doublon est refusé par la clé composite.
 
 > ✅ **Point de contrôle 3** — la pivot `game_platform` existe et les liens jeu ↔ plateforme s'écrivent et se lisent.
-> 🛟 Rattrapage : tag `s3-ch3-relation-nn`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch3-relation-nn` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A4 — Seeders : peupler la base (Chapitre 4)
 
-Le chapitre 4 est une **démo guidée** : la factory est présentée sur Campus Quest. Ici, écrivez d'abord vos données « à la main » — la factory WishFlix complète est la US1, chez vous.
+Le chapitre 4 est une **démo guidée** : la factory est présentée sur Campus Quest. Ici, écrivez d'abord vos données « à la main » — la factory WishFlix complète est la US1, à la maison.
 
 **Étape A4.1** — Générez les seeders :
 
@@ -223,7 +223,7 @@ Puis vérifiez dans Tinker : `Game::count()`, `Game::first()->category->name`, `
 ✅ `Game::count()` ≥ 6, la catégorie s'affiche, `platforms` renvoie une Collection non vide.
 
 > ✅ **Point de contrôle 4** — `migrate:fresh --seed` reconstruit la base peuplée en une commande.
-> 🛟 Rattrapage : tag `s3-ch4-seeders-factory`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch4-seeders-factory` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A5 — Le catalogue lit la base (Chapitre 5)
 
@@ -249,11 +249,11 @@ count(DB::getQueryLog());   // = 1 + le nombre de jeux
 > - [ ] `/` et `/game/{id}` lisent la base — plus aucun tableau PHP dans le contrôleur
 > - [ ] Commit poussé sur votre dépôt GitHub privé
 >
-> 🛟 Rattrapage : tag `s3-ch5-catalogue-n1`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch5-catalogue-n1` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ---
 
-## Partie B — Attendu (chez vous, ≈ 1h15)
+## Partie B — Attendu (à la maison, ≈ 1h15)
 
 ### US1 — Seeders complets avec une factory (≈ 45 min)
 
@@ -278,7 +278,7 @@ Critères d'acceptation :
 
 ---
 
-## Partie C — Sous le capot (chez vous, ~45 min)
+## Partie C — Sous le capot (à la maison, ≈ 45 min)
 
 `Game::all()`, `$game->category->name`, `belongsToMany(Platform::class)` : tout cela fonctionne alors que vous n'avez presque rien écrit — ni nom de table, ni propriété `title`, ni nom de table pivot. Où Eloquent va-t-il chercher tout ça ? Dans cette partie, vous allez lire le code du framework — dans `vendor/laravel/framework/src/Illuminate/Database/Eloquent/` — pour voir les conventions à l'œuvre.
 
@@ -581,7 +581,7 @@ return tap($relation->getResults(), function ($results) use ($method) {
 
 ## Bonus
 
-### US3 (bonus) — Nombre de jeux par catégorie
+### Bonus 1 — US3 : nombre de jeux par catégorie
 
 **En tant que** visiteur, **je veux** voir le nombre de jeux de chaque catégorie sur l'accueil, **afin de** repérer les catégories les plus fournies.
 
@@ -591,7 +591,7 @@ Critères d'acceptation :
 - Le comptage passe par la relation : `$category->games()->count()` — une requête par catégorie est **acceptée à ce stade** (l'optimisation arrive en S4)
 - Les catégories sont passées à la vue depuis le contrôleur
 
-### Bonus 1 — Le slug dans l'URL
+### Bonus 2 — Le slug dans l'URL
 
 Remplacez `/game/{id}` par `/game/{slug}` :
 
@@ -634,7 +634,7 @@ public function show(Game $game)
 
 </details>
 
-### Bonus 2 — `status` en enum PHP 8.3
+### Bonus 3 — `status` en enum PHP 8.3
 
 Remplacez la chaîne `status` par un **enum** `GameStatus` (dans `app/Enums/`), backed par `string` — par exemple `Released`, `Upcoming`, `EarlyAccess` — puis déclarez `'status' => GameStatus::class` dans `casts()`.
 

@@ -16,7 +16,7 @@
 
 ## Campus Quest versionné
 
-- Campus Quest vit dans son propre dépôt (`School_Framework_CampusQuest`), un commit par étape du livecoding, **un tag par chapitre** au format `sXX-chY-slug` (ex. `s3-ch2-migrations`). Le diff entre deux tags = le code du chapitre.
+- Campus Quest vit dans son propre dépôt (`CampusQuest`), un commit par étape du livecoding, **un tag par chapitre** au format `sXX-chY-slug` (ex. `s3-ch2-migrations`). Le diff entre deux tags = le code du chapitre.
 - Les tags restent aux frontières de chapitres (modifier une slide réécrit l'historique et déplace les tags).
 - Une slide de chapitre peut citer son tag pour la relecture.
 - `scenarios/CampusQuest/laravel` dans ce dépôt reste la source des `LIVECODING.md` et `solution/`.

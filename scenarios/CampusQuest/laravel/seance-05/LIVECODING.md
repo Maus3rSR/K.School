@@ -16,7 +16,7 @@ Fil rouge : le **Maître du jeu** gère les quêtes depuis le navigateur (back-o
 | f | Form Requests `Store`/`Update` | 06 — `06-form-request.md` | `s5-ch6-form-request` |
 | g | `QuestService` + injection (**démo**, hors socle) | 07 — `07-services.md` | `s5-ch7-services` |
 
-Les tags sont **déclarés** ici ; ils seront créés dans `School_Framework_CampusQuest`. Un commit par étape, tag sur le dernier commit du chapitre.
+Les tags sont **déclarés** ici ; ils seront créés dans `CampusQuest`. Un commit par étape, tag sur le dernier commit du chapitre.
 
 ## Avant la séance
 

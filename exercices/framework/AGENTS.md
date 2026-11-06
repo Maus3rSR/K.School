@@ -16,6 +16,6 @@ Budget à la maison : ≈ 2h par semaine (B + C).
 ## Règles
 
 - Sujet WishFlix, jamais Campus Quest (le pacte « démo / transposition »).
-- Rattrapage : renvoyer vers le tag Campus Quest du dépôt `School_Framework_CampusQuest`, jamais vers un tag de K.School ni vers une solution WishFlix.
+- Rattrapage : renvoyer vers le tag Campus Quest du dépôt `CampusQuest`, jamais vers un tag de K.School ni vers une solution WishFlix.
 - Pas de première installation lourde en séance ; une copie manuelle répétitive se remplace par un script fourni aux étudiants (ex. dans l'archive distribuée via Moodle) — les étudiants n'ont pas accès au dépôt K.School.
 - Compatibilité avec le projet déjà commencé : ne pas changer le modèle de données (`programme.md`), ni les noms de fichiers, routes et vues attendus.

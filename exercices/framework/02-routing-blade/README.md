@@ -6,20 +6,20 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 
 ## Charge
 
-| | Contenu | Estimation indicative |
-|---|---|---|
-| **Socle** | Étape 0 + Partie A, **en séance** (6 chapitres, 6 points de contrôle) | ≈ 95 min de pratique à un rythme d'élève ; ≈ 40 min au rythme du formateur |
-| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot », **chez vous** | ≈ 1h15 + ≈ 45 min |
-| **Bonus** | 3e user story et défis | ≈ 30 à 60 min chacun |
+| Niveau | Contenu | Où | Charge indicative |
+|---|---|---|---|
+| **Socle** | Étape 0 + Partie A (6 chapitres, 6 points de contrôle) | En séance | ≈ 95 min à un rythme d'élève |
+| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
+| **Bonus** | 3e user story et défis | Facultatif | ≈ 30 à 60 min chacun |
 
-> Ces estimations sont indicatives : un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 3** : la Partie A terminée (point de contrôle 6) — en S3 le tableau PHP sera remplacé par la base de données.
+> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 3** : la Partie A terminée (point de contrôle 6) — en S3 le tableau PHP sera remplacé par la base de données.
 
 **Référence officielle** :
 
-- [Routing](https://laravel.com/framework/docs/12.x/routing)
-- [Controllers](https://laravel.com/framework/docs/12.x/controllers)
-- [Blade Templates](https://laravel.com/framework/docs/12.x/blade)
-- [Vite](https://laravel.com/framework/docs/12.x/vite)
+- [Routing](https://laravel.com/docs/12.x/routing)
+- [Controllers](https://laravel.com/docs/12.x/controllers)
+- [Blade Templates](https://laravel.com/docs/12.x/blade)
+- [Vite](https://laravel.com/docs/12.x/vite)
 
 ---
 
@@ -68,7 +68,7 @@ Chaque étape indique son **chapitre** du cours. Les maquettes de départ sont c
 ✅ `games.show` apparaît dans la liste.
 
 > ✅ **Point de contrôle 1** — `/game/3` répond, `/game/abc` → 404, `games.show` dans `route:list`.
-> 🛟 Rattrapage : tag Campus Quest `s2-ch1-routing` du dépôt `School_Framework_CampusQuest`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch1-routing` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A2 — De la route à la vue (Chapitre 2)
 
@@ -91,7 +91,7 @@ Chaque jeu suit le modèle de données du programme : `title`, `synopsis`, `rele
 ✅ Le bouton mène à `/game/{id}`.
 
 > ✅ **Point de contrôle 2** — l'accueil est une vue Blade avec ses 4+ cartes générées par la boucle.
-> 🛟 Rattrapage : tag `s2-ch2-blade-vue`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch2-blade-vue` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A3 — Le contrôleur (Chapitre 3)
 
@@ -122,7 +122,7 @@ Route::get('/game/{id}', [GameController::class, 'show'])
 ✅ `/game/1` affiche la fiche du jeu n°1. (`/game/999` plante encore : c'est normal, voir A6.)
 
 > ✅ **Point de contrôle 3** — plus de tableau dans `web.php`, `route:list` affiche `GameController@index` et `GameController@show`.
-> 🛟 Rattrapage : tag `s2-ch3-controleurs`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch3-controleurs` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A4 — Le layout (Chapitre 4)
 
@@ -147,7 +147,7 @@ Route::get('/game/{id}', [GameController::class, 'show'])
 ✅ Modifier un libellé de la navbar change les **deux** pages.
 
 > ✅ **Point de contrôle 4** — navbar et footer n'existent qu'une fois ; les deux pages étendent le layout.
-> 🛟 Rattrapage : tag `s2-ch4-layouts`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch4-layouts` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A5 — Vite et les CSS (Chapitre 5)
 
@@ -193,7 +193,7 @@ Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`,
 ✅ L'accueil et la fiche ont les couleurs WishFlix. Si vous voyez « Vite manifest not found », `sail npm run dev` ne tourne pas.
 
 > ✅ **Point de contrôle 5** — pages stylées, Vite tourne.
-> 🛟 Rattrapage : tag `s2-ch5-vite`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch5-vite` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A6 — La page 404 (Chapitre 6)
 
@@ -217,11 +217,11 @@ abort_unless(isset($this->games[$id]), 404);
 > - [ ] `sail artisan route:list` montre `home` et `games.show`
 > - [ ] Commit poussé sur votre dépôt GitHub privé
 >
-> 🛟 Rattrapage : tag `s2-ch6-erreurs`.
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch6-erreurs` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ---
 
-## Partie B — Attendu (chez vous, ≈ 1h15)
+## Partie B — Attendu (à la maison, ≈ 1h15)
 
 ### US1 — Page wishlist (≈ 40 min)
 
@@ -246,7 +246,7 @@ Critères d'acceptation :
 
 ---
 
-## Partie C — Sous le capot (chez vous, ~45 min)
+## Partie C — Sous le capot (à la maison, ≈ 45 min)
 
 Vous avez écrit `{{ ... }}`, `->whereNumber('id')`, `abort(404)` — et « ça marche ». Mais que se passe-t-il vraiment quand Laravel lit ces lignes ? Dans cette partie, vous allez ouvrir le code source du framework — dans `vendor/laravel/framework/src/Illuminate/` — pour suivre le fil de trois mécanismes que vous venez d'utiliser.
 
@@ -609,7 +609,7 @@ throw new NotFoundHttpException(sprintf(
 
 ## Bonus
 
-### US3 (bonus) — Filtrer le catalogue
+### Bonus 1 — US3 : filtrer le catalogue
 
 **En tant que** joueur, **je veux** filtrer l'accueil avec `/?category=RPG`, **afin de** ne voir qu'un genre de jeux.
 
@@ -619,13 +619,13 @@ Critères d'acceptation :
 - Sans paramètre, tous les jeux s'affichent ; avec une catégorie inconnue, le cas `@empty` s'affiche
 - Contenu filtré avec `array_filter` (la version avec la base arrive en S4)
 
-### Bonus 1 — Des liens générés partout
+### Bonus 2 — Des liens générés partout
 
 - Le bouton « Voir la fiche » du hero pointe vers la fiche du jeu mis en avant via `route('games.show', ...)`
 - Les liens « Accueil », « Wishlist » et « Se connecter » de la navbar utilisent `route()`
 - Plus aucun `href="/..."` interne en dur
 
-### Bonus 2 — Tailwind et DaisyUI via Vite
+### Bonus 3 — Tailwind et DaisyUI via Vite
 
 Remplacez les balises CDN (link DaisyUI + script `@tailwindcss/browser`) par Tailwind CSS + DaisyUI servis **via Vite**.
 
@@ -673,11 +673,11 @@ Gardez `data-theme="dark"` sur la balise `<html>` : c'est lui qui active le thè
 
 </details>
 
-### Bonus 3 — Lien actif dans la navbar
+### Bonus 4 — Lien actif dans la navbar
 
 Mettez en évidence le lien de navbar correspondant à la page courante (la classe `wishflix-shell__link--active` des maquettes).
 
-> 💡 `request()->routeIs('...')` permet de tester le nom de la route courante — voir la [documentation Requests](https://laravel.com/framework/docs/12.x/requests). La navbar ne doit pas connaître la page : c'est la vue/le layout qui décide.
+> 💡 `request()->routeIs('...')` permet de tester le nom de la route courante — voir la [documentation Requests](https://laravel.com/docs/12.x/requests). La navbar ne doit pas connaître la page : c'est la vue/le layout qui décide.
 
 ---
 

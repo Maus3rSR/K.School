@@ -528,3 +528,27 @@ Le down() d'un ajout de colonne : dropColumn — toujours l'inverse exact du up(
 Exception à connaître : tant que personne d'autre n'a joué la migration, un rollback + retouche + migrate reste acceptable sur votre poste. Dès qu'elle est poussée, c'est fini.
 Revenir au vote : qui avait deviné la nouvelle migration ?
 -->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : le modèle Category et sa table
+
+<Exercise title="WishFlix — étapes A1.1 à A1.3" duration="15 min" level="guidé"
+  :criteria="[
+    'migrate:status affiche la migration categories à Ran',
+    'Category::find(1)->name renvoie votre catégorie en Tinker',
+    'Category::count() renvoie au moins 1'
+  ]">
+
+Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A1**.
+
+Transposez la démo sur WishFlix : un modèle `Category`, sa migration avec la colonne `name`, puis une première ligne écrite et relue dans Tinker.
+
+</Exercise>
+
+<!--
+Point de contrôle 1. Palier de rattrapage : tag Campus Quest s3-ch1-table-objet (diff = modèle + migration locations).
+Vérifier au passage que migrate de l'étape 0 a bien créé les tables par défaut : sinon, dépanner la connexion maintenant, pas au chapitre 4.
+-->

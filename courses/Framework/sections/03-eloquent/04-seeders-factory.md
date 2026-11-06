@@ -342,3 +342,27 @@ migrate:fresh --seed est LE réflexe du matin : base propre, données fraîches,
 Moment léger : relancer deux fois et montrer que les 30 quêtes changent de titre à chaque run — les catégories, elles, restent les mêmes.
 Micro-pratique WishFlix : CategorySeeder, PlatformSeeder, GameSeeder (≥ 6 jeux à la main), DatabaseSeeder, migrate:fresh --seed. La factory complète : Partie B (US1).
 -->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : les seeders WishFlix
+
+<Exercise title="WishFlix — étapes A4.1 à A4.5" duration="10 min" level="guidé"
+  :criteria="[
+    'CategorySeeder (≥ 4 catégories), PlatformSeeder (≥ 3 plateformes), GameSeeder (≥ 6 jeux liés)',
+    'DatabaseSeeder appelle les seeders dans le bon ordre',
+    'migrate:fresh --seed reconstruit la base peuplée en une commande'
+  ]">
+
+Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A4**.
+
+Transposez la démo sur WishFlix : reprenez les jeux de votre tableau PHP de la S2 dans `GameSeeder`, attachez leurs plateformes, orchestrez dans `DatabaseSeeder`, puis `migrate:fresh --seed`. La factory complète arrive chez vous (US1).
+
+</Exercise>
+
+<!--
+Point de contrôle 4. Palier de rattrapage : tag Campus Quest s3-ch4-seeders-factory.
+Erreur fréquente : GameSeeder avant les seeders de catégories/plateformes → clé étrangère violée. Faire lire l'erreur à voix haute : elle dit exactement quelle contrainte a bloqué.
+-->

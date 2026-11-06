@@ -280,3 +280,27 @@ Moment léger (erreur volontaire) : rejouer attach(2) deux fois. « Integrity co
 Écrire en Tinker les liens préparatoires : $quest = Quest::first() ; Location::create(['name' => ...]) si besoin.
 Micro-pratique WishFlix : Platform + pivot game_platform + belongsToMany + attach, vérifié dans Tinker.
 -->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : Game ↔ Platform
+
+<Exercise title="WishFlix — étapes A3.1 à A3.3" duration="13 min" level="guidé"
+  :criteria="[
+    'Les migrations platforms et game_platform sont à Ran',
+    'belongsToMany est déclaré des deux côtés (Game::platforms, Platform::games)',
+    'attach() et sync() écrivent les liens en Tinker'
+  ]">
+
+Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A3**.
+
+Transposez la démo sur WishFlix : le modèle `Platform`, la pivot `game_platform` (singulier, ordre alphabétique, clé composite), puis `belongsToMany` des deux côtés et quelques `attach` en Tinker.
+
+</Exercise>
+
+<!--
+Point de contrôle 3. Palier de rattrapage : tag Campus Quest s3-ch3-relation-nn.
+Nom de pivot le plus souvent raté : games_platform ou platform_game. Faire relire la convention (singulier + alphabétique) plutôt que donner la réponse.
+-->

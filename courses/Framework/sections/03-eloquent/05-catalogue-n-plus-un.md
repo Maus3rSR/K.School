@@ -290,3 +290,27 @@ Teaser pour la séance 4, en une phrase : « Quest::with('category')->get() fait
 Moment léger : « Votre catalogue a 1 000 jeux ? Le serveur vous remercie de l'avoir fait attendre. »
 Fin de séance : exercice WishFlix (Partie A déjà guidée par les points de contrôle).
 -->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : le catalogue lit la base
+
+<Exercise title="WishFlix — étapes A5.1 à A5.3" duration="10 min" level="guidé"
+  :criteria="[
+    'GameController utilise Game::all() et findOrFail — plus aucun tableau PHP',
+    '/ et /game/{id} affichent les jeux depuis la base ; /game/999 renvoie une 404',
+    'Le N+1 est constaté en Tinker : 1 + le nombre de jeux requêtes'
+  ]">
+
+Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A5**.
+
+Transposez la démo sur WishFlix : le contrôleur branché sur Eloquent, les vues passées en syntaxe objet avec `$game->category->name`, puis le N+1 mesuré sur votre propre catalogue.
+
+</Exercise>
+
+<!--
+Point de contrôle 5 (fin de la Partie A, requis pour la S4 : le tableau PHP sera remplacé… non, il EST remplacé — en S4 on interroge cette base). Palier de rattrapage : tag Campus Quest s3-ch5-catalogue-n1.
+Vérifier que chacun a bien supprimé la propriété $games : un oubli laisse un mélange tableau/base silencieux.
+-->

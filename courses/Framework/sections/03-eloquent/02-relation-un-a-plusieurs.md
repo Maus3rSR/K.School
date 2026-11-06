@@ -431,3 +431,27 @@ Montrer $quest->category sans ->name : Eloquent renvoie l'objet Category complet
 Garder en tête le prochain sujet : une quête peut se dérouler dans PLUSIEURS lieux — la FK unique ne suffira plus.
 Micro-pratique WishFlix : Game (migration avec category_id), $fillable + casts, belongsTo/hasMany, vérification Tinker.
 -->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : Game appartient à Category
+
+<Exercise title="WishFlix — étapes A2.1 à A2.6" duration="15 min" level="guidé"
+  :criteria="[
+    'La migration games (avec foreignId category_id) est à Ran',
+    'Game::create() fonctionne grâce au fillable ; une catégorie inconnue est refusée',
+    'Game::first()->category->name et Category::find(1)->games naviguent dans les deux sens'
+  ]">
+
+Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A2**.
+
+Transposez la démo sur WishFlix : le modèle `Game`, sa migration avec la clé étrangère écrite à la main, `$fillable` + `casts()`, puis `belongsTo` / `hasMany` vérifiés dans Tinker.
+
+</Exercise>
+
+<!--
+Point de contrôle 2. Palier de rattrapage : tag Campus Quest s3-ch2-relation-1n.
+Erreur fréquente : oublier category_id dans le $fillable → le jeu se crée sans catégorie, en silence. Faire vérifier Game::first()->category_id en Tinker.
+-->

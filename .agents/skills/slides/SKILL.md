@@ -76,6 +76,7 @@ sections/
 | Annoter un mot (de quelle techno il vient)        | `<Tag label="TypeScript">mot</Tag>`                       |
 | Mot-clé du lexique / susceptible de tomber en QCM | `<KeyTerm>mot</KeyTerm>`                                  |
 | Commandes shell + sortie                          | `<Terminal>` (jamais `{monaco}` pour une sortie statique) |
+| Lignes de BDD, enregistrements, relations entre tables | `<TableLinks>` (jamais Mermaid ni cartes)            |
 | Arborescence de fichiers                          | `<FileTree>` (jamais d'ASCII art)                         |
 | Capture / rendu d'app                             | `<Browser>`                                               |
 | Grille de logos / captures                        | `<ImageGrid>`                                             |
@@ -85,6 +86,7 @@ sections/
 | Image pas encore disponible                       | `<Placeholder>`                                           |
 | Raccourci clavier                                 | `<Shortcut>`                                              |
 | Lexique                                           | `<TermCard>`                                              |
+| Aide-mémoire d'un concept (éléments les plus utilisés + doc) | `<Panorama>`                                |
 
 **Règle anti-monotonie** : une slide « texte seul » (titre + bullets) ne doit jamais être suivie de plus de **2 autres slides texte seul**. Casser la série avec un composant ci-dessus, un diagramme Mermaid, une image ou un layout `statement` / `fact` / `quote`.
 
@@ -110,6 +112,7 @@ Le style des tableaux est **global**, fourni par l'addon (`packages/ui/styles/in
 - Écrire des tableaux Markdown **sans couleur inline** (pas de `<span class="text-red-500">` dans les cellules) : la lisibilité vient du style global
 - Mettre en **gras** la première colonne quand elle sert de libellé de ligne (`| **Langage** | ... |`)
 - 3 à 6 lignes, 2 à 4 colonnes ; au-delà → diviser ou changer de composant (`<Compare>`, `<ProsCons>`)
+- Dès qu'on représente des lignes de base de données, des enregistrements ou des relations entre tables → `<TableLinks>` / un tableau, **jamais Mermaid ni des cartes**
 - Ne pas redéfinir le style des tableaux dans un `<style>` de slide ; modifier l'addon si besoin
 
 ---
@@ -662,3 +665,73 @@ Nombre idéal : **6 à 12 termes** au total (3-6 par colonne).
 - [ ] Colonnes équilibrées (±1 terme)
 - [ ] Scroll activé si plus de 14 termes au total
 - [ ] Notes présentateur indiquant les termes centraux à souligner
+
+---
+
+## Slide Panorama — Format et Qualité
+
+### Rôle
+
+Le Panorama est un **aide-mémoire**, pas du contenu enseigné : il liste les éléments les plus utilisés d'un concept (directives, méthodes, commandes…) avec un seul lien vers la documentation officielle. Il ne remplace ni n'annonce une explication : il sert de référence pendant et après la séance.
+
+### Format Obligatoire
+
+```md
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : les routes
+
+<script setup>
+import routes from '/references/routes'
+</script>
+
+<Panorama :items="routes" doc="https://laravel.com/docs/12.x/routing" at="s2-ch1" />
+
+<!--
+Survol de 30 s, pas d'explication détaillée : montrer ce qui a été vu (badges « vu ») et où trouver le reste.
+Pendant le « À vous », les apprenants peuvent revenir sur cette slide comme aide-mémoire.
+-->
+```
+
+- H1 : `Panorama : <concept>` (ex. « Panorama : les routes », « Panorama : Blade »)
+- `doc` : un **seul** lien, vers la documentation officielle du concept
+- `at` : position courante au format `sN-chM` (même convention que les tags Campus Quest) — détermine les badges « vu »
+- **Pas de `v-click`** : tout est visible immédiatement
+- Note présentateur : survol de ~30 s, pas d'explication détaillée
+
+### Données
+
+Les éléments vivent dans `courses/<Cours>/references/<concept>.ts` (`export default [ ... ]`), un objet par élément :
+
+```ts
+{ name: 'Route::get()', desc: 'Répondre à une lecture (GET)', group: 'Déclarer', seen: 's2-ch1' }
+```
+
+- `name` : la syntaxe exacte (affichée en monospace)
+- `desc` : **≤ 8 mots**
+- `group` : regroupement thématique optionnel (titre en petites capitales)
+- `seen: 'sN-chM'` : chapitre où l'élément est **utilisé en livecoding / démo ou en Partie A de l'atelier** (livecoding, code ou Terminal montré sur une slide, critère « À vous ») — pas seulement cité, et **bonus, parties B et C de l'exercice exclus**. Absent = pas encore vu.
+
+**Quand une nouvelle séance utilise un élément, mettre à jour son `seen`** dans le fichier de données. Ne jamais reculer un `seen` existant vers une valeur plus tardive.
+
+### Règles de Placement et de Sélection
+
+- **Placement** : dernière slide de contenu du chapitre, **juste avant la slide « À vous »**.
+- Concept réparti sur plusieurs chapitres d'un deck (ex. Blade sur ch2 + ch4) → le Panorama se place après le **dernier** de ces chapitres.
+- **Une seule Panorama par concept et par deck** ; un même Panorama peut être repris dans les decks suivants avec `at` mis à jour.
+- Un deck peut placer **deux Panoramas dans le même chapitre** quand ce chapitre clôt deux concepts (ex. routes + contrôleur avec `Route::resource`, ou seeders + Artisan) : deux slides consécutives avant « À vous ».
+- **Max 24 éléments** (le composant avertit au-delà). Pas de scroll ni de conteneur à débordement : la slide doit tenir entièrement à l'écran et à l'export PDF. Au-delà, scinder en deux Panoramas thématiques. Pas de minimum.
+- Sélection = les éléments **les plus utilisés en projet réel**, pas une liste exhaustive de la doc.
+- Ne compte **ni** dans les ≈12 slides de densité du chapitre **ni** comme « aperçu » (skill `pedagogie`).
+
+### Checklist Panorama
+
+- [ ] H1 au format `Panorama : <concept>`
+- [ ] Placée juste avant la slide « À vous » (ou après le dernier chapitre du concept)
+- [ ] Une seule Panorama par concept dans le deck
+- [ ] ≤ 24 éléments, descriptions ≤ 8 mots, aucun scroll
+- [ ] Un seul lien, vers la documentation officielle
+- [ ] `at` correspond au chapitre courant ; `seen` renseigné uniquement pour les éléments utilisés en livecoding/démo ou en Partie A (bonus, parties B et C exclus)
+- [ ] Pas de `v-click` ; note présentateur « survol 30 s » présente

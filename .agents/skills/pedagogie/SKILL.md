@@ -17,6 +17,7 @@ Débutants **sur le sujet du cours** : adultes en reconversion, étudiants de BU
 - **Un seul ordre** : ordre des slides = ordre de construction du livecoding = ordre des étapes du TP. Aucune slide ni étape de TP ne dépend d'une notion qui arrive plus tard.
 - **La douleur avant la solution** : chaque abstraction arrive **après** le problème qu'elle résout (ex. écrire 7 routes à la main avant `Route::resource`, provoquer l'erreur avant d'introduire la protection).
 - **Budget de densité** : peu de notions nouvelles par séance (3-4), et **un seul « aperçu »** (notion montrée sans être pratiquée) au maximum.
+  - Une slide `<Panorama>` est une référence : elle ne compte ni comme « aperçu » ni comme nouvelle notion (voir skill `slides`).
 - **Schéma animé obligatoire** pour tout concept de flux ou de relation (requête, cycle de vie, clé étrangère, table pivot…) : Mermaid, `v-click`, `magic-move`.
 - **Un moment léger par chapitre** dans les notes du présentateur : erreur volontaire, running gag du fil rouge, anecdote.
 - **Pas de durée fixe dans les skills** : le rythme se décrit en cycles. Les durées vivent dans le cours (`duration` des chapitres, `programme.md`).

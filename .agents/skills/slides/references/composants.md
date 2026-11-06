@@ -131,6 +131,29 @@ Props : `title` (`À retenir`), `icon` (`💡`), `variant` : `tip` (bleu) / `rul
 
 **Quand** : couples ❌/✅ (code, formulation d'une User Story, commande). Remplace les deux blocs `**❌** / **✅**` écrits à la main. Code ≤ 8 lignes par côté.
 
+### `<TableLinks>` — tables de BDD reliées par des flèches
+
+```md
+<TableLinks
+  :tables="[
+    { id: 'categories', name: 'categories', columns: ['id', 'name'], pk: ['id'],
+      rows: [[1, 'Quiz'], [2, 'Mission']] },
+    { id: 'quests', name: 'quests', columns: ['id', 'title', 'category_id'], pk: ['id'], fk: ['category_id'],
+      rows: [[1, 'Salle 404', 2], [2, 'Fantôme', 3]], badRows: [1] }
+  ]"
+  :links="[
+    { from: { table: 'quests', row: 0, col: 'category_id' }, to: { table: 'categories', row: 1 }, label: 'Quest::find(1)' },
+    { from: { table: 'quests', row: 1, col: 'category_id' }, variant: 'error', label: 'id 3 inexistant' }
+  ]"
+/>
+```
+
+Une table `tables[]` : `id` (référencé par `links`), `name`, `columns`, `rows` ; `pk` / `fk` badgent les colonnes, `badRows` rougit des lignes, `at` fait apparaître la table au click. Une valeur de cellule peut être une **liste de variantes** `[{ v: 'Cafét', until: 2 }, { v: 'Cafèt', at: 2 }]` pour faire évoluer le contenu au fil des clicks. Une table peut aussi être un **objet** : `{ id, kind: 'object', name: '$location', props: [['name', "'Cafét'"]], at? }` — rendue en petite carte propriété/valeur.
+
+Un lien `links[]` : `from` / `to` désignent un élément `{ table, row?, col? }` (`to` absent → flèche en pointillé « vers le vide ») ; `at` / `until` bornent la visibilité (`at <= clicks < until`) ; `variant` : `ok` (vert) / `error` (rouge) / `muted` (gris) / défaut (primaire) ; `label` : libellé au milieu de la flèche. `direction` (`row` par défaut, `column` possible) change l'empilement.
+
+**Quand** : toute représentation de lignes de base de données, d'enregistrements ou de relations entre tables (FK, pivot, Active Record). JAMAIS Mermaid ni cartes pour ça. Les flèches sont mesurées sur le DOM réel (les tableaux rétrécissent avec `text-sm`/`text-xs` sur un conteneur parent).
+
 ---
 
 ## Environnement technique
@@ -150,7 +173,7 @@ Props : `title` (`À retenir`), `icon` (`💡`), `variant` : `tip` (bleu) / `rul
 
 Props : `lines` (requis, `{ cmd?, out?, lang? }`), `title` (`bash`), `prompt` (`$`), `codePrompt` (`>>>`), `clicks`, `highlight` (défaut `true`), `legend` (défaut `false`). Le `out` conserve les retours à la ligne (`\n`). Les caractères `<`, `>` et `|` peuvent être écrits tels quels dans `cmd`/`out` — pas besoin de séquences d'échappement.
 
-**Coloration par rôles** (`highlight`, activée par défaut ; `highlight=false` retrouve l'affichage uniforme) : chaque `cmd` est découpée en tokens colorés selon leur rôle — **commande** (1er token, bleu gras), **sous-commande** (1er token non-option, jaune), **action** (vert, uniquement après `artisan` ou `compose`), **séparateur** (`:` rouge gras, dans les actions composées `mot:mot` comme `make:migration`), **option** (violet, tokens en `-`), **argument** (texte clair). Une chaîne entre guillemets compte pour **un** token ; les `:` d'une URL ou d'un argument ne sont pas séparés. Exemples :
+**Coloration par rôles** (`highlight`, activée par défaut ; `highlight=false` retrouve l'affichage uniforme) : chaque `cmd` est découpée en tokens colorés selon leur rôle — **commande** (1er token, bleu clair `#7dd3fc` semi-gras), **sous-commande** (ambre `#fcd34d`), **action** (vert menthe `#86efac`, uniquement après `artisan` ou `compose`), **séparateur** (`:` rose `#fda4af`, dans les actions composées `mot:mot` comme `make:migration`), **option** (lavande `#c4b5fd`, tokens en `-`), **argument** (gris clair `#e2e8f0`). Une chaîne entre guillemets compte pour **un** token ; les `:` d'une URL ou d'un argument ne sont pas séparés. Exemples :
 
 | Commande | Découpage |
 |---|---|
@@ -161,7 +184,7 @@ Props : `lines` (requis, `{ cmd?, out?, lang? }`), `title` (`bash`), `prompt` (`
 
 `legend=true` ajoute une ligne de pastilles en bas du terminal listant les **rôles réellement présents** dans les commandes affichées (ex. `commande · sous-commande · action · séparateur · option · argument`) — utile pour introduire le vocabulaire d'une commande.
 
-**Lignes de code PHP** (`lang: 'php'` sur une entrée, ex. sessions Tinker) : la ligne utilise un tokenizer PHP dédié et le prompt `codePrompt` (`>>>`) au lieu de `prompt`. Rôles colorés : `classe` (identifiant majuscule, bleu gras), `::` (scope, rouge gras), `->` (jaune), `méthode` (vert), `variable` `$x` (violet), `chaîne` (ambre clair), `nombre` (bleu), `opérateur` / `:` seul / ponctuation (gris).
+**Lignes de code** (`lang: 'php'` sur une entrée, ex. sessions Tinker) : la ligne est colorée par **le surligneur Shiki du deck** (même rendu que les blocs ` ```php `, thème sombre du deck puisque le fond du terminal est `#0f172a`) et le prompt `codePrompt` (`>>>`) remplace `prompt`. Le texte brut s'affiche d'abord, puis les couleurs arrivent sans saut de mise en page ; si le surligneur est indisponible, le texte reste clair.
 
 ```md
 <Terminal
@@ -292,6 +315,37 @@ Props : `value` (requis), `label`, `color` (`blue`). **Quand** : 1 à 3 chiffres
 ```
 
 Props : `front`, `back` (requis). Clic → retournement. **Quand** : révision du lexique, 3 cartes par slide max.
+
+---
+
+## Référence
+
+### `<Panorama>` — aide-mémoire d'un concept
+
+```md
+# Panorama : les routes
+
+<script setup>
+import routes from '/references/routes'
+</script>
+
+<Panorama :items="routes" doc="https://laravel.com/docs/12.x/routing" at="s2-ch1" />
+```
+
+| Prop    | Type   | Défaut | Rôle                                                        |
+| ------- | ------ | ------ | ----------------------------------------------------------- |
+| `items` | Array  | —      | Éléments à lister (requis, max 24)                          |
+| `doc`   | String | —      | URL de la documentation officielle (requis)                 |
+| `at`    | String | `''`   | Position courante `sN-chM` ; absent → aucun badge           |
+
+Forme d'un élément : `{ name: string, desc: string, group?: string, seen?: string }`.
+
+- `name` s'affiche en monospace (rendu texte : `{{ }}`, `@`, `<x-…>` passent tels quels), `desc` en petit texte estompé
+- `group` : un titre en petites capitales est inséré avant le premier élément de chaque groupe (ordre conservé)
+- `seen: 'sN-chM'` : l'élément est marqué « vu » (badge primaire) si `(s, ch)` ≤ `at` ; sinon il est estompé (~55 %). À renseigner uniquement quand l'élément est utilisé en livecoding/démo ou en Partie A de l'atelier (bonus, parties B et C exclus)
+- Le pied affiche le compteur « N / total vus en séance » (si `at`) et le lien « Documentation officielle »
+
+**Quand** : dernière slide de contenu d'un chapitre, juste avant « À vous » — aide-mémoire des éléments les plus utilisés, pas du contenu enseigné. Grille sur 3 colonnes, pas de scroll (export PDF complet). Sélection ≤ 24 éléments, `desc` ≤ 8 mots. Règles complètes : `SKILL.md`, « Slide Panorama — Format et Qualité ».
 
 ---
 

@@ -29,3 +29,8 @@
 ## Compatibilité
 
 Les étudiants ont commencé WishFlix en S1 : ne jamais changer le modèle de données ni les noms de fichiers, routes et vues déjà attendus par les exercices précédents.
+
+## Panoramas
+
+- Les données des slides `<Panorama>` vivent dans `references/` (un fichier `<concept>.ts` par Panorama).
+- `seen: 'sN-chM'` marque le chapitre où l'élément est utilisé en livecoding / démo ou en Partie A de l'atelier (bonus, parties B et C exclus) : quand une nouvelle séance utilise un élément, mettre à jour son `seen` dans le fichier de données — et ne jamais changer un `seen` existant vers une valeur plus tardive.

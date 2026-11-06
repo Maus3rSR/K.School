@@ -19,6 +19,30 @@ Layout `chapter` de l'addon — ouverture du chapitre 4.
 transition: slide-up | slide-down
 ---
 
+# Panorama : Nimbus
+
+<Panorama
+  :items="[
+    { name: 'nimbus create', desc: 'Créer un nouveau projet', group: 'Commandes', seen: 's1-ch2' },
+    { name: 'nimbus dev', desc: 'Lancer le serveur local', group: 'Commandes', seen: 's1-ch2' },
+    { name: 'nimbus build', desc: 'Générer le site de production', group: 'Commandes' },
+    { name: 'defineView', desc: 'Déclarer une page Nimbus', group: 'Vues', seen: 's1-ch3' },
+    { name: 'ref', desc: 'Créer une donnée réactive', group: 'Vues', seen: 's1-ch3' },
+    { name: 'interface', desc: 'Décrire la forme de l\'état', group: 'Vues', seen: 's1-ch3' },
+    { name: 'src/routes/*.nb.ts', desc: 'Enregistrer une route par fichier', group: 'Routage' }
+  ]"
+  doc="https://sli.dev"
+  at="s1-ch4"
+/>
+
+<!--
+Démontre `<Panorama>` : aide-mémoire des éléments les plus utilisés, placé juste avant la slide « À vous ». Les items `seen` ≤ `at` portent le badge « vu », les autres sont estompés ; `group` crée les titres de section. Données ici en ligne — dans un vrai cours, elles vivent dans `courses/<Cours>/references/<concept>.ts`.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # À vous de jouer
 
 <Exercise

@@ -327,6 +327,42 @@ Démontre Mermaid `gitGraph` natif. À utiliser pour illustrer branches, merges 
 -->
 
 ---
+transition: slide-up | slide-down
+---
+
+# Des tables et leurs liens
+
+<TableLinks
+  class="mt-6"
+  :tables="[
+    { id: 'users', name: 'users', columns: ['id', 'name'], pk: ['id'], rows: [[1, 'Ada'], [2, 'Grace']] },
+    { id: 'posts', name: 'posts', columns: ['id', 'title', 'user_id'], pk: ['id'], fk: ['user_id'],
+      rows: [[1, 'Hello', 1], [2, 'Nimbus', 2], [3, 'Brouillon', 9]], badRows: [{ row: 2, at: 2 }] }
+  ]"
+  :links="[
+    { from: { table: 'posts', row: 0, col: 'user_id' }, to: { table: 'users', row: 0 }, at: 1 },
+    { from: { table: 'posts', row: 1, col: 'user_id' }, to: { table: 'users', row: 1 }, at: 1 },
+    { from: { table: 'posts', row: 2, col: 'user_id' }, variant: 'error', at: 2, label: 'user 9 inexistant', labelSide: 'below' }
+  ]"
+/>
+
+<div v-click="1" class="mt-6 text-sm text-center opacity-80">
+
+Chaque ligne de `posts` pointe vers une ligne de `users` via sa clé étrangère.
+
+</div>
+
+<div v-click="2" class="mt-1 text-sm text-center opacity-80">
+
+Une valeur orpheline est signalée en rouge : aucune ligne cible, la flèche part dans le vide.
+
+</div>
+
+<!--
+Démontre `<TableLinks>` (addon) : vrais tableaux HTML + flèches SVG mesurées sur le DOM. `pk`/`fk` badgent les colonnes, `badRows` rougit une ligne (ici au click 2), `links[].at` révèle les flèches au click, `to` absent = flèche pointillée « vers le vide », `variant` colore le lien. À utiliser dès qu'on montre des lignes de base de données ou des relations entre tables — jamais Mermaid ni cartes pour ça.
+-->
+
+---
 layout: center
 transition: slide-up | slide-down
 ---

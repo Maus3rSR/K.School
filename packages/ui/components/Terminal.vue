@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { COMMAND_ROLES, ROLE_LABELS, tokenizeCommand } from '../utils/tokenizeCommand.js'
+import { PHP_ROLES, PHP_ROLE_LABELS, tokenizePhp } from '../utils/tokenizePhp.js'
 
 const props = defineProps({
   title: {
@@ -26,12 +27,26 @@ const props = defineProps({
   legend: {
     type: Boolean,
     default: false
+  },
+  codePrompt: {
+    type: String,
+    default: '>>>'
   }
 })
 
+const LEGEND_ORDER = [
+  ...COMMAND_ROLES,
+  ...PHP_ROLES.filter((role) => !COMMAND_ROLES.includes(role)),
+]
+const LEGEND_LABELS = { ...ROLE_LABELS, ...PHP_ROLE_LABELS }
+
 const tokenizedLines = computed(() =>
-  props.lines.map((line) => (line.cmd ? tokenizeCommand(line.cmd) : null))
+  props.lines.map((line) =>
+    line.cmd ? (line.lang === 'php' ? tokenizePhp(line.cmd) : tokenizeCommand(line.cmd)) : null
+  )
 )
+
+const linePrompt = (line) => (line.lang ? props.codePrompt : props.prompt)
 
 const legendRoles = computed(() => {
   if (!props.legend) return []
@@ -42,7 +57,7 @@ const legendRoles = computed(() => {
       if (part.role) present.add(part.role)
     }
   }
-  return COMMAND_ROLES.filter((role) => present.has(role))
+  return LEGEND_ORDER.filter((role) => present.has(role))
 })
 </script>
 
@@ -57,16 +72,16 @@ const legendRoles = computed(() => {
     <div class="terminal-body">
       <template v-for="(line, i) in lines" :key="i">
         <div v-if="clicks" v-click class="terminal-line">
-          <div v-if="line.cmd" class="term-cmd">
-            <span class="term-prompt">{{ prompt }}</span>
+          <div v-if="line.cmd" class="term-cmd" :class="{ 'term-cmd--roles': highlight }">
+            <span class="term-prompt">{{ linePrompt(line) }}</span>
             <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null">{{ part.text }}</span></template>
             <template v-else> {{ line.cmd }}</template>
           </div>
           <div v-if="line.out" class="term-out">{{ line.out }}</div>
         </div>
         <div v-else class="terminal-line">
-          <div v-if="line.cmd" class="term-cmd">
-            <span class="term-prompt">{{ prompt }}</span>
+          <div v-if="line.cmd" class="term-cmd" :class="{ 'term-cmd--roles': highlight }">
+            <span class="term-prompt">{{ linePrompt(line) }}</span>
             <template v-if="highlight"><span v-for="(part, j) in tokenizedLines[i]" :key="j" :class="part.role ? `tok-${part.role}` : null">{{ part.text }}</span></template>
             <template v-else> {{ line.cmd }}</template>
           </div>
@@ -159,6 +174,45 @@ const legendRoles = computed(() => {
 }
 .tok-argument {
   color: #e2e8f0;
+}
+.term-cmd--roles {
+  color: #e2e8f0;
+}
+.tok-separator {
+  color: #ff5861;
+  font-weight: 700;
+}
+.tok-class {
+  color: #00b5ff;
+  font-weight: 700;
+}
+.tok-scope {
+  color: #ff5861;
+  font-weight: 700;
+}
+.tok-arrow {
+  color: #ffbe00;
+}
+.tok-method {
+  color: #00a96e;
+}
+.tok-variable {
+  color: #a855f7;
+}
+.tok-string {
+  color: #fde68a;
+}
+.tok-number {
+  color: #00b5ff;
+}
+.tok-operator {
+  color: #94a3b8;
+}
+.tok-colon {
+  color: #ff5861;
+}
+.tok-punct {
+  color: #94a3b8;
 }
 .terminal-legend {
   display: flex;

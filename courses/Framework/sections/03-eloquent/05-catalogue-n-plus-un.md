@@ -245,10 +245,10 @@ Compter les requêtes dans Tinker
   title="tinker" prompt=">"
   :clicks="true"
   :lines="[
-    { cmd: 'DB::enableQueryLog()' },
-    { cmd: '$quests = Quest::all()' },
-    { cmd: '$quests->each(fn ($q) => $q->category->name)' },
-    { cmd: 'count(DB::getQueryLog())', out: '   = 31   // 1 + 30' }
+    { lang: 'php', cmd: 'DB::enableQueryLog()' },
+    { lang: 'php', cmd: '$quests = Quest::all()' },
+    { lang: 'php', cmd: '$quests->each(fn ($q) => $q->category->name)' },
+    { lang: 'php', cmd: 'count(DB::getQueryLog())', out: '   = 31   // 1 + 30' }
   ]"
 />
 

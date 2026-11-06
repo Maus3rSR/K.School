@@ -240,10 +240,10 @@ transition: slide-up | slide-down
   title="tinker" prompt=">"
   :clicks="true"
   :lines="[
-    { cmd: '$quest->locations()->attach(2)', out: '   = null   // couple inséré' },
-    { cmd: '$quest->locations()->attach([1, 3])', out: '   = null   // deux lignes d\'un coup' },
-    { cmd: '$quest->locations()->detach(2)', out: '   = 1      // une ligne supprimée' },
-    { cmd: '$quest->locations()->sync([1, 3])', out: '   = […]    // la pivot vaut exactement [1, 3]' }
+    { lang: 'php', cmd: '$quest->locations()->attach(2)', out: '   = null   // couple inséré' },
+    { lang: 'php', cmd: '$quest->locations()->attach([1, 3])', out: '   = null   // deux lignes d\'un coup' },
+    { lang: 'php', cmd: '$quest->locations()->detach(2)', out: '   = 1      // une ligne supprimée' },
+    { lang: 'php', cmd: '$quest->locations()->sync([1, 3])', out: '   = […]    // la pivot vaut exactement [1, 3]' }
   ]"
 />
 

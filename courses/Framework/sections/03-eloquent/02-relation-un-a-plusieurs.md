@@ -200,7 +200,7 @@ Un modèle vide n'accepte rien en masse
 <Terminal
   title="tinker" prompt=">"
   :lines="[
-    { cmd: 'Quest::create([\'title\' => \'Salle 404\', \'xp\' => 50, \'difficulty\' => \'easy\'])', out: '   Illuminate\\Database\\Eloquent\\MassAssignmentException\n   Add [title] to fillable property to allow mass assignment on [App\\Models\\Quest].' }
+    { lang: 'php', cmd: 'Quest::create([\'title\' => \'Salle 404\', \'xp\' => 50, \'difficulty\' => \'easy\'])', out: '   Illuminate\\Database\\Eloquent\\MassAssignmentException\n   Add [title] to fillable property to allow mass assignment on [App\\Models\\Quest].' }
   ]"
 />
 
@@ -292,8 +292,8 @@ Une quête ne peut pas pointer dans le vide
   title="tinker" prompt=">"
   :clicks="true"
   :lines="[
-    { cmd: 'Quest::create([\'title\' => \'Salle 404\', \'xp\' => 50, \'difficulty\' => \'easy\', \'description\' => \'…\', \'category_id\' => 2])', out: '   = App\\Models\\Quest {#… id: 1}' },
-    { cmd: 'Quest::create([\'title\' => \'Fantôme\', …, \'category_id\' => 999])', out: '   Illuminate\\Database\\QueryException\n   SQLSTATE[23000]: Integrity constraint violation: 1452\n   Cannot add or update a child row: a foreign key constraint fails' }
+    { lang: 'php', cmd: 'Quest::create([\'title\' => \'Salle 404\', \'xp\' => 50, \'difficulty\' => \'easy\', \'description\' => \'…\', \'category_id\' => 2])', out: '   = App\\Models\\Quest {#… id: 1}' },
+    { lang: 'php', cmd: 'Quest::create([\'title\' => \'Fantôme\', …, \'category_id\' => 999])', out: '   Illuminate\\Database\\QueryException\n   SQLSTATE[23000]: Integrity constraint violation: 1452\n   Cannot add or update a child row: a foreign key constraint fails' }
   ]"
 />
 
@@ -416,10 +416,10 @@ Tinker : suivre les liens en direct
   title="tinker" prompt=">"
   :clicks="true"
   :lines="[
-    { cmd: '$quest = Quest::first()', out: '   = App\\Models\\Quest {#… title: &quot;Salle 404&quot;, category_id: 2, …}' },
-    { cmd: '$quest->category->name', out: '   = &quot;Mission&quot;' },
-    { cmd: 'Category::find(2)->quests->count()', out: '   = 1' },
-    { cmd: 'Category::find(2)->quests()->create([\'title\' => \'Quiz du RU\', …])', out: '   = App\\Models\\Quest {#… category_id: 2}' }
+    { lang: 'php', cmd: '$quest = Quest::first()', out: '   = App\\Models\\Quest {#… title: &quot;Salle 404&quot;, category_id: 2, …}' },
+    { lang: 'php', cmd: '$quest->category->name', out: '   = &quot;Mission&quot;' },
+    { lang: 'php', cmd: 'Category::find(2)->quests->count()', out: '   = 1' },
+    { lang: 'php', cmd: 'Category::find(2)->quests()->create([\'title\' => \'Quiz du RU\', …])', out: '   = App\\Models\\Quest {#… category_id: 2}' }
   ]"
 />
 

@@ -427,11 +427,11 @@ transition: slide-up | slide-down
   :clicks="true"
   :lines="[
     { cmd: 'sail artisan tinker' },
-    { cmd: '$l = new Location()' },
-    { cmd: '$l->name = \'BU\'' },
-    { cmd: '$l->save()', out: '   = true' },
-    { cmd: 'Location::find(1)->name', out: '   = &quot;BU&quot;' },
-    { cmd: 'Location::count()', out: '   = 1' }
+    { lang: 'php', cmd: '$l = new Location()' },
+    { lang: 'php', cmd: '$l->name = \'BU\'' },
+    { lang: 'php', cmd: '$l->save()', out: '   = true' },
+    { lang: 'php', cmd: 'Location::find(1)->name', out: '   = &quot;BU&quot;' },
+    { lang: 'php', cmd: 'Location::count()', out: '   = 1' }
   ]"
 />
 

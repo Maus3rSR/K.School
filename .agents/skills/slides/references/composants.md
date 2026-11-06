@@ -148,18 +148,30 @@ Props : `title` (`À retenir`), `icon` (`💡`), `variant` : `tip` (bleu) / `rul
 />
 ```
 
-Props : `lines` (requis, `{ cmd?, out? }`), `title` (`bash`), `prompt` (`$`), `clicks`, `highlight` (défaut `true`), `legend` (défaut `false`). Le `out` conserve les retours à la ligne (`\n`). Les caractères `<`, `>` et `|` peuvent être écrits tels quels dans `cmd`/`out` — pas besoin de séquences d'échappement.
+Props : `lines` (requis, `{ cmd?, out?, lang? }`), `title` (`bash`), `prompt` (`$`), `codePrompt` (`>>>`), `clicks`, `highlight` (défaut `true`), `legend` (défaut `false`). Le `out` conserve les retours à la ligne (`\n`). Les caractères `<`, `>` et `|` peuvent être écrits tels quels dans `cmd`/`out` — pas besoin de séquences d'échappement.
 
-**Coloration par rôles** (`highlight`, activée par défaut ; `highlight=false` retrouve l'affichage uniforme) : chaque `cmd` est découpée en tokens colorés selon leur rôle — **commande** (1er token, bleu gras), **sous-commande** (1er token non-option, jaune), **action** (vert, uniquement après `artisan` ou `compose`), **option** (violet, tokens en `-`), **argument** (texte clair). Une chaîne entre guillemets compte pour **un** token. Exemples :
+**Coloration par rôles** (`highlight`, activée par défaut ; `highlight=false` retrouve l'affichage uniforme) : chaque `cmd` est découpée en tokens colorés selon leur rôle — **commande** (1er token, bleu gras), **sous-commande** (1er token non-option, jaune), **action** (vert, uniquement après `artisan` ou `compose`), **séparateur** (`:` rouge gras, dans les actions composées `mot:mot` comme `make:migration`), **option** (violet, tokens en `-`), **argument** (texte clair). Une chaîne entre guillemets compte pour **un** token ; les `:` d'une URL ou d'un argument ne sont pas séparés. Exemples :
 
 | Commande | Découpage |
 |---|---|
 | `docker compose up -d` | docker · compose · up · `-d` |
-| `sail artisan make:migration create_x` | sail · artisan · make:migration · `create_x` |
+| `sail artisan make:migration create_x` | sail · artisan · make `:` migration · `create_x` |
 | `git commit -m "msg"` | git · commit · `-m` · `"msg"` |
 | `sail up -d` | sail · up · `-d` |
 
-`legend=true` ajoute une ligne de pastilles en bas du terminal listant les **rôles réellement présents** dans les commandes affichées (ex. `commande · sous-commande · action · option · argument`) — utile pour introduire le vocabulaire d'une commande.
+`legend=true` ajoute une ligne de pastilles en bas du terminal listant les **rôles réellement présents** dans les commandes affichées (ex. `commande · sous-commande · action · séparateur · option · argument`) — utile pour introduire le vocabulaire d'une commande.
+
+**Lignes de code PHP** (`lang: 'php'` sur une entrée, ex. sessions Tinker) : la ligne utilise un tokenizer PHP dédié et le prompt `codePrompt` (`>>>`) au lieu de `prompt`. Rôles colorés : `classe` (identifiant majuscule, bleu gras), `::` (scope, rouge gras), `->` (jaune), `méthode` (vert), `variable` `$x` (violet), `chaîne` (ambre clair), `nombre` (bleu), `opérateur` / `:` seul / ponctuation (gris).
+
+```md
+<Terminal
+  title="tinker" prompt=">" :legend="true"
+  :lines="[
+    { lang: 'php', cmd: 'Category::create([\'name\' => \'Quiz\'])' },
+    { lang: 'php', cmd: '$quest->category->name', out: '   = &quot;Quiz&quot;' }
+  ]"
+/>
+```
 
 **Quand** : toute commande + sortie **statique**. Réserver ` ```shell {monaco} ` aux cas où l'apprenant doit éditer/exécuter.
 

@@ -49,15 +49,35 @@ export function tokenizeCommand(cmd) {
       tok.role = isFlag ? 'flag' : 'argument'
     }
   }
-  return parts
+
+  // Le « : » sépare les actions composées (make:migration, route:list,
+  // migrate:fresh) — seulement dans les tokens action/subcommand formés de
+  // deux mots autour d'un seul « : » (jamais dans les URL, arguments ni
+  // chaînes entre guillemets).
+  const expanded = []
+  for (const part of parts) {
+    if (
+      (part.role === 'action' || part.role === 'subcommand') &&
+      /^[^\s:/]+:[^\s:/]+$/.test(part.text)
+    ) {
+      const [before, after] = part.text.split(':')
+      expanded.push({ text: before, role: part.role })
+      expanded.push({ text: ':', role: 'separator' })
+      expanded.push({ text: after, role: part.role })
+    } else {
+      expanded.push(part)
+    }
+  }
+  return expanded
 }
 
-export const COMMAND_ROLES = ['program', 'subcommand', 'action', 'flag', 'argument']
+export const COMMAND_ROLES = ['program', 'subcommand', 'action', 'separator', 'flag', 'argument']
 
 export const ROLE_LABELS = {
   program: 'commande',
   subcommand: 'sous-commande',
   action: 'action',
+  separator: 'séparateur',
   flag: 'option',
   argument: 'argument',
 }

@@ -199,8 +199,8 @@ Un **état** est une variante nommée : `featured()` force `featured = true` par
   class="text-sm"
   title="tinker" prompt=">"
   :lines="[
-    { cmd: 'Quest::factory()->count(3)->create()', out: '   = Collection {… 3 quêtes}' },
-    { cmd: 'Quest::factory()->featured()->make()', out: '   = Quest {… featured: true}  // non sauvegardée' }
+    { lang: 'php', cmd: 'Quest::factory()->count(3)->create()', out: '   = Collection {… 3 quêtes}' },
+    { lang: 'php', cmd: 'Quest::factory()->featured()->make()', out: '   = Quest {… featured: true}  // non sauvegardée' }
   ]"
 />
 

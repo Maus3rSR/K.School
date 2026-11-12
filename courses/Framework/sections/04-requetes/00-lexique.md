@@ -15,6 +15,8 @@ layoutClass: gap-x-6
 
 <TermCard term="N+1" definition="Piège : une requête pour la liste, plus une requête par ligne affichée" />
 
+<TermCard term="Agrégat" definition="Calcul en base sur un ensemble : count, sum, avg, max, groupBy" />
+
 ::right::
 
 <TermCard term="Pagination" definition="Découpage d'une longue liste en pages numérotées, côté SQL" />
@@ -28,5 +30,5 @@ layoutClass: gap-x-6
 <!--
 Termes centraux : eager loading vs lazy loading — l'opposition qui structure toute la séance.
 N+1 est déjà dans le lexique S3 : rappeler que le symptôme est connu, aujourd'hui on le mesure et on le corrige.
-Binding : à relier à la protection contre l'injection SQL vue au chapitre 2.
+Binding : à relier à la protection contre l'injection SQL vue au chapitre 1 (le « ? » des bindings).
 -->

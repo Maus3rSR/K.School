@@ -19,10 +19,10 @@
 Pas de bloc « théorie » suivi d'un bloc « pratique ». Chaque notion se traite complète :
 
 1. **Théorie courte** : le problème, puis le concept (slides)
-2. **Livecoding sur Campus Quest** (sujet A) : le formateur construit la notion en direct
+2. **Démo flash sur Campus Quest** (sujet A) : à partir de la S3, le livecoding complet est remplacé par une démo de 3-5 min par chapitre — les slides portent toute l'explication du code (elles le déroulent ligne par ligne) ; la démo ne retape pas le code des slides, elle se limite aux moments où l'exécution apporte quelque chose : erreurs provoquées, résultat visible (Tinker, navigateur), gestes d'outil (artisan). Le code du chapitre est déjà en place (tag Campus Quest de fin de chapitre, ou fichiers de `solution/`) ; une erreur à provoquer se fait en modifiant/commentant une ligne en direct. **S1 et S2 gardent le livecoding complet.**
 3. **Micro-pratique « à vous » sur WishFlix** (sujet B) : les étudiants transposent, puis valident un point de contrôle
 
-L'ordre des slides = l'ordre du livecoding (`scenarios/CampusQuest/laravel/seance-XX/LIVECODING.md`) = l'ordre des étapes de la Partie A de l'exercice.
+L'ordre des slides = l'ordre de la démo (`scenarios/CampusQuest/laravel/seance-XX/LIVECODING.md` — à partir de la S3, ce fichier liste les moments de démo flash ; le nom est conservé) = l'ordre des étapes de la Partie A de l'exercice.
 
 ### Deux domaines, jamais de recopie
 
@@ -31,9 +31,10 @@ L'ordre des slides = l'ordre du livecoding (`scenarios/CampusQuest/laravel/seanc
 
 ### Budget de temps
 
-- `duration` d'un chapitre = slides + livecoding + micro-pratique
-- Somme des chapitres + pratique en séance + pause ≤ 4h **− 10 %** (≈ 3h35 planifiées au maximum)
-- Hypothèse : les étudiants pratiquent **2 à 3 fois moins vite** que la démo ; le socle est dimensionné pour un étudiant lent
+- `duration` d'un chapitre = slides + démo + micro-pratique
+- Budget d'une séance de 4h : **20 min de pause** + **20 min de marge en début** (accueil, `sail up`, rappel Campus Quest, lexique/ressources) + **20 min de marge en fin** (bilan, présentation des Parties B/C) = **180 min utiles** pour les chapitres ; la somme des `duration` reste ≤ 180 min
+- Cible **50/50** : ≈ 1h30 de slides + démo, ≈ 1h30 de pratique WishFlix en séance
+- La pratique est dimensionnée pour un étudiant lent : ≈ **2× le temps de démo du même geste**
 - Densité : 3-4 notions nouvelles par séance, un seul « aperçu » au maximum
 
 ### Structure de chaque exercice (`exercices/framework/XX-*/README.md`)
@@ -85,17 +86,20 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - 🛠️ Exercice : `exercices/framework/03-eloquent`
 
 ### **Séance 4 — Requêtes Eloquent et optimisation** (4h)
-- Query Builder vs Eloquent : `where`, `orderBy`, `with`, `paginate`
-- **Optimisation** : problème **N+1** et eager loading (`with`)
-- Laravel Debugbar pour profiler les requêtes
-- Recherche par titre, filtres par catégorie
-- 🛠️ Atelier : filtre par catégorie, jeu « À la une », meilleures notes, correction d'un N+1 sur le catalogue
+- Aperçu Query Builder vs Eloquent (même SQL, `stdClass` vs modèle — comparaison détaillée en annexe)
+- Filtrer et trier : `where` et variantes, `like` avec valeur liée, `orderBy` / `limit` / `first` / `latest`, `toSql()`
+- Filtres optionnels : `Request::query`, `when()`, formulaire GET, `@selected`
+- Mesurer avec la **Debugbar** (onglet Queries) — le N+1 constaté en S3 devient visible
+- **Eager loading** : `with()`, `load()`, `preventLazyLoading` en dev
+- Agrégats : `count` / `sum` / `avg` / `max`, `groupBy` court, `withCount` / `withSum` / `withAvg` — page Classement
+- Pagination : `paginate()`, `links()`, `withQueryString()`, `simplePaginate` cité
+- 🛠️ Atelier : jeu « à la une », 6 meilleures notes, filtre par catégorie, N+1 mesuré puis corrigé, compteur de jeux par catégorie, catalogue paginé
 - 🛠️ Exercice : `exercices/framework/04-requetes`
 
 ### **Séance 5 — Formulaires, validation et services** (4h)
 - Créer : formulaire `GET create` + `POST store`, erreur 419 provoquée en direct (CSRF), `validate()`, `old()` et affichage des erreurs
 - Éditer et supprimer : routes écrites à la main, puis `Route::resource`, route model binding, `PUT` / `DELETE`
-- Refactor : Form Request pour centraliser la validation ; les **services** en démo de fin de séance (hors socle)
+- Refactor : Form Request pour centraliser la validation ; les **services** en annexe à lire (bonus `GameService`)
 - 🛠️ Atelier : back-office CRUD des jeux (création validée, édition, suppression)
 - 🛠️ Exercice : `exercices/framework/05-formulaires-validation`
 
@@ -132,7 +136,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 | S1 | Projet `wishflix` qui tourne en Laravel 12, enquête d'architecture | Finir l'installation, dépôt GitHub privé, `REPONSES.md` | Explorer les commandes Artisan |
 | S2 | Layout Blade, accueil, fiche jeu | Pages wishlist et connexion (statiques) | Liens générés (`route()`), Tailwind selon la doc Laravel |
 | S3 | `Game`, `Category`, `Platform`, migrations, relations | Seeders complets (≈ 20 jeux) | Slug unique dans l'URL de la fiche |
-| S4 | Filtre par catégorie, « À la une », N+1 corrigé | Recherche par titre | Pagination du catalogue |
+| S4 | « À la une », meilleures notes, filtre par catégorie, N+1 mesuré/corrigé, compteur par catégorie, pagination | Recherche par titre, puis recherche + filtre combinés | Top catégories par note moyenne (`withAvg`), `inRandomOrder()`, `simplePaginate` |
 | S5 | Création validée, édition et suppression d'un `Game` | CRUD `Category` et `Platform` | `GameService`, upload de la jaquette |
 | S6 | Connexion (Breeze), rôles, back-office protégé | Page wishlist dynamique | Inscription d'un nouvel utilisateur |
 | S7 | Wishlist sans rechargement, `Cache::remember` mesuré | Compteur en direct dans la barre de navigation | Filtre du catalogue en direct |
@@ -191,7 +195,7 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 | S2 | Routing, Controllers, Blade, Vite |
 | S3 | Eloquent, Migrations, Factories, Seeders |
 | S4 | Query Builder, Eloquent relationships, eager loading, Debugbar |
-| S5 | CSRF, Resource controllers, route model binding, Validation, Form Requests (Services en démo) |
+| S5 | CSRF, Resource controllers, route model binding, Validation, Form Requests (Services en annexe) |
 | S6 | Auth (Breeze), Middleware, Gates/Policies |
 | S7 | Fetch API routes, JSON responses, `Cache::remember` |
 | S8 | PHPUnit, `TestCase`, base de test SQLite |

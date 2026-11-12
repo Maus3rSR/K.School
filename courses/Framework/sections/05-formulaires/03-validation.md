@@ -14,7 +14,7 @@ duration: 40 min
 <!--
 Transition : le formulaire fonctionne… et accepte n'importe quoi. On ferme la porte aux données pourries.
 Moment léger : soumettre une quête « Sauver la BU » avec 9 999 999 XP et un titre vide — « le Maître du jeu a mis son chat sur le clavier ».
-Durée : ≈ 25 min de slides + livecoding, ≈ 15 min de micro-pratique WishFlix (slide « À vous »).
+Découpage : ≈ 14 min de slides (≈ 14 slides), démo flash ≈ 4 min — moments : envoi vide → erreurs sous les champs + saisie conservée, valeur trafiquée dans les DevTools refusée ; micro-pratique ≈ 22 min (slide « À vous », étape A3 + point de contrôle 1).
 Tag Campus Quest de fin de chapitre : s5-ch3-validation.
 -->
 
@@ -318,7 +318,7 @@ transition: slide-up | slide-down
 
 # À vous : un jeu validé
 
-<Exercise title="WishFlix — valider la création d'un jeu" duration="15 min" level="guidé"
+<Exercise title="WishFlix — valider la création d'un jeu" duration="22 min" level="guidé"
   :criteria="[
     'store() appelle validate() avec une règle par champ du formulaire',
     'Un titre vide ramène au formulaire avec un message d\'erreur sous le champ',
@@ -334,6 +334,8 @@ transition: slide-up | slide-down
 **Exercice** `05-formulaires-validation` — étape **A3** du README, puis **point de contrôle 1**.
 
 Ajoutez la validation à **votre** formulaire de jeu, avec les règles choisies pour chaque champ.
+
+**Spécificités WishFlix** : vos règles couvrent des champs absents de la démo — `platform_ids` / `platform_ids.*` (`array` + `exists:platforms,id`), `featured` (`boolean`), `cover_url` (`url`), `status` (`in:…`), `release_year` et `rating` (`between` / `numeric`) ; le README donne la contrainte de chaque champ. N'oubliez pas le champ caché `featured` `value="0"` (A3.4) et `@checked` pour les cases.
 
 </Exercise>
 

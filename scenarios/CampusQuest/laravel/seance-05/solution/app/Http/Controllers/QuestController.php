@@ -8,19 +8,35 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Quest;
 use App\Services\QuestService;
+use Illuminate\Http\Request;
 
 class QuestController extends Controller
 {
     public function __construct(private QuestService $quests) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('quests.index', ['quests' => Quest::all()]);
+        $quests = Quest::query()
+            ->with('category')
+            ->when($request->query('q'),
+                fn ($query, $q) => $query->where('title', 'like', "%{$q}%"))
+            ->when($request->query('category'),
+                fn ($query, $categoryId) => $query->where('category_id', $categoryId))
+            ->orderByDesc('xp')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('quests.index', [
+            'quests' => $quests,
+            'categories' => Category::all(),
+        ]);
     }
 
     public function show(Quest $quest)
     {
-        return view('quests.show', ['quest' => $quest]);
+        return view('quests.show', [
+            'quest' => $quest->load(['category', 'locations']),
+        ]);
     }
 
     public function create()

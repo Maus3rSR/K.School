@@ -20,6 +20,7 @@ export default [
   { name: 'updateOrCreate()', desc: 'Mettre à jour ou créer', group: 'Écrire' },
   // Outils
   { name: 'HasFactory', desc: 'Brancher la factory du modèle', group: 'Outils', seen: 's3-ch4' },
+  { name: 'Model::preventLazyLoading()', desc: 'Interdire le lazy loading (N+1 en exception)', group: 'Outils', seen: 's4-ch4' },
   { name: 'SoftDeletes', desc: 'Corbeille au lieu de supprimer', group: 'Outils' },
   { name: 'scopeX()', desc: 'Requête réutilisable nommée', group: 'Outils' },
   { name: 'Attribute::make()', desc: 'Transformer un attribut (accessor)', group: 'Outils' },

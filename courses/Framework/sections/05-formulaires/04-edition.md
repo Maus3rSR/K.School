@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 04
-duration: 35 min
+duration: 39 min
 ---
 
 # Éditer et supprimer
@@ -15,7 +15,7 @@ duration: 35 min
 Transition : créer, c'est fait. Le Maître du jeu veut aussi corriger une faute dans une quête, et en supprimer une.
 Ce chapitre est volontairement « à la main » : on écrit chaque route et chaque findOrFail, pour sentir la répétition.
 Elle est le problème que le chapitre 05 résout.
-Durée : ≈ 20 min de slides + livecoding, ≈ 15 min de micro-pratique WishFlix.
+Découpage : ≈ 13 min de slides (≈ 13 slides), démo flash ≈ 4 min — moments : `_method=PUT` visible dans le source HTML, suppression sans `detach()` → 500 (clé étrangère pivot), puis avec ; micro-pratique ≈ 22 min (slide « À vous », étape A4).
 Moment léger : supprimer en direct « la quête du café gratuit » — et découvrir une erreur 500 (voir slide destroy).
 Tag Campus Quest de fin de chapitre : s5-ch4-edition.
 -->
@@ -353,7 +353,7 @@ transition: slide-up | slide-down
 
 # À vous : éditer et supprimer un jeu
 
-<Exercise title="WishFlix — modifier et supprimer un jeu" duration="15 min" level="guidé"
+<Exercise title="WishFlix — modifier et supprimer un jeu" duration="22 min" level="guidé"
   :criteria="[
     'GET /games/{id}/edit affiche le formulaire pré-rempli du jeu',
     'PUT /games/{id} enregistre les modifications avec les mêmes règles que la création',
@@ -369,6 +369,8 @@ transition: slide-up | slide-down
 **Exercice** `05-formulaires-validation` — étape **A4** du README.
 
 Ajoutez l'édition et la suppression à vos **jeux**, avec des routes écrites une par une.
+
+**Spécificités WishFlix** : à l'édition, pré-cochez les plateformes du jeu via `$game->platforms->pluck('id')` et `@checked` — la directive n'est pas dans la démo (seul `@selected` l'est). `update()` synchronise les plateformes (`sync()`) et `destroy()` les détache (`platforms()->detach()`) avant `delete()` : la pivot `game_platform` refuse la suppression sinon.
 
 </Exercise>
 

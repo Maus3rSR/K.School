@@ -11,6 +11,22 @@
 
     <p><a href="{{ route('quests.create') }}">➕ Nouvelle quête</a></p>
 
+    <form class="quest-filters" method="GET" action="{{ route('quests.index') }}">
+        <input type="search" name="q" value="{{ request('q') }}" placeholder="Rechercher une quête…">
+
+        <select name="category">
+            <option value="">Toutes les catégories</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected(request('category') == $category->id)>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <button type="submit">Filtrer</button>
+        <a class="reset" href="{{ route('quests.index') }}">Réinitialiser</a>
+    </form>
+
     <ul class="quest-list">
         @forelse ($quests as $quest)
             <li>
@@ -24,7 +40,9 @@
                 </a>
             </li>
         @empty
-            <p>Aucune quête pour le moment.</p>
+            <p>Aucune quête ne correspond à votre recherche.</p>
         @endforelse
     </ul>
+
+    {{ $quests->links() }}
 @endsection

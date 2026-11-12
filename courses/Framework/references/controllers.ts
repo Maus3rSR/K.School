@@ -3,7 +3,7 @@
 export default [
   // Créer
   { name: 'artisan make:controller', desc: 'Générer un contrôleur', group: 'Créer', seen: 's2-ch3' },
-  { name: 'make:controller --resource', desc: 'Générer les 7 actions CRUD', group: 'Créer' },
+  { name: 'make:controller --resource', desc: 'Générer les 7 actions CRUD', group: 'Créer', seen: 's5-ch5' },
   { name: '__invoke()', desc: 'Contrôleur à une seule action', group: 'Créer' },
   // Actions resource
   { name: 'index()', desc: 'Lister les ressources', group: 'Actions resource', seen: 's2-ch3' },

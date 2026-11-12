@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 05
-duration: 30 min
+duration: 35 min
 ---
 
 # Brancher le catalogue sur la base
@@ -13,7 +13,7 @@ duration: 30 min
 
 <!--
 Transition : la base est peuplée, les relations marchent en Tinker. Il reste à ce que les pages la lisent.
-Découpage (≈ 30 min) : 7 slides (≈ 10 min), livecoding (≈ 10 min), micro-pratique WishFlix « le catalogue lit la base » (≈ 10 min).
+Découpage du chapitre (35 min) : slides ≈ 10 min, démo flash ≈ 4 min (moments : `/quests` lit la base, `/quests/999` → 404, N+1 constaté via `DB::enableQueryLog()`), micro-pratique WishFlix « le catalogue lit la base » ≈ 20 min.
 Tag Campus Quest de fin de chapitre : s3-ch5-catalogue-n1.
 Moment léger du chapitre : /quests/999 renvoie une 404 « gratuite », et la page qui affiche 30 quêtes envoie 31 requêtes — dont 30 pour se répéter.
 -->
@@ -314,7 +314,7 @@ transition: slide-up | slide-down
 
 # À vous : le catalogue lit la base
 
-<Exercise title="WishFlix — étapes A5.1 à A5.3" duration="10 min" level="guidé"
+<Exercise title="WishFlix — étapes A5.1 à A5.3" duration="20 min" level="guidé"
   :criteria="[
     'GameController utilise Game::all() et findOrFail — plus aucun tableau PHP',
     '/ et /game/{id} affichent les jeux depuis la base ; /game/999 renvoie une 404',
@@ -324,6 +324,8 @@ transition: slide-up | slide-down
 Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A5**.
 
 Transposez la démo sur WishFlix : le contrôleur branché sur Eloquent, les vues passées en syntaxe objet avec `$game->category->name`, puis le N+1 mesuré sur votre propre catalogue.
+
+**Spécificités WishFlix** : `Game::all()` renvoie une liste (clés 0, 1, 2…), plus le tableau indexé par id de la S2 — bouclez `@forelse ($games as $game)` et utilisez `route('games.show', $game->id)`. Vos routes et vues gardent leurs noms (`home`, `games.show`) et la contrainte `whereNumber` sur `{id}`.
 
 </Exercise>
 

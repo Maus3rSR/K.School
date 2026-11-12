@@ -1,8 +1,8 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 04
-duration: 15 min
+number: 03
+duration: 19 min
 ---
 
 # Mesurer avec la Debugbar
@@ -14,6 +14,33 @@ duration: 15 min
 <!--
 Transition : le query log de Tinker prouve le principe, mais personne ne compte
 ses requêtes à la main. La Debugbar les affiche dans la page, à chaque rechargement.
+Tag Campus Quest de fin de chapitre : s4-ch3-debugbar.
+Moment léger : « le N+1 n'est pas un bug que vous voyez — c'est un bug que vous mesurez ».
+Découpage : ≈ 6 min de slides (≈ 5 slides), démo flash ≈ 3 min — moments : installation
+`--dev`, onglet Queries sur /quests, comptage du N+1 ; micro-pratique ≈ 10 min
+(slide « À vous », étape A3 du README — installer + noter les chiffres dans REPONSES.md).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À votre avis ?
+
+<Quiz
+  question="La page /quests affiche 30 quêtes ; chaque carte lit la catégorie de sa quête. Environ combien de requêtes SQL la page exécute-t-elle ?"
+  :options="[
+    '1 : Laravel met les catégories en cache automatiquement',
+    '2 : une pour les quêtes, une pour toutes les catégories',
+    'Environ 31 : une pour la liste, une par quête',
+    'Ça dépend du navigateur, pas du serveur'
+  ]"
+  :answer="2"
+/>
+
+<!--
+Pré-test : le N+1 a été constaté en S3 (31 requêtes pour 30 quêtes) — la réponse est déjà connue,
+mais la salle a-t-elle retenu le mécanisme ? La Debugbar va le rendre visible dans la page.
 -->
 
 ---
@@ -22,8 +49,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Mesurer avec la Debugbar
-Installation en une commande
+# Installation en une commande
 
 ::left::
 
@@ -66,8 +92,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Mesurer avec la Debugbar
-Lire l'onglet Queries
+# Lire l'onglet Queries
 
 ::left::
 
@@ -99,8 +124,7 @@ layout: fact
 transition: slide-up | slide-down
 ---
 
-# Mesurer avec la Debugbar
-L'avant / après, enfin visible
+# L'avant / après, enfin visible
 
 <div class="grid grid-cols-3 gap-8">
   <Stat value="32" label="requêtes avant (N+1 + formulaire)" color="red" />
@@ -126,8 +150,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Mesurer avec la Debugbar
-Telescope : le grand frère
+# Telescope : le grand frère
 
 ::left::
 
@@ -152,4 +175,35 @@ Outil **plus lourd** réservé aux grosses investigations — pour mesurer le N+
 <!--
 Une slide d'aperçu seulement : pas d'installation aujourd'hui. Telescope sera utile quand les apprenants auront des jobs/queues (hors périmètre du module).
 Analogie possible à l'oral : la Debugbar est la montre au poignet, Telescope la salle de contrôle.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : mesurer votre accueil
+
+<Exercise title="WishFlix — installer la Debugbar et compter" duration="10 min" level="guidé"
+  :criteria="[
+    'fruitcake/laravel-debugbar est installée en require-dev',
+    'L\'onglet Queries s\'ouvre sur la page d\'accueil',
+    'Le nombre de requêtes AVANT correction est noté dans REPONSES.md, avec le SQL qui se répète'
+  ]"
+  :hints="[
+    './vendor/bin/sail composer require fruitcake/laravel-debugbar --dev',
+    'Rechargez / : la barre apparaît en bas — onglet Queries',
+    'Ne corrigez rien encore : on mesure d\'abord, on corrige au chapitre suivant'
+  ]">
+
+**Exercice** `04-requetes` — étape **A3** du README.
+
+Installez la barre, ouvrez l'onglet Queries sur `/` et **notez** le nombre de requêtes et le SQL qui se répète (le `categories` par carte — c'est le N+1).
+
+**Spécificités WishFlix** : votre page exécute déjà plusieurs requêtes (catalogue, jeu à la une, meilleures notes, filtre) — le total inclut tout ; c'est le `categories … where id = ?` répété qui doit sauter aux yeux.
+
+</Exercise>
+
+<!--
+Pas de point de contrôle ici : il suit la correction du N+1 (chapitre 04).
+Palier de rattrapage : tag Campus Quest s4-ch3-debugbar.
 -->

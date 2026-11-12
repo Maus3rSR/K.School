@@ -2,17 +2,23 @@
 
 ## Objectif
 
-Rendre le catalogue WishFlix **filtrable et mesuré** : installer la Debugbar, filtrer les jeux par catégorie, afficher un jeu « à la une » et les meilleures notes, puis **diagnostiquer et corriger le N+1** du catalogue en prouvant le gain — et, chez vous, ajouter la recherche par titre et (en bonus) la pagination.
+Rendre le catalogue WishFlix **filtrable, mesuré et paginé** : requêtes `where`/`like`/`orderBy`, filtre par catégorie dans l'URL, Debugbar installée, N+1 diagnostiqué puis corrigé — et, en pagination, un catalogue qui tient la charge.
 
-**Durée estimée** : 4h45 (Partie A : 2h en séance · Partie B : ~2h chez vous · Partie C : ~45 min chez vous · Bonus : au choix)
+## Charge
 
-> **Déroulé** — En séance (2h) : Partie A · Chez vous : Partie B (~2h) + Partie C (~45 min) · Bonus : au choix · ⚠️ **Requis pour la séance 5** : la Partie A terminée (filtres, mise en avant, N+1 corrigé) — en S5 on ajoutera des formulaires d'édition au-dessus de ces requêtes.
+| Niveau | Contenu | Où | Charge indicative |
+|---|---|---|---|
+| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 1h30 en séance (pratique : 18 + 22 + 10 + 18 + 12 + 12 min) |
+| **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
+| **Bonus** | 3e user story, `inRandomOrder()`, `simplePaginate()` | Facultatif | ≈ 1h |
+
+> Le **socle** est dimensionné pour un étudiant lent : ≈ 1h30 en séance, soit ≈ 2× le temps de démo du même geste. Les durées de la **Partie B** et de la **Partie C** restent indicatives — elles supposent un rythme rapide. ⚠️ **Requis pour la séance 5** : la Partie A terminée (filtres, mise en avant, N+1 corrigé, pagination) — en S5 on ajoutera des formulaires d'édition au-dessus de ces requêtes.
 
 **Référence officielle** :
 
-- [Query Builder](https://laravel.com/framework/docs/12.x/queries)
-- [Eloquent Relationships — Eager Loading](https://laravel.com/framework/docs/12.x/eloquent-relationships#eager-loading)
-- [Pagination](https://laravel.com/framework/docs/12.x/pagination)
+- [Query Builder](https://laravel.com/docs/12.x/queries)
+- [Eloquent Relationships — Eager Loading](https://laravel.com/docs/12.x/eloquent-relationships#eager-loading)
+- [Pagination](https://laravel.com/docs/12.x/pagination)
 - [Laravel Debugbar](https://laraveldebugbar.com/docs/installation)
 
 ---
@@ -26,33 +32,48 @@ Rendre le catalogue WishFlix **filtrable et mesuré** : installer la Debugbar, f
 
 ---
 
-## Partie A — En séance (atelier WishFlix)
-
-### A1 — Installer la Debugbar
-
-**Étape 1 — Installer le package en dépendance de dev**
+## Étape 0 — Contrôler l'environnement
 
 ```bash
-./vendor/bin/sail composer require fruitcake/laravel-debugbar --dev
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan route:list --name=games
+./vendor/bin/sail artisan tinker
 ```
 
-Le `--dev` est important : la barre affiche vos requêtes SQL — utile en développement, elle ne doit **jamais** partir en production.
+Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
-**Étape 2 — Vérifier l'affichage**
+✅ Vérification : `games.show` apparaît dans `route:list`, `http://localhost` affiche les jeux, `Game::count()` ≥ 6 et `Category::count()` ≥ 4. Sinon, terminez d'abord l'exercice 03.
 
-Rechargez `/` dans le navigateur : une barre apparaît en bas de page (rien à configurer, Laravel découvre le package tout seul). Cliquez sur l'onglet **Queries** : vous voyez chaque requête SQL exécutée, sa durée, et le nombre total.
+---
 
-✅ Vérification : l'onglet Queries liste les requêtes de la page d'accueil.
+## Partie A — Socle (en séance)
 
-> 💡 Si la barre n'apparaît pas : elle nécessite une page HTML complète (pas de réponse JSON) et `APP_DEBUG=true`. Elle se désactive via `DEBUGBAR_ENABLED=false` dans `.env`.
+Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
-### A2 — Filtrer le catalogue par catégorie
+### A1 — La une et le podium (Chapitre 1)
+
+**En tant que** visiteur, **je veux** voir un jeu mis en avant et les mieux notés, **afin de** repérer les valeurs sûres du catalogue.
+
+**Étape A1.1** — Dans `GameController::index`, ajoutez deux requêtes en plus de celle du catalogue :
+
+```php
+$featured = Game::where('featured', true)->first();
+$topRated = Game::orderByDesc('rating')->limit(6)->get();
+```
+
+**Étape A1.2** — Affichez `$featured` dans un encart en haut de l'accueil (titre, jaquette, note) — protégez l'affichage par `@if ($featured)` : `first()` renvoie `null` si aucun jeu n'est `featured`, et la page ne doit ni planter ni afficher d'encart vide.
+
+**Étape A1.3** — Affichez `$topRated` dans une section « Mieux notés » : les 6 jeux au plus haut `rating`, du plus grand au plus petit.
+
+✅ Vérification : un jeu `featured` s'affiche dans l'encart ; sans jeu `featured`, la page n'affiche pas d'encart vide ; la section « Mieux notés » liste 6 jeux maximum triés par `rating` décroissant.
+
+> 💡 Variante : `->inRandomOrder()->first()` pioche un jeu « à la une » différent à chaque chargement (bonus).
+
+### A2 — Filtrer par catégorie (Chapitre 2)
 
 **En tant que** visiteur, **je veux** filtrer les jeux par catégorie via `/?category=`, **afin de** ne voir que les jeux qui m'intéressent.
 
-**Étape 1 — Lire le paramètre dans le contrôleur**
-
-Dans `GameController::index`, remplacez `Game::all()` par une requête construite :
+**Étape A2.1** — Dans `GameController::index`, injectez `Request $request` et construisez la requête du catalogue :
 
 ```php
 $games = Game::query()
@@ -61,89 +82,98 @@ $games = Game::query()
     ->get();
 ```
 
-Pensez à injecter `Request $request` en paramètre de `index` et à ajouter l'import `Illuminate\Http\Request`.
+Pensez à ajouter l'import `Illuminate\Http\Request`.
 
-**Étape 2 — Ajouter le filtre dans la vue**
+**Étape A2.2** — Passez aussi les catégories à la vue : `'categories' => Category::all()` dans le tableau renvoyé par `index()`.
 
-Sur l'accueil, ajoutez un formulaire `GET` (ou des liens) avec un `<select name="category">` alimenté par les catégories — passez-les à la vue depuis le contrôleur. La catégorie choisie doit rester sélectionnée après filtrage (`@selected`).
+**Étape A2.3** — Sur l'accueil, ajoutez un formulaire `GET` avec un `<select name="category">` : l'option « Toutes les catégories » a `value=""`, chaque catégorie envoie son `id` en `value`, et l'option choisie reste sélectionnée après filtrage (`@selected(request('category') == $category->id)`).
 
-✅ Vérification : `/?category=1` n'affiche que les jeux de cette catégorie, `/` sans paramètre affiche tout, et le filtre combiné à une catégorie vide n'exclut rien.
+✅ Vérification : `/?category=1` n'affiche que les jeux de cette catégorie, `/` sans paramètre affiche tout, et la catégorie choisie reste sélectionnée dans le `select`.
 
-### A3 — Un jeu « à la une »
+> ✅ **Point de contrôle 1**
+>
+> - [ ] Un jeu « à la une » (`featured`) et les 6 meilleures notes s'affichent sur l'accueil
+> - [ ] `/?category=<id>` filtre le catalogue, `/` affiche tout, le `select` se souvient du choix
+> - [ ] Commit : « feat: catalogue à la une et filtrable »
+>
+> � Rattrapage : relisez le diff des tags Campus Quest `s4-ch1-filtrer-trier` et `s4-ch2-filtres-optionnels` (dépôt `CampusQuest`), puis **refaites** les étapes A1 et A2 sur WishFlix.
 
-**En tant que** visiteur, **je veux** voir un jeu mis en avant en haut de l'accueil, **afin de** découvrir une recommandation.
+### A3 — Installer la Debugbar et mesurer (Chapitre 3)
 
-**Étape 1 — La requête**
+**Étape A3.1** — Installez le package en dépendance de dev :
 
-Dans le contrôleur, ajoutez une deuxième variable pour la vue :
-
-```php
-$featured = Game::where('featured', true)->first();
+```bash
+./vendor/bin/sail composer require fruitcake/laravel-debugbar --dev
 ```
 
-**Étape 2 — L'affichage**
+Le `--dev` est important : la barre affiche vos requêtes SQL — utile en développement, elle ne doit **jamais** partir en production.
 
-Affichez `$featured` dans un encart en haut de l'accueil (titre, jaquette, note) — protégez l'affichage par un `@if ($featured)` au cas où aucun jeu n'est `featured`.
+**Étape A3.2** — Rechargez `/` : une barre apparaît en bas de page. Ouvrez l'onglet **Queries** : chaque requête SQL exécutée, sa durée, et le nombre total.
 
-✅ Vérification : un jeu `featured` s'affiche dans l'encart ; sans jeu `featured`, la page n'affiche pas d'encart vide (et ne plante pas).
-
-> 💡 Variante : `->inRandomOrder()->first()` pioche un jeu « à la une » différent à chaque chargement.
-
-### A4 — Les meilleures notes
-
-**En tant que** visiteur, **je veux** voir les jeux les mieux notés, **afin de** repérer les valeurs sûres du catalogue.
-
-Dans le contrôleur, ajoutez une troisième collection — les 6 jeux les mieux notés :
-
-```php
-$topRated = Game::orderByDesc('rating')->limit(6)->get();
-```
-
-Affichez-la dans une section « Mieux notés » de l'accueil.
-
-✅ Vérification : la section liste 6 jeux maximum, triés du `rating` le plus haut au plus bas.
-
-### A5 — Diagnostiquer puis corriger le N+1
-
-**Étape 1 — Mesurer AVANT**
-
-Ouvrez `/` avec la Debugbar, onglet **Queries**, et regardez la liste : vos cartes affichent `$game->category->name` — chaque carte déclenche sa propre requête `categories`.
-
-**À noter dans `REPONSES.md`** (section « Séance 4 — N+1 ») : le **nombre de requêtes** de la page d'accueil avant correction, et le SQL de la requête qui se répète.
+**Étape A3.3 — Mesurer AVANT** : vos cartes affichent `$game->category->name` — chaque carte déclenche sa propre requête `categories`. **Notez dans `REPONSES.md`** (section « Séance 4 — N+1 ») : le **nombre de requêtes** de la page d'accueil, et le SQL de la requête qui se répète.
 
 > 💡 Si vous avez fait l'US3 de l'exercice 03 (`$category->games()->count()` dans la vue), elle compte aussi une requête par catégorie — elle fait partie du diagnostic.
 
-**Étape 2 — Corriger avec `with()`**
+> 💡 Si la barre n'apparaît pas : elle nécessite une page HTML complète (pas de réponse JSON) et `APP_DEBUG=true`. Elle se désactive via `DEBUGBAR_ENABLED=false` dans `.env`.
 
-Ajoutez `->with('category')` à la requête du catalogue. Et si votre accueil affiche le nombre de jeux par catégorie, remplacez le comptage en boucle par :
+### A4 — Corriger le N+1 (Chapitre 4)
 
-```php
-$categories = Category::withCount('games')->get();
-```
+**Étape A4.1** — Ajoutez `->with('category')` à la requête du catalogue, **avant** `get()`/`paginate()`.
 
-La vue lit alors `$category->games_count` — un seul calcul en sous-requête, plus de requête par catégorie.
+**Étape A4.2** — Si d'autres requêtes de l'accueil affichent aussi la catégorie d'un jeu (section « Mieux notés », par exemple), ajoutez-leur le même `with('category')` — la Debugbar montrera si elles en ont besoin.
 
-**Étape 3 — Mesurer APRÈS**
-
-Rechargez et relisez l'onglet Queries.
+**Étape A4.3 — Mesurer APRÈS** : rechargez et relisez l'onglet Queries.
 
 **À noter dans `REPONSES.md`** : le **nombre de requêtes après correction**, le gain constaté — et en une phrase, ce que `with('category')` a changé dans le SQL exécuté.
 
-### ✅ Checkpoint de fin de séance
+✅ Vérification : l'onglet Queries montre nettement moins de requêtes qu'en A3.3, et les catégories s'affichent toujours sur les cartes.
 
-- [ ] La Debugbar est installée (`--dev`) et l'onglet Queries s'ouvre
-- [ ] `/?category=<id>` filtre le catalogue, `/` affiche tout
-- [ ] Un jeu « à la une » et les 6 meilleures notes s'affichent sur l'accueil
-- [ ] Le N+1 du catalogue est corrigé par `with('category')` — les chiffres avant/après sont dans `REPONSES.md`
-- [ ] Commit poussé sur votre dépôt GitHub privé
+> ✅ **Point de contrôle 2**
+>
+> - [ ] La Debugbar est installée (`--dev`) et l'onglet Queries s'ouvre
+> - [ ] Le N+1 est corrigé par `with('category')` — les chiffres avant/après sont dans `REPONSES.md`
+> - [ ] Commit : « perf: eager loading des catégories »
+>
+> 🛟 Rattrapage : relisez le diff des tags Campus Quest `s4-ch3-debugbar` et `s4-ch4-eager-loading` (dépôt `CampusQuest`), puis **refaites** les étapes A3 et A4 sur WishFlix.
 
-> Tout est coché ? Votre catalogue filtre et prouve son efficacité — chez vous, vous lui ajouterez la recherche et, en bonus, la pagination.
+### A5 — Compter les jeux par catégorie (Chapitre 5)
+
+**En tant que** visiteur, **je veux** voir le nombre de jeux dans chaque catégorie du filtre, **afin de** choisir en connaissance de cause.
+
+**Étape A5.1** — Dans `index()`, remplacez `Category::all()` par `Category::withCount('games')->get()`.
+
+**Étape A5.2** — Dans le `select`, affichez le compteur : `{{ $category->name }} ({{ $category->games_count }})` — « Action (5) ».
+
+✅ Vérification : chaque option du `select` affiche son nombre de jeux, et le filtre par catégorie fonctionne toujours.
+
+> 💡 La relation `games()` existe déjà sur `Category` (S3) — `withCount` s'en sert sans rien ajouter.
+
+### A6 — Paginer le catalogue (Chapitre 6)
+
+**En tant que** visiteur, **je veux** parcourir le catalogue page par page, **afin de** ne pas charger tous les jeux d'un coup.
+
+**Étape A6.1** — Sur la requête du catalogue, remplacez `->get()` par `->paginate(9)` — **après** les `with()` et `when()`.
+
+**Étape A6.2** — Ajoutez `->withQueryString()` après `paginate()` : les liens de page recopieront les paramètres de l'URL courante.
+
+**Étape A6.3** — Affichez `{{ $games->links() }}` sous la grille de jeux.
+
+✅ Vérification : `/` affiche 9 jeux par page avec des liens numérotés ; `?category=…&page=2` conserve le filtre ; la Debugbar montre les 2 requêtes de pagination (`count(*)` + `limit … offset …`).
+
+> ✅ **Point de contrôle 3 — fin du socle**
+>
+> - [ ] Le `select` affiche « Catégorie (N) » pour chaque option
+> - [ ] 9 jeux par page, liens de pagination sous la grille
+> - [ ] `?category=…` (et plus tard `?q=…`) survivent au changement de page
+> - [ ] Commit : « feat: pagination du catalogue »
+>
+> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s4-ch5-agregats` et `s4-ch6-pagination` (dépôt `CampusQuest`), puis **refaites** les étapes A5 et A6 sur WishFlix.
 
 ---
 
-## Partie B — Chez vous (user stories)
+## Partie B — Attendu (à la maison, ≈ 1h15)
 
-### US1 — Recherche par titre
+### US1 — Recherche par titre (~40 min)
 
 **En tant que** visiteur, **je veux** chercher un jeu par son titre, **afin de** le retrouver sans parcourir tout le catalogue.
 
@@ -153,8 +183,9 @@ Critères d'acceptation :
 - La requête applique `where('title', 'like', "%{$q}%")` via `when()` — pas de filtre si `q` est absent
 - Le champ reste rempli après la recherche (`value="{{ request('q') }}"`)
 - `/?q=zelda` ne renvoie que les jeux dont le titre contient « zelda »
+- La pagination de l'étape A6 conserve `q` au changement de page (`withQueryString()` est déjà en place)
 
-### US2 — Recherche + filtre combinés
+### US2 — Recherche + filtre combinés (~35 min)
 
 **En tant que** visiteur, **je veux** combiner recherche par titre et filtre par catégorie, **afin d'** affiner ma recherche.
 
@@ -164,12 +195,13 @@ Critères d'acceptation :
 - `/?category=…` sans `q` filtre seul ; `/?q=…` sans `category` cherche seule
 - Le formulaire « se souvient » des deux valeurs après envoi
 - Un lien « Réinitialiser » ramène à `/` sans paramètres
+- `?q=…&category=…&page=2` conserve les trois paramètres dans les liens de pagination
 
 ---
 
 ## Partie C — Sous le capot (chez vous, ~45 min)
 
-`->when(…)`, `->paginate(10)` : deux méthodes que vous avez chaînées sans qu'elles apparaissent dans votre modèle. Où vivent-elles dans le framework, et que font-elles vraiment ? Dans cette partie, vous lisez le code dans `vendor/laravel/framework/src/Illuminate/` pour suivre la chaîne.
+`->when(…)`, `->paginate(9)` : deux méthodes que vous avez chaînées sans qu'elles apparaissent dans votre modèle. Où vivent-elles dans le framework, et que font-elles vraiment ? Dans cette partie, vous lisez le code dans `vendor/laravel/framework/src/Illuminate/` pour suivre la chaîne.
 
 > 🧭 **Règle d'or** : vous n'avez **pas besoin de tout comprendre**. Chaque concept vous donne un fil à suivre — un fichier, une méthode. Suivez ce fil et ignorez le reste.
 
@@ -199,7 +231,7 @@ Critères d'acceptation :
 
 - Lisez `return $callback($this, $value) ?? $this;`.
 
-**À noter dans `REPONSES.md`** : quels **deux** arguments votre closure `fn ($query, $q) => …` reçoit-elle ? Que se passe-t-il si la closure ne renvoie rien ?
+**À noter dans `REPONSES.md`** : quels **deux** arguments votre closure `fn ($query, $id) => …` reçoit-elle ? Que se passe-t-il si la closure ne renvoie rien ?
 
 **Question 4** — À vous d'appliquer.
 
@@ -209,7 +241,7 @@ Prédisez le SQL de `Game::where('featured', true)->when(null, fn ($q) => $q->wh
 
 ### C2 — Comment `paginate()` fabrique les pages (Observer, ~25 min)
 
-**Point de départ** : `Game::paginate(10)` renvoie un objet qui boucle comme une Collection, mais affiche des liens de pages. Deux requêtes SQL se cachent derrière.
+**Point de départ** : `Game::paginate(9)` renvoie un objet qui boucle comme une Collection, mais affiche des liens de pages. Deux requêtes SQL se cachent derrière.
 
 **Question 5** — La méthode.
 
@@ -300,22 +332,19 @@ return $this->paginator($results, $total, $perPage, $page, […]);     // l'obje
 
 ---
 
-## Bonus — Pagination du catalogue
+## Bonus — À la maison, au choix
 
-**En tant que** visiteur, **je veux** parcourir le catalogue page par page, **afin de** ne pas charger des dizaines de jeux d'un coup.
+**US3 — Top catégories par note moyenne** (~45 min)
 
-- Remplacez `->get()` par `->paginate(9)` (ou `12`) sur la requête du catalogue — **après** les `when()`
-- Ajoutez `->withQueryString()` pour que `?q=…&category=…` survivent au changement de page
-- Affichez `{{ $games->links() }}` sous la grille de jeux
+**En tant que** visiteur, **je veux** voir les catégories classées par la note moyenne de leurs jeux, **afin de** repérer les genres les mieux notés.
 
-✅ Vérification : `/` affiche N jeux par page avec des liens numérotés ; `?q=…&page=2` conserve la recherche ; la Debugbar montre les 2 requêtes de pagination (`count(*)` + `limit … offset …`).
+- `Category::withAvg('games', 'rating')->orderByDesc('games_avg_rating')->get()` — la moyenne arrive dans `games_avg_rating`
+- Affichez un podium ou une liste « Catégories les mieux notées » sur l'accueil ou sur une page dédiée
+- En Debugbar : vérifiez que ce n'est pas une requête par catégorie
 
-<details>
-<summary>Indice — Le piège classique</summary>
+**Défi 1 — Une « à la une » qui change** : `Game::where('featured', true)->inRandomOrder()->first()` dans A1 — un jeu différent à chaque chargement.
 
-Sans `withQueryString()`, cliquer « page 2 » perd `?q=` et `?category=` : le filtre saute. Avec, chaque lien de page recopie les paramètres courants.
-
-</details>
+**Défi 2 — Pagination allégée** : `simplePaginate(9)` remplace `paginate(9)` — liens « Précédent / Suivant » seulement, pas de `count(*)`. Quand est-ce un bon choix ? (Indice : les très grandes tables.)
 
 ---
 
@@ -329,13 +358,15 @@ Sans `withQueryString()`, cliquer « page 2 » perd `?q=` et `?category=` : le f
 - `like` ne trouve rien → les `%` doivent entourer la valeur : `"%{$q}%"` — pas `{$q}` seul
 - La barre n'apparaît pas → `APP_DEBUG=true`, page HTML complète, `storage/` inscriptible
 - Les chiffres N+1 ne bougent pas → `with('category')` doit être **avant** `get()`/`paginate()`, sur la requête du catalogue (pas sur `$featured`)
+- Les liens de page perdent le filtre → `withQueryString()` manquant après `paginate()`
 
 </details>
 
 <details>
 <summary>Niveau 2 — Quelle méthode</summary>
 
-- Filtre optionnel : `->when($request->query('category'), fn ($query, $id) => $query->where('category_id', $id))`
+- Jeu à la une : `Game::where('featured', true)->first()` ; podium : `Game::orderByDesc('rating')->limit(6)->get()`
+- Filtre : `->when($request->query('category'), fn ($query, $id) => $query->where('category_id', $id))`
 - Recherche : `->when($request->query('q'), fn ($query, $q) => $query->where('title', 'like', "%{$q}%"))`
 - N+1 : `Game::with('category')` ; compteur par catégorie : `Category::withCount('games')` → `$category->games_count`
 - Pagination : `->paginate(9)->withQueryString()` + `{{ $games->links() }}`
@@ -345,18 +376,17 @@ Sans `withQueryString()`, cliquer « page 2 » perd `?q=` et `?category=` : le f
 <details>
 <summary>Niveau 3 — Squelettes partiels</summary>
 
-Contrôleur d'accueil (extrait) :
+Contrôleur d'accueil (extrait, état de fin de socle) :
 
 ```php
 public function index(Request $request)
 {
     $games = Game::query()
         ->with('category')
-        ->when($request->query('q'), fn ($query, $q) =>
-            $query->where('title', 'like', "%{$q}%"))
         ->when($request->query('category'), fn ($query, $id) =>
             $query->where('category_id', $id))
-        ->get();
+        ->paginate(9)
+        ->withQueryString();
 
     return view('home', [
         'games' => $games,
@@ -376,7 +406,7 @@ Formulaire de filtre (extrait) :
         <option value="">Toutes les catégories</option>
         @foreach ($categories as $category)
             <option value="{{ $category->id }}" @selected(request('category') == $category->id)>
-                {{ $category->name }}
+                {{ $category->name }} ({{ $category->games_count }})
             </option>
         @endforeach
     </select>
@@ -390,12 +420,12 @@ Formulaire de filtre (extrait) :
 
 ## Critères de réussite
 
-- [ ] Debugbar installée en `require-dev`, onglet Queries lisible sur `/`
-- [ ] `/?category=<id>` filtre le catalogue ; la catégorie choisie reste sélectionnée
-- [ ] Encart « À la une » (`featured`) et section des 6 meilleures notes sur l'accueil
-- [ ] `REPONSES.md` contient la section « Séance 4 — N+1 » avec les nombres de requêtes avant/après
+- [ ] Un jeu « à la une » (`featured`) et les 6 meilleures notes sur l'accueil
+- [ ] `/?category=<id>` filtre le catalogue ; la catégorie choisie reste sélectionnée et affiche son compteur
+- [ ] Debugbar installée en `require-dev`, N+1 corrigé par `with('category')` — chiffres avant/après dans `REPONSES.md`
+- [ ] 9 jeux par page avec liens de pagination ; `?category=…` survit au changement de page
 - [ ] US1–US2 : `/?q=` cherche dans le titre, combiné à `?category=` ; le formulaire conserve les valeurs
 - [ ] `REPONSES.md` contient la section « Séance 4 — Sous le capot » avec les réponses de C1–C2 et le chemin suivi (fichier → méthode) pour chacune
 - [ ] Commits réguliers poussés sur le dépôt GitHub privé
 
-**Temps estimé** : Partie A ≈ 2h · Partie B ≈ 2h · Partie C ≈ 45 min · Bonus ≈ 45 min
+**Temps estimé** : Partie A ≈ 1h30 en séance · Partie B ≈ 1h15 · Partie C ≈ 45 min · Bonus ≈ 1h

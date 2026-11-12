@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 06
-duration: 15 min
+duration: 22 min
 ---
 
 # Pagination
@@ -14,14 +14,18 @@ duration: 15 min
 <!--
 Transition : le catalogue filtre, trie, s'allège… mais il affiche toujours TOUTES
 les quêtes. Le jour où il y en a 5 000, cette page s'effondre — chapitre final.
+Tag Campus Quest de fin de chapitre : s4-ch6-pagination.
+Moment léger : « paginate() remplace get(), pas s'ajoute » — une seule ligne change, tout le reste suit.
+Découpage : ≈ 8 min de slides (≈ 5 slides), démo flash ≈ 2 min — moments : ?page=2,
+retirer/remettre withQueryString(), 2 requêtes dans la Debugbar ; micro-pratique ≈ 12 min
+(slide « À vous », étape A6 — paginate(9) + links() + withQueryString()).
 -->
 
 ---
 transition: slide-up | slide-down
 ---
 
-# Pagination
-À votre avis ?
+# À votre avis ?
 
 <Quiz
   question="Le catalogue affiche les quêtes avec Quest::get(). Le campus passe à 5 000 quêtes : que devient la page ?"
@@ -45,8 +49,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Pagination
-`paginate()` : deux requêtes, des pages
+# `paginate()` : deux requêtes, des pages
 
 ::left::
 
@@ -84,8 +87,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Pagination
-`links()` : les pages en une ligne
+# `links()` : les pages en une ligne
 
 ::left::
 
@@ -120,8 +122,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Pagination
-`withQueryString()` : les filtres survivent
+# `withQueryString()` : les filtres survivent
 
 ::left::
 
@@ -158,8 +159,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Pagination
-`simplePaginate()` : encore plus léger
+# `simplePaginate()` : encore plus léger
 
 ::left::
 
@@ -186,4 +186,35 @@ Quest::simplePaginate(10);
 <!--
 Sur une table d'un million de lignes, count(*) coûte plus cher que la page elle-même — d'où simplePaginate.
 Pagination d'API (hors périmètre aujourd'hui) : les mêmes méthodes renvoient du JSON paginé automatiquement.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : paginer le catalogue
+
+<Exercise title="WishFlix — 9 jeux par page" duration="12 min" level="guidé"
+  :criteria="[
+    'La page d\'accueil n\'affiche que 9 jeux',
+    'Les liens de pages apparaissent sous la grille',
+    'Rechercher ou filtrer puis changer de page conserve les paramètres'
+  ]"
+  :hints="[
+    'Remplacez ->get() par ->paginate(9) sur la requête des jeux (US1 de l\'étape A1 l\'a peut-être déjà préparée)',
+    '{{ $games->links() }} sous la grille dans la vue',
+    'Ajoutez ->withQueryString() après paginate() pour que les filtres survivent aux pages'
+  ]">
+
+**Exercice** `04-requetes` — étape **A6** du README (fin du socle — point de contrôle 3 avec A5).
+
+Une méthode remplace `get()`, une ligne de Blade affiche la navigation : le catalogue tient la charge.
+
+**Spécificités WishFlix** : votre accueil a **plusieurs** requêtes (`$games`, `$featured`, `$topRated`) — ne paginez que le catalogue principal ; la une et le podium restent entiers. `paginate(9)` et pas 10 : votre grille s'arrange mieux par 3.
+
+</Exercise>
+
+<!--
+Point de contrôle 3 du README : socle terminé. Palier de rattrapage : tag Campus Quest s4-ch6-pagination.
+Partie B (recherche, filtre combiné) et bonus (top catégories, inRandomOrder, simplePaginate) au README.
 -->

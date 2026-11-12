@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 20 min
+duration: 15 min
 ---
 
 # Le formulaire de création
@@ -16,6 +16,7 @@ Transition : le Maître du jeu veut créer ses quêtes dans le navigateur. Premi
 Moment léger (running gag Campus Quest) : « Hier, le Maître du jeu a voulu ajouter une quête… il a ouvert Tinker,
 tapé Quest::create( et refermé le terminal en pleurant. » Aujourd'hui, on lui offre un vrai écran.
 Tag Campus Quest de fin de chapitre : s5-ch1-formulaire.
+Découpage : ≈ 12 min de slides (≈ 12 slides), démo flash ≈ 3 min — moment : envoyer le formulaire → **419** (le tag ch1 n'a pas `@csrf`) ; pas de micro-pratique ici, le « À vous » est au chapitre 02.
 -->
 
 ---

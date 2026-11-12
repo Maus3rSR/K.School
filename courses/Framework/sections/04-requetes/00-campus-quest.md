@@ -16,6 +16,7 @@ En S3, les 3 tables existent et `/quests` lit la base — mais elle lit **tout**
 - Un catalogue **filtrable** : recherche par titre + filtre par catégorie
 - Un N+1 **mesuré puis corrigé** — avec un vrai profiler
 - Une page **Classement** : catégories par XP, lieux par quêtes
+- Un catalogue **paginé** : 10 quêtes par page, filtres conservés
 
 ::right::
 

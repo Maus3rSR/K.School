@@ -28,6 +28,9 @@ export default [
   { name: '@csrf', desc: 'Protéger un formulaire (jeton CSRF)', group: 'Assets et formulaires', seen: 's5-ch2' },
   { name: '@method', desc: 'Simuler PUT ou DELETE en formulaire', group: 'Assets et formulaires', seen: 's5-ch4' },
   { name: '@error', desc: 'Afficher l\'erreur de validation d\'un champ', group: 'Assets et formulaires', seen: 's5-ch3' },
+  { name: '@selected($cond)', desc: 'Marquer une option de select choisie', group: 'Assets et formulaires', seen: 's4-ch2' },
+  { name: '@checked($cond)', desc: 'Cocher une case selon une condition', group: 'Assets et formulaires', seen: 's5-ch3' },
+  { name: 'old(\'champ\')', desc: 'Reprendre la valeur saisie après erreur', group: 'Assets et formulaires', seen: 's5-ch3' },
   // Accès
   { name: '@auth / @guest', desc: 'Afficher selon la connexion', group: 'Accès' },
   { name: '@can', desc: 'Afficher selon une permission', group: 'Accès' },

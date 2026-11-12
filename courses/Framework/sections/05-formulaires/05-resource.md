@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 05
-duration: 20 min
+duration: 22 min
 ---
 
 # Route::resource et route model binding
@@ -13,8 +13,8 @@ duration: 20 min
 
 <!--
 Transition : le chapitre précédent a laissé une douleur — sept routes à la main, quatre findOrFail identiques. Laravel a une convention pour ça.
-Durée : ≈ 12 min de slides + livecoding, ≈ 8 min de micro-pratique WishFlix (refactor, pas de nouvelle fonctionnalité).
-Moment léger : le live-refactor — supprimer 5 routes, 4 findOrFail, et vérifier que tout marche encore. « Le meilleur code est celui qu'on supprime. »
+Découpage : ≈ 8 min de slides (≈ 8 slides), démo flash ≈ 2 min — moments : `route:list` avant/après `Route::resource`, `/quests/999` → 404 par binding ; micro-pratique ≈ 12 min (slide « À vous », étape A5 + point de contrôle 2 — refactor, pas de nouvelle fonctionnalité).
+Moment léger : le refactor vu par les tags — 5 routes et 4 findOrFail en moins, et tout marche encore. « Le meilleur code est celui qu'on supprime. »
 Tag Campus Quest de fin de chapitre : s5-ch5-resource.
 -->
 
@@ -327,7 +327,7 @@ transition: slide-up | slide-down
 
 # À vous : passez en ressource
 
-<Exercise title="WishFlix — Route::resource et binding" duration="8 min" level="guidé"
+<Exercise title="WishFlix — Route::resource et binding" duration="12 min" level="guidé"
   :criteria="[
     'Les routes create/store/edit/update/destroy des jeux sont déclarées par Route::resource',
     'edit, update et destroy reçoivent un Game via le binding, sans findOrFail',

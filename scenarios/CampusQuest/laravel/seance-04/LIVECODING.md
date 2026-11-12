@@ -1,123 +1,176 @@
 # Fil à suivre — Séance 4 : Requêtes Eloquent et optimisation
 
-Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/04-requetes/`.
-Le projet Laravel est dans `../base/` ; les fichiers finaux à coller sont dans `solution/` (à copier avec `cp -r solution/* ../base/`).
+Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/04-requetes/` (6 chapitres + 1 annexe, un cycle « théorie → démo flash → micro-pratique WishFlix » chacun).
+
+**À partir de la S3, plus de livecoding** : les slides expliquent le code ligne par ligne, la démo ne retape rien — elle dure 2-4 min par chapitre et ne montre que les moments où l'exécution parle : Tinker, navigateur, erreurs provoquées, compteurs SQL. Le code du chapitre est **déjà en place** : on avance de tag en tag dans le dépôt `CampusQuest` (`git checkout s4-chN-…` avant chaque chapitre). Le projet Laravel est dans `../base/` ; `solution/` contient l'état **final** (fin du chapitre 6) — les états intermédiaires sont les tags.
+
+## Moment ↔ chapitre ↔ tag
+
+Les tags existent dans le dépôt `CampusQuest` (**un tag par chapitre**) ; la démo les parcourt dans l'ordre. Le diff entre deux tags reste le code du chapitre pour le rattrapage WishFlix.
+
+| Moment | Chapitre | Tag Campus Quest |
+|---|---|---|
+| 1.1 Tinker : `where`/`orWhere`/`whereIn`/`whereNull`/`whereBetween`/`like`, `orderByDesc`/`limit`/`first`/`latest`, `toSql()` | 01 — Filtrer et trier | `s4-ch1-filtrer-trier` |
+| 2.1 `/quests?q=…&category=…` : recherche + filtre combinés, `@selected` conserve le choix, version `->get()` | 02 — Les filtres optionnels | `s4-ch2-filtres-optionnels` |
+| 3.1 Install Debugbar `--dev`, onglet Queries sur `/quests`, comptage du N+1 | 03 — Mesurer avec la Debugbar | `s4-ch3-debugbar` |
+| 4.1 `with('category')` retiré → `LazyLoadingViolationException` ; comptage N+1 sous Debugbar ; restauration | 04 — L'eager loading | `s4-ch4-eager-loading` |
+| 5.1 Agrégats en Tinker (count/sum/avg/max/groupBy) puis page `/classement` | 05 — Les agrégats | `s4-ch5-agregats` |
+| 6.1 `?page=2`, `withQueryString()` retiré → filtres perdus, remis → conservés ; 2 requêtes dans la Debugbar | 06 — La pagination | `s4-ch6-pagination` |
+| — | Annexe Query Builder vs Eloquent + `whereHas` (`08-annexe-query-builder.md`, lecture — hors séance) | — |
 
 ## Avant la séance
 
 - [ ] **Prérequis : les solutions S2 et S3 sont appliquées** (`cp -r ../seance-02/solution/* .` puis `cp -r ../seance-03/solution/* .` depuis `base/` ou `app/`), base seedée : `sail artisan migrate:fresh --seed` (30 quêtes)
-- [ ] `cd ../base && ./vendor/bin/sail up -d` puis `sail npm install && sail npm run dev` (second terminal)
-- [ ] `http://localhost/quests` affiche les 30 quêtes seedées — le N+1 est **présent** (chaque carte lit `$quest->category->name`)
-- [ ] Éditeur ouvert, terminal prêt (`sail artisan ...`, `sail artisan tinker`)
-- [ ] Filet de sécurité : `solution/` contient chaque fichier final
-- [ ] **Ne pas activer `preventLazyLoading` avant l'étape e** : il fait échouer le N+1… dont on a besoin pour la démo
-- [ ] Optionnel : pré-installer la Debugbar (`sail composer require fruitcake/laravel-debugbar --dev`) pour gagner du temps à l'étape d
+- [ ] `sail up -d`, `sail npm install && sail npm run dev` (second terminal), `http://localhost/quests` affiche les 30 quêtes — le N+1 est **présent** (chaque carte lit `$quest->category->name`)
+- [ ] Dépôt `CampusQuest` propre : les tags `s4-ch1-filtrer-trier` … `s4-ch6-pagination` sont créés et la séance démarre sur l'état de fin S3 (avant `s4-ch1-filtrer-trier`)
+- [ ] Le projet démo tourne en **SQLite** (`DB_CONNECTION=sqlite`, fichier `database/database.sqlite` présent)
+- [ ] Filet de sécurité : `solution/` contient l'état final (fin ch6)
+- [ ] **Ne pas activer `preventLazyLoading` avant le chapitre 4** : il fait échouer le N+1… dont on a besoin pour la démo du chapitre 3
+- [ ] Pas de commit en séance : le code est déjà versionné, la démo ne fait qu'exécuter (les rares modifications — `with` commenté, `withQueryString` retiré — sont annulées en direct)
 
 > Les slides montrent la variante **MariaDB/Sail** ; le projet démo tourne en SQLite — les commandes `sail artisan` sont identiques.
 
 ---
 
-## a. Query Builder vs Eloquent — `01-query-builder-vs-eloquent.md`
+## Chapitre 1 — Filtrer et trier — tag `s4-ch1-filtrer-trier` (≈ 3 min)
 
-Dans Tinker, exécuter **la même requête par les deux portes** et comparer ce qui revient :
+**État de départ** :
 
-```php
-DB::table('quests')->where('xp', '>=', 100)->get();   // Collection de stdClass
-Quest::where('xp', '>=', 100)->get();                // Collection de Quest
-
-$q = DB::table('quests')->find(1);
-$q->featured;        // int (0/1) — pas de cast
-$q->category;        // erreur : propriété inexistante — pas de relation
-
-$q = Quest::find(1);
-$q->featured;        // bool — le casts() du modèle s'applique
-$q->category->name;  // la relation marche (et coûte 1 requête)
+```bash
+git checkout s4-ch1-filtrer-trier
 ```
 
-Voir le SQL généré — les deux portes produisent le même SQL :
+Rien ne change dans les fichiers (le code du catalogue arrive au chapitre 2) — tout se passe en Tinker. Le tag sert de point de reprise pour le rattrapage.
 
-```php
-DB::table('quests')->where('xp', '>=', 100)->toSql();
-Quest::where('xp', '>=', 100)->toSql();
-Quest::where('xp', '>=', 100)->dd();   // SQL + bindings, puis arrêt
-```
+### 1.1 Les variantes de `where` (≈ 1,5 min)
 
-Message : `find`, `where`, `orderBy`, `get`… même chaîne des deux côtés — ce qui change, c'est **ce qui revient** (stdClass vs modèle avec relations et casts).
-
-## b. Filtrer, chercher, trier — `02-filtrer-et-trier.md`
-
-Toujours dans Tinker :
+Dans `sail artisan tinker` :
 
 ```php
 Quest::where('difficulty', 'hard')->count();
+Quest::where('xp', '>=', 100)->orWhere('difficulty', 'easy')->count();  // OU les quêtes faciles
 Quest::whereIn('difficulty', ['easy', 'medium'])->count();
-Quest::whereBetween('xp', [50, 100])->pluck('title');
-Quest::where('title', 'like', '%quiz%')->pluck('title');
-Quest::orderByDesc('xp')->limit(5)->pluck('title', 'xp');
-Quest::latest()->first()?->title;
+Quest::whereNull('description')->count();                   // les quêtes sans description
+Quest::whereBetween('xp', [50, 100])->count();
+Quest::where('title', 'like', '%quiz%')->count();           // la recherche « contient »
 ```
 
-Filtrer par **relation** (chapitre 2, `whereHas`) — les quêtes qui se déroulent à la BU :
+Chaque `where` s'empile en `AND` : en ajouter un second affine le résultat.
+
+### 1.2 Trier, limiter, lire le SQL (≈ 1,5 min)
 
 ```php
-Quest::whereHas('locations', fn ($q) => $q->where('name', 'BU'))->pluck('title');
+Quest::orderByDesc('xp')->limit(5)->pluck('title', 'xp');   // le top 5
+Quest::latest()->first()?->title;                           // la plus récente
+Quest::orderByDesc('xp')->limit(3)->toSql();                // le SQL avec ses « ? »
+Quest::where('xp', '>=', 100)->dd();                        // SQL + bindings, puis arrêt
 ```
 
-## c. Le catalogue filtrable — `02-filtrer-et-trier.md` (« Filtres optionnels »)
+Le `?` du SQL et le tableau de bindings : la valeur voyage **à part** — c'est la protection contre l'injection vue dans les slides. `pluck('title', 'xp')` renvoie un tableau indexé par xp — pratique pour un podium.
 
-Brancher le formulaire de la vue sur `index()` — coller le contrôleur final (`solution/app/Http/Controllers/QuestController.php`) :
+---
 
-```php
-$quests = Quest::query()
-    ->with('category')                                              // étape e — pas encore !
-    ->when($request->query('q'),
-        fn ($query, $q) => $query->where('title', 'like', "%{$q}%"))
-    ->when($request->query('category'),
-        fn ($query, $categoryId) => $query->where('category_id', $categoryId))
-    ->orderByDesc('xp')
-    ->paginate(10)                                                  // étape g — pas encore !
-    ->withQueryString();                                            // idem
+## Chapitre 2 — Les filtres optionnels — tag `s4-ch2-filtres-optionnels` (≈ 3 min)
+
+**État de départ** :
+
+```bash
+git checkout s4-ch2-filtres-optionnels
 ```
 
-Montrer la version **intermédiaire** d'abord (sans `with`, sans `paginate` — juste `->get()`), puis la vue (`solution/resources/views/quests/index.blade.php`) : formulaire `GET`, `request('q')` pour re-remplir le champ, `@selected` pour la catégorie.
+`index()` lit `Request $request`, enchaîne deux `when()` (`q` et `category`), trie par `xp` et finit en **`->get()`** — la pagination arrive au chapitre 6. La vue a le formulaire GET avec `@selected`.
 
-Tester : `/quests?q=quiz`, `/quests?category=2`, combinaison des deux, puis « Réinitialiser ».
+### 2.1 Le catalogue filtrable (≈ 3 min)
 
-Insister sur `"%{$q}%"` : la valeur reste **liée** (binding) — jamais concaténée dans du SQL brut.
+Navigateur, en montrant l'URL à chaque fois :
 
-## d. Le N+1 revient à l'écran — `03-eager-loading.md`
+- `/quests` → les 30 quêtes triées par XP
+- `/quests?q=quiz` → seules les quêtes dont le titre contient « quiz »
+- `/quests?category=2` → seules les quêtes de la catégorie 2
+- `/quests?q=quiz&category=2` → les deux contraintes ensemble
+- `/quests?q=quiz&category=2` puis « Réinitialiser » → retour à `/` sans paramètres
 
-Avec la vue qui affiche `$quest->category->name` par carte, refaire le comptage de la S3 :
+Dans le `<select>`, la catégorie choisie **reste sélectionnée** après filtrage (`@selected`) — le formulaire se souvient.
 
-```php
-DB::enableQueryLog();
-$quests = Quest::all();
-$quests->each(fn ($q) => $q->category->name);
-count(DB::getQueryLog());   // = 31 pour 30 quêtes
+Montrer la version `->get()` du contrôleur (pas encore de `paginate`) et insister sur `"%{$q}%"` : valeur **liée**, jamais concaténée dans du SQL brut.
+
+---
+
+## Chapitre 3 — Mesurer avec la Debugbar — tag `s4-ch3-debugbar` (≈ 3 min)
+
+**État de départ** :
+
+```bash
+git checkout s4-ch3-debugbar
 ```
 
-Corriger dans le contrôleur : `->with('category')`. Recompter : **2 requêtes** (1 pour les quêtes, 1 pour les catégories) quel que soit le nombre de quêtes.
+Code identique au ch2 (les filtres sont en place) — le seul changement est la dépendance `fruitcake/laravel-debugbar` en `require-dev` (déjà dans `composer.json` au tag, ou à installer en direct pour le geste).
 
-Variantes à montrer en Tinker : `Quest::with(['category', 'locations'])->get()` (3 requêtes), `$quest->load('locations')` (eager loading *après coup*), `Location::withCount('quests')->get()` → attribut `quests_count`.
+### 3.1 Installer et ouvrir (≈ 1 min)
 
-## e. `preventLazyLoading` + Debugbar — `03-…` fin et `04-debugbar.md`
-
-1. Coller `solution/app/Providers/AppServiceProvider.php` (`Model::preventLazyLoading(! $this->app->isProduction())`).
-2. **Reproduire le N+1** : retirer temporairement `with('category')` du contrôleur → `/quests` explose avec `LazyLoadingViolationException` — la barre d'outils anti-N+1 est branchée. Remettre `with('category')`.
-3. Installer la Debugbar :
+Si le package n'est pas encore installé :
 
 ```bash
 sail composer require fruitcake/laravel-debugbar --dev
 ```
 
-4. Recharger `/quests` : la barre en bas de page → onglet **Queries** : nombre total, durée par requête, doublons. Jouer avec les filtres (`?q=`, `?category=`) et faire lire le SQL réel par la salle.
-5. Reproduire le N+1 une dernière fois **sous les yeux de la Debugbar** (retirer `with`, recharger : ~33 requêtes listées ; remettre `with` : 4 requêtes) — **noter les deux chiffres au tableau** : c'est le réflexe « mesurer avant/après » exigé à la soutenance (S9).
+Le `--dev` compte : la barre n'a rien à faire en production. Recharger `/quests` → la barre apparaît en bas de page → onglet **Queries** : chaque requête SQL, sa durée, le nombre total.
 
-> ⚠️ Avec `preventLazyLoading` actif, la page N+1 plante **avant** d'afficher la barre : pour mesurer le N+1 dans la Debugbar, commenter la ligne le temps de la démo — ou compter sur la page où `with` est retiré ET `preventLazyLoading` désactivé.
+### 3.2 Compter le N+1 (≈ 2 min)
 
-## f. Le classement — `05-agregats-et-classement.md`
+Sur `/quests` (30 quêtes, chacune lisant `$quest->category->name`) : l'onglet Queries liste **~31 requêtes** — 1 pour les quêtes + 1 par carte pour sa catégorie. Jouer avec les filtres (`?q=`, `?category=`) : le nombre de requêtes **par quête** ne change pas — le N+1 est proportionnel au nombre de lignes, pas à la base.
 
-Agrégats en Tinker :
+**Noter les deux chiffres au tableau** (≈31 avant, et le `select * from categories where id = ?` répété) : c'est le réflexe « mesurer avant/après » — la correction arrive au chapitre suivant.
+
+> ⚠️ `preventLazyLoading` n'est **pas encore** activé (il arrive au chapitre 4) : la page N+1 s'affiche et se mesure sans planter. C'est voulu.
+
+---
+
+## Chapitre 4 — L'eager loading — tag `s4-ch4-eager-loading` (≈ 4 min)
+
+**État de départ** :
+
+```bash
+git checkout s4-ch4-eager-loading
+```
+
+`index()` a maintenant `->with('category')` **avant** `orderByDesc` ; `show()` charge `category` + `locations` ; `AppServiceProvider` active `Model::preventLazyLoading(! $this->app->isProduction())`.
+
+### 4.1 L'alarme (≈ 1 min)
+
+Erreur provoquée : dans `QuestController::index()`, **retirer `->with('category')`**, sauvegarder, recharger `/quests` :
+
+```
+Illuminate\Database\LazyLoadingViolationException — Attempted to lazy load [category] on model [App\Models\Quest]…
+```
+
+`preventLazyLoading` transforme le N+1 silencieux en **exception** — la protection est branchée. **Remettre `with('category')`** → la page refonctionne.
+
+### 4.2 Le N+1 mesuré (≈ 2 min)
+
+Pour montrer le gain chiffré, il faut le N+1 **sans** l'exception : commenter temporairement la ligne `Model::preventLazyLoading(…)` dans `AppServiceProvider` **et** retirer `->with('category')` → recharger `/quests` → l'onglet Queries compte **~33 requêtes** (filtres + N+1). Puis, dans l'ordre inverse : remettre `with('category')` → **~4 requêtes** ; décommenter `preventLazyLoading` → page saine.
+
+Finir sur les deux chiffres au tableau : le même écran, 33 requêtes devenues 4 — `with()` a chargé les catégories **en une requête** (`IN` sur tous les `category_id`) au lieu d'une par quête.
+
+*Variante Tinker (30 s)* : `Quest::with(['category', 'locations'])->get()` = 3 requêtes au total ; `$quest->load('locations')` = eager loading *après coup* ; `Location::withCount('quests')` → attribut `quests_count` (annoncé pour le chapitre 5).
+
+### 4.3 `preventLazyLoading` en une phrase (≈ 1 min)
+
+La ligne vit dans `AppServiceProvider::boot()` : `! $this->app->isProduction()` = l'alarme sonne **en dev**, jamais en prod (où le lazy loading reste toléré pour ne pas casser la prod sur une relation oubliée).
+
+---
+
+## Chapitre 5 — Les agrégats — tag `s4-ch5-agregats` (≈ 3 min)
+
+**État de départ** :
+
+```bash
+git checkout s4-ch5-agregats
+```
+
+`LeaderboardController`, route `/classement`, vue `leaderboard/index`, lien « Classement » dans la nav — tout est en place. La liste `/quests` est inchangée (toujours `->get()`, pagination au ch6).
+
+### 5.1 Les agrégats en Tinker (≈ 1 min)
 
 ```php
 Quest::count();  Quest::sum('xp');  Quest::avg('xp');  Quest::max('xp');
@@ -125,35 +178,55 @@ Quest::select('difficulty')->selectRaw('avg(xp) as xp_moyen')
      ->groupBy('difficulty')->having('xp_moyen', '>', 100)->get();
 ```
 
-Puis les requêtes-qui-comptent-sans-charger :
+La base calcule et renvoie **un chiffre** — pas 30 lignes à additionner en PHP.
 
-```php
-Category::withSum('quests', 'xp')->orderByDesc('quests_sum_xp')->get();
-Location::withCount('quests')->orderByDesc('quests_count')->get();
+### 5.2 La page Classement (≈ 2 min)
+
+Navigateur : `http://localhost/classement` — deux colonnes : **catégories par XP total** (`withSum`) et **lieux par nombre de quêtes** (`withCount`). Dans la Debugbar : **2 requêtes** pour tout le podium — les sous-requêtes `withSum`/`withCount` calculent dans le `SELECT`, l'attribut `quests_sum_xp` / `quests_count` voyage dans le modèle et `orderByDesc` trie dessus.
+
+> Le « classement de la promo » (XP par joueur) n'est **pas faisable** : pas encore de table `user ↔ quest` — ce lien arrive en S6 avec l'authentification. On classe donc les catégories et les lieux : même mécanique, même code.
+
+---
+
+## Chapitre 6 — La pagination — tag `s4-ch6-pagination` (≈ 2 min)
+
+**État de départ** :
+
+```bash
+git checkout s4-ch6-pagination
 ```
 
-Brancher la page `/classement` — coller `LeaderboardController`, `routes/web.php`, `leaderboard/index.blade.php`, `partials/nav.blade.php` (lien « Classement »).
+`index()` finit par `->paginate(10)->withQueryString()` ; la vue affiche `{{ $quests->links() }}` sous les cartes.
 
-> Le « classement de la promo » (XP par joueur) n'est **pas faisable** : pas encore de table `user ↔ quest` — ce lien arrive en S6 avec l'authentification. Dire pourquoi on classe donc les catégories et les lieux.
+### 6.1 Les pages et les filtres (≈ 2 min)
 
-## g. La pagination — `06-pagination.md`
+Navigateur :
 
-Remplacer `->get()` par `->paginate(10)->withQueryString()` dans `index()` (version finale dans `solution/`). Dans la vue : `{{ $quests->links() }}`.
+- `/quests` → 10 quêtes, liens `1 2 3 … Suivant` en bas
+- `/quests?page=2` → la page 2 ; `?page=3`…
+- `/quests?q=quiz&page=2` → la recherche **survit** au changement de page (`withQueryString` recopie les paramètres dans chaque lien)
 
-Montrer :
+Erreur provoquée : **retirer `->withQueryString()`** dans `index()`, recharger, filtrer `?q=quiz`, cliquer « page 2 » → **la recherche saute**, la page 2 affiche tout le catalogue. **Remettre** `withQueryString()` → elle survit. C'est LE bug classique des catalogues filtrés.
 
-- `/quests` → page 1 (10 quêtes), `?page=2`, `?page=3` ;
-- `?q=quiz&page=2` conserve la recherche **grâce à `withQueryString()`** — le retirer pour casser la démo, puis le remettre ;
-- dans la Debugbar : les 2 requêtes de pagination (`select count(*)` + `select … limit 10 offset 20`).
+Dans la Debugbar : `paginate()` exécute **2 requêtes** — `select count(*)` pour le total + `select … limit 10 offset 20` pour la page.
 
-La librairie de liens rend du markup prévu pour **Tailwind** — notre démo n'a pas Tailwind : les liens restent fonctionnels, juste dépouillés. Citer `Paginator::useBootstrapFive()` pour les projets Bootstrap.
+*Note sincérité* : la librairie de liens rend du markup prévu pour **Tailwind** — la démo n'a pas Tailwind : les liens restent fonctionnels, juste dépouillés. Citer `Paginator::useBootstrapFive()` pour les projets Bootstrap.
+
+---
+
+## Annexe — Query Builder vs Eloquent + `whereHas` (lecture, hors séance)
+
+`08-annexe-query-builder.md` : la comparaison détaillée des deux portes (quand choisir, même résultat / facture différente) et `whereHas` — filtre **par relation** (`Quest::whereHas('locations', …)`). Ni la séance ni la Partie A ne l'exigent : le catalogue filtre sur ses propres colonnes. À proposer en lecture libre ou en fin de séance si le temps le permet.
 
 ---
 
 ## Rejouer la démo
 
 ```bash
-sail artisan migrate:fresh --seed   # repartir d'une base peuplée
+git checkout s4-chN-…              # sauter au tag d'un chapitre (code seulement)
+sail artisan migrate:fresh --seed  # repartir d'une base peuplée (données perdues)
 ```
 
-Pour sauter à la solution : `cp -r solution/* ../base/` depuis `seance-04/`.
+La base (sqlite) et le code (tags) avancent séparément : un `git checkout` en arrière ne touche pas aux données, un `migrate:fresh` non plus au code.
+
+**Solution finale** : `solution/` contient l'état de fin de chapitre 6 — catalogue filtré + `with('category')` + `paginate(10)->withQueryString()`, page `/classement`, `preventLazyLoading`. Sur un projet S4 incomplet, s'appuyer sur les tags `s4-chN-…`.

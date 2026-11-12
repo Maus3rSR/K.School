@@ -8,11 +8,11 @@ Remplacer le **tableau PHP** du `GameController` par une **vraie base de donnée
 
 | Niveau | Contenu | Où | Charge indicative |
 |---|---|---|---|
-| **Socle** | Étape 0 + Partie A (5 chapitres, 5 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 60 min à un rythme d'élève |
+| **Socle** | Étape 0 + Partie A (5 chapitres, 5 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 1h30 en séance (pratique répartie au fil des chapitres : 18 + 22 + 15 + 14 + 20 min) |
 | **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
 | **Bonus** | 3e user story et défis | Facultatif | ≈ 30 à 60 min chacun |
 
-> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 4** : la Partie A terminée (point de contrôle 5) — en S4 on interrogera cette base avec des requêtes plus fines.
+> Le **socle** est dimensionné pour un étudiant lent : ≈ 1h30 en séance, soit ≈ 2× le temps de démo du même geste. Les durées de la **Partie B** et de la **Partie C** restent indicatives — elles supposent un rythme rapide. ⚠️ **Requis pour la séance 4** : la Partie A terminée (point de contrôle 5) — en S4 on interrogera cette base avec des requêtes plus fines.
 
 **Référence officielle** :
 

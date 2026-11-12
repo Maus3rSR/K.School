@@ -8,11 +8,11 @@ Construire le **back-office de WishFlix** : créer, modifier et supprimer des je
 
 | Niveau | Contenu | Où | Charge indicative |
 |---|---|---|---|
-| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle) | En séance | ≈ 1 h à un rythme d'élève |
+| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 1h30 en séance (pratique : 20 + 22 + 22 + 12 + 12 min) |
 | **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
 | **Bonus** | 3e user story, `GameService`, upload de la jaquette | Facultatif | ≈ 1h30 |
 
-> Ces estimations sont indicatives : elles supposent un rythme rapide — un étudiant met souvent 2 à 3 fois plus de temps que la démo. ⚠️ **Requis pour la séance 6** : la Partie A terminée (création validée, édition, suppression) — en S6 on réservera ce back-office aux administrateurs.
+> Le **socle** est dimensionné pour un étudiant lent : ≈ 1h30 en séance, soit ≈ 2× le temps de démo du même geste. Les durées de la **Partie B** et de la **Partie C** restent indicatives — elles supposent un rythme rapide. ⚠️ **Requis pour la séance 6** : la Partie A terminée (création validée, édition, suppression) — en S6 on réservera ce back-office aux administrateurs.
 
 **Référence officielle** :
 
@@ -188,7 +188,7 @@ Route::resource('games', GameController::class)->except(['index', 'show']);
 >
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s5-ch6-form-request` (dépôt `CampusQuest`), puis **refaites** l'étape A6 sur WishFlix.
 
-> Le chapitre 7 (services) est une **démo** : rien à reproduire en séance. `GameService` est en Bonus.
+> Les services forment une **annexe** : rien à reproduire en séance. `GameService` est en Bonus.
 
 ---
 

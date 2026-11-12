@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 05
-duration: 20 min
+duration: 23 min
 ---
 
 # Agrégats et classement
@@ -14,6 +14,33 @@ duration: 20 min
 <!--
 Transition : le fil du jour annonce une page Classement. Un classement, c'est
 des agrégats triés — la base calcule, on récupère juste les chiffres.
+Tag Campus Quest de fin de chapitre : s4-ch5-agregats.
+Moment léger : « compter 30 lignes en PHP, c'est faire faire à PHP ce que MySQL fait en une passe ».
+Découpage : ≈ 8 min de slides (≈ 6 slides), démo flash ≈ 3 min — moments : page /classement
+(chiffres par catégorie et par lieu) ; micro-pratique ≈ 12 min (slide « À vous », étape A5 —
+compteur de jeux par catégorie dans le select).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À votre avis ?
+
+<Quiz
+  question="Pour afficher « Action (5) » dans un select de catégories, la meilleure requête est…"
+  :options="[
+    'Category::all() puis un foreach PHP qui compte les jeux de chaque catégorie',
+    'Category::withCount(\'games\') : une requête de plus, le compteur vient avec',
+    'Category::with(\'games\')->count() : with() compte déjà les relations',
+    'Un Game::count() par catégorie dans la boucle Blade'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Pré-test : withCount() est LA réponse — le compteur arrive dans games_count sans boucle.
+Le piège with(\'games\')->count() : count() sur un modèle ignore le with et compte les catégories.
 -->
 
 ---
@@ -22,8 +49,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Agrégats et classement
-La base calcule, pas PHP
+# La base calcule, pas PHP
 
 ::left::
 
@@ -56,8 +82,7 @@ Faire sentir le gaspillage : Quest::all()->count() ramène 30 lignes pour en com
 transition: slide-up | slide-down
 ---
 
-# Agrégats et classement
-`groupBy` : un chiffre par groupe
+# `groupBy` : un chiffre par groupe
 
 ```php {all|1-2|3|4}
 Quest::select('difficulty')
@@ -94,8 +119,7 @@ Réflexe SQL : where filtre les lignes AVANT le regroupement, having filtre les 
 transition: slide-up | slide-down
 ---
 
-# Agrégats et classement
-`withCount`, `withSum`, `withAvg`
+# `withCount`, `withSum`, `withAvg`
 
 Le comptage **sans charger la relation** — une sous-requête dans le SELECT :
 
@@ -117,7 +141,7 @@ L'attribut suit le moule `{relation}_{fonction}_{colonne}` — on lit ensuite `$
 </v-click>
 
 <!--
-withCount déjà croisé au chapitre 3 — avec les autres fonctions d'agrégat, même principe : la sous-requête calcule, l'attribut transporte.
+withCount déjà croisé au chapitre 4 — avec les autres fonctions d'agrégat, même principe : la sous-requête calcule, l'attribut transporte.
 withSum : 2 arguments — la relation, puis la colonne à sommer.
 -->
 
@@ -127,8 +151,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Agrégats et classement
-La page Classement de Campus Quest
+# La page Classement de Campus Quest
 
 ::left::
 
@@ -177,8 +200,7 @@ le lien arrive en S6 avec l'authentification. On classe donc les catégories et 
 transition: slide-up | slide-down
 ---
 
-# Agrégats et classement
-Compter en base, afficher en Blade
+# Compter en base, afficher en Blade
 
 ```mermaid
 flowchart LR
@@ -200,4 +222,53 @@ Un classement, un compteur, une moyenne = **le calcul se fait en SQL**, l'attrib
 
 <!--
 La chaîne complète : sous-requête → attribut → tri → affichage. Chaque étape est une ligne — le résultat tient dans le contrôleur de 10 lignes.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : les requêtes Eloquent
+
+<script setup>
+import queries from '/references/queries'
+</script>
+
+<Panorama :items="queries" doc="https://laravel.com/docs/12.x/queries" at="s4-ch5" />
+
+<!--
+Second passage sur le même panorama : les badges « vu » se sont déplacés — la moitié « Agréger »
+(count, sum, avg, groupBy) s'est allumée depuis le chapitre 1. withCount/withSum vivent dans le
+Panorama des relations (chapitre 04).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : compter les jeux par catégorie
+
+<Exercise title="WishFlix — le select affiche ses compteurs" duration="12 min" level="guidé"
+  :criteria="[
+    'Le select de catégories affiche « Action (5) » — nom + nombre de jeux entre parenthèses',
+    'La requête des catégories utilise withCount(\'games\')',
+    'Le filtre par catégorie fonctionne toujours après l\'ajout du compteur'
+  ]"
+  :hints="[
+    'Remplacez Category::all() par Category::withCount(\'games\') dans index()',
+    'Le compteur arrive dans $category->games_count — la relation games() existe déjà (S3)',
+    '{{ $category->name }} ({{ $category->games_count }}) dans l\'option'
+  ]">
+
+**Exercice** `04-requetes` — étape **A5** du README.
+
+Une ligne dans le contrôleur, une parenthèse dans la vue : le select filtre **et** informe.
+
+**Spécificités WishFlix** : votre `Category` a déjà la relation `games()` (belongsToMany de la S3) — `withCount('games')` marche sans rien ajouter. Le `select` affiche déjà `name` : ajoutez juste `({{ $category->games_count }})` après le nom.
+
+</Exercise>
+
+<!--
+Pas de point de contrôle dédié : il suit la pagination (chapitre 06, fin du socle).
+Palier de rattrapage : tag Campus Quest s4-ch5-agregats.
 -->

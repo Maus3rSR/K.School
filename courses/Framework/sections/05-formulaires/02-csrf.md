@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 02
-duration: 30 min
+duration: 28 min
 ---
 
 # Le jeton CSRF
@@ -13,7 +13,7 @@ duration: 30 min
 
 <!--
 Transition : le 419 n'est pas un bug, c'est une protection. Pour la comprendre, il faut voir l'attaque qu'elle bloque.
-Durée : ≈ 15 min de slides + démo, puis ≈ 15 min de micro-pratique WishFlix (slide « À vous »).
+Découpage : ≈ 6 min de slides (≈ 6 slides), démo flash ≈ 2 min — moments : ajouter `@csrf`, le 419 disparaît, `_token` visible dans les DevTools ; micro-pratique ≈ 20 min (slide « À vous », étapes A1-A2 du README).
 Moment léger : « 419, c'est le code HTTP de l'oubli » — laisser un @csrf manquant volontairement dans un second formulaire, puis le retrouver ensemble.
 Tag Campus Quest de fin de chapitre : s5-ch2-csrf.
 -->
@@ -213,7 +213,7 @@ transition: slide-up | slide-down
 
 # À vous : créer un jeu
 
-<Exercise title="WishFlix — formulaire de création d'un jeu" duration="15 min" level="guidé"
+<Exercise title="WishFlix — formulaire de création d'un jeu" duration="20 min" level="guidé"
   :criteria="[
     '/games/create affiche un formulaire avec tous les champs du jeu et le select des catégories',
     'L\'envoi crée le jeu puis redirige vers sa fiche /game/{id}',
@@ -228,6 +228,8 @@ transition: slide-up | slide-down
 **Exercice** `05-formulaires-validation` — étapes **A1 à A2** du README.
 
 Transposez la démo sur les **jeux** WishFlix : formulaire, `@csrf`, enregistrement, redirection.
+
+**Spécificités WishFlix** : votre formulaire a plus de champs que la démo — des cases `platform_ids[]` et `featured` (la saisie arrive en **tableau**) et le `select` des catégories. `Game::create()` ne reçoit que les colonnes du modèle ; les plateformes se rattachent par `platforms()->sync(...)`, mécanique `belongsToMany` déjà vue en S3.
 
 </Exercise>
 

@@ -1,8 +1,5 @@
 ---
-layout: chapter
 transition: slide-left | slide-right
-number: 07
-duration: 20 min
 ---
 
 # Les services
@@ -12,10 +9,10 @@ duration: 20 min
 - Injecter le service via le constructeur
 
 <!--
-Transition : le back-office marche. Dernière couche de propreté : sortir le métier du contrôleur.
-Chapitre en DÉMO : pas de micro-pratique, rien à reproduire en séance. Le GameService de WishFlix est un bonus de l'exercice.
+Annexe — hors parcours principal : lecture / bonus GameService. Montrée en fin de séance si le temps le permet,
+jamais exigée : le GameService de WishFlix est un bonus de l'exercice, pas un attendu.
 Moment léger : « le Maître du jeu veut TOUTES les quêtes à la une — la règle métier dit non ».
-Tag Campus Quest de fin de chapitre : s5-ch7-services.
+État de référence : tag Campus Quest s5-ch7-services.
 -->
 
 ---

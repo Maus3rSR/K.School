@@ -1,8 +1,8 @@
 ---
 layout: chapter
 transition: slide-left | slide-right
-number: 03
-duration: 20 min
+number: 04
+duration: 32 min
 ---
 
 # Eager loading — corriger le N+1
@@ -13,7 +13,34 @@ duration: 20 min
 
 <!--
 Transition : le symptôme a été diagnostiqué en S3 — aujourd'hui on le corrige,
-on le mesure, puis on installe l'alarme qui le dénonce tout seul.
+et on installe l'alarme qui le dénonce tout seul.
+Tag Campus Quest de fin de chapitre : s4-ch4-eager-loading.
+Moment léger : « le N+1 n'est pas un bug que vous voyez — c'est un bug que vous mesurez » (la Debugbar du ch3 le rend visible).
+Découpage : ≈ 10 min de slides (≈ 6 slides), démo flash ≈ 4 min — moments : retirer/remettre
+`with('category')` sous la Debugbar (chiffres avant/après), `LazyLoadingViolationException` ;
+micro-pratique ≈ 18 min (slide « À vous », étape A4 — with() + chiffres dans REPONSES.md).
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À votre avis ?
+
+<Quiz
+  question="Quest::with('category')->get() sur 30 quêtes exécute combien de requêtes SQL ?"
+  :options="[
+    '1 : with() fait une jointure, tout arrive en une requête',
+    '2 : une pour les quêtes, une pour toutes les catégories',
+    '31 : with() ne change rien au nombre de requêtes',
+    '0 : with() met les catégories en cache PHP'
+  ]"
+  :answer="1"
+/>
+
+<!--
+Pré-test : la bonne réponse n'est PAS une jointure — with() lance une 2e requête
+(IN + tous les category_id d'un coup), puis Eloquent recouds les objets en PHP.
 -->
 
 ---
@@ -22,8 +49,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-Le symptôme, dans **votre** page
+# Le symptôme, dans **votre** page
 
 ::left::
 
@@ -59,8 +85,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-`with()` : une requête de plus, pas trente
+# `with()` : une requête de plus, pas trente
 
 ::left::
 
@@ -99,8 +124,7 @@ Important : with() n'ajoute PAS de jointure — ce sont deux requêtes séparée
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-Les trois formes de chargement
+# Les trois formes de chargement
 
 | Écrire | Quand |
 |---|---|
@@ -126,8 +150,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-L'alarme anti-N+1 en dev
+# L'alarme anti-N+1 en dev
 
 ::left::
 
@@ -166,8 +189,7 @@ layout: fact
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-Le compte est bon
+# Le compte est bon
 
 <div class="grid grid-cols-3 gap-8">
   <Stat value="31" label="requêtes avant (30 quêtes)" color="red" />
@@ -182,7 +204,7 @@ Et ce gain **ne dépend pas du volume** : avec 300 quêtes, ce serait 301 → 2.
 </v-click>
 
 <!--
-Chiffres à refaire mesurer dans la Debugbar au chapitre 4 — ce comptage Tinker est la preuve de principe.
+Chiffres à refaire mesurer dans la Debugbar au chapitre 3 — ce comptage Tinker est la preuve de principe.
 Une optimisation qui se prétend se mesure : c'est exactement ce que la soutenance S9 demandera.
 -->
 
@@ -190,8 +212,7 @@ Une optimisation qui se prétend se mesure : c'est exactement ce que la soutenan
 transition: slide-up | slide-down
 ---
 
-# Eager loading — corriger le N+1
-L'eager loading a des limites
+# L'eager loading a des limites
 
 <ProsCons
   :pros="[
@@ -209,5 +230,53 @@ L'eager loading a des limites
 
 <!--
 Piège symétrique : mettre with() partout « au cas où » charge des relations que la vue n'utilise pas — une requête gaspillée.
-La bonne boucle : afficher → mesurer → ajouter le with qui manque → re-mesurer. La Debugbar (chapitre suivant) rend cette boucle concrète.
+La bonne boucle : afficher → mesurer → ajouter le with qui manque → re-mesurer. La Debugbar (chapitre 03) rend cette boucle concrète.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# Panorama : les relations
+
+<script setup>
+import relations from '/references/relations'
+</script>
+
+<Panorama :items="relations" doc="https://laravel.com/docs/12.x/eloquent-relationships" at="s4-ch4" />
+
+<!--
+Survol de 30 s : with() est le badge du jour ; withCount arrive au chapitre 05, whereHas en annexe —
+les montrer sans les détailler, ils sont dans la liste pour qui voudra aller plus loin.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# À vous : corriger le N+1
+
+<Exercise title="WishFlix — eager loading du catalogue" duration="18 min" level="guidé"
+  :criteria="[
+    'La requête du catalogue charge la catégorie avec with(\'category\')',
+    'Le nombre de requêtes APRÈS correction est noté dans REPONSES.md, avec le gain constaté',
+    'La page affiche toujours les jeux avec le nom de leur catégorie'
+  ]"
+  :hints="[
+    'Ajoutez ->with(\'category\') avant ->get() sur la requête des jeux',
+    'Rechargez / et relisez l\'onglet Queries de la Debugbar : les deux chiffres se comparent',
+    'Si vos cartes « Mieux notés » lisent aussi la catégorie, with() sur cette requête aussi'
+  ]">
+
+**Exercice** `04-requetes` — étape **A4** du README (point de contrôle 2 avec A3).
+
+Une ligne dans le contrôleur, deux chiffres dans REPONSES.md : le N+1 passe de « invisible » à « mesuré et corrigé ».
+
+**Spécificités WishFlix** : le N+1 vient de `$game->category->name` dans les cartes — la requête à corriger est celle du catalogue (`$games`). Si votre section « Mieux notés » affiche aussi la catégorie, sa requête a le même problème : la Debugbar le montrera.
+
+</Exercise>
+
+<!--
+Point de contrôle 2 du README (après A4). Palier de rattrapage : tags Campus Quest
+s4-ch3-debugbar et s4-ch4-eager-loading.
 -->

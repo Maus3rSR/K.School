@@ -3,22 +3,23 @@ Le catalogue filtre, cherche — et se mesure
 
 <Exercise title="WishFlix — requêtes et optimisation" duration="2 h" level="guidé"
   :criteria="[
-    'Filtre par catégorie sur le catalogue via ?category=',
-    'Jeu « À la une » (featured) et section meilleures notes',
-    'N+1 diagnostiqué puis corrigé — chiffres avant/après notés',
+    'Catalogue filtrable par catégorie (?category=) et paginé (9 par page)',
+    'Jeu « à la une » (featured) et section meilleures notes',
+    'N+1 diagnostiqué puis corrigé — chiffres avant/après notés dans REPONSES.md',
     'Recherche par titre ?q= combinée au filtre (travail perso)'
   ]">
 
-Consignes dans le **README** de l'exercice `04-requetes` (`exercices/framework/`).
+Le socle (étapes A1 à A6) a été fait en séance : filtre, Debugbar, eager loading, compteur, pagination. Consignes complètes dans le **README** de l'exercice `04-requetes` (`exercices/framework/`).
 
-Au programme : installer la Debugbar, filtrer le catalogue par catégorie, mettre un jeu « à la une » et les meilleures notes — puis traquer le N+1 du catalogue, le mesurer dans la Debugbar et le corriger.
+Au programme hors séance : la Partie B (recherche par titre puis recherche + filtre combinés), la Partie C « Sous le capot » (lecture guidée de `when()` et `paginate()` dans `vendor/laravel/framework`, réponses dans REPONSES.md) et les bonus. La comparaison Query Builder / Eloquent détaillée et `whereHas` forment une annexe (lecture, hors parcours).
 
 </Exercise>
 
 <!--
-La Partie A rend le catalogue WishFlix filtrable et à la une ; le N+1 du catalogue (chaque carte lit
-$game->category->name) est diagnostiqué puis corrigé avec with() — chiffres notés dans REPONSES.md.
-Travail perso : recherche par titre ?q= avec when(), combinée au filtre ; bonus : paginate() + withQueryString().
-Le README ajoute une Partie C « Sous le capot » (~45 min, chez vous) : lecture guidée de when() et paginate()
-dans vendor/laravel/framework, réponses notées dans REPONSES.md.
+Le socle de la Partie A (A1-A6, ≈ 1h30 en séance) est fait en séance, chapitre par chapitre :
+à la une + meilleures notes (ch1), filtre catégorie (ch2), Debugbar installée + N+1 mesuré (ch3),
+with('category') + chiffres après (ch4), withCount dans le select (ch5), paginate(9) + links()
++ withQueryString (ch6). Reste à la maison : Partie B (US1 recherche ?q= ~40 min, US2 combiné
+~35 min — pagination conserve q via withQueryString), Partie C (~45 min : when(), paginate()
+dans vendor/), bonus (top catégories withAvg, inRandomOrder, simplePaginate).
 -->

@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 40 min
+duration: 35 min
 ---
 
 # Une table, un objet
@@ -13,7 +13,7 @@ duration: 40 min
 
 <!--
 Transition : le tableau PHP du S2 était une béquille. Aujourd'hui on branche une vraie base — sans écrire de SQL.
-Découpage du chapitre (≈ 40 min) : 12 slides (≈ 15 min), livecoding Location (≈ 10 min), micro-pratique WishFlix « Category » (≈ 15 min).
+Découpage du chapitre (35 min) : slides ≈ 12 min, démo flash ≈ 4 min (moments : `make:model -m`, `migrate`/`status`/`rollback`, Tinker `new`/`save`/`find` + faute `nmae`), micro-pratique WishFlix « Category » ≈ 18 min.
 Tag Campus Quest de fin de chapitre : s3-ch1-table-objet.
 Moment léger : demandez qui a déjà tapé un SELECT * FROM sans WHERE sur une table de production. Les mains qui se lèvent en grimaçant sont les bonnes.
 -->
@@ -473,95 +473,6 @@ Tinker disparaît à la fermeture : ce que vous tapez n'est pas dans le code. Le
 transition: slide-up | slide-down
 ---
 
-# Modifier une table déjà jouée
-Et vous, que feriez-vous ?
-
-<Quiz
-  question="La migration create_locations_table est déjà jouée — par vous ET par toute l'équipe. Vous devez ajouter une colonne address. Que faites-vous ?"
-  :options="[
-    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate',
-    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate:fresh',
-    'Vous créez une nouvelle migration add_address_to_locations_table puis sail artisan migrate',
-    'Vous ajoutez la colonne à la main dans MariaDB, sans migration'
-  ]"
-  :answer="2"
-/>
-
-<!--
-Pré-test AVANT la règle : laissez chacun voter à main levée avant de révéler.
-L'option migrate:fresh est la plus tentante : ça marche sur VOTRE poste… mais c'est une hérésie en équipe (données perdues, schéma désynchronisé). La slide suivante tranche.
-Moment léger : la 4e réponse a un nom — « le hotfix en prod à 23 h ». Personne n'a jamais retrouvé qui l'avait fait.
--->
-
----
-layout: two-cols-header
-layoutClass: gap-x-6
-transition: slide-up | slide-down
----
-
-# Modifier une table déjà jouée
-Nouvelle migration, jamais de retouche
-
-::left::
-
-<Terminal
-  class="text-sm"
-  title="bash" prompt="$"
-  :lines="[
-    { cmd: 'sail artisan make:migration add_address_to_locations_table --table=locations', out: '   INFO  Migration [database/migrations/2026_…_add_address_to_locations_table.php] created successfully.' }
-  ]"
-/>
-
-<div class="text-xs opacity-75 mt-2">
-
-`--table=locations` dit à Artisan de générer `Schema::table` — **modifier** l'existante — au lieu d'un `Schema::create`.
-
-</div>
-
-<v-click>
-
-<KeyPoint class="text-sm" variant="rule" title="Règle d'or" icon="📏">
-
-`Schema::table` **modifie** une table existante, `Schema::create` la crée. Modifier un fichier déjà joué n'a aucun effet : `migrate` ne rejoue jamais une migration.
-
-</KeyPoint>
-
-</v-click>
-
-::right::
-
-<v-click>
-
-```php
-public function up(): void
-{
-    Schema::table('locations', function (Blueprint $table) {
-        $table->string('address')->nullable();
-    });
-}
-
-public function down(): void
-{
-    Schema::table('locations', function (Blueprint $table) {
-        $table->dropColumn('address');
-    });
-}
-```
-
-</v-click>
-
-<!--
-Démo jetable en live (facultative, ≈ 2 min) : créer cette migration, la jouer, la rollback, puis SUPPRIMER le fichier — la solution Campus Quest ne contient pas de colonne address.
-Le ->nullable() est nécessaire : la table contient déjà des lignes, qui n'ont pas d'adresse.
-Le down() d'un ajout de colonne : dropColumn — toujours l'inverse exact du up().
-Exception à connaître : tant que personne d'autre n'a joué la migration, un rollback + retouche + migrate reste acceptable sur votre poste. Dès qu'elle est poussée, c'est fini.
-Revenir au vote : qui avait deviné la nouvelle migration ?
--->
-
----
-transition: slide-up | slide-down
----
-
 # Panorama : les migrations
 
 <script setup>
@@ -581,7 +492,7 @@ transition: slide-up | slide-down
 
 # À vous : le modèle Category et sa table
 
-<Exercise title="WishFlix — étapes A1.1 à A1.3" duration="15 min" level="guidé"
+<Exercise title="WishFlix — étapes A1.1 à A1.3" duration="18 min" level="guidé"
   :criteria="[
     'migrate:status affiche la migration categories à Ran',
     'Category::find(1)->name renvoie votre catégorie en Tinker',

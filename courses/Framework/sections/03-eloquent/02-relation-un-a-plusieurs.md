@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 02
-duration: 45 min
+duration: 42 min
 ---
 
 # Relation un-à-plusieurs
@@ -13,7 +13,7 @@ duration: 45 min
 
 <!--
 Transition : une table seule, c'est un carnet. Une quête appartient à une catégorie : il faut relier deux tables.
-Découpage (≈ 45 min) : 12 slides (≈ 15 min), livecoding Category + Quest (≈ 15 min), micro-pratique WishFlix « Game appartient à Category » (≈ 15 min).
+Découpage du chapitre (42 min) : slides ≈ 15 min, démo flash ≈ 5 min (moments : `MassAssignmentException` `$fillable` commenté, FK 999 refusée, navigation `$quest->category->name`), micro-pratique WishFlix « Game appartient à Category » ≈ 22 min.
 Tag Campus Quest de fin de chapitre : s3-ch2-relation-1n.
 Moment léger du chapitre : la FK violée en direct (voir slide « La clé étrangère protège »).
 -->
@@ -126,7 +126,7 @@ On génère `Category` en premier (`make:model Category -m`) : c'est la table **
 </v-click>
 
 <!--
-Livecoding : make:model Category -m, colonne name.
+En séance, Category est généré avant Quest : categories doit être jouée avant quests.
 Si l'ordre est inversé : « Cannot add foreign key constraint » au migrate — regénérer le fichier corrige l'ordre.
 Rappel du chapitre 1 : le timestamp du nom de fichier = l'ordre d'exécution — il fait foi pour savoir quelle table existe quand l'autre migre.
 -->
@@ -180,7 +180,7 @@ Une **contrainte d'intégrité** : la base refuse un `category_id` absent de `ca
 </div>
 
 <!--
-Livecoding : make:model Quest -m avec le schéma complet (solution/database/migrations). Artisan ne génère AUCUNE clé étrangère : elle s'écrit à la main.
+Le schéma complet de quests est dans solution/database/migrations ; la migration est déjà en place pour la démo flash. Artisan ne génère AUCUNE clé étrangère : elle s'écrit à la main.
 Côté quests, rappel du chapitre 1 : le fichier vient d'être créé, personne ne l'a joué ; on le complète puis on migre une seule fois.
 Pour migrer : sail artisan migrate (migrate:status pour vérifier le batch).
 -->
@@ -202,7 +202,7 @@ Un modèle vide n'accepte rien en masse
 `create([...])` remplit le modèle d'un coup : c'est l'**assignation de masse**. Par défaut, Eloquent la **refuse** : sans liste blanche, il ne sait pas quelles colonnes sont sûres.
 
 <!--
-Montrer l'erreur en live : c'est le moment où la salle dit « ah ». Avant de corriger, demander à quoi ça sert de refuser.
+Montrer l'erreur en démo flash : c'est le moment où la salle dit « ah ». Avant de corriger, demander à quoi ça sert de refuser.
 Réponse : un formulaire qui envoie is_admin=1 ne doit jamais réécrire cette colonne.
 Moment léger : l'exception exacte vous dit de quoi vous avez besoin : « Add [title] to fillable property ». C'est la seule fois où une erreur vous donne littéralement la solution — profitez-en.
 -->
@@ -267,7 +267,7 @@ Une colonne **absente** de `$fillable` est **ignorée en silence** par `create()
 Comportement exact de Laravel 12 (vérifié dans Model::fill) : sans aucun $fillable (ni $guarded), le modèle est « totalement protégé » → MassAssignmentException à la première colonne. Avec un $fillable partiel, les colonnes hors liste sont écartées SANS erreur — c'est le piège du « ça enregistre mais la colonne reste vide ».
 Pour que Laravel crie aussi dans ce cas : Model::preventSilentlyDiscardingAttributes() dans AppServiceProvider::boot() (pratique en développement).
 Faire la démo des deux comportements : (new Quest(['title' => 'T', 'nope' => 1]))->getAttributes() → seul title reste.
-Livecoding : ajouter aussi $fillable = ['name'] à Category et à Location.
+Category et Location ont aussi leur `$fillable = ['name']` — sans lui, leur `create()` lèverait la même exception.
 Moment léger (erreur volontaire) : oublier 'xp' dans $fillable. La quête s'enregistre… avec 0 XP, la valeur par défaut. Les joueurs vont adorer la quête « Marathon de la BU : 0 XP ».
 -->
 
@@ -510,7 +510,7 @@ transition: slide-up | slide-down
 
 # À vous : Game appartient à Category
 
-<Exercise title="WishFlix — étapes A2.1 à A2.6" duration="15 min" level="guidé"
+<Exercise title="WishFlix — étapes A2.1 à A2.6" duration="22 min" level="guidé"
   :criteria="[
     'La migration games (avec foreignId category_id) est à Ran',
     'Game::create() fonctionne grâce au fillable ; une catégorie inconnue est refusée',
@@ -520,6 +520,8 @@ transition: slide-up | slide-down
 Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A2**.
 
 Transposez la démo sur WishFlix : le modèle `Game`, sa migration avec la clé étrangère écrite à la main, `$fillable` + `casts()`, puis `belongsTo` / `hasMany` vérifiés dans Tinker.
+
+**Spécificités WishFlix** : `games` a 9 colonnes (liste exacte au README, A2.2) — `decimal('rating', 3, 1)` pour la note, `unsignedSmallInteger` pour `release_year` et `playtime_hours`, `status` en `string`. Toutes figurent dans le `$fillable`, `category_id` comprise ; `casts()` ne convertit que `featured`.
 
 </Exercise>
 

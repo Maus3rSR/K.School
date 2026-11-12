@@ -10,9 +10,9 @@
 
 ## Séquencement
 
-- Une séance = une suite de cycles : théorie courte → livecoding Campus Quest → micro-pratique WishFlix.
-- Ordre des chapitres = ordre des étapes de `LIVECODING.md` = ordre des étapes de la Partie A de l'exercice. Chaque étape de `LIVECODING.md` indique son chapitre et son tag Campus Quest.
-- `duration` d'un chapitre = slides + livecoding + micro-pratique ; total de la séance ≤ 4h − 10 %.
+- Une séance = une suite de cycles : théorie courte → démo Campus Quest → micro-pratique WishFlix. **S1-S2** : livecoding complet ; **à partir de S3** : démo flash (3-5 min par chapitre — le code du chapitre est déjà en place, on ne montre que les erreurs provoquées, les résultats visibles et les gestes d'outil).
+- Ordre des chapitres = ordre des moments de `LIVECODING.md` = ordre des étapes de la Partie A de l'exercice. Chaque moment de `LIVECODING.md` indique son chapitre et son tag Campus Quest.
+- `duration` d'un chapitre = slides + démo + micro-pratique ; total de la séance ≤ **180 min utiles** (4h − 20 pause − 20 début − 20 fin), cible 50/50 slides + démo / pratique.
 
 ## Campus Quest versionné
 

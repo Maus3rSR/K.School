@@ -1,8 +1,5 @@
 ---
-layout: chapter
 transition: slide-left | slide-right
-number: 01
-duration: 15 min
 ---
 
 # Query Builder ou Eloquent ?
@@ -10,10 +7,12 @@ duration: 15 min
 - Distinguer les deux portes d'accès à la base
 - Chaîner les mêmes méthodes des deux côtés
 - Choisir la bonne porte selon le besoin
+- Filtrer par une relation avec `whereHas`
 
 <!--
-Transition : en S3 tout passait par les modèles Eloquent. Il existe une autre porte,
-plus bas niveau — la façade DB. À quoi sert-elle, et quand la préférer ?
+Annexe — hors parcours principal : lecture. Le chapitre 01 n'a retenu qu'un aperçu
+(« deux portes, même SQL ») ; ce fichier creuse la comparaison et ajoute `whereHas`,
+qui n'est pas requis pour la séance ni pour l'exercice WishFlix.
 -->
 
 ---
@@ -22,8 +21,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Query Builder ou Eloquent ?
-La même chaîne, deux portes
+# La même chaîne, deux portes
 
 ::left::
 
@@ -65,8 +63,7 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
-# Query Builder ou Eloquent ?
-Ce qui change : ce qui revient
+# Ce qui change : ce qui revient
 
 ::left::
 
@@ -115,45 +112,7 @@ $q->category côté stdClass → "Undefined property" — la relation est du cod
 transition: slide-up | slide-down
 ---
 
-# Query Builder ou Eloquent ?
-Voir le SQL généré
-
-```php
-Quest::where('xp', '>=', 100)->orderByDesc('xp')->toSql();
-// "select * from `quests` where `xp` >= ? order by `xp` desc"
-
-Quest::where('xp', '>=', 100)->dd();
-// array:2 [ "select * from `quests` where `xp` >= ? ..." , [100] ]
-```
-
-<v-click>
-
-- `toSql()` renvoie la requête **avec des `?`** : les valeurs voyagent à part — ce sont les <KeyTerm>bindings</KeyTerm>
-- `dd()` affiche SQL + bindings **puis stoppe** la requête — l'espion idéal dans Tinker ou un contrôleur
-
-</v-click>
-
-<v-click>
-
-<Alert type="info">
-
-`toSql()` / `dd()` existent **aussi** sur `DB::table()` — même grammaire, même espion.
-
-</Alert>
-
-</v-click>
-
-<!--
-Le « ? » est important pédagogiquement : il annonce le chapitre 2 (bindings et injection).
-dd() = dump + die : la page s'arrête net — parfait pour inspecter, à retirer ensuite.
--->
-
----
-transition: slide-up | slide-down
----
-
-# Query Builder ou Eloquent ?
-Quand choisir lequel
+# Quand choisir lequel
 
 | Besoin | La bonne porte |
 |---|---|
@@ -181,8 +140,7 @@ Hydrater = transformer la ligne SQL en instance de modèle — c'est ce qu'Eloqu
 transition: slide-up | slide-down
 ---
 
-# Query Builder ou Eloquent ?
-Le même résultat, pas la même facture
+# Le même résultat, pas la même facture
 
 <Terminal
   title="tinker" prompt=">"
@@ -201,5 +159,45 @@ Le SQL est le même ; **ce qui change c'est l'enveloppe** : données brutes vs o
 
 <!--
 Anticiper la confusion fréquente : with() ne filtre pas, il charge plus — le count reste identique.
-Clore le chapitre : les deux portes mènent à la même base, le choix se fait sur ce qu'on veut ramener.
+Clore : les deux portes mènent à la même base, le choix se fait sur ce qu'on veut ramener.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# `whereHas` : filtrer **par une relation**
+
+::left::
+
+```php
+// Quêtes qui se déroulent à la BU
+Quest::whereHas('locations',
+    fn ($q) => $q->where('name', 'BU')
+)->get();
+```
+
+Le SQL utilise `EXISTS` : « les quêtes **pour lesquelles il existe** un lieu nommé BU ».
+
+::right::
+
+- `with('locations')` **charge** les lieux pour les afficher — ne filtre rien
+- `whereHas('locations', …)` **filtre** les quêtes — ne charge rien
+
+<v-click>
+
+<Alert type="info">
+
+Les deux se combinent : `Quest::with('locations')->whereHas('locations', …)` = quêtes filtrées **et** lieux affichés.
+
+</Alert>
+
+</v-click>
+
+<!--
+La confusion with/whereHas est LE point dur : insister sur les deux verbes — charger vs filtrer.
+Cas d'usage Campus Quest : quêtes d'un lieu précis, ou quêtes qui ont AU MOINS un lieu (whereHas sans callback).
+Hors socle : ni la séance ni la Partie A ne l'exigent — le catalogue filtre sur ses propres colonnes.
 -->

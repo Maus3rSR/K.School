@@ -38,7 +38,7 @@ Une quête a **une** catégorie, mais peut se dérouler dans **plusieurs** lieux
 
 <!--
 Rappeler le pacte : tout est démontré sur Campus Quest, puis transposé sur WishFlix en atelier — jamais de recopie.
-Annoncer le rythme : chaque notion = quelques slides, le livecoding sur Campus Quest, puis vous le refaites sur WishFlix et vous validez un point de contrôle. Cinq chapitres, une pause à mi-parcours.
+Annoncer le rythme : chaque notion = quelques slides, la démo flash sur Campus Quest, puis vous le refaites sur WishFlix et vous validez un point de contrôle. Cinq chapitres, une pause à mi-parcours.
 Faire réagir : qui a encore ses quêtes en tableau PHP ? Ce tableau disparaît aujourd'hui.
 Le diagramme est le plan de la journée : categories→quests en 1-N, puis la pivot location_quest en N-N.
 -->

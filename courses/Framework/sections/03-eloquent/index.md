@@ -21,3 +21,7 @@ src: ./05-catalogue-n-plus-un.md
 ---
 src: ./06-exercice.md
 ---
+
+---
+src: ./07-annexe-modifier-table.md
+---

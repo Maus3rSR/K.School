@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 04
-duration: 35 min
+duration: 30 min
 ---
 
 # Seeders et factory : peupler la base
@@ -13,7 +13,7 @@ duration: 35 min
 
 <!--
 Chapitre en DÉMO GUIDÉE : vous montrez, ils suivent le fil ; ils écrivent eux-mêmes les seeders de données fixes (micro-pratique), la factory complète est dans la Partie B (US1).
-Découpage (≈ 35 min) : 8 slides (≈ 12 min), livecoding (≈ 13 min), micro-pratique WishFlix « seeders fixes + jeux à la main » (≈ 10 min).
+Découpage du chapitre (30 min) : slides ≈ 12 min, démo flash ≈ 4 min (moments : `migrate:fresh` qui vide la base, `migrate:fresh --seed`, factory `make()`/`create()`), micro-pratique WishFlix « seeders fixes + jeux à la main » ≈ 14 min.
 Tag Campus Quest de fin de chapitre : s3-ch4-seeders-factory.
 Moment léger du chapitre : les quêtes absurdes dans le seeder (voir notes de QuestSeeder).
 -->
@@ -266,7 +266,7 @@ Factories pour le **volume**, seeders pour le **scénario** : les deux se combin
 <!--
 Sans recycle(), category_id => Category::factory() créerait 30 nouvelles catégories.
 random(1) renvoie une Collection d'un élément → pluck('id') donne toujours un tableau d'ids pour attach().
-Moment léger (hors solution, à improviser en live) : ajouter avant la factory deux quêtes écrites à la main, par exemple « Trouver la salle 404 (elle n'existe pas) » et « Convaincre l'imprimante de la BU de coopérer — 500 XP ». Les quêtes absurdes ne sont PAS dans solution/ : on garde le jeu de données reproductible.
+Moment léger (hors solution, à improviser en démo flash) : ajouter avant la factory deux quêtes écrites à la main, par exemple « Trouver la salle 404 (elle n'existe pas) » et « Convaincre l'imprimante de la BU de coopérer — 500 XP ». Les quêtes absurdes ne sont PAS dans solution/ : on garde le jeu de données reproductible.
 -->
 
 ---
@@ -383,7 +383,7 @@ transition: slide-up | slide-down
 
 # À vous : les seeders WishFlix
 
-<Exercise title="WishFlix — étapes A4.1 à A4.5" duration="10 min" level="guidé"
+<Exercise title="WishFlix — étapes A4.1 à A4.5" duration="14 min" level="guidé"
   :criteria="[
     'CategorySeeder (≥ 4 catégories), PlatformSeeder (≥ 3 plateformes), GameSeeder (≥ 6 jeux liés)',
     'DatabaseSeeder appelle les seeders dans le bon ordre',
@@ -393,6 +393,8 @@ transition: slide-up | slide-down
 Consignes : README de l'exercice `03-eloquent`, **Partie A, étapes A4**.
 
 Transposez la démo sur WishFlix : reprenez les jeux de votre tableau PHP de la S2 dans `GameSeeder`, attachez leurs plateformes, orchestrez dans `DatabaseSeeder`, puis `migrate:fresh --seed`. La factory complète arrive chez vous (US1).
+
+**Spécificités WishFlix** : pas de factory ici — `Game::create()` exige de renseigner les colonnes NOT NULL de `games` sans valeur par défaut (cf. A2.2), et chaque jeu reçoit 1 à 3 plateformes via `$game->platforms()->attach([...])`. `DatabaseSeeder` appelle les seeders dans l'ordre : catégories → plateformes → jeux.
 
 </Exercise>
 

@@ -16,7 +16,7 @@ Consignes dans le **README** de l'exercice `05-formulaires-validation`.
 </Exercise>
 
 <!--
-Les services (chapitre 07) étaient une démo : le GameService de WishFlix est un bonus, pas un attendu.
+Les services forment une annexe (hors parcours) : le GameService de WishFlix est un bonus, pas un attendu.
 Travail perso : CRUD complet Category et Platform (Route::resource, formulaires, Form Requests) — les deux US attendues.
 Bonus : GameService, upload de la jaquette (règle 'image' + Storage), 3e US.
 Le README de l'exercice 05-formulaires-validation décrit les étapes, les paliers de rattrapage (tags Campus Quest) et la Partie C.

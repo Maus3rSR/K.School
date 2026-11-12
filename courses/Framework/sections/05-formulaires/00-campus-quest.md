@@ -43,5 +43,5 @@ Trois écrans, un aller-retour : **formulaire → enregistrement → redirection
 Faire réagir : et si le Maître du jeu voulait ajouter une quête demain matin ? Aujourd'hui il faudrait… ouvrir Tinker. Inacceptable.
 Le schéma est le plan de la journée : le formulaire de création (ch. 1), sa protection CSRF (ch. 2), la validation (ch. 3),
 l'édition et la suppression (ch. 4), Route::resource et le binding (ch. 5), les Form Requests (ch. 6),
-puis la logique métier sortie du contrôleur en démo (ch. 7).
+puis la logique métier sortie du contrôleur, en annexe (services — lecture / bonus).
 -->

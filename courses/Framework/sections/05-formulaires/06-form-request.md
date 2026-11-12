@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 06
-duration: 25 min
+duration: 22 min
 ---
 
 # Les Form Requests
@@ -13,7 +13,7 @@ duration: 25 min
 
 <!--
 Transition : la validation marche, mais elle est collée au contrôleur — et elle est recopiée entre store() et update(). On la sort.
-Durée : ≈ 15 min de slides + livecoding, ≈ 10 min de micro-pratique WishFlix.
+Découpage : ≈ 8 min de slides (≈ 8 slides), démo flash ≈ 2 min — moment : mêmes erreurs et `old()` après extraction en Form Request ; micro-pratique ≈ 12 min (slide « À vous », étape A6 + point de contrôle 3).
 Moment léger : « le contrôleur a perdu 12 lignes — il a repris la course à pied ».
 Tag Campus Quest de fin de chapitre : s5-ch6-form-request.
 -->
@@ -284,7 +284,7 @@ transition: slide-up | slide-down
 
 # À vous : une Form Request
 
-<Exercise title="WishFlix — Form Request des jeux" duration="10 min" level="guidé"
+<Exercise title="WishFlix — Form Request des jeux" duration="12 min" level="guidé"
   :criteria="[
     'StoreGameRequest et UpdateGameRequest existent dans app/Http/Requests',
     'store() et update() ne contiennent plus de validate()',
@@ -304,5 +304,5 @@ Déplacez vos règles dans deux classes : le comportement ne change pas.
 
 <!--
 Point de contrôle 3 dans le README (après A6). Palier de rattrapage : tag Campus Quest s5-ch6-form-request.
-Les services (chapitre suivant) sont une démo : pas de micro-pratique.
+Les services forment l'annexe suivante : pas de micro-pratique.
 -->

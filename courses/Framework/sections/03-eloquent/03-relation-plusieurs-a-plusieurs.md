@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 03
-duration: 35 min
+duration: 30 min
 ---
 
 # Relation plusieurs-à-plusieurs
@@ -13,7 +13,7 @@ duration: 35 min
 
 <!--
 Transition : une quête peut se dérouler dans PLUSIEURS lieux, et un lieu accueille plusieurs quêtes. La FK unique du chapitre précédent ne suffit plus.
-Découpage (≈ 35 min) : 7 slides (≈ 12 min), livecoding pivot (≈ 10 min), micro-pratique WishFlix « Game ↔ Platform » (≈ 13 min).
+Découpage du chapitre (30 min) : slides ≈ 12 min, démo flash ≈ 3 min (moments : `attach`/`detach`/`sync` en Tinker, doublon refusé par la clé composite), micro-pratique WishFlix « Game ↔ Platform » ≈ 15 min.
 Tag Campus Quest de fin de chapitre : s3-ch3-relation-nn.
 Moment léger du chapitre : attach() deux fois du même couple → violation de clé primaire (voir notes de la slide attach).
 -->
@@ -283,7 +283,7 @@ transition: slide-up | slide-down
 
 # À vous : Game ↔ Platform
 
-<Exercise title="WishFlix — étapes A3.1 à A3.3" duration="13 min" level="guidé"
+<Exercise title="WishFlix — étapes A3.1 à A3.3" duration="15 min" level="guidé"
   :criteria="[
     'Les migrations platforms et game_platform sont à Ran',
     'belongsToMany est déclaré des deux côtés (Game::platforms, Platform::games)',

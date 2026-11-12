@@ -15,9 +15,11 @@ export default [
   // Lire
   { name: '$quest->category', desc: 'Propriété : le résultat chargé', group: 'Lire', seen: 's3-ch2' },
   { name: '$quest->category()', desc: 'Méthode : une requête à compléter', group: 'Lire', seen: 's3-ch2' },
-  { name: 'with()', desc: 'Charger d\'avance (anti N+1)', group: 'Lire' },
+  { name: 'with()', desc: 'Charger d\'avance (anti N+1)', group: 'Lire', seen: 's4-ch4' },
   { name: 'load()', desc: 'Charger après coup', group: 'Lire' },
-  { name: 'withCount()', desc: 'Compter les éléments liés', group: 'Lire' },
+  { name: 'withCount()', desc: 'Compter les éléments liés', group: 'Lire', seen: 's4-ch5' },
+  { name: 'withSum()', desc: 'Sommer les éléments liés', group: 'Lire', seen: 's4-ch5' },
+  { name: 'withAvg()', desc: 'Moyenner les éléments liés', group: 'Lire' },
   { name: 'has() / whereHas()', desc: 'Filtrer selon une relation', group: 'Lire' },
   // Écrire
   { name: 'attach()', desc: 'Ajouter un lien pivot', group: 'Écrire', seen: 's3-ch3' },

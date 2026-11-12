@@ -23,9 +23,9 @@ src: ./06-form-request.md
 ---
 
 ---
-src: ./07-services.md
+src: ./08-exercice.md
 ---
 
 ---
-src: ./08-exercice.md
+src: ./09-annexe-services.md
 ---

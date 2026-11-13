@@ -74,7 +74,7 @@ Le `?` du SQL et le tableau de bindings : la valeur voyage **à part** — c'est
 git checkout s4-ch2-filtres-optionnels
 ```
 
-`index()` lit `Request $request`, enchaîne deux `when()` (`q` et `category`), trie par `xp` et finit en **`->get()`** — la pagination arrive au chapitre 6. La vue a le formulaire GET avec `@selected`.
+`index()` lit `Request $request`, enchaîne deux `when()` (`search` et `category`), trie par `xp` et finit en **`->get()`** — la pagination arrive au chapitre 6. La vue a le formulaire GET avec `@selected`.
 
 ### 2.1 Le catalogue filtrable (≈ 3 min)
 

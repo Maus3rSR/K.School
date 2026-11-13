@@ -8,7 +8,7 @@ duration: 32 min
 # Eager loading — corriger le N+1
 
 - Reconnaître le N+1 dans le catalogue Campus Quest
-- Corriger avec `with()`, `load()` et `withCount`
+- Corriger avec `with()` — et savoir que `load()` existe
 - Faire échouer le N+1 en dev avec `preventLazyLoading()`
 
 <!--

@@ -88,6 +88,8 @@ sections/
 | Lexique                                           | `<TermCard>`                                              |
 | Aide-mémoire d'un concept (éléments les plus utilisés + doc) | `<Panorama>`                                |
 
+**Backticks vs `<KeyTerm>`** : le code inline (backticks) = uniquement du code qu'on tape (méthode, classe, commande, valeur, nom de fichier). Un concept dans la prose ne prend JAMAIS de backticks : `<KeyTerm>` s'il est au lexique / en QCM, sinon texte normal ou gras.
+
 **Règle anti-monotonie** : une slide « texte seul » (titre + bullets) ne doit jamais être suivie de plus de **2 autres slides texte seul**. Casser la série avec un composant ci-dessus, un diagramme Mermaid, une image ou un layout `statement` / `fact` / `quote`.
 
 ### Images et placeholders (OBLIGATOIRE quand l'image n'existe pas encore)

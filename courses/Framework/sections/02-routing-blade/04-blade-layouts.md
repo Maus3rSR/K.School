@@ -136,15 +136,25 @@ transition: slide-up | slide-down
 # Et si les noms ne correspondent pas ?
 
 <Quiz
-  question="Le layout attend @yield('content'). Votre page remplit @section('contenu'). Que se passe-t-il ?"
+  question="Le layout attend un emplacement, votre page en remplit un autre nom. Que se passe-t-il ?"
   :options="[
     'Blade lève une erreur « section contenu introuvable »',
     'La page s\'affiche avec la navigation, mais le contenu reste vide, sans erreur',
-    'Blade devine et place le contenu dans l\'emplacement content',
+    'Blade devine et place le contenu dans l\'emplacement `content`',
     'La page s\'affiche sans le layout'
   ]"
   :answer="1"
-/>
+>
+
+```blade
+{{-- layout : attend 'content' --}}
+@yield('content')
+
+{{-- page : remplit 'contenu' --}}
+@section('contenu')
+```
+
+</Quiz>
 
 <!--
 Pré-test avant la slide d'assemblage : faire voter, puis provoquer le bug en direct dans la démo (@section('contenu')).

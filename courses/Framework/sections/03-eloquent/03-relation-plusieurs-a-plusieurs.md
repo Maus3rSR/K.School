@@ -28,10 +28,10 @@ Et vous, comment feriez-vous ?
 <Quiz
   question="Une quête se déroule dans plusieurs lieux, et un lieu accueille plusieurs quêtes. Que faut-il ajouter à la base ?"
   :options="[
-    'Une colonne location_id dans quests',
-    'Une colonne quest_id dans locations',
+    'Une colonne `location_id` dans `quests`',
+    'Une colonne `quest_id` dans `locations`',
     'Une troisième table qui liste les couples quête/lieu',
-    'Une colonne location_ids dans quests, avec la liste des ids séparés par des virgules'
+    'Une colonne `location_ids` dans `quests`, avec la liste des ids séparés par des virgules'
   ]"
   :answer="2"
 />

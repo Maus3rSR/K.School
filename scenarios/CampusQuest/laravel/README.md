@@ -14,7 +14,7 @@ laravel/
 │   ├── LIVECODING.md   # fil à suivre, calé sur les slides 03-eloquent
 │   └── solution/       # fichiers finaux à copier dans app/ (prérequis : solution S2 appliquée)
 └── seance-04/    # démo flash S4 : requêtes, eager loading, Debugbar, agrégats, pagination
-│   ├── LIVECODING.md   # fil à suivre, calé sur les slides 04-requetes
+│   ├── LIVECODING.md   # fil à suivre, calé sur les slides 04-request
 │   └── solution/       # fichiers finaux à copier dans app/ (prérequis : solution S3 appliquée)
 └── seance-05/    # démo flash S5 : formulaires, CSRF, validation, Route::resource, Form Request (+ services en annexe)
     ├── LIVECODING.md   # fil à suivre, calé sur les slides 05-formulaires

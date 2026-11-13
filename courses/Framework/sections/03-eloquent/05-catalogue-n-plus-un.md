@@ -152,7 +152,7 @@ transition: slide-up | slide-down
 À votre avis ?
 
 <Quiz
-  question="La page /quests affiche 30 quêtes, chacune avec le nom de sa catégorie. Combien de requêtes SQL pensez-vous qu'elle exécute ?"
+  question="La page `/quests` affiche 30 quêtes, chacune avec le nom de sa catégorie. Combien de requêtes SQL pensez-vous qu'elle exécute ?"
   :options="[
     '1',
     '2',

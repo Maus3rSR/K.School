@@ -27,15 +27,21 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Vous écrivez <form method=&quot;PUT&quot; action=&quot;/quests/5&quot;> pour modifier une quête. Que fait le navigateur à l'envoi ?"
+  question="Vous écrivez ce formulaire pour modifier une quête. Que fait le navigateur à l'envoi ?"
   :options="[
     'Il envoie une requête PUT, comme demandé',
     'Il refuse d\'envoyer le formulaire et affiche une erreur',
-    'Il envoie un GET : la valeur de method est ignorée, et vos champs partent dans l\'URL',
+    'Il envoie un GET : la valeur de `method` est ignorée, et vos champs partent dans l\'URL',
     'Il envoie un POST, par défaut pour toute méthode inconnue'
   ]"
   :answer="2"
-/>
+>
+
+```html
+<form method="PUT" action="/quests/5">
+```
+
+</Quiz>
 
 <!--
 Piège : un formulaire HTML ne connaît que GET et POST. Toute autre valeur de method retombe sur GET (valeur par défaut).

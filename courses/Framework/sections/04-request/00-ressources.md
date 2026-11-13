@@ -27,5 +27,5 @@ layout: two-cols-header
 <!--
 Les pages Query Builder et Pagination restent ouvertes pendant l'atelier WishFlix.
 Debugbar : la doc du projet (laraveldebugbar.com) est la référence d'installation — package fruitcake/laravel-debugbar.
-Telescope : mentionné en fin du chapitre 3 (Debugbar), aucune installation prévue aujourd'hui.
+Telescope : en ressource uniquement, pas présenté en séance.
 -->

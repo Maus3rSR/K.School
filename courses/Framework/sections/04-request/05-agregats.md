@@ -2,13 +2,12 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 05
-duration: 23 min
+duration: 21 min
 ---
 
 # Agrégats et classement
 
 - Compter et sommer sans charger les lignes : `count`, `sum`, `avg`, `max`
-- Regrouper avec `groupBy` / `having`
 - Construire le classement Campus Quest avec `withSum` / `withCount`
 
 <!--
@@ -16,9 +15,9 @@ Transition : le fil du jour annonce une page Classement. Un classement, c'est
 des agrégats triés — la base calcule, on récupère juste les chiffres.
 Tag Campus Quest de fin de chapitre : s4-ch5-agregats.
 Moment léger : « compter 30 lignes en PHP, c'est faire faire à PHP ce que MySQL fait en une passe ».
-Découpage : ≈ 8 min de slides (≈ 6 slides), démo flash ≈ 3 min — moments : page /classement
-(chiffres par catégorie et par lieu) ; micro-pratique ≈ 12 min (slide « À vous », étape A5 —
-compteur de jeux par catégorie dans le select).
+Découpage : ≈ 6 min de slides (≈ 5 slides), micro-pratique ≈ 12 min (slide « À vous », étape A5 —
+compteur de jeux par catégorie dans le select) — démo 3 min inchangée ;
+moments : agrégats en Tinker (count/sum/avg/max) puis page /classement.
 -->
 
 ---
@@ -30,10 +29,10 @@ transition: slide-up | slide-down
 <Quiz
   question="Pour afficher « Action (5) » dans un select de catégories, la meilleure requête est…"
   :options="[
-    'Category::all() puis un foreach PHP qui compte les jeux de chaque catégorie',
-    'Category::withCount(\'games\') : une requête de plus, le compteur vient avec',
-    'Category::with(\'games\')->count() : with() compte déjà les relations',
-    'Un Game::count() par catégorie dans la boucle Blade'
+    '`Category::all()` puis un `foreach` PHP qui compte les jeux de chaque catégorie',
+    '`Category::withCount(\'games\')` : une requête de plus, le compteur vient avec',
+    '`Category::with(\'games\')->count()` : `with()` compte déjà les relations',
+    'Un `Game::count()` par catégorie dans la boucle Blade'
   ]"
   :answer="1"
 />
@@ -82,43 +81,6 @@ Faire sentir le gaspillage : Quest::all()->count() ramène 30 lignes pour en com
 transition: slide-up | slide-down
 ---
 
-# `groupBy` : un chiffre par groupe
-
-```php {all|1-2|3|4}
-Quest::select('difficulty')
-    ->selectRaw('avg(xp) as xp_moyen')
-    ->groupBy('difficulty')
-    ->having('xp_moyen', '>', 100)
-    ->get();
-```
-
-<div v-click="1">
-
-`select` + `selectRaw` : les colonnes qu'on veut — le groupe (`difficulty`) et l'agrégat (`avg(xp)` baptisé `xp_moyen`).
-
-</div>
-
-<div v-click="2">
-
-`groupBy('difficulty')` : la base **regroupe** les lignes — une moyenne par difficulté, pas une par quête.
-
-</div>
-
-<div v-click="3">
-
-`having` : le `where` **des groupes** — on ne garde que les difficultés dont la moyenne dépasse 100 XP.
-
-</div>
-
-<!--
-Résultat : 3 lignes max (easy, medium, hard) avec leur xp_moyen — pas une Collection de quêtes.
-Réflexe SQL : where filtre les lignes AVANT le regroupement, having filtre les groupes APRÈS.
--->
-
----
-transition: slide-up | slide-down
----
-
 # `withCount`, `withSum`, `withAvg`
 
 Le comptage **sans charger la relation** — une sous-requête dans le SELECT :
@@ -141,7 +103,7 @@ L'attribut suit le moule `{relation}_{fonction}_{colonne}` — on lit ensuite `$
 </v-click>
 
 <!--
-withCount déjà croisé au chapitre 4 — avec les autres fonctions d'agrégat, même principe : la sous-requête calcule, l'attribut transporte.
+withCount est le cas de base — withSum, withAvg, withMax suivent le même principe : la sous-requête calcule, l'attribut transporte.
 withSum : 2 arguments — la relation, puis la colonne à sommer.
 -->
 
@@ -238,7 +200,7 @@ import queries from '/references/queries'
 
 <!--
 Second passage sur le même panorama : les badges « vu » se sont déplacés — la moitié « Agréger »
-(count, sum, avg, groupBy) s'est allumée depuis le chapitre 1. withCount/withSum vivent dans le
+(count, sum, avg) s'est allumée depuis le chapitre 1. withCount/withSum vivent dans le
 Panorama des relations (chapitre 04).
 -->
 
@@ -264,7 +226,7 @@ transition: slide-up | slide-down
 
 Une ligne dans le contrôleur, une parenthèse dans la vue : le select filtre **et** informe.
 
-**Spécificités WishFlix** : votre `Category` a déjà la relation `games()` (belongsToMany de la S3) — `withCount('games')` marche sans rien ajouter. Le `select` affiche déjà `name` : ajoutez juste `({{ $category->games_count }})` après le nom.
+**Spécificités WishFlix** : votre `Category` a déjà la relation `games()` (hasMany de la S3) — `withCount('games')` marche sans rien ajouter. Le `select` affiche déjà `name` : ajoutez juste `({{ $category->games_count }})` après le nom.
 
 </Exercise>
 

@@ -13,10 +13,10 @@ duration: 35 min
 
 <!--
 Transition : le catalogue sait filtrer en SQL — il ne sait pas encore lire l'URL.
-Aujourd'hui on branche : ?q= et ?category= deviennent des clauses WHERE.
+Aujourd'hui on branche : ?search= et ?category= deviennent des clauses WHERE.
 Tag Campus Quest de fin de chapitre : s4-ch2-filtres-optionnels.
 Moment léger : « le formulaire GET n'a pas de submit button caché, il a une URL » — la query string EST le formulaire.
-Découpage : ≈ 10 min de slides (≈ 7 slides), démo flash ≈ 3 min — moments : `/quests?q=…&category=…`,
+Découpage : ≈ 10 min de slides (≈ 7 slides), démo flash ≈ 3 min — moments : `/quests?search=…&category=…`,
 recherche + filtre combinés, version `->get()` ; micro-pratique ≈ 22 min (slide « À vous », étape A2 — filtre catégorie).
 -->
 
@@ -27,15 +27,21 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="La requête /quests arrive SANS ?q= dans l'URL. Que vaut $request->query('q') ?"
+  question="La requête `/quests` arrive SANS `?search=` dans l'URL. Que vaut cette ligne ?"
   :options="[
     'Une chaîne vide : le paramètre existe toujours, juste vide',
-    'null : le paramètre est absent',
-    '0 : Laravel compte les paramètres manquants',
+    '`null` : le paramètre est absent',
+    '`0` : Laravel compte les paramètres manquants',
     'Une exception : le paramètre est requis'
   ]"
   :answer="1"
-/>
+>
+
+```php
+$request->query('search');
+```
+
+</Quiz>
 
 <!--
 Réponse : null. C'est toute la logique des filtres optionnels : absent = pas de filtre,
@@ -53,19 +59,10 @@ transition: slide-up | slide-down
 ::left::
 
 ```php
-public function index(Request $request)
-{
-    $q = $request->query('q');        // "quiz" ou null
-    $category = $request->query('category');  // "2" ou null
-
-    $quests = Quest::query()
-        ->when($q, fn ($query, $q) =>
-            $query->where('title', 'like', "%{$q}%"))
-        ->when($category, fn ($query, $id) =>
-            $query->where('category_id', $id))
-        ->orderByDesc('xp')
-        ->get();
-}
+// GET /quests?search=quiz&category=2
+$request->query('search');    // "quiz"
+$request->query('category');  // "2"  — une chaîne
+$request->query('page');      // null — absent de l'URL
 ```
 
 ::right::
@@ -76,13 +73,13 @@ public function index(Request $request)
 
 <v-click>
 
-`?q=quiz&category=2` = deux paramètres, deux `when()` — chacun n'agit que **si son paramètre est présent**.
+Absent = `null` : c'est ce qui rendra chaque filtre **optionnel** — slide suivante.
 
 </v-click>
 
 <!--
 Insister : query() = paramètres d'URL ; input() = champs de formulaire POST (S5 s'en servira).
-Le nom du paramètre est un contrat : name="q" dans le formulaire ↔ query('q') dans le contrôleur.
+Le nom du paramètre est un contrat : name="search" dans le formulaire ↔ query('search') dans le contrôleur.
 -->
 
 ---
@@ -113,9 +110,9 @@ public function index(Request $request)
 {
     $quests = Quest::query()
         ->when(
-            $request->query('q'),
-            fn ($query, $q) =>
-                $query->where('title', 'like', "%{$q}%")
+            $request->query('search'),
+            fn ($query, $search) =>
+                $query->where('title', 'like', "%{$search}%")
         )
         ->orderByDesc('xp')
         ->get();
@@ -130,9 +127,9 @@ public function index(Request $request)
 {
     $quests = Quest::query()
         ->when(
-            $request->query('q'),
-            fn ($query, $q) =>
-                $query->where('title', 'like', "%{$q}%")
+            $request->query('search'),
+            fn ($query, $search) =>
+                $query->where('title', 'like', "%{$search}%")
         )
         ->when(
             $request->query('category'),
@@ -154,19 +151,19 @@ Le catalogue, avant les filtres : toutes les quêtes, triées par XP.
 
 <div v-click="1">
 
-**Recherche** — `when($q, …)` n'exécute le `where` **que si `?q=` est présent** ; sinon la chaîne continue comme si de rien n'était.
+**Recherche** — `when($search, …)` n'exécute le `where` **que si `?search=` est présent** ; sinon la chaîne continue comme si de rien n'était.
 
 </div>
 
 <div v-click="2">
 
-**Filtre catégorie** — un `when()` par filtre optionnel : `?q=quiz&category=2` cumule les deux, `?category=2` filtre sans chercher.
+**Filtre catégorie** — un `when()` par filtre optionnel : `?search=quiz&category=2` cumule les deux, `?category=2` filtre sans chercher.
 
 </div>
 
 <!--
 when() évite la cascade de if : la requête reste une seule chaîne lisible.
-Le callback reçoit (la requête, la valeur) — la signature fn ($query, $q) mérite 10 secondes d'explication.
+Le callback reçoit (la requête, la valeur) — la signature fn ($query, $search) mérite 10 secondes d'explication.
 Lecture du when() dans le code du framework : Partie C de l'exercice (chez vous).
 -->
 
@@ -183,8 +180,8 @@ Dans `quests/index.blade.php`, au-dessus de la liste
 
 ```blade
 <form method="GET" action="{{ route('quests.index') }}">
-    <input type="search" name="q"
-           value="{{ request('q') }}"
+    <input type="search" name="search"
+           value="{{ request('search') }}"
            placeholder="Rechercher une quête…">
 
     <select name="category">
@@ -206,19 +203,19 @@ Dans `quests/index.blade.php`, au-dessus de la liste
 
 <div v-click="1">
 
-`method="GET"` : les champs voyagent dans **l'URL** — `?q=quiz&category=2` est visible, partageable, mettable en favori. C'est le bon verbe pour une **lecture** filtrée (cf. S5 pour le POST).
+`method="GET"` : les champs voyagent dans **l'URL** — `?search=quiz&category=2` est visible, partageable, mettable en favori. C'est le bon verbe pour une **lecture** filtrée (cf. S5 pour le POST).
 
 </div>
 
 <div v-click="2">
 
-Chaque `name` devient un paramètre : `name="q"` ↔ `query('q')`, `name="category"` ↔ `query('category')`.
+Chaque `name` devient un paramètre : `name="search"` ↔ `query('search')`, `name="category"` ↔ `query('category')`.
 
 </div>
 
 <div v-click="3">
 
-`value="{{ request('q') }}"` et `@selected(request('category') == $category->id)` : le formulaire **se souvient** de la saisie après envoi.
+`value="{{ request('search') }}"` et `@selected(request('category') == $category->id)` : le formulaire **se souvient** de la saisie après envoi.
 
 </div>
 
@@ -241,7 +238,7 @@ transition: slide-up | slide-down
 public function index(Request $request)
 {
     $quests = Quest::query()
-        ->when($request->query('q'), /* … */)
+        ->when($request->query('search'), /* … */)
         ->when($request->query('category'), /* … */)
         ->orderByDesc('xp')
         ->get();
@@ -256,8 +253,6 @@ public function index(Request $request)
 ::right::
 
 - Le `<select>` des catégories a besoin de **la liste** — `Category::all()` est passée à la vue comme `quests`
-- `@foreach ($categories …)` la boucle : `value` = l'`id`, le texte = le `name`
-- Option « Toutes les catégories » avec `value=""` : envoyer vide = pas de filtre (le `when` reçoit `""`, falsy)
 
 <v-click>
 
@@ -271,21 +266,39 @@ La chaîne est complète : URL → query() → when() → where → SQL → vue 
 -->
 
 ---
-layout: center
 transition: slide-up | slide-down
 ---
 
 # Le catalogue filtrable
 
-<Steps
-  :items="[
-    { title: '?q=…', desc: 'where like — recherche par titre', icon: '🔍' },
-    { title: '?category=…', desc: 'where category_id — filtre', icon: '🏷️' },
-    { title: 'when()', desc: 'chaque filtre n\'existe que si son paramètre arrive', icon: '🎛️' },
-    { title: 'GET + @selected', desc: 'le formulaire se souvient de la saisie', icon: '📝' },
-    { title: 'orderByDesc', desc: 'les plus grosses XP d\'abord', icon: '📉' }
-  ]"
-/>
+```mermaid
+flowchart LR
+    A["URL : ?search=…&amp;category=…"] --> B["$request->query()"]
+    B --> C{"when() :<br/>présent ?"}
+    C -- oui --> D["where(…)"]
+    C -- non --> E["rien ajouté"]
+    D --> F["SQL"]
+    E --> F
+    F --> G["Vue : @selected,<br/>value se souviennent"]
+```
+
+<div v-click="1">
+
+Chaque `when()` teste **son** paramètre : présent → le `where` s'ajoute ; absent → la chaîne continue sans lui — c'est la branche « non ».
+
+</div>
+
+<div v-click="2">
+
+Tout se lit dans l'URL : `?search=quiz&category=2` est visible, partageable — le formulaire GET n'est qu'une écriture de la query string.
+
+</div>
+
+<div v-click="3">
+
+La vue boucle sur le résultat **et** réaffiche la saisie (`@selected`, `value`) : la chaîne est bouclée.
+
+</div>
 
 <!--
 La cartographie URL → clause SQL est complète : le catalogue filtre, cherche, trie.
@@ -306,7 +319,7 @@ import blade from '/references/blade'
 
 <!--
 Survol de 30 s : @selected est le seul nouveau badge du jour — le reste du Blade est déjà vu
-(depuis la S2 pour l'affichage, la S5 pour les formulaires POST). L'annuaire complet reste sous les yeux.
+(depuis la S2) — les formulaires POST arriveront en S5. L'annuaire complet reste sous les yeux.
 -->
 
 ---
@@ -333,7 +346,7 @@ transition: slide-up | slide-down
 
 Un `select` de catégories au-dessus de la grille, un `when()` dans la requête, `@selected` pour la mémoire.
 
-**Spécificités WishFlix** : votre accueil est `GameController::index` + la vue `home` — les catégories passent par `Category::all()` (le `withCount` arrive au chapitre 05). Le `select` s'appelle `category` et envoie l'`id` en valeur : la règle `where('category_id', $id)` fait le pont entre le nom du paramètre et la colonne. **Pas de champ `q` pour l'instant** : la recherche par titre est une user story de la Partie B — votre formulaire ne contient que le `select`.
+**Spécificités WishFlix** : votre accueil est `GameController::index` + la vue `home` — les catégories passent par `Category::all()` (le `withCount` arrive au chapitre 05). Le `select` s'appelle `category` et envoie l'`id` en valeur : la règle `where('category_id', $id)` fait le pont entre le nom du paramètre et la colonne. **Pas de champ `search` pour l'instant** : la recherche par titre est une user story de la Partie B — votre formulaire ne contient que le `select`.
 
 </Exercise>
 

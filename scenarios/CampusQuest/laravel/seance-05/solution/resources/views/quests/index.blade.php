@@ -12,7 +12,7 @@
     <p><a href="{{ route('quests.create') }}">➕ Nouvelle quête</a></p>
 
     <form class="quest-filters" method="GET" action="{{ route('quests.index') }}">
-        <input type="search" name="q" value="{{ request('q') }}" placeholder="Rechercher une quête…">
+        <input type="search" name="search" value="{{ request('search') }}" placeholder="Rechercher une quête…">
 
         <select name="category">
             <option value="">Toutes les catégories</option>

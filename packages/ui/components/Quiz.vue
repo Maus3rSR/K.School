@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 
+function parseCode(text) {
+  return String(text)
+    .split('`')
+    .map((part, i) => ({ text: part, code: i % 2 === 1 }))
+}
+
 defineProps({
   question: {
     type: String,
@@ -29,7 +35,15 @@ function reset() {
 
 <template>
   <div class="quiz">
-    <p class="quiz-question">{{ question }}</p>
+    <p class="quiz-question">
+      <template v-for="(seg, i) in parseCode(question)" :key="i">
+        <code v-if="seg.code">{{ seg.text }}</code>
+        <template v-else>{{ seg.text }}</template>
+      </template>
+    </p>
+    <div v-if="$slots.default" class="quiz-code">
+      <slot />
+    </div>
     <div class="quiz-grid">
       <button
         v-for="(option, i) in options"
@@ -44,7 +58,12 @@ function reset() {
         @click="select(i)"
       >
         <span class="quiz-letter">{{ String.fromCharCode(65 + i) }}</span>
-        <span class="quiz-text">{{ option }}</span>
+        <span class="quiz-text">
+          <template v-for="(seg, j) in parseCode(option)" :key="j">
+            <code v-if="seg.code">{{ seg.text }}</code>
+            <template v-else>{{ seg.text }}</template>
+          </template>
+        </span>
       </button>
     </div>
     <div v-if="selected !== null" class="quiz-feedback">
@@ -63,6 +82,9 @@ function reset() {
   font-weight: 700;
   font-size: 1.2em;
   margin: 0 0 0.75rem;
+}
+.quiz-code {
+  margin-bottom: 0.75rem;
 }
 .quiz-grid {
   display: grid;

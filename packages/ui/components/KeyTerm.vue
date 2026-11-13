@@ -9,12 +9,11 @@ defineOptions({ name: 'KeyTerm' })
 <style scoped>
 .key-term {
   display: inline;
-  padding: 0.05em 0.35em;
-  border-radius: 0.35em;
   font-weight: 600;
   color: var(--slidev-theme-primary, #4f8ef7);
-  background: color-mix(in srgb, var(--slidev-theme-primary, #4f8ef7) 15%, transparent);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--slidev-theme-primary, #4f8ef7);
 }
 </style>

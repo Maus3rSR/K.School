@@ -25,10 +25,10 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Le formulaire de création est envoyé avec un titre vide et xp = « beaucoup ». Que se passe-t-il aujourd'hui, sans validation ?"
+  question="Le formulaire de création est envoyé avec un titre vide et `xp` = « beaucoup ». Que se passe-t-il aujourd'hui, sans validation ?"
   :options="[
     'Une erreur 500 : la base refuse « beaucoup » dans une colonne entière',
-    'La quête est créée tranquillement avec xp = 0, la base corrige en silence',
+    'La quête est créée tranquillement avec `xp` = 0, la base corrige en silence',
     'Une erreur 404 : la route détecte les données invalides',
     'Le navigateur bloque l\'envoi tout seul, les types ne correspondent pas'
   ]"

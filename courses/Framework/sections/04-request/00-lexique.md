@@ -7,7 +7,7 @@ layoutClass: gap-x-6
 
 ::left::
 
-<TermCard term="Binding" translation="(Paramètre lié)" definition="Valeur passée à part dans la requête SQL, à l'abri de l'injection" />
+<TermCard term="Binding" translation="(Paramètre lié)" definition="Valeur envoyée à part du SQL (le `?`) : elle ne peut jamais devenir du code SQL" />
 
 <TermCard term="Eager loading" translation="(Chargement anticipé)" definition="Charger les relations à l'avance, en une requête par relation" />
 
@@ -15,7 +15,7 @@ layoutClass: gap-x-6
 
 <TermCard term="N+1" definition="Piège : une requête pour la liste, plus une requête par ligne affichée" />
 
-<TermCard term="Agrégat" definition="Calcul en base sur un ensemble : count, sum, avg, max, groupBy" />
+<TermCard term="Agrégat" definition="Calcul en base sur un ensemble : count, sum, avg, max" />
 
 ::right::
 
@@ -30,5 +30,5 @@ layoutClass: gap-x-6
 <!--
 Termes centraux : eager loading vs lazy loading — l'opposition qui structure toute la séance.
 N+1 est déjà dans le lexique S3 : rappeler que le symptôme est connu, aujourd'hui on le mesure et on le corrige.
-Binding : à relier à la protection contre l'injection SQL vue au chapitre 1 (le « ? » des bindings).
+Binding : à relier à la protection contre l'injection SQL évoquée au chapitre 1 (le « ? » des bindings) — la démo est en S6.
 -->

@@ -15,9 +15,10 @@ duration: 32 min
 Transition : le symptôme a été diagnostiqué en S3 — aujourd'hui on le corrige,
 et on installe l'alarme qui le dénonce tout seul.
 Tag Campus Quest de fin de chapitre : s4-ch4-eager-loading.
-Moment léger : « le N+1 n'est pas un bug que vous voyez — c'est un bug que vous mesurez » (la Debugbar du ch3 le rend visible).
-Découpage : ≈ 10 min de slides (≈ 6 slides), démo flash ≈ 4 min — moments : retirer/remettre
-`with('category')` sous la Debugbar (chiffres avant/après), `LazyLoadingViolationException` ;
+Moment léger : la LazyLoadingViolationException provoquée en direct — « la page refuse de s'afficher tant que vous n'êtes pas poli avec la base ».
+Découpage : ≈ 10 min de slides (≈ 6 slides), démo flash ≈ 4 min — moments : mesure avant/après
+sous la Debugbar (`with('category')` retiré, `preventLazyLoading` commenté → ≈ 33 requêtes,
+remis → ≈ 4), puis l'alarme `LazyLoadingViolationException` ;
 micro-pratique ≈ 18 min (slide « À vous », étape A4 — with() + chiffres dans REPONSES.md).
 -->
 
@@ -28,15 +29,21 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Quest::with('category')->get() sur 30 quêtes exécute combien de requêtes SQL ?"
+  question="Cette requête, sur 30 quêtes, exécute combien de requêtes SQL ?"
   :options="[
-    '1 : with() fait une jointure, tout arrive en une requête',
+    '1 : `with()` fait une jointure, tout arrive en une requête',
     '2 : une pour les quêtes, une pour toutes les catégories',
-    '31 : with() ne change rien au nombre de requêtes',
-    '0 : with() met les catégories en cache PHP'
+    '31 : `with()` ne change rien au nombre de requêtes',
+    '0 : `with()` met les catégories en cache PHP'
   ]"
   :answer="1"
-/>
+>
+
+```php
+Quest::with('category')->get();
+```
+
+</Quiz>
 
 <!--
 Pré-test : la bonne réponse n'est PAS une jointure — with() lance une 2e requête
@@ -64,18 +71,16 @@ La carte de chaque quête lit `category->name` : le <KeyTerm>lazy loading</KeyTe
 
 ::right::
 
-<Terminal
-  title="tinker" prompt=">"
-  :lines="[
-    { cmd: 'DB::enableQueryLog()' },
-    { cmd: '$quests = Quest::all()' },
-    { cmd: '$quests->each(fn ($q) => $q->category->name)' },
-    { cmd: 'count(DB::getQueryLog())', out: '   = 31   // 1 + 30 quêtes' }
-  ]"
-/>
+Mesuré au chapitre 03 dans la Debugbar : **≈ 33 requêtes**, dont **30 fois**
+
+```sql
+select * from categories where id = ?
+```
+
+une par carte de quête
 
 <!--
-Rappel du teaser S3 — on ne redémontre pas le mécanisme, on le constate sur les 30 quêtes seedées.
+Rappel du chiffre noté au chapitre 03 — on ne redémontre pas le mécanisme, on repart de la mesure.
 Question à la salle : « vous le voyez, ce N+1, en naviguant sur /quests ? » — non : c'est un bug invisible sans instrumentation.
 -->
 
@@ -124,24 +129,46 @@ Important : with() n'ajoute PAS de jointure — ce sont deux requêtes séparée
 transition: slide-up | slide-down
 ---
 
-# Les trois formes de chargement
+# Une ou plusieurs relations
 
 | Écrire | Quand |
 |---|---|
 | `Quest::with('category')->get()` | Charger une relation **avec** la liste — le cas courant |
 | `Quest::with(['category', 'locations'])->get()` | Plusieurs relations d'un coup → 3 requêtes au total |
-| `$quest->load('locations')` | Charger **après coup**, sur un modèle déjà récupéré |
-| `Location::withCount('quests')->get()` | Le **nombre** sans les objets → attribut `quests_count` |
 
 <v-click>
 
-`withCount` ajoute une sous-requête `count(*)` au SELECT — parfait pour un badge « 3 quêtes ici » sans charger une seule quête.
+Variante `load()` : le même chargement, mais **après coup**, sur un modèle déjà récupéré — ex. `$quest->load('locations')` quand seule la page détail a besoin des lieux. `withCount` : chapitre 05.
 
 </v-click>
 
 <!--
-load() sert quand on reçoit un modèle sans savoir si sa relation est chargée — ex : recharger une relation après un attach().
-withCount produit {relation}_count — la colonne lue $location->quests_count : on s'en resservira au chapitre 5 pour le classement.
+Rester sur les deux cas utiles aujourd'hui : une relation, plusieurs relations.
+load() = with() pour un modèle déjà en main ; pas de pratique aujourd'hui.
+-->
+
+---
+layout: fact
+transition: slide-up | slide-down
+---
+
+# Le compte est bon
+
+<div class="grid grid-cols-3 gap-8">
+  <Stat value="≈ 33" label="requêtes avant (page /quests)" color="red" />
+  <Stat value="≈ 4" label="requêtes après with('category')" color="green" />
+  <Stat value="×8" label="moins d'allers-retours base" color="blue" />
+</div>
+
+<v-click>
+
+Et ce gain **ne dépend pas du volume** : avec 300 quêtes, ce serait ≈ 303 → 4.
+
+</v-click>
+
+<!--
+Mêmes chiffres que la Debugbar du chapitre 03 : l'avant/après se lit sur le même écran.
+Une optimisation qui se prétend se mesure : c'est exactement ce que la soutenance S9 demandera.
 -->
 
 ---
@@ -182,30 +209,6 @@ public function boot(): void
 <!--
 Démo live : retirer with('category') → la page explose avec LazyLoadingViolationException. Remettre with() → tout roule.
 C'est le filet de sécurité à laisser en place sur le projet : il transforme un bug silencieux en erreur bruyante en dev.
--->
-
----
-layout: fact
-transition: slide-up | slide-down
----
-
-# Le compte est bon
-
-<div class="grid grid-cols-3 gap-8">
-  <Stat value="31" label="requêtes avant (30 quêtes)" color="red" />
-  <Stat value="2" label="requêtes après with('category')" color="green" />
-  <Stat value="×15" label="moins d'aller-retours base" color="blue" />
-</div>
-
-<v-click>
-
-Et ce gain **ne dépend pas du volume** : avec 300 quêtes, ce serait 301 → 2.
-
-</v-click>
-
-<!--
-Chiffres à refaire mesurer dans la Debugbar au chapitre 3 — ce comptage Tinker est la preuve de principe.
-Une optimisation qui se prétend se mesure : c'est exactement ce que la soutenance S9 demandera.
 -->
 
 ---

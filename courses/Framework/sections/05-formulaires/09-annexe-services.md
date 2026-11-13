@@ -22,7 +22,7 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Une règle métier (« une seule quête à la une ») est nécessaire dans store() et dans update(). Où la placer ?"
+  question="Une règle métier (« une seule quête à la une ») est nécessaire dans `store()` et dans `update()`. Où la placer ?"
   :options="[
     'Recopiée dans les deux méthodes du contrôleur',
     'Dans la vue Blade, avant l\'envoi',

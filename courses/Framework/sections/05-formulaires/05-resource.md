@@ -25,15 +25,23 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Une route déclare /quests/{quest} et le contrôleur reçoit show(Quest $quest). Que se passe-t-il pour /quests/999, qui n'existe pas ?"
+  question="Route et méthode ci-dessous. Que se passe-t-il pour `/quests/999`, une quête qui n'existe pas ?"
   :options="[
     'Une erreur 500 : le modèle est introuvable',
-    'Une page 404, sans que vous ayez écrit findOrFail',
-    'Un objet Quest vide est injecté',
+    'Une page 404, sans que vous ayez écrit `findOrFail`',
+    'Un objet `Quest` vide est injecté',
     'Rien ne se passe : la route ne correspond pas'
   ]"
   :answer="1"
-/>
+>
+
+```php
+Route::get('/quests/{quest}', [QuestController::class, 'show']);
+
+public function show(Quest $quest) { /* … */ }
+```
+
+</Quiz>
 
 <!--
 Réponse : 404 automatique. Laravel exécute le findOrFail pour vous — c'est le route model binding, vu à la slide « Le binding ».

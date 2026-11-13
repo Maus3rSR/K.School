@@ -28,9 +28,9 @@ Et vous, où la mettriez-vous ?
 <Quiz
   question="Une catégorie contient plusieurs quêtes ; chaque quête a une seule catégorie. Dans quelle table place-t-on la clé étrangère ?"
   :options="[
-    'Dans categories : une colonne quest_id',
-    'Dans quests : une colonne category_id',
-    'Dans une troisième table category_quest',
+    'Dans `categories` : une colonne `quest_id`',
+    'Dans `quests` : une colonne `category_id`',
+    'Dans une troisième table `category_quest`',
     'Dans les deux tables, pour être sûr'
   ]"
   :answer="1"

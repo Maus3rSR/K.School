@@ -18,10 +18,14 @@ class QuestController extends Controller
     {
         $quests = Quest::query()
             ->with('category')
-            ->when($request->query('q'),
-                fn ($query, $q) => $query->where('title', 'like', "%{$q}%"))
-            ->when($request->query('category'),
-                fn ($query, $categoryId) => $query->where('category_id', $categoryId))
+            ->when(
+                $request->query('search'),
+                fn ($query, $search) => $query->where('title', 'like', "%{$search}%")
+            )
+            ->when(
+                $request->query('category'),
+                fn ($query, $categoryId) => $query->where('category_id', $categoryId)
+            )
             ->orderByDesc('xp')
             ->paginate(10)
             ->withQueryString();

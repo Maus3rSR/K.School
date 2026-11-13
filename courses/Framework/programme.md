@@ -86,13 +86,13 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - 🛠️ Exercice : `exercices/framework/03-eloquent`
 
 ### **Séance 4 — Requêtes Eloquent et optimisation** (4h)
-- Aperçu Query Builder vs Eloquent (même SQL, `stdClass` vs modèle — comparaison détaillée en annexe)
-- Filtrer et trier : `where` et variantes, `like` avec valeur liée, `orderBy` / `limit` / `first` / `latest`, `toSql()`
+- Query Builder vs Eloquent : annexe de lecture (même SQL, `stdClass` vs modèle)
+- Filtrer et trier : `where` et variantes, `like` avec valeur liée, `orderBy` / `limit` / `first`, `dd()`
 - Filtres optionnels : `Request::query`, `when()`, formulaire GET, `@selected`
 - Mesurer avec la **Debugbar** (onglet Queries) — le N+1 constaté en S3 devient visible
-- **Eager loading** : `with()`, `load()`, `preventLazyLoading` en dev
-- Agrégats : `count` / `sum` / `avg` / `max`, `groupBy` court, `withCount` / `withSum` / `withAvg` — page Classement
-- Pagination : `paginate()`, `links()`, `withQueryString()`, `simplePaginate` cité
+- **Eager loading** : `with()`, `preventLazyLoading` en dev (`load()` en Panorama)
+- Agrégats : `count` / `sum` / `avg` / `max`, `withCount` / `withSum` / `withAvg` — page Classement
+- Pagination : `paginate()`, `links()`, `withQueryString()`, `simplePaginate` en une phrase ; volume rendu réel par une factory (500 quêtes)
 - 🛠️ Atelier : jeu « à la une », 6 meilleures notes, filtre par catégorie, N+1 mesuré puis corrigé, compteur de jeux par catégorie, catalogue paginé
 - 🛠️ Exercice : `exercices/framework/04-requetes`
 
@@ -109,6 +109,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - Autorisation : middleware `auth`, gates et policies
 - Hash des mots de passe (le CSRF est déjà vu en S5)
 - Démo XSS : `{!! !!}` vs `{{ }}`
+- Injection SQL : requête concaténée (`DB::select`) détournée en direct, puis la même valeur liée par Eloquent — à côté de la démo XSS (déplacé de la S4)
 - Wishlist liée à l'utilisateur connecté
 - 🛠️ Atelier : connexion avec un compte démo, back-office réservé aux admins, ajout d'un jeu à sa wishlist
 

@@ -15,17 +15,17 @@ addons:
 Requêtes Eloquent et optimisation
 
 ---
-src: ./sections/04-requetes/00-ressources.md
+src: ./sections/04-request/00-ressources.md
 ---
 
 ---
-src: ./sections/04-requetes/00-lexique.md
+src: ./sections/04-request/00-lexique.md
 ---
 
 ---
-src: ./sections/04-requetes/00-campus-quest.md
+src: ./sections/04-request/00-campus-quest.md
 ---
 
 ---
-src: ./sections/04-requetes/index.md
+src: ./sections/04-request/index.md
 ---

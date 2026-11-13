@@ -33,9 +33,11 @@ Le mot-clé <Tag label="TypeScript">interface</Tag> n'est pas une notion <Tag la
 La <KeyTerm>route</KeyTerm> associe une URL au code qui la traite.
 ```
 
-Pas de props : le slot par défaut est le terme (fond primaire discret, inline, sans label).
+Pas de props : le slot par défaut est le terme (souligné pointillé couleur primaire, inline, **sans fond** — visuellement distinct du code inline).
 
-**Quand** : première occurrence significative d'un terme présent dans le lexique, ou mot-clé susceptible de tomber en QCM. **≤ 3 par slide**, uniquement dans du texte courant (prose, items de liste, `<KeyPoint>`) — jamais dans les titres, le code, les tableaux ni les props. Différence avec `<Tag>` : `Tag` annote l'origine techno d'un mot (label au-dessus), `KeyTerm` marque un terme à retenir (surlignage inline).
+**Quand** : première occurrence significative d'un terme présent dans le lexique, ou mot-clé susceptible de tomber en QCM. **≤ 3 par slide**, uniquement dans du texte courant (prose, items de liste, `<KeyPoint>`) — jamais dans les titres, le code, les tableaux ni les props. Différence avec `<Tag>` : `Tag` annote l'origine techno d'un mot (label au-dessus), `KeyTerm` marque un terme à retenir (souligné pointillé inline).
+
+**Règle backticks vs `<KeyTerm>`** : le code inline (backticks) = uniquement du code qu'on tape (méthode, classe, commande, valeur, nom de fichier). Un concept dans la prose (eager loading, binding, query string, lazy loading…) ne prend JAMAIS de backticks : `<KeyTerm>` s'il est au lexique / en QCM, sinon texte normal (ou gras). Deux visuels distincts = deux rôles distincts.
 
 ### `<Definition>` — concept central d'une slide
 
@@ -296,7 +298,19 @@ Props : `value` (requis), `label`, `color` (`blue`). **Quand** : 1 à 3 chiffres
 <Quiz question="Quel hook gère un état local ?" :options="['useEffect', 'useState', 'useRef', 'useMemo']" :answer="1" />
 ```
 
+```md
+<Quiz question="Que renvoie cette requête quand aucune quête n'est à la une ?" :options="['`null`', 'Une collection vide', '...', '...']" :answer="0">
+
+```php
+Quest::where('featured', true)->first();
+```
+
+</Quiz>
+```
+
 4 options, `answer` = index 0-based, 1 question par slide.
+
+**Code dans un quiz** : tout code de plus d'un identifiant dans la question va dans un bloc de code (slot), jamais dans la prop `question`. Dans les options, le code s'écrit entre backticks (rendu `<code>`). Le bloc du slot est un fenced code block markdown classique — laisser des lignes vides autour.
 
 **Quand (règle pédagogique)** : le quiz sert à **faire réfléchir AVANT d'introduire un concept** (pré-test / prédiction), jamais à vérifier ce qui vient d'être vu. Il se place **juste avant la slide qui explique la réponse**, et la slide suivante y revient (« Vous aviez deviné ? »).
 

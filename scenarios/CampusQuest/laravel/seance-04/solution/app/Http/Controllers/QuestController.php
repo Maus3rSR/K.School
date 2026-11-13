@@ -13,8 +13,8 @@ class QuestController extends Controller
         $quests = Quest::query()
             ->with('category')
             ->when(
-                $request->query('q'),
-                fn ($query, $q) => $query->where('title', 'like', "%{$q}%")
+                $request->query('search'),
+                fn ($query, $search) => $query->where('title', 'like', "%{$search}%")
             )
             ->when(
                 $request->query('category'),

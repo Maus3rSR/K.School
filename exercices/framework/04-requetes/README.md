@@ -164,7 +164,7 @@ Le `--dev` est important : la barre affiche vos requêtes SQL — utile en déve
 >
 > - [ ] Le `select` affiche « Catégorie (N) » pour chaque option
 > - [ ] 9 jeux par page, liens de pagination sous la grille
-> - [ ] `?category=…` (et plus tard `?q=…`) survivent au changement de page
+> - [ ] `?category=…` (et plus tard `?search=…`) survivent au changement de page
 > - [ ] Commit : « feat: pagination du catalogue »
 >
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s4-ch5-agregats` et `s4-ch6-pagination` (dépôt `CampusQuest`), puis **refaites** les étapes A5 et A6 sur WishFlix.
@@ -179,11 +179,11 @@ Le `--dev` est important : la barre affiche vos requêtes SQL — utile en déve
 
 Critères d'acceptation :
 
-- Un champ de recherche `q` dans le formulaire de l'accueil (méthode `GET`)
-- La requête applique `where('title', 'like', "%{$q}%")` via `when()` — pas de filtre si `q` est absent
-- Le champ reste rempli après la recherche (`value="{{ request('q') }}"`)
-- `/?q=zelda` ne renvoie que les jeux dont le titre contient « zelda »
-- La pagination de l'étape A6 conserve `q` au changement de page (`withQueryString()` est déjà en place)
+- Un champ de recherche `search` dans le formulaire de l'accueil (méthode `GET`)
+- La requête applique `where('title', 'like', "%{$search}%")` via `when()` — pas de filtre si `search` est absent
+- Le champ reste rempli après la recherche (`value="{{ request('search') }}"`)
+- `/?search=zelda` ne renvoie que les jeux dont le titre contient « zelda »
+- La pagination de l'étape A6 conserve `search` au changement de page (`withQueryString()` est déjà en place)
 
 ### US2 — Recherche + filtre combinés (~35 min)
 
@@ -191,11 +191,11 @@ Critères d'acceptation :
 
 Critères d'acceptation :
 
-- `/?q=…&category=…` applique les **deux** contraintes en même temps
-- `/?category=…` sans `q` filtre seul ; `/?q=…` sans `category` cherche seule
+- `/?search=…&category=…` applique les **deux** contraintes en même temps
+- `/?category=…` sans `search` filtre seul ; `/?search=…` sans `category` cherche seule
 - Le formulaire « se souvient » des deux valeurs après envoi
 - Un lien « Réinitialiser » ramène à `/` sans paramètres
-- `?q=…&category=…&page=2` conserve les trois paramètres dans les liens de pagination
+- `?search=…&category=…&page=2` conserve les trois paramètres dans les liens de pagination
 
 ---
 
@@ -355,7 +355,7 @@ return $this->paginator($results, $total, $perPage, $page, […]);     // l'obje
 
 - `Call to undefined method` sur `when`/`with` → la chaîne part bien d'un builder : `Game::query()` ou `Game::where(…)`, pas d'une Collection déjà récupérée
 - Le filtre ne réagit pas → vérifiez que le `<select>` s'appelle `category` et que le formulaire est en `method="GET"` (le paramètre doit apparaître dans l'URL)
-- `like` ne trouve rien → les `%` doivent entourer la valeur : `"%{$q}%"` — pas `{$q}` seul
+- `like` ne trouve rien → les `%` doivent entourer la valeur : `"%{$search}%"` — pas `{$search}` seul
 - La barre n'apparaît pas → `APP_DEBUG=true`, page HTML complète, `storage/` inscriptible
 - Les chiffres N+1 ne bougent pas → `with('category')` doit être **avant** `get()`/`paginate()`, sur la requête du catalogue (pas sur `$featured`)
 - Les liens de page perdent le filtre → `withQueryString()` manquant après `paginate()`
@@ -367,7 +367,7 @@ return $this->paginator($results, $total, $perPage, $page, […]);     // l'obje
 
 - Jeu à la une : `Game::where('featured', true)->first()` ; podium : `Game::orderByDesc('rating')->limit(6)->get()`
 - Filtre : `->when($request->query('category'), fn ($query, $id) => $query->where('category_id', $id))`
-- Recherche : `->when($request->query('q'), fn ($query, $q) => $query->where('title', 'like', "%{$q}%"))`
+- Recherche : `->when($request->query('search'), fn ($query, $search) => $query->where('title', 'like', "%{$search}%"))`
 - N+1 : `Game::with('category')` ; compteur par catégorie : `Category::withCount('games')` → `$category->games_count`
 - Pagination : `->paginate(9)->withQueryString()` + `{{ $games->links() }}`
 
@@ -401,7 +401,7 @@ Formulaire de filtre (extrait) :
 
 ```blade
 <form method="GET" action="{{ url('/') }}">
-    <input type="search" name="q" value="{{ request('q') }}" placeholder="Rechercher…">
+    <input type="search" name="search" value="{{ request('search') }}" placeholder="Rechercher…">
     <select name="category">
         <option value="">Toutes les catégories</option>
         @foreach ($categories as $category)
@@ -424,7 +424,7 @@ Formulaire de filtre (extrait) :
 - [ ] `/?category=<id>` filtre le catalogue ; la catégorie choisie reste sélectionnée et affiche son compteur
 - [ ] Debugbar installée en `require-dev`, N+1 corrigé par `with('category')` — chiffres avant/après dans `REPONSES.md`
 - [ ] 9 jeux par page avec liens de pagination ; `?category=…` survit au changement de page
-- [ ] US1–US2 : `/?q=` cherche dans le titre, combiné à `?category=` ; le formulaire conserve les valeurs
+- [ ] US1–US2 : `/?search=` cherche dans le titre, combiné à `?category=` ; le formulaire conserve les valeurs
 - [ ] `REPONSES.md` contient la section « Séance 4 — Sous le capot » avec les réponses de C1–C2 et le chemin suivi (fichier → méthode) pour chacune
 - [ ] Commits réguliers poussés sur le dépôt GitHub privé
 

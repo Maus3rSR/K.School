@@ -24,12 +24,12 @@ transition: slide-up | slide-down
 # Un fichier PHP pour toutes les URL ?
 
 <Quiz
-  question="Vous tapez http://localhost/nimportequoi. Quel fichier PHP du projet reçoit la requête en premier ?"
+  question="Vous tapez `http://localhost/nimportequoi`. Quel fichier PHP du projet reçoit la requête en premier ?"
   :options="[
-    'Un fichier nimportequoi.php dans le projet',
-    'routes/web.php',
-    'public/index.php, toujours le même',
-    'app/Http/Controllers/Controller.php'
+    'Un fichier `nimportequoi.php` dans le projet',
+    '`routes/web.php`',
+    '`public/index.php`, toujours le même',
+    '`app/Http/Controllers/Controller.php`'
   ]"
   :answer="2"
 />

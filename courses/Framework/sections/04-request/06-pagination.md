@@ -13,12 +13,12 @@ duration: 22 min
 
 <!--
 Transition : le catalogue filtre, trie, s'allège… mais il affiche toujours TOUTES
-les quêtes. Le jour où il y en a 5 000, cette page s'effondre — chapitre final.
+les quêtes. Le jour où il y en a 500, cette page s'effondre — chapitre final.
 Tag Campus Quest de fin de chapitre : s4-ch6-pagination.
 Moment léger : « paginate() remplace get(), pas s'ajoute » — une seule ligne change, tout le reste suit.
-Découpage : ≈ 8 min de slides (≈ 5 slides), démo flash ≈ 2 min — moments : ?page=2,
-retirer/remettre withQueryString(), 2 requêtes dans la Debugbar ; micro-pratique ≈ 12 min
-(slide « À vous », étape A6 — paginate(9) + links() + withQueryString()).
+Découpage : ≈ 7 min de slides (≈ 4 slides), démo flash ≈ 3 min — moments : seed de 470 quêtes
++ rechargement de /quests, ?page=2, retirer/remettre withQueryString(), 2 requêtes dans la Debugbar ;
+micro-pratique ≈ 12 min (slide « À vous », étape A6 — paginate(9) + links() + withQueryString()).
 -->
 
 ---
@@ -28,19 +28,25 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Le catalogue affiche les quêtes avec Quest::get(). Le campus passe à 5 000 quêtes : que devient la page ?"
+  question="En démo, cette ligne fait passer le campus à 500 quêtes. Le catalogue utilise `->get()` : que devient la page ?"
   :options="[
     'Rien — la page ne lit que 30 lignes quoi qu\'il arrive',
-    'Elle charge les 5 000 lignes : lente, lourde, illisible',
+    'Elle charge les 500 lignes : lente, lourde, illisible',
     'Laravel pagine automatiquement dès 100 lignes',
-    'La base refuse de répondre au-delà de 1 000 lignes'
+    'La base refuse de répondre au-delà de 100 lignes'
   ]"
   :answer="1"
-/>
+>
+
+```php
+Quest::factory(470)->create();
+```
+
+</Quiz>
 
 <!--
 Pré-test : la plupart répondent « Laravel s'en occupe » — non : get() charge TOUT, toujours.
-La slide suivante montre ce que paginate() change en une ligne.
+La démo seed les 470 quêtes puis recharge /quests sous Debugbar (durée et défilement) avant paginate().
 -->
 
 ---
@@ -73,6 +79,8 @@ $quests = Quest::query()
 <div v-click="2">
 
 L'objet retourné boucle comme une Collection (`@foreach`), mais sait aussi `$quests->total()`, `$quests->currentPage()`, `$quests->lastPage()`.
+
+Variante sans total : `simplePaginate()` — pas de `count(*)`, liens Précédent / Suivant seulement (bonus de l'atelier).
 
 </div>
 
@@ -139,53 +147,18 @@ $quests = Quest::query()
 
 <div v-click="1">
 
-`withQueryString()` recopie **tous** les paramètres de l'URL courante dans chaque lien de page : `?q=quiz&category=2&page=3`.
+`withQueryString()` recopie **tous** les paramètres de l'URL courante dans chaque lien de page : `?search=quiz&category=2&page=3`.
 
 </div>
 
 <div v-click="2">
 
-Sans lui, `?page=2` **perd** `?q=quiz&category=2` : la page 2 affiche tout le catalogue — le bug préféré des catalogues.
+Sans lui, `?page=2` **perd** `?search=quiz&category=2` : la page 2 affiche tout le catalogue — le bug préféré des catalogues.
 
 </div>
 
 <!--
 La démo qui marque : filtrer « quiz », cliquer page 2 sans withQueryString → la recherche disparaît ; le remettre → elle survit.
--->
-
----
-layout: two-cols-header
-layoutClass: gap-x-6
-transition: slide-up | slide-down
----
-
-# `simplePaginate()` : encore plus léger
-
-::left::
-
-```php
-Quest::simplePaginate(10);
-```
-
-- Pas de `count(*)` : la base ne compte jamais le total
-- Liens « Précédent / Suivant » seulement — pas de numéros de page
-- Idéal pour les très grandes tables ou le défilement infini
-
-::right::
-
-<v-click>
-
-<KeyPoint variant="rule" title="Règle d'or" icon="📏">
-
-`paginate()` quand l'utilisateur veut **naviguer** (pages numérotées, total affiché) ; `simplePaginate()` quand le total ne sert à rien — une requête `count(*)` économisée.
-
-</KeyPoint>
-
-</v-click>
-
-<!--
-Sur une table d'un million de lignes, count(*) coûte plus cher que la page elle-même — d'où simplePaginate.
-Pagination d'API (hors périmètre aujourd'hui) : les mêmes méthodes renvoient du JSON paginé automatiquement.
 -->
 
 ---
@@ -201,7 +174,7 @@ transition: slide-up | slide-down
     'Rechercher ou filtrer puis changer de page conserve les paramètres'
   ]"
   :hints="[
-    'Remplacez ->get() par ->paginate(9) sur la requête des jeux (US1 de l\'étape A1 l\'a peut-être déjà préparée)',
+    'Remplacez ->get() par ->paginate(9) sur la requête des jeux',
     '{{ $games->links() }} sous la grille dans la vue',
     'Ajoutez ->withQueryString() après paginate() pour que les filtres survivent aux pages'
   ]">

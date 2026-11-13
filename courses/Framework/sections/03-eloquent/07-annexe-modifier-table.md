@@ -6,11 +6,11 @@ transition: slide-up | slide-down
 Et vous, que feriez-vous ?
 
 <Quiz
-  question="La migration create_locations_table est déjà jouée — par vous ET par toute l'équipe. Vous devez ajouter une colonne address. Que faites-vous ?"
+  question="La migration `create_locations_table` est déjà jouée — par vous ET par toute l'équipe. Vous devez ajouter une colonne `address`. Que faites-vous ?"
   :options="[
-    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate',
-    'Vous ajoutez la colonne dans create_locations_table puis sail artisan migrate:fresh',
-    'Vous créez une nouvelle migration add_address_to_locations_table puis sail artisan migrate',
+    'Vous ajoutez la colonne dans `create_locations_table` puis `sail artisan migrate`',
+    'Vous ajoutez la colonne dans `create_locations_table` puis `sail artisan migrate:fresh`',
+    'Vous créez une nouvelle migration `add_address_to_locations_table` puis `sail artisan migrate`',
     'Vous ajoutez la colonne à la main dans MariaDB, sans migration'
   ]"
   :answer="2"

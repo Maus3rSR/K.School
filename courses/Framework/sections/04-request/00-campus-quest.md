@@ -7,14 +7,14 @@ transition: slide-left | slide-right
 # Campus Quest
 Le catalogue devient vivant
 
-En S3, les 3 tables existent et `/quests` lit la base — mais elle lit **tout**, tout le temps, et avec un N+1 caché dans chaque carte. Aujourd'hui, on interroge finement.
+En S3, les 3 tables existent et `/quests` lit la base — mais elle lit **tout**, tout le temps, et avec un <KeyTerm>N+1</KeyTerm> caché dans chaque carte. Aujourd'hui, on interroge finement.
 
 ::left::
 
 **Le fil du jour**
 
 - Un catalogue **filtrable** : recherche par titre + filtre par catégorie
-- Un N+1 **mesuré puis corrigé** — avec un vrai profiler
+- Un N+1 **mesuré puis corrigé** — avec un vrai <KeyTerm>profiler</KeyTerm>
 - Une page **Classement** : catégories par XP, lieux par quêtes
 - Un catalogue **paginé** : 10 quêtes par page, filtres conservés
 

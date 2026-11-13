@@ -8,7 +8,7 @@
     "export": "turbo run export",
     "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent",
     "framework:form:dev": "pnpm --filter @k.school/framework dev:formulaires",
-    "framework:requetes:dev": "pnpm --filter @k.school/framework dev:requetes",
+    "framework:request:dev": "pnpm --filter @k.school/framework dev:request",
     "framework:routing:dev": "pnpm --filter @k.school/framework dev:routing",
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",
     "hexa:ex:coffee": "pnpm --filter @k.school/exercices-hexagonal-architecture dev:coffee-shop",

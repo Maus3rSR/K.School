@@ -25,7 +25,7 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Un site piégé contient un formulaire caché, auto-soumis, qui poste vers campus-quest.test/quests avec title = « Quête offerte ». Vous êtes connecté·e à Campus Quest. Sans protection, que se passe-t-il ?"
+  question="Un site piégé contient un formulaire caché, auto-soumis, qui poste vers `campus-quest.test/quests` avec `title` = « Quête offerte ». Vous êtes connecté·e à Campus Quest. Sans protection, que se passe-t-il ?"
   :options="[
     'Rien : le navigateur refuse d\'envoyer un formulaire vers un autre site',
     'Une quête spam est créée : la requête part avec votre session, le serveur ne voit pas la différence',

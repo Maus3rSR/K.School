@@ -153,13 +153,13 @@ Une classe qui **fabrique** des modèles remplis de fausses données (`fake()`) 
 
 <div v-click="3">
 
-Le modèle doit annoncer qu'il a une factory : `use HasFactory;` (ajoute `Quest::factory()`).
+Le modèle doit annoncer qu'il a une factory : `use HasFactory;` (ajoute `Quest::factory()`). Idem pour `Category` : `Category::factory()` exige sa propre `CategoryFactory` (un simple `name`).
 
 </div>
 
 <!--
 Lignes surlignées 7,9,11,13,15 : les cinq appels à fake() (le commentaire est à la ligne d'avant, le comptage à partir de 1 dans le bloc : ligne 7 = title, 9 = description, 11 = xp, 13 = difficulty, 15 = featured). Ligne 17 = category_id.
-sail artisan make:factory QuestFactory ; use HasFactory dans Quest (use Illuminate\Database\Eloquent\Factories\HasFactory).
+sail artisan make:factory QuestFactory ; use HasFactory dans Quest (use Illuminate\Database\Eloquent\Factories\HasFactory). Même geste pour Category : make:factory CategoryFactory ('name' => fake()->word()) + use HasFactory — sans lui, Call to undefined method Category::factory().
 fake() : helper global (pas une facade) qui renvoie un Faker\Generator ; en require-dev, donc absent en production. APP_FAKER_LOCALE=fr_FR dans .env pour des données françaises.
 Moment léger : fake()->sentence(3) fabrique des quêtes du type « Voluptas quia est. » Les joueurs vont adorer le latin de cuisine.
 -->

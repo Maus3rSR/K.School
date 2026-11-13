@@ -10,9 +10,9 @@ transition: slide-left | slide-right
 - Filtrer par une relation avec `whereHas`
 
 <!--
-Annexe — hors parcours principal : lecture. Le chapitre 01 n'a retenu qu'un aperçu
-(« deux portes, même SQL ») ; ce fichier creuse la comparaison et ajoute `whereHas`,
-qui n'est pas requis pour la séance ni pour l'exercice WishFlix.
+Annexe — hors parcours principal : lecture. Le chapitre 01 ne traite plus la comparaison :
+ce fichier la présente, puis ajoute `groupBy` / `having` et `whereHas`, qui ne sont requis
+ni pour la séance ni pour l'exercice WishFlix.
 -->
 
 ---
@@ -97,7 +97,7 @@ $q->save();          // le modèle sait écrire
 
 <KeyPoint variant="rule" title="Règle d'or" icon="📏">
 
-Eloquent **par défaut**. Le Query Builder quand on veut juste des données brutes, vite, sans modèle.
+Eloquent **par défaut**. Le <KeyTerm>Query Builder</KeyTerm> quand on veut juste des données brutes, vite, sans modèle.
 
 </KeyPoint>
 
@@ -160,6 +160,43 @@ Le SQL est le même ; **ce qui change c'est l'enveloppe** : données brutes vs o
 <!--
 Anticiper la confusion fréquente : with() ne filtre pas, il charge plus — le count reste identique.
 Clore : les deux portes mènent à la même base, le choix se fait sur ce qu'on veut ramener.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# `groupBy` : un chiffre par groupe
+
+```php {all|1-2|3|4}
+Quest::select('difficulty')
+    ->selectRaw('avg(xp) as xp_moyen')
+    ->groupBy('difficulty')
+    ->having('xp_moyen', '>', 100)
+    ->get();
+```
+
+<div v-click="1">
+
+`select` + `selectRaw` : les colonnes qu'on veut — le groupe (`difficulty`) et l'agrégat (`avg(xp)` baptisé `xp_moyen`).
+
+</div>
+
+<div v-click="2">
+
+`groupBy('difficulty')` : la base **regroupe** les lignes — une moyenne par difficulté, pas une par quête.
+
+</div>
+
+<div v-click="3">
+
+`having` : le `where` **des groupes** — on ne garde que les difficultés dont la moyenne dépasse 100 XP.
+
+</div>
+
+<!--
+Résultat : 3 lignes max (easy, medium, hard) avec leur xp_moyen — pas une Collection de quêtes.
+Réflexe SQL : where filtre les lignes AVANT le regroupement, having filtre les groupes APRÈS.
 -->
 
 ---

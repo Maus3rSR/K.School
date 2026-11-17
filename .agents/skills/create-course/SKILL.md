@@ -115,6 +115,10 @@ When a course has several decks (e.g. `courses/Framework/slides-routing.md`), a 
 "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent"
 ```
 
+## File and script naming: English only
+
+All file names, folder names and script names must be in **English** (e.g. `04-seeders-factory.md`, `slides-routing.md`, `dev:eloquent`, `LIVECODING.md`, `solution/`), even though the content itself is in French. This applies to course decks, chapter/section files, exercises, scenarios (`seance-XX` is the only accepted French exception), code files and `package.json` scripts. Never create French-named files or scripts (e.g. `requetes`, `erreurs`, `formulaire`): use `queries`, `errors`, `form`.
+
 ## Pedagogical frame of a course
 
 Before writing slides or exercises for a course (new or existing), make sure its `programme.md` declares a **« Format de séance »** section (in French, like the rest of the content):

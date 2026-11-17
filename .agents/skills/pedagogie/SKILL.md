@@ -11,6 +11,8 @@ Débutants **sur le sujet du cours** : adultes en reconversion, étudiants de BU
 
 **Avant de créer ou modifier du contenu** : lire le `programme.md` du cours (et son `AGENTS.md` s'il existe). Les règles de ce skill sont communes à tous les cours ; les durées et les spécificités vivent dans le cours.
 
+Le format d'un cours (modèle de séance, démo, fil rouge, budget, rattrapage) est déclaré dans son « Profil pédagogique » (voir skill `sequencing-audit`). Quand ce profil déclare un autre modèle que les cycles (atelier, magistral + TP…), le profil prime sur les règles de rythme ci-dessous ; les principes d'ordre (aucune dépendance vers une notion future, la douleur avant la solution) restent valables.
+
 ## Séquencement et Rythme (OBLIGATOIRE)
 
 - **Une notion se traite complète** : accroche → démo (livecoding) → micro-pratique « à vous ». La séance est une suite de ces cycles, pas un bloc théorie suivi d'un bloc pratique.
@@ -120,6 +122,8 @@ Progresser du simple au complexe : Mémorisation → Compréhension → Applicat
 - Expliquer le "pourquoi" des erreurs
 
 ## Checklist de Validation
+
+Cette checklist ne remplace pas l'audit : en fin de tâche, lancer le skill `sequencing-audit` sur les séances touchées.
 
 ### Slides
 

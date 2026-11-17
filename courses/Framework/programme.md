@@ -14,6 +14,26 @@
 
 **Public** : étudiants de BUT, **débutants sur Laravel**, avec des bases de programmation (PHP, HTML/CSS, SQL, Git). Ce n'est pas un public sans prérequis.
 
+### Profil pédagogique
+
+Lu par le skill `sequencing-audit`. Le détail de chaque clé est dans les sous-sections ci-dessous et dans `AGENTS.md`.
+
+| Clé | Valeur |
+|---|---|
+| Public | étudiants de BUT débutants sur Laravel ; prérequis : PHP, HTML/CSS, SQL, Git |
+| Unité | séance de 4h (S9 : 2h de soutenances) |
+| Budget utile | 180 min (somme des `duration` des chapitres) |
+| Modèle de séance | cycles théorie courte → démo Campus Quest → micro-pratique WishFlix ; livecoding complet en S1-S2, démo flash à partir de S3 |
+| Decks | `courses/Framework/slides*.md`, un par séance |
+| Démo | `scenarios/CampusQuest/laravel/seance-XX/LIVECODING.md` |
+| Solution de référence | `scenarios/CampusQuest/laravel/seance-XX/solution/` |
+| Exercice | `exercices/framework/XX-*/README.md` (partie en séance : Partie A) |
+| Fil rouge | WishFlix : transposition de la démo, jamais de recopie, modèle de données et noms déjà attendus inchangés |
+| Ordre imposé | chapitres des slides = moments de `LIVECODING.md` = étapes de la Partie A |
+| Rattrapage | tag Campus Quest du chapitre (`sXX-chY-slug`) |
+| Densité | 3-4 notions nouvelles par séance, ≤ 1 aperçu |
+| Règles propres | `AGENTS.md` : « Pacte des deux domaines », « Compatibilité », « Panoramas » (`seen`) |
+
 ### Une séance = une suite de cycles
 
 Pas de bloc « théorie » suivi d'un bloc « pratique ». Chaque notion se traite complète :

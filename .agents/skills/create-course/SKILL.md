@@ -128,6 +128,8 @@ Before writing slides or exercises for a course (new or existing), make sure its
 - demo subject vs. project subject (never the same), and how learners catch up when late (reference state per checkpoint);
 - personal-work budget per week and evaluation weights.
 
+It also opens with a `### Profil pédagogique` key/value table (template in the `sequencing-audit` skill) declaring which artefacts form the chain (decks, demo, solution, exercise, project), the session model and the budget. The cycle model above is the default, not an obligation: a workshop or lecture + lab course declares its own model there.
+
 Course-specific rules for AI agents go in `courses/[FOLDER_NAME]/AGENTS.md` (and `exercices/[course]/AGENTS.md`), never in the global skills. Durations live in the course (`duration` of each chapter, `programme.md`), never in the skills.
 
 When a deck relies on live coding, create a `LIVECODING.md` next to the demo code (e.g. `scenarios/<Demo>/<stack>/seance-XX/LIVECODING.md`) whose steps follow the order of the slides and name the chapter of each step (see skills `pedagogie` and `slides`).

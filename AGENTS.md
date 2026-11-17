@@ -1,5 +1,9 @@
 # K.School — Agent Rules
 
+## Fin de tâche sur un cours — audit de séquencement
+
+Toute création ou modification sous `courses/`, `exercices/` ou `scenarios/` se termine par le skill `sequencing-audit` sur les séances touchées (pas sur tout le dépôt), et son rapport figure dans la réponse finale. Un cours sans « Profil pédagogique » dans son `programme.md` n'est audité qu'au niveau 1 (universel).
+
 ## RTK (Rust Token Killer) — Toujours utiliser
 
 <!-- rtk-instructions v2 -->

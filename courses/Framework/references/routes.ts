@@ -14,7 +14,7 @@ export default [
   { name: '{id}', desc: 'Capturer un segment d\'URL', group: 'Paramètres', seen: 's2-ch1' },
   { name: '{id?}', desc: 'Paramètre optionnel', group: 'Paramètres', seen: 's2-ch1' },
   { name: '->whereNumber()', desc: 'Accepter uniquement des chiffres', group: 'Paramètres', seen: 's2-ch1' },
-  { name: '->where()', desc: 'Contraindre avec une expression régulière', group: 'Paramètres' },
+  { name: '->where()', desc: 'Contraindre avec une expression régulière', group: 'Paramètres', seen: 's5-ch5' },
   { name: '{game} + type Game', desc: 'Recevoir directement le modèle (binding)', group: 'Paramètres', seen: 's5-ch5' },
   // Nommer et générer
   { name: '->name()', desc: 'Nommer la route', group: 'Nommer et générer', seen: 's2-ch1' },

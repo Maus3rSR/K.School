@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 15 min
+duration: 18 min
 ---
 
 # Le formulaire de création
@@ -16,7 +16,7 @@ Transition : le Maître du jeu veut créer ses quêtes dans le navigateur. Premi
 Moment léger (running gag Campus Quest) : « Hier, le Maître du jeu a voulu ajouter une quête… il a ouvert Tinker,
 tapé Quest::create( et refermé le terminal en pleurant. » Aujourd'hui, on lui offre un vrai écran.
 Tag Campus Quest de fin de chapitre : s5-ch1-formulaire.
-Découpage : ≈ 12 min de slides (≈ 12 slides), démo flash ≈ 3 min — moment : envoyer le formulaire → **419** (le tag ch1 n'a pas `@csrf`) ; pas de micro-pratique ici, le « À vous » est au chapitre 02.
+Découpage : ≈ 15 min de slides (≈ 13 slides), démo flash ≈ 3 min — moment : envoyer le formulaire → **419** (le tag ch1 n'a pas `@csrf`) ; pas de micro-pratique ici, le « À vous » est au chapitre 02.
 -->
 
 ---
@@ -125,6 +125,7 @@ public function create()
 {
     return view('quests.create', [
         'categories' => Category::all(),
+        'locations' => Location::all(),
     ]);
 }
 ```
@@ -145,7 +146,7 @@ Le **POST** vise la **même URL que la liste** : c'est le verbe qui change l'act
 
 <div v-click="3">
 
-`create()` passe `Category::all()` à la vue : le `<select>` des catégories en a besoin.
+`create()` passe `Category::all()` (le `<select>`) **et** `Location::all()` (les cases « Lieux ») à la vue.
 
 </div>
 
@@ -156,7 +157,7 @@ Retenez : **une route GET pour afficher, une route POST pour traiter**.
 </div>
 
 <!--
-N'oubliez pas l'import use App\Models\Category; en tête du contrôleur.
+N'oubliez pas les imports use App\Models\Category; et use App\Models\Location; en tête du contrôleur.
 Un lien « Nouvelle quête » dans partials/nav.blade.php : route('quests.create').
 -->
 
@@ -171,7 +172,7 @@ transition: slide-up | slide-down
 
 ::left::
 
-```blade {all|1|2-9|11-16|18-23|25|all}{maxHeight:'360px'}
+```blade {all|1|2-9|11-16|18-23|27|all}{maxHeight:'360px'}
 <form method="POST" action="{{ route('quests.store') }}">
     <label for="title">Titre</label>
     <input id="title" name="title" type="text">
@@ -195,6 +196,8 @@ transition: slide-up | slide-down
             <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
     </select>
+
+    {{-- lieux et « à la une » : slide suivante --}}
 
     <button type="submit">Créer la quête</button>
 </form>
@@ -251,16 +254,70 @@ layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
+# Cases à cocher : une saisie en tableau
+
+::left::
+
+```blade {all|1-9|11-14|all}
+<fieldset>
+    <legend>Lieux</legend>
+    @foreach ($locations as $location)
+        <label>
+            <input type="checkbox" name="location_ids[]" value="{{ $location->id }}">
+            {{ $location->name }}
+        </label>
+    @endforeach
+</fieldset>
+
+<label>
+    <input type="checkbox" name="featured" value="1">
+    Quête à la une
+</label>
+```
+
+::right::
+
+<div v-click="1">
+
+`location_ids[]` — les crochets `[]` disent au serveur « c'est un **tableau** » : il reçoit **tous** les `id` cochés, dans `$request->input('location_ids')`.
+
+</div>
+
+<div v-click="2">
+
+`featured` — une seule case : `value="1"` ne part que **si elle est cochée**.
+
+</div>
+
+<div v-click="3">
+
+Une case **décochée n'envoie rien** : la clé est simplement absente — on gérera ça au chapitre 03.
+
+</div>
+
+<!--
+Même mécanique name[] = tableau que les query strings répétées — le navigateur envoie location_ids[]=1&location_ids[]=3.
+Les lieux cochés arrivent comme des chaînes : la validation du chapitre 03 vérifiera qu'ils existent.
+Pas de champ caché pour l'instant : featured décoché = clé absente, donc absente de only() — la colonne garde sa valeur par défaut (false). Aucun lieu coché : input('location_ids', []) renvoie un tableau vide.
+-->
+
+---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
 # L'action `store()`
 
 ::left::
 
-```php {all|3|5|7-9|all}
+```php {all|3|5-6|8-10|all}
 public function store(Request $request)
 {
-    $data = $request->only(['title', 'description', 'xp', 'difficulty', 'category_id']);
+    $data = $request->only(['title', 'description', 'xp', 'difficulty', 'category_id', 'featured']);
 
     $quest = Quest::create($data);
+    $quest->locations()->sync($request->input('location_ids', []));
 
     return redirect()
         ->route('quests.show', $quest)
@@ -272,13 +329,13 @@ public function store(Request $request)
 
 <div v-click="1">
 
-`Request` est **injecté** par Laravel ; `only()` ne garde que les champs attendus.
+`Request` est **injecté** par Laravel ; `only()` ne garde que les champs attendus — `featured` en fait partie.
 
 </div>
 
 <div v-click="2">
 
-`Quest::create()` insère la ligne — grâce au `$fillable` écrit en S3.
+`Quest::create()` insère la ligne (`$fillable` de la S3), puis `sync()` rattache les lieux cochés — **rappel S3** : `sync()` remplit la table pivot `location_quest` (aucune case → tableau vide).
 
 </div>
 

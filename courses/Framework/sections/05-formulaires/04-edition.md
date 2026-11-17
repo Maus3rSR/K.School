@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 04
-duration: 39 min
+duration: 40 min
 ---
 
 # Éditer et supprimer
@@ -15,7 +15,7 @@ duration: 39 min
 Transition : créer, c'est fait. Le Maître du jeu veut aussi corriger une faute dans une quête, et en supprimer une.
 Ce chapitre est volontairement « à la main » : on écrit chaque route et chaque findOrFail, pour sentir la répétition.
 Elle est le problème que le chapitre 05 résout.
-Découpage : ≈ 13 min de slides (≈ 13 slides), démo flash ≈ 4 min — moments : `_method=PUT` visible dans le source HTML, suppression sans `detach()` → 500 (clé étrangère pivot), puis avec ; micro-pratique ≈ 22 min (slide « À vous », étape A4).
+Découpage : ≈ 14 min de slides (≈ 13 slides), démo flash ≈ 4 min — moments : `_method=PUT` visible dans le source HTML, suppression sans `detach()` → 500 (clé étrangère pivot), puis avec ; micro-pratique ≈ 22 min (slide « À vous », étape A4).
 Moment léger : supprimer en direct « la quête du café gratuit » — et découvrir une erreur 500 (voir slide destroy).
 Tag Campus Quest de fin de chapitre : s5-ch4-edition.
 -->
@@ -101,14 +101,20 @@ transition: slide-up | slide-down
 
 ::left::
 
-```blade {all|1|2-3|5-6|8-9|all}
-<form method="POST" action="{{ route('quests.update', $quest->id) }}">
+```blade {all|1|2-3|5-6|9-10|12-13|all}
+<form method="POST" action="{{ route('quests.update', $quest) }}">
     @csrf
     @method('PUT')
 
     <label for="title">Titre</label>
     <input id="title" name="title" type="text" value="{{ old('title', $quest->title) }}">
     {{-- description, xp, difficulty, category_id : mêmes champs, pré-remplis --}}
+
+    <input type="checkbox" name="location_ids[]" value="{{ $location->id }}"
+           @checked(in_array($location->id, old('location_ids', $quest->locations->pluck('id')->all())))>
+
+    <input type="hidden" name="featured" value="0">
+    <input type="checkbox" name="featured" value="1" @checked(old('featured', $quest->featured))>
 
     <button type="submit">Enregistrer les modifications</button>
 </form>
@@ -130,18 +136,24 @@ Le `method` reste **`POST`** : c'est le seul verbe d'écriture qu'un formulaire 
 
 <div v-click="3">
 
-Chaque champ est **pré-rempli** : `old('title', $quest->title)` — la saisie ratée si elle existe, sinon la valeur actuelle de la quête.
+Chaque champ est **pré-rempli** : `old('title', $quest->title)` — la saisie ratée si elle existe, sinon la valeur actuelle ; idem `@selected(old('difficulty', $quest->difficulty) === 'easy')` sur le `<select>`.
 
 </div>
 
 <div v-click="4">
 
-Pour un `<select>` : `@selected(old('difficulty', $quest->difficulty) === 'easy')` — même idée, valeur actuelle en **repli**.
+Les cases aussi : `old('location_ids', $quest->locations->pluck('id')->all())` pré-coche les **lieux actuels** de la quête.
+
+</div>
+
+<div v-click="5">
+
+Le champ caché `featured=0` reste **devant** la case : décocher renvoie `0` — `old('featured', $quest->featured)` garde l'état actuel.
 
 </div>
 
 <!--
-edit() charge la quête et la passe à la vue : $quest = Quest::findOrFail($id); return view('quests.edit', ['quest' => $quest, 'categories' => Category::all()]).
+edit() charge la quête et la passe à la vue : $quest = Quest::findOrFail($id); return view('quests.edit', ['quest' => $quest, 'categories' => Category::all(), 'locations' => Location::all()]).
 Duplication create/edit : les champs sont identiques — le partial @include('quests._form') est une amélioration possible, pas indispensable ici.
 -->
 
@@ -204,11 +216,15 @@ transition: slide-up | slide-down
 
 ::left::
 
-```php {all|1-5|7-17|all}
+```php {all|1-8|10-27|all}{maxHeight:'420px'}
 public function edit(int $id)
 {
     $quest = Quest::findOrFail($id);
-    return view('quests.edit', ['quest' => $quest, 'categories' => Category::all()]);
+    return view('quests.edit', [
+        'quest' => $quest,
+        'categories' => Category::all(),
+        'locations' => Location::all(),
+    ]);
 }
 
 public function update(Request $request, int $id)
@@ -220,8 +236,12 @@ public function update(Request $request, int $id)
         'xp' => ['required', 'integer', 'min:0', 'max:500'],
         'difficulty' => ['required', Rule::in(['easy', 'medium', 'hard'])],
         'category_id' => ['required', 'exists:categories,id'],
+        'featured' => ['boolean'],
+        'location_ids' => ['array'],
+        'location_ids.*' => ['exists:locations,id'],
     ]);
-    $quest->update($validated);
+    $quest->update(Arr::except($validated, 'location_ids'));
+    $quest->locations()->sync($validated['location_ids'] ?? []);
     return redirect()->route('quests.show', $quest)->with('success', 'Quête mise à jour !');
 }
 ```
@@ -230,13 +250,13 @@ public function update(Request $request, int $id)
 
 <div v-click="1">
 
-`edit()` — un `findOrFail`, puis la vue avec la quête et les catégories.
+`edit()` — un `findOrFail`, puis la vue avec la quête, les catégories **et les lieux** (pour les cases).
 
 </div>
 
 <div v-click="2">
 
-`update()` — un `findOrFail` **de plus**, les cinq règles **recopiées** de `store()`, puis `$quest->update($validated)` et une redirection avec message.
+`update()` — un `findOrFail` **de plus**, les huit règles **recopiées** de `store()`, puis `update()`, `sync()` des lieux et une redirection avec message.
 
 </div>
 
@@ -318,7 +338,7 @@ Un **GET destructeur** : déclenché par un prefetch ou un aspirateur de liens �
   <template #good>
 
 ```blade
-<form method="POST" action="{{ route('quests.destroy', $quest->id) }}">
+<form method="POST" action="{{ route('quests.destroy', $quest) }}">
     @csrf
     @method('DELETE')
     <button type="submit">Supprimer</button>
@@ -376,7 +396,7 @@ transition: slide-up | slide-down
 
 Ajoutez l'édition et la suppression à vos **jeux**, avec des routes écrites une par une.
 
-**Spécificités WishFlix** : à l'édition, pré-cochez les plateformes du jeu via `$game->platforms->pluck('id')` et `@checked` — la directive n'est pas dans la démo (seul `@selected` l'est). `update()` synchronise les plateformes (`sync()`) et `destroy()` les détache (`platforms()->detach()`) avant `delete()` : la pivot `game_platform` refuse la suppression sinon.
+**Spécificités WishFlix** : à l'édition, pré-cochez les plateformes du jeu via `$game->platforms->pluck('id')` et `@checked` — **comme les lieux de la démo**. `update()` synchronise les plateformes (`sync()`) et `destroy()` les détache (`platforms()->detach()`) avant `delete()` : la pivot `game_platform` refuse la suppression sinon.
 
 </Exercise>
 

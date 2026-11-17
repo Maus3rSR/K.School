@@ -33,7 +33,7 @@ public function store(Request $request)
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:100'],
         'xp' => ['required', 'integer', 'min:0', 'max:500'],
-        // … 5 règles, déjà recopiées dans update()
+        // … 8 règles, déjà recopiées dans update()
     ]);
 }
 ```
@@ -44,7 +44,8 @@ public function store(Request $request)
 ```php
 public function store(StoreQuestRequest $request)
 {
-    Quest::create($request->validated());
+    $quest = Quest::create(Arr::except($request->validated(), 'location_ids'));
+    $quest->locations()->sync($request->validated('location_ids', []));
 }
 ```
 
@@ -110,7 +111,7 @@ transition: slide-up | slide-down
 
 ::left::
 
-```php {all|3-6|8-17|19-22|all}
+```php {all|3-6|8-21|23-26|all}
 class StoreQuestRequest extends FormRequest
 {
     public function authorize(): bool
@@ -126,6 +127,9 @@ class StoreQuestRequest extends FormRequest
             'xp' => ['required', 'integer', 'min:0', 'max:500'],
             'difficulty' => ['required', Rule::in(['easy', 'medium', 'hard'])],
             'category_id' => ['required', 'exists:categories,id'],
+            'featured' => ['boolean'],
+            'location_ids' => ['array'],
+            'location_ids.*' => ['exists:locations,id'],
         ];
     }
 
@@ -146,7 +150,7 @@ class StoreQuestRequest extends FormRequest
 
 <div v-click="2">
 
-`rules()` — les **mêmes règles** qu'au chapitre 4, simplement déplacées ici.
+`rules()` — les **mêmes règles** qu'au chapitre 3, simplement déplacées ici.
 
 </div>
 
@@ -180,9 +184,10 @@ transition: slide-up | slide-down
 ```php
 public function store(StoreQuestRequest $request)
 {
-    Quest::create($request->validated());
+    $quest = Quest::create(Arr::except($request->validated(), 'location_ids'));
+    $quest->locations()->sync($request->validated('location_ids', []));
 
-    return redirect()->route('quests.index')->with('success', 'Quête créée !');
+    return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
 }
 ```
 
@@ -209,7 +214,7 @@ Une classe qui encapsule la validation d'un formulaire : **autorisation + règle
 
 <!--
 C'est le même mécanisme d'injection que Request ou Quest : déclarer le type, Laravel fournit l'objet validé.
-Si la validation échoue : même comportement qu'au chapitre 4 — redirection, erreurs et old() flashés.
+Si la validation échoue : même comportement qu'au chapitre 3 — redirection, erreurs et old() flashés.
 -->
 
 ---
@@ -228,7 +233,8 @@ class UpdateQuestRequest extends FormRequest
 
 public function update(UpdateQuestRequest $request, Quest $quest)
 {
-    $quest->update($request->validated());
+    $quest->update(Arr::except($request->validated(), 'location_ids'));
+    $quest->locations()->sync($request->validated('location_ids', []));
     return redirect()->route('quests.show', $quest)->with('success', 'Quête mise à jour !');
 }
 ```

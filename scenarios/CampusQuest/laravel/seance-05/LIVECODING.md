@@ -2,7 +2,7 @@
 
 Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/05-formulaires/` (6 chapitres + 1 annexe, un cycle « théorie → démo flash → micro-pratique WishFlix » chacun).
 
-**À partir de la S3, plus de livecoding** : les slides expliquent le code ligne par ligne, la démo ne retape rien — elle dure 2-4 min par chapitre et ne montre que les moments où l'exécution parle : erreurs provoquées, résultats visibles (navigateur, DevTools), gestes d'outil (artisan). Le code du chapitre est **déjà en place** : on avance de tag en tag dans le dépôt `CampusQuest` (`git checkout s5-chN-…` avant chaque chapitre). Le projet Laravel est dans `../base/` ; `solution/` reste la référence des fichiers finaux — **mais voir l'avertissement S4/S5 ci-dessous avant toute copie**.
+**À partir de la S3, plus de livecoding** : les slides expliquent le code ligne par ligne, la démo ne retape rien — elle dure 2-4 min par chapitre et ne montre que les moments où l'exécution parle : erreurs provoquées, résultats visibles (navigateur, DevTools), gestes d'outil (artisan). Le code du chapitre est **déjà en place** : on avance de tag en tag dans le dépôt `CampusQuest` (`git checkout s5-chN-…` avant chaque chapitre). Le projet Laravel est dans `../base/` ; `solution/` reste la référence des fichiers finaux — **mais lire d'abord « Avant la séance » (solution = état S4 + S5) avant toute copie**.
 
 ## Moment ↔ chapitre ↔ tag
 
@@ -10,10 +10,10 @@ Les tags existent dans le dépôt `CampusQuest` (**un tag par chapitre**) ; la d
 
 | Moment | Chapitre | Tag Campus Quest |
 |---|---|---|
-| 1.1 `/quests/create` affiche le formulaire, envoi → **419** (pas de `@csrf` au tag ch1) | 01 — Le formulaire de création | `s5-ch1-formulaire` |
-| 2.1 `@csrf` : le 419 disparaît — 302 → fiche (PRG), bannière flash, `_token` dans les DevTools | 02 — Le jeton CSRF | `s5-ch2-csrf` |
-| 3.1 Données pourries acceptées à `s5-ch2` (SQLite permissif), refusées à `s5-ch3` ; envoi vide → erreurs + saisie conservée ; `category_id` trafiqué → `exists:` refuse | 03 — La validation | `s5-ch3-validation` |
-| 4.1 `_method=PUT` visible dans le source HTML ; `destroy()` sans `detach()` → 500 (clé étrangère pivot), puis avec | 04 — Éditer et supprimer | `s5-ch4-edition` |
+| 1.1 `/quests/create` affiche le formulaire — dont les cases `location_ids[]` et `featured` —, envoi → **419** (pas de `@csrf` au tag ch1) | 01 — Le formulaire de création | `s5-ch1-formulaire` |
+| 2.1 `@csrf` : le 419 disparaît — quête créée avec 2 lieux cochés → la fiche les affiche ; 302 → fiche (PRG), bannière flash, `_token` dans les DevTools | 02 — Le jeton CSRF | `s5-ch2-csrf` |
+| 3.1 Données pourries acceptées à `s5-ch2` (SQLite permissif), refusées à `s5-ch3` ; envoi vide → erreurs + saisie conservée ; `category_id` trafiqué → `exists:` refuse ; 3.4 champ caché `featured=0` dans les DevTools | 03 — La validation | `s5-ch3-validation` |
+| 4.1 `_method=PUT` visible dans le source HTML, lieux pré-cochés à l'édition — en décocher un → sauvegardé ; `destroy()` sans `detach()` → 500 (clé étrangère pivot), puis avec | 04 — Éditer et supprimer | `s5-ch4-edition` |
 | 5.1 `route:list` avant/après `Route::resource` ; `/quests/999` → 404 par binding | 05 — Route::resource et binding | `s5-ch5-resource` |
 | 6.1 Même comportement (erreurs, `old()`) après extraction en Form Request | 06 — Les Form Requests | `s5-ch6-form-request` |
 | — | Annexe services (`09-annexe-services.md`, lecture / bonus `GameService` — hors séance) | `s5-ch7-services` |
@@ -39,7 +39,7 @@ Les tags existent dans le dépôt `CampusQuest` (**un tag par chapitre**) ; la d
 git checkout s5-ch1-formulaire
 ```
 
-Routes `quests.create` / `quests.store`, `create()` et `store()`, vue `quests/create`, message flash dans le layout — tout est en place (les slides ont déroulé le code ligne par ligne).
+Routes `quests.create` / `quests.store`, `create()` et `store()`, vue `quests/create` (avec les cases `location_ids[]` et `featured` — encore sans `@checked` ni champ caché), message flash dans le layout — tout est en place (les slides ont déroulé le code ligne par ligne).
 
 ### 1.1 Le 419 (≈ 3 min)
 
@@ -68,7 +68,7 @@ git checkout s5-ch1-formulaire   # renvoyer → 419 (5 s de rappel)
 git checkout s5-ch2-csrf         # le @csrf est de retour
 ```
 
-Renvoyer le formulaire : **302 → `/quests/{id}`** (visible dans l'onglet Réseau des DevTools — c'est le PRG), la fiche s'affiche, la bannière **« Quête créée ! »** apparaît. Recharger : elle a disparu (donnée flash).
+Renvoyer le formulaire **en cochant 2 lieux et « Quête à la une »** : **302 → `/quests/{id}`** (visible dans l'onglet Réseau des DevTools — c'est le PRG), la fiche s'affiche **avec les 2 lieux rattachés** (le `sync()` a rempli `location_quest`), la bannière **« Quête créée ! »** apparaît. Recharger : elle a disparu (donnée flash).
 
 Puis DevTools → Éléments : montrer le champ caché `<input type="hidden" name="_token" value="…">` compilé par `@csrf`.
 
@@ -86,19 +86,19 @@ git checkout s5-ch3-validation
 
 ### 3.1 La donnée pourrie, avant et après (≈ 1,5 min)
 
-D'abord le rappel de la douleur : revenir au tag ch2 (pas de `validate()`), soumettre `xp = beaucoup` et un titre vide :
+D'abord le rappel de la douleur : revenir au tag ch2 (pas de `validate()`), soumettre `xp = beaucoup` avec un titre **rempli** :
 
 ```bash
 git checkout s5-ch2-csrf
 ```
 
-**SQLite accepte `beaucoup`** dans la colonne entière — la quête est créée avec une donnée pourrie, sans erreur (sous MariaDB ce serait un 500). Puis :
+**SQLite accepte `beaucoup`** dans la colonne entière — la quête est créée avec une donnée pourrie, sans erreur (sous MariaDB ce serait un 500). (Un titre vide ferait un 500 : `ConvertEmptyStringsToNull` le transforme en `null`, la contrainte `NOT NULL` casse — à ne pas confondre avec la donnée pourrie acceptée.) Puis :
 
 ```bash
 git checkout s5-ch3-validation
 ```
 
-Les mêmes saisies → retour au formulaire, message d'erreur sous chaque champ fautif, **les autres champs conservés** (`old()`).
+Les mêmes saisies (`xp = beaucoup`) → erreur sur `xp`. Puis envoi vide → retour au formulaire, message d'erreur sous chaque champ fautif, **les autres champs conservés** (`old()`).
 
 ### 3.2 Le select trafiqué (≈ 1 min)
 
@@ -107,6 +107,10 @@ Dans le formulaire, via les DevTools, changer le `value` de l'`<option>` catégo
 ### 3.3 Le `required` HTML contourné (≈ 1,5 min)
 
 Retirer l'attribut `required` du champ titre dans les DevTools (ou la page source) : le navigateur n'empêche plus l'envoi… et c'est **quand même** refusé côté serveur. La validation HTML est un confort, pas une protection.
+
+### 3.4 Le champ caché `featured=0` (≈ 30 s)
+
+DevTools → Éléments : montrer `<input type="hidden" name="featured" value="0">` placé juste **avant** la case — décochée, la valeur `0` part quand même ; cochée, le `1` de la case l'emporte (dernier gagne). C'est ce qui permettra à l'édition (chapitre 4) de repasser « à la une » à faux.
 
 *Facultatif (30 s)* : montrer les messages personnalisés (`'title.required' => '…'`) si le temps le permet.
 
@@ -122,9 +126,9 @@ git checkout s5-ch4-edition
 
 Routes `edit`/`update`/`destroy` écrites à la main, `@method`, `detach()` dans `destroy()` — tout est en place.
 
-### 4.1 Le PUT dans un POST (≈ 1 min)
+### 4.1 Le PUT dans un POST et les lieux pré-cochés (≈ 1,5 min)
 
-`/quests/{id}/edit` → formulaire pré-rempli. Source de la page (Ctrl+U) : les champs cachés `_token` **et `_method=PUT`** — c'est `@method('PUT')` compilé. Modifier une quête → 302 → fiche, « Quête mise à jour ! ».
+`/quests/{id}/edit` → formulaire pré-rempli, **lieux déjà cochés** (le repli `old('location_ids', $quest->locations->pluck('id')->all())`). Source de la page (Ctrl+U) : les champs cachés `_token` **et `_method=PUT`** — c'est `@method('PUT')` compilé. **Décocher un lieu** → enregistrer → 302 → fiche, « Quête mise à jour ! », le lieu n'y figure plus (`sync()` a retiré la ligne pivot).
 
 ### 4.2 La suppression qui casse (≈ 2 min)
 
@@ -189,7 +193,7 @@ Rejouer exactement la même soumission invalide : **mêmes erreurs, même `old()
 
 ## Annexe — Les services (hors séance)
 
-`09-annexe-services.md` — lecture / bonus `GameService`, tag `s5-ch7-services` si montrée en toute fin de séance : `QuestService` (règle « une seule quête à la une », `sync()` des lieux), injection par le constructeur. **Pas de micro-pratique** : le `GameService` WishFlix est un bonus de l'exercice.
+`09-annexe-services.md` — lecture / bonus `GameService`, tag `s5-ch7-services` si montrée en toute fin de séance : `QuestService` regroupe `create`/`update` — la **nouvelle règle** est « une seule quête à la une » ; le `sync()` des lieux et `Arr::except` étaient déjà dans le contrôleur depuis le chapitre 3, ils ne font que déménager. Injection par le constructeur. **Pas de micro-pratique** : le `GameService` WishFlix est un bonus de l'exercice.
 
 ---
 

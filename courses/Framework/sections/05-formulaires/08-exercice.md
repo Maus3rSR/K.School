@@ -1,7 +1,7 @@
 # Atelier WishFlix
 Le back-office des jeux
 
-<Exercise title="WishFlix — back-office CRUD des jeux" duration="1 h" level="guidé"
+<Exercise title="WishFlix — back-office CRUD des jeux" duration="≈ 1h30 au fil des chapitres" level="guidé"
   :criteria="[
     'Création validée : routes GET/POST, @csrf, validate(), erreurs affichées et saisie conservée',
     'Édition et suppression : @method PUT et DELETE, Route::resource, binding Game $game',

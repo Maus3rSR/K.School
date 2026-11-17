@@ -8,7 +8,7 @@ Construire le **back-office de WishFlix** : créer, modifier et supprimer des je
 
 | Niveau | Contenu | Où | Charge indicative |
 |---|---|---|---|
-| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 1h30 en séance (pratique : 20 + 22 + 22 + 12 + 12 min) |
+| **Socle** | Étape 0 + Partie A (6 chapitres, 3 points de contrôle — la pratique est répartie au fil des chapitres) | En séance | ≈ 1h30 en séance (pratique : 25 + 22 + 22 + 12 + 12 min) |
 | **Attendu** | Partie B (2 user stories) + Partie C « Sous le capot » | À la maison | ≈ 1h15 + ≈ 45 min |
 | **Bonus** | 3e user story, `GameService`, upload de la jaquette | Facultatif | ≈ 1h30 |
 
@@ -48,7 +48,7 @@ Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
 ## Partie A — Socle (en séance)
 
-Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
+Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant. **A1 et A2 se font ensemble** pendant le « À vous » du chapitre 2 : le chapitre 1 se termine volontairement sur l'erreur 419 que `@csrf` résout en A2.
 
 ### A1 — Le formulaire de création (Chapitre 1)
 

@@ -60,28 +60,28 @@ public function store(StoreQuestRequest $request)
     $quest = Quest::create(Arr::except($data, 'location_ids'));
     $quest->locations()->sync($data['location_ids'] ?? []);
 
-    return redirect()->route('quests.index')->with('success', 'Quête créée !');
+    return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
 }
 ```
 
 ::right::
 
-Deux **règles métier** s'invitent :
+Une **règle métier** s'invite :
 
 - Une seule quête **« à la une »** à la fois : si la nouvelle est `featured`, toutes les autres repassent à `false`
-- Les **lieux** de la quête : la relation `belongsToMany` se remplit via `sync()` et `location_ids`
+- `Arr::except()` et `sync()` des lieux sont **déjà là** depuis le chapitre 3 — mais le bloc grossit encore
 
 <v-click>
 
-Le même code serait à **recopier** dans `update()` — et il n'a rien à voir avec HTTP : ni requête, ni réponse.
+La règle « à la une » serait à **recopier** dans `update()` — et elle n'a rien à voir avec HTTP : ni requête, ni réponse.
 
 </v-click>
 
 <!--
 Question à poser : ce code appartiendrait aussi à une future commande Artisan ou à une API — on le copierait où ?
 C'est le signal classique : le contrôleur connaît trop de choses, il faut un endroit « métier ».
-Arr::except retire location_ids : ce n'est pas une colonne de quests, c'est la relation qu'on remplit avec sync().
-Import à ajouter : use Illuminate\Support\Arr;
+Arr::except et sync() des lieux sont déjà dans le contrôleur depuis le chapitre 3 — la nouveauté ici est la règle
+« une seule quête à la une », pas la mécanique des cases.
 -->
 
 ---
@@ -199,12 +199,6 @@ class QuestService
 
 Le service ne voit ni `Request` ni `redirect` : que des **données et des modèles**.
 
-<Alert type="info">
-
-Côté Form Request, ajoutez : `'location_ids' => ['array']`, `'location_ids.*' => ['exists:locations,id']`, `'featured' => ['boolean']`.
-
-</Alert>
-
 </div>
 
 <!--
@@ -231,9 +225,10 @@ class QuestController extends Controller
 {
     public function store(StoreQuestRequest $request)
     {
-        $quest = Quest::create($request->validated());
-        // + lieux à attacher, règle « à la une »…
-        return redirect()->route('quests.index')->with('success', 'Quête créée !');
+        $quest = Quest::create(Arr::except($request->validated(), 'location_ids'));
+        $quest->locations()->sync($request->validated('location_ids', []));
+        // + règle « une seule quête à la une »…
+        return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
     }
 }
 ```
@@ -245,8 +240,8 @@ class QuestController extends Controller
 
     public function store(StoreQuestRequest $request)
     {
-        $this->quests->create($request->validated());
-        return redirect()->route('quests.index')->with('success', 'Quête créée !');
+        $quest = $this->quests->create($request->validated());
+        return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
     }
 }
 ```
@@ -258,8 +253,8 @@ class QuestController extends Controller
 
     public function store(StoreQuestRequest $request)
     {
-        $this->quests->create($request->validated());
-        return redirect()->route('quests.index')->with('success', 'Quête créée !');
+        $quest = $this->quests->create($request->validated());
+        return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
     }
 
     public function update(UpdateQuestRequest $request, Quest $quest)

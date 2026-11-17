@@ -24,14 +24,15 @@ Jusqu'ici, les quêtes sont créées dans **Tinker** ou par les **seeders** — 
 ```mermaid
 flowchart LR
     L[📋 Liste des quêtes] --> C[➕ Formulaire création]
-    L --> E[✏️ Formulaire édition]
     C --> S[💾 Enregistrer]
+    F[📄 Fiche + message] --> E[✏️ Formulaire édition]
     E --> S
-    S --> M[📋 Liste + message de confirmation]
-    M -.-> L
+    S --> F
+    F --> D[🗑️ Supprimer]
+    D -.-> L
 ```
 
-Trois écrans, un aller-retour : **formulaire → enregistrement → redirection**.
+Quatre écrans, un aller-retour : **formulaire → enregistrement → fiche**.
 
 </v-click>
 

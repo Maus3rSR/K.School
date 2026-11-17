@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 03
-duration: 40 min
+duration: 43 min
 ---
 
 # La validation
@@ -14,7 +14,7 @@ duration: 40 min
 <!--
 Transition : le formulaire fonctionne… et accepte n'importe quoi. On ferme la porte aux données pourries.
 Moment léger : soumettre une quête « Sauver la BU » avec 9 999 999 XP et un titre vide — « le Maître du jeu a mis son chat sur le clavier ».
-Découpage : ≈ 14 min de slides (≈ 14 slides), démo flash ≈ 4 min — moments : envoi vide → erreurs sous les champs + saisie conservée, valeur trafiquée dans les DevTools refusée ; micro-pratique ≈ 22 min (slide « À vous », étape A3 + point de contrôle 1).
+Découpage : ≈ 17 min de slides (≈ 15 slides), démo flash ≈ 4 min — moments : envoi vide → erreurs sous les champs + saisie conservée, valeur trafiquée dans les DevTools refusée ; micro-pratique ≈ 22 min (slide « À vous », étape A3 + point de contrôle 1).
 Tag Campus Quest de fin de chapitre : s5-ch3-validation.
 -->
 
@@ -52,7 +52,7 @@ transition: slide-up | slide-down
 
 ::left::
 
-```php {all|3-9|11|13|all}
+```php {all|3-12|14-15|17|all}{maxHeight:'400px'}
 public function store(Request $request)
 {
     $validated = $request->validate([
@@ -61,9 +61,13 @@ public function store(Request $request)
         'xp' => ['required', 'integer', 'min:0', 'max:500'],
         'difficulty' => ['required', Rule::in(['easy', 'medium', 'hard'])],
         'category_id' => ['required', 'exists:categories,id'],
+        'featured' => ['boolean'],
+        'location_ids' => ['array'],
+        'location_ids.*' => ['exists:locations,id'],
     ]);
 
-    $quest = Quest::create($validated);
+    $quest = Quest::create(Arr::except($validated, 'location_ids'));
+    $quest->locations()->sync($validated['location_ids'] ?? []);
 
     return redirect()->route('quests.show', $quest)->with('success', 'Quête créée !');
 }
@@ -73,7 +77,7 @@ public function store(Request $request)
 
 <div v-click="1">
 
-Un tableau de <KeyTerm>règles de validation</KeyTerm> par champ — `Rule::in()` reprend les valeurs de la `QuestFactory`, `exists:` vérifie que la catégorie existe vraiment.
+Un tableau de <KeyTerm>règles de validation</KeyTerm> par champ — `Rule::in()` reprend les valeurs de la `QuestFactory`, `exists:` vérifie que la catégorie (et chaque lieu) existe vraiment.
 
 </div>
 
@@ -85,7 +89,7 @@ Un tableau de <KeyTerm>règles de validation</KeyTerm> par champ — `Rule::in()
 
 <div v-click="3">
 
-La suite est inchangée : création puis redirection — **rien n'a bougé quand tout va bien**.
+`Arr::except()` retire `location_ids` (ce n'est **pas une colonne** de `quests`), `sync()` rattache les lieux — détaillé à la slide « Valider une case et un tableau ».
 
 </div>
 
@@ -222,6 +226,65 @@ Piège : old() renvoie une chaîne, l'id est un entier — d'où le cast (int) o
 -->
 
 ---
+layout: two-cols-header
+layoutClass: gap-x-6
+transition: slide-up | slide-down
+---
+
+# Valider une case et un tableau
+
+::left::
+
+```php {all|1-3|5-6|all}
+'featured' => ['boolean'],
+'location_ids' => ['array'],
+'location_ids.*' => ['exists:locations,id'],
+
+$quest = Quest::create(Arr::except($validated, 'location_ids'));
+$quest->locations()->sync($validated['location_ids'] ?? []);
+```
+
+```blade {all|1-2|4-6|all}
+<input type="hidden" name="featured" value="0">
+<input type="checkbox" name="featured" value="1" @checked(old('featured'))>
+
+<input type="checkbox" name="location_ids[]" value="{{ $location->id }}"
+     @checked(in_array($location->id, old('location_ids', [])))>
+```
+
+::right::
+
+<div v-click="1">
+
+Trois règles : `featured` est un **booléen**, `location_ids` un **tableau**, et `location_ids.*` vérifie **chaque** id reçu.
+
+</div>
+
+<div v-click="2">
+
+`location_ids` n'est **pas une colonne** de `quests` : `Arr::except()` le retire avant `create()`, `sync()` remplit la pivot.
+
+</div>
+
+<div v-click="3">
+
+Le champ caché `featured="0"` : sans lui, décocher n'envoie **rien** — à l'édition, la case ne repasserait jamais à faux.
+
+</div>
+
+<div v-click="4">
+
+`@checked(condition)` garde les cases cochées après une erreur — le pendant de `@selected` pour les cases.
+
+</div>
+
+<!--
+Le champ caché featured=0 est placé AVANT la case : quand la case est cochée, sa value="1" écrase le 0 (dernier gagne).
+À l'édition ce sera old('featured', $quest->featured) — le repli du chapitre 04.
+Arr::except = Illuminate\Support\Arr — penser à l'import en tête du contrôleur.
+-->
+
+---
 transition: slide-up | slide-down
 ---
 
@@ -335,7 +398,7 @@ transition: slide-up | slide-down
 
 Ajoutez la validation à **votre** formulaire de jeu, avec les règles choisies pour chaque champ.
 
-**Spécificités WishFlix** : vos règles couvrent des champs absents de la démo — `platform_ids` / `platform_ids.*` (`array` + `exists:platforms,id`), `featured` (`boolean`), `cover_url` (`url`), `status` (`in:…`), `release_year` et `rating` (`between` / `numeric`) ; le README donne la contrainte de chaque champ. N'oubliez pas le champ caché `featured` `value="0"` (A3.4) et `@checked` pour les cases.
+**Spécificités WishFlix** : vos règles couvrent des champs absents de la démo — `cover_url` (`url`), `status` (`in:…`), `release_year` et `rating` (`between` / `numeric`) ; le README donne la contrainte de chaque champ. Cases `platform_ids[]`, `featured`, champ caché et `@checked` : **identiques à la démo**.
 
 </Exercise>
 

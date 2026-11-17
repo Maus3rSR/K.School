@@ -88,10 +88,11 @@ transition: slide-up | slide-down
 # `Route::resource` : sept routes en une ligne
 
 ```php
-Route::resource('quests', QuestController::class);
+Route::resource('quests', QuestController::class)
+    ->where(['quest' => '[0-9]+']);
 ```
 
-Cette **seule ligne** remplace toutes les routes des quêtes — et leur donne un nom :
+Cette **seule ligne** remplace toutes les routes des quêtes — et leur donne un nom. `->where()` garde la contrainte numérique de la S2 (`whereNumber('id')`), désormais sur `{quest}` :
 
 | **Verbe** | **URI** | **Action** | **Nom de route** |
 |---|---|---|---|
@@ -136,16 +137,18 @@ transition: slide-up | slide-down
 ```php
 public function show(int $id)
 {
-    $quest = Quest::findOrFail($id);
-
-    return view('quests.show', ['quest' => $quest]);
+    return view('quests.show', [
+        'quest' => Quest::with(['category', 'locations'])->findOrFail($id),
+    ]);
 }
 ```
 
 ```php
 public function show(Quest $quest)
 {
-    return view('quests.show', ['quest' => $quest]);
+    return view('quests.show', [
+        'quest' => $quest->load(['category', 'locations']),
+    ]);
 }
 ```
 ````
@@ -156,7 +159,7 @@ Avant : `{id}` arrive brut dans `$id`, et `findOrFail()` fait la recherche — o
 
 <div v-click="1">
 
-Après : `{quest}` dans la route + le type `Quest` dans la signature. Laravel **cherche le modèle lui-même** et lève la 404 s'il n'existe pas.
+Après : `{quest}` dans la route + le type `Quest` dans la signature. Laravel **cherche le modèle lui-même** et lève la 404 s'il n'existe pas. Le chargement anticipé de la S4 reste : `load()` remplace `with()`.
 
 </div>
 
@@ -212,16 +215,21 @@ transition: slide-up | slide-down
 
 ::left::
 
-```php {all|1-4|6-11|13-17|all}
+```php {all|1-7|9-14|16-20|all}
 public function edit(Quest $quest)
 {
-    return view('quests.edit', ['quest' => $quest, 'categories' => Category::all()]);
+    return view('quests.edit', [
+        'quest' => $quest,
+        'categories' => Category::all(),
+        'locations' => Location::all(),
+    ]);
 }
 
 public function update(Request $request, Quest $quest)
 {
-    $validated = $request->validate([/* … les 5 règles … */]);
-    $quest->update($validated);
+    $validated = $request->validate([/* … les 8 règles … */]);
+    $quest->update(Arr::except($validated, 'location_ids'));
+    $quest->locations()->sync($validated['location_ids'] ?? []);
     return redirect()->route('quests.show', $quest)->with('success', 'Quête mise à jour !');
 }
 
@@ -255,7 +263,7 @@ public function destroy(Quest $quest)
 
 <div v-click="4">
 
-Les vues passent `$quest` plutôt que `$quest->id` : `route('quests.edit', $quest)` suffit, Laravel extrait l'id.
+Les vues ne changent pas : `route('quests.edit', $quest)` marchait déjà — Laravel extrait l'id du modèle, que le paramètre s'appelle `{id}` ou `{quest}`.
 
 </div>
 

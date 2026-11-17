@@ -186,7 +186,7 @@ transition: slide-up | slide-down
 public function boot(): void
 {
     Model::preventLazyLoading(
-        ! $this->app->isProduction()
+        ! app()->isProduction()
     );
 }
 ```

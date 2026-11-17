@@ -130,7 +130,7 @@ Sur `/quests` (30 quêtes, chacune lisant `$quest->category->name`) : l'onglet Q
 git checkout s4-ch4-eager-loading
 ```
 
-`index()` a maintenant `->with('category')` **avant** `orderByDesc` ; `show()` charge `category` + `locations` ; `AppServiceProvider` active `Model::preventLazyLoading(! $this->app->isProduction())`.
+`index()` a maintenant `->with('category')` **avant** `orderByDesc` ; `show()` charge `category` + `locations` ; `AppServiceProvider` active `Model::preventLazyLoading(! app()->isProduction())`.
 
 ### 4.1 Le N+1 mesuré (≈ 2 min)
 
@@ -152,7 +152,7 @@ Illuminate\Database\LazyLoadingViolationException — Attempted to lazy load [ca
 
 ### 4.3 `preventLazyLoading` en une phrase (≈ 1 min)
 
-La ligne vit dans `AppServiceProvider::boot()` : `! $this->app->isProduction()` = l'alarme sonne **en dev**, jamais en prod (où le lazy loading reste toléré pour ne pas casser la prod sur une relation oubliée).
+La ligne vit dans `AppServiceProvider::boot()` : `! app()->isProduction()` = l'alarme sonne **en dev**, jamais en prod (où le lazy loading reste toléré pour ne pas casser la prod sur une relation oubliée).
 
 ---
 

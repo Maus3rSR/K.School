@@ -28,24 +28,25 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="En démo, cette ligne fait passer le campus à 500 quêtes. Le catalogue utilise `->get()` : que devient la page ?"
+  question="Le campus passe à 500 quêtes. Pour afficher la page 3 (10 quêtes) et les liens « 1 2 3 … 50 », de quelles requêtes SQL a-t-on besoin ?"
   :options="[
-    'Rien — la page ne lit que 30 lignes quoi qu\'il arrive',
-    'Elle charge les 500 lignes : lente, lourde, illisible',
-    'Laravel pagine automatiquement dès 100 lignes',
-    'La base refuse de répondre au-delà de 100 lignes'
+    'Une seule : tout lire, puis garder les quêtes 21 à 30 en PHP',
+    'Une seule : `select … limit 10 offset 20`',
+    'Deux : un `count(*)` pour le nombre de pages, puis `limit 10 offset 20`',
+    'Cinquante : une par page, pour préparer tous les liens'
   ]"
-  :answer="1"
+  :answer="2"
 >
 
 ```php
-Quest::factory(470)->create();
+Quest::factory(470)->create();   // 30 + 470 = 500 quêtes
 ```
 
 </Quiz>
 
 <!--
-Pré-test : la plupart répondent « Laravel s'en occupe » — non : get() charge TOUT, toujours.
+Faites voter, puis demandez : « avec la réponse 2, comment savez-vous qu'il y a 50 pages ? » — on ne le sait pas, il manque le total.
+La 1re réponse, c'est ce que fait get() aujourd'hui : les 500 lignes voyagent pour en afficher 10.
 La démo seed les 470 quêtes puis recharge /quests sous Debugbar (durée et défilement) avant paginate().
 -->
 

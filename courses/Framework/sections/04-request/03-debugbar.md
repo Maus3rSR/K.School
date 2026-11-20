@@ -28,19 +28,22 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="La page `/quests` affiche 30 quêtes ; chaque carte lit la catégorie de sa quête. Environ combien de requêtes SQL la page exécute-t-elle ?"
+  question="Le catalogue est lent. Vous voulez savoir quelles requêtes SQL la page exécute VRAIMENT, y compris celles déclenchées par la vue. Comment faire ?"
   :options="[
-    '1 : Laravel met les catégories en cache automatiquement',
-    '2 : une pour les quêtes, une pour toutes les catégories',
-    'Environ 31 : une pour la liste, une par quête',
-    'Ça dépend du navigateur, pas du serveur'
+    'Compter les `get()` et `first()` écrits dans le contrôleur',
+    'Ouvrir l\'onglet Réseau des DevTools du navigateur',
+    'Ajouter un `dd()` après chaque requête Eloquent',
+    'Utiliser un outil côté serveur qui enregistre chaque requête SQL pendant que la page se construit'
   ]"
-  :answer="2"
+  :answer="3"
 />
 
 <!--
-Pré-test : le N+1 a été constaté en S3 (une pour la liste, une par quête) — la réponse est déjà connue,
-mais la salle a-t-elle retenu le mécanisme ? La Debugbar va le rendre visible dans la page.
+Faites justifier chaque réponse fausse — elles sont toutes tentantes :
+- Compter dans le contrôleur : rate les requêtes lancées par la vue ($quest->category, le N+1 de la S3).
+- Onglet Réseau : le navigateur voit des requêtes HTTP, jamais le SQL, qui reste sur le serveur.
+- dd() : arrête la page à la première requête — on ne voit jamais la suite.
+Réponse : un profiler côté serveur. Laravel en a un, installable en une commande : slide suivante.
 -->
 
 ---

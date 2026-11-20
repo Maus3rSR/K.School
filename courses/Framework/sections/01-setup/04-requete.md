@@ -24,19 +24,22 @@ transition: slide-up | slide-down
 # Un fichier PHP pour toutes les URL ?
 
 <Quiz
-  question="Vous tapez `http://localhost/nimportequoi`. Quel fichier PHP du projet reçoit la requête en premier ?"
+  question="Vous tapez `http://localhost/nimportequoi` dans un projet Laravel. Quel fichier PHP du projet reçoit la requête en premier ?"
   :options="[
-    'Un fichier `nimportequoi.php` dans le projet',
-    '`routes/web.php`',
-    '`public/index.php`, toujours le même',
-    '`app/Http/Controllers/Controller.php`'
+    'Un fichier `nimportequoi.php`, s\'il existe dans le projet',
+    '`routes/web.php`, qui liste les URL',
+    '`public/index.php`',
+    'Aucun : le serveur web répond 404 avant PHP'
   ]"
   :answer="2"
 />
 
 <!--
-Pré-test : faire voter avant de cliquer. Beaucoup répondront routes/web.php : on corrige en suivant la requête fichier par fichier.
-Dans un site PHP « from scratch », chaque URL = un fichier .php. Ici : un seul point d'entrée.
+Pré-test : faire voter avant de cliquer. Les deux intuitions fréquentes :
+- « nimportequoi.php » : c'est ainsi qu'on raisonne en PHP « from scratch », une URL = un fichier.
+- « routes/web.php » : bonne intuition sur le rôle, mais ce fichier n'est qu'une liste lue PLUS TARD.
+- « 404 avant PHP » : vrai pour un site statique ; ici le serveur web envoie TOUTES les URL à un seul fichier.
+Réponse : un seul point d'entrée, public/index.php — même pour une URL qui n'existe pas (c'est Laravel qui répondra 404).
 -->
 
 ---

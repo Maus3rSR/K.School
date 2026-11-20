@@ -136,12 +136,12 @@ transition: slide-up | slide-down
 # Et si les noms ne correspondent pas ?
 
 <Quiz
-  question="Le layout attend un emplacement, votre page en remplit un autre nom. Que se passe-t-il ?"
+  question="Le layout réserve l'emplacement `content`, mais la page remplit un emplacement nommé `contenu`. Qu'affiche le navigateur ?"
   :options="[
-    'Blade lève une erreur « section contenu introuvable »',
-    'La page s\'affiche avec la navigation, mais le contenu reste vide, sans erreur',
-    'Blade devine et place le contenu dans l\'emplacement `content`',
-    'La page s\'affiche sans le layout'
+    'Une erreur Blade : « section contenu introuvable »',
+    'La navigation du layout, avec une zone de contenu vide — et aucune erreur',
+    'La page complète : Blade rapproche les noms qui se ressemblent',
+    'Le contenu de la page seul, sans le layout'
   ]"
   :answer="1"
 >
@@ -159,6 +159,7 @@ transition: slide-up | slide-down
 <!--
 Pré-test avant la slide d'assemblage : faire voter, puis provoquer le bug en direct dans la démo (@section('contenu')).
 Bonne réponse : l'emplacement reste simplement vide, Blade n'affiche aucune erreur — un nom de section ne « remplit » que le @yield du même nom.
+Demandez : « Pourquoi Blade ne lève-t-il pas d'erreur ? » → un @yield sans section correspondante est légitime (ex. un titre optionnel).
 C'est le bug n°1 de l'atelier : le faire repérer maintenant fait gagner du temps.
 -->
 

@@ -27,19 +27,21 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Pour afficher « Action (5) » dans un select de catégories, la meilleure requête est…"
+  question="Le classement affiche « Quiz (12) », « Mission (8) »… pour chaque catégorie. Avec 10 000 quêtes, quelle méthode reste rapide, et pourquoi ?"
   :options="[
-    '`Category::all()` puis un `foreach` PHP qui compte les jeux de chaque catégorie',
-    '`Category::withCount(\'games\')` : une requête de plus, le compteur vient avec',
-    '`Category::with(\'games\')->count()` : `with()` compte déjà les relations',
-    'Un `Game::count()` par catégorie dans la boucle Blade'
+    'Charger les catégories avec leurs quêtes (`with`), puis compter en PHP : seulement 2 requêtes',
+    'Compter `$category->quests` dans la boucle Blade : les quêtes sont déjà liées au modèle',
+    'Demander à la base de compter : un seul nombre par catégorie revient',
+    'Envoyer toutes les quêtes au navigateur et compter en JavaScript'
   ]"
-  :answer="1"
+  :answer="2"
 />
 
 <!--
-Pré-test : withCount() est LA réponse — le compteur arrive dans games_count sans boucle.
-Le piège with(\'games\')->count() : count() sur un modèle ignore le with et compte les catégories.
+Le piège le plus tentant est la 1re réponse : on vient d'apprendre with(), et « 2 requêtes » sonne bien.
+Mais les 10 000 quêtes voyagent quand même de la base vers PHP… pour n'en garder qu'un chiffre.
+La 2e réponse, c'est le N+1 du chapitre précédent ; la 4e envoie tout au navigateur.
+Réponse : la base calcule (COUNT … GROUP BY, vu en SQL) et ne renvoie que les chiffres — slide suivante.
 -->
 
 ---

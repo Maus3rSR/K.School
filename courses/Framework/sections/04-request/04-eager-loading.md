@@ -29,25 +29,28 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Cette requête, sur 30 quêtes, exécute combien de requêtes SQL ?"
+  question="La Debugbar montre 30 fois la même requête, une par carte. Comment ramener la page à un nombre de requêtes qui ne dépend plus du nombre de quêtes ?"
   :options="[
-    '1 : `with()` fait une jointure, tout arrive en une requête',
-    '2 : une pour les quêtes, une pour toutes les catégories',
-    '31 : `with()` ne change rien au nombre de requêtes',
-    '0 : `with()` met les catégories en cache PHP'
+    'Ne sélectionner que les colonnes utiles des quêtes, pour alléger la requête',
+    'Mémoriser chaque catégorie après sa première lecture',
+    'Récupérer d\'un coup, avant la boucle, toutes les catégories utiles',
+    'Rien : 30 petites requêtes, c\'est négligeable pour la base'
   ]"
-  :answer="1"
+  :answer="2"
 >
 
-```php
-Quest::with('category')->get();
+```sql
+select * from categories where id = ?   -- × 30
 ```
 
 </Quiz>
 
 <!--
-Pré-test : la bonne réponse n'est PAS une jointure — with() lance une 2e requête
-(IN + tous les category_id d'un coup), puis Eloquent recouds les objets en PHP.
+Faites justifier :
+- Alléger les colonnes : la requête des quêtes devient plus légère, mais les 30 requêtes de catégories restent.
+- Mémoriser : réduit le nombre si les catégories se répètent… mais il reste une requête par catégorie différente : ça dépend encore des données.
+- « Négligeable » : 30 aujourd'hui, 500 demain (chapitre pagination) — et chaque aller-retour réseau coûte.
+Réponse : une seule requête de plus, qui lit toutes les catégories d'un coup (where id in (…)). Une jointure marcherait aussi — Eloquent a choisi le IN, slide suivante.
 -->
 
 ---

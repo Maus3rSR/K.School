@@ -152,19 +152,29 @@ transition: slide-up | slide-down
 À votre avis ?
 
 <Quiz
-  question="La page `/quests` affiche 30 quêtes, chacune avec le nom de sa catégorie. Combien de requêtes SQL pensez-vous qu'elle exécute ?"
+  question="Le contrôleur charge les 30 quêtes avec `Quest::all()`, puis la vue affiche la catégorie de chacune. Combien de requêtes SQL la page exécute-t-elle, et pourquoi ?"
   :options="[
-    '1',
-    '2',
-    '31',
-    '60'
+    '1 : `$quest->category` est une jointure, tout arrive avec les quêtes',
+    '2 : une pour les quêtes, puis une pour toutes leurs catégories',
+    '31 : une pour les quêtes, puis une par quête au moment où la vue lit sa catégorie',
+    '30 : une par quête, catégorie comprise'
   ]"
   :answer="2"
-/>
+>
+
+```blade
+@foreach ($quests as $quest)
+    {{ $quest->title }} — {{ $quest->category->name }}
+@endforeach
+```
+
+</Quiz>
 
 <!--
-Faites voter la salle : la plupart répondent 1 ou 2. La slide suivante dévoile le vrai chiffre, mesuré en direct.
-Moment léger : celui qui répond 60 a compris qu'il y aurait des allers-retours, il n'est pas loin.
+Faites voter la salle, puis demandez à chaque camp d'expliquer QUAND la catégorie est lue. La plupart répondent 1 (« c'est une jointure ») ou 2 (« Eloquent est malin »).
+La clé : Quest::all() ne sait pas que la vue lira category ; la base n'est interrogée qu'au moment où la boucle accède à la propriété.
+La slide suivante dévoile le vrai chiffre, mesuré en direct.
+Moment léger : celui qui répond 30 a compris qu'il y aurait des allers-retours — il a juste oublié la toute première requête.
 -->
 
 ---

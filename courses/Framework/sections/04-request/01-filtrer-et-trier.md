@@ -28,18 +28,19 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Aucune quête n'est à la une. Que renvoie cette requête ?"
+  question="Aujourd'hui, aucune quête n'est à la une : le SQL ne renvoie aucune ligne. Que reçoit `$featured`, et qu'est-ce que la vue doit prévoir ?"
   :options="[
-    '`null` : aucune ligne, aucun objet',
-    'Une collection vide',
-    'Une exception `ModelNotFoundException`',
-    'La première quête de la table, featured ou non'
+    '`null` : la vue doit tester l\'absence avant d\'afficher `$featured->title`',
+    'Une collection vide : un `@foreach` n\'affichera simplement rien',
+    'Une exception : Laravel affiche une page 404 tout seul',
+    'Un objet `Quest` vide : `$featured->title` affiche une chaîne vide'
   ]"
   :answer="0"
 >
 
 ```php
-Quest::where('featured', true)->first();
+$featured = Quest::where('featured', true)->first();
+// SQL : select * from quests where featured = 1 limit 1
 ```
 
 </Quiz>
@@ -47,7 +48,8 @@ Quest::where('featured', true)->first();
 <!--
 Pré-test : first() renvoie null quand rien ne matche — ça prépare l'étape A1,
 où la vue doit tester null avant d'afficher le jeu « à la une ».
-Piège classique : first() ≠ firstOrFail() — aucune exception n'est levée.
+Raisonnement attendu : « limit 1 » → on demande UNE ligne, pas une liste — donc pas de collection ; et s'il n'y en a pas, il n'y a pas d'objet.
+Piège classique : first() ≠ firstOrFail() — aucune exception n'est levée. Le null non testé donne « Attempt to read property "title" on null ».
 -->
 
 ---

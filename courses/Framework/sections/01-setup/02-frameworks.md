@@ -24,20 +24,22 @@ transition: slide-up | slide-down
 Et vous, qu'en pensez-vous ?
 
 <Quiz
-  question="Selon vous, qu'est-ce qu'un framework ?"
+  question="Dans un projet PHP, vous utilisez une librairie d'envoi d'e-mails, et Laravel pour tout le site. Qu'est-ce qui distingue vraiment Laravel de la librairie ?"
   :options="[
-    'Un langage de programmation, comme PHP ou JavaScript',
-    'Un cadre de travail qui impose une structure et appelle votre code',
-    'Un logiciel pour écrire du code, comme VS Code',
-    'Une base de données pour stocker les informations du site'
+    'Sa taille : un framework, c\'est une très grosse librairie',
+    'Le sens des appels : vous appelez la librairie, alors que Laravel appelle votre code',
+    'Son langage : Laravel remplace PHP par sa propre syntaxe',
+    'Son rôle : Laravel génère le site à votre place, sans code à écrire'
   ]"
   :answer="1"
 />
 
 <!--
 Quiz de diagnostic : faire voter la salle à main levée avant de cliquer, pour mesurer ce que les apprenants savent déjà.
-Pas de jugement sur les réponses — on y revient avec la définition et l'inversion de contrôle.
-Moment léger : « VS Code n'est pas un framework… même si certains l'utilisent comme un mode de vie. »
+La réponse « taille » est la plus fréquente, et elle n'est pas absurde : un framework contient bien des librairies. Mais ce n'est pas ce qui le définit.
+« Sa propre syntaxe » : l'intuition vient de Blade ou des façades — c'est toujours du PHP.
+Pas de jugement sur les réponses — on y revient avec la définition et l'inversion de contrôle (« qui appelle qui ? »).
+Moment léger : « Plus gros, oui. Surtout plus autoritaire : c'est lui qui décide quand votre code a le droit de parler. »
 -->
 
 ---

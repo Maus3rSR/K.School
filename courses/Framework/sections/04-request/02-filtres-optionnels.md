@@ -27,25 +27,29 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="La requête `/quests` arrive SANS `?search=` dans l'URL. Que vaut cette ligne ?"
+  question="Un visiteur ouvre `/quests`, SANS `?category=` dans l'URL. Qu'affiche le catalogue avec ce code ?"
   :options="[
-    'Une chaîne vide : le paramètre existe toujours, juste vide',
-    '`null` : le paramètre est absent',
-    '`0` : Laravel compte les paramètres manquants',
-    'Une exception : le paramètre est requis'
+    'Toutes les quêtes : sans paramètre, le filtre est ignoré',
+    'Aucune quête : le filtre cherche les quêtes dont `category_id` est vide',
+    'Une erreur SQL : on compare la colonne à une valeur manquante',
+    'Une page 404 : le paramètre attendu manque dans l\'URL'
   ]"
   :answer="1"
 >
 
 ```php
-$request->query('search');
+$category = $request->query('category');   // vu en S2 avec ?difficulty=
+
+$quests = Quest::where('category_id', $category)->get();
 ```
 
 </Quiz>
 
 <!--
-Réponse : null. C'est toute la logique des filtres optionnels : absent = pas de filtre,
-présent = filtre — jamais de crash, jamais de where('title','like','%%') involontaire.
+Faites voter : l'intuition dominante est « le filtre est ignoré ». Non : un paramètre absent vaut null,
+et where('category_id', null) devient where category_id IS NULL → aucune quête, puisqu'elles ont toutes une catégorie.
+Le catalogue est vide pour tout visiteur qui arrive sans filtre — c'est la douleur que when() va soigner :
+absent = pas de filtre, présent = filtre.
 -->
 
 ---

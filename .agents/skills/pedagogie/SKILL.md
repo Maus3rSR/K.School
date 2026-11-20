@@ -135,6 +135,7 @@ Cette checklist ne remplace pas l'audit : en fin de tâche, lancer le skill `seq
 - [ ] Marge ≥ 10 % sur la séance
 - [ ] Exemples concrets variés
 - [ ] Notes présentateur complètes
+- [ ] Typographie cohérente : backticks = code tapé uniquement, `<KeyTerm>`/gras = notions ; conclusion commune d'une slide deux colonnes en `::bottom::` (skill `slides`, « Checklist finale »)
 
 ### Exercices
 

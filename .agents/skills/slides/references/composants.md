@@ -1,6 +1,6 @@
 # Composants `@k.school/slidev-addon-ui` — API et règles d'usage
 
-Source : `packages/ui/components/*.vue`, layout `packages/ui/layouts/chapter.vue`.
+Source : `packages/ui/components/*.vue`, layouts `packages/ui/layouts/*.vue`.
 Démo complète de chaque composant : `courses/Pilote` (`pnpm pilote:dev`).
 
 Conventions communes :
@@ -226,6 +226,22 @@ Props : `lines` (requis, `{ cmd?, out?, lang? }`), `title` (`bash`), `prompt` (`
 
 Props : `url` (`localhost:5173`), `title`. Slot = image, placeholder ou HTML. **Quand** : montrer le résultat visuel d'un code ; souvent en colonne droite d'un `two-cols-header`.
 
+### `<HttpRequest>` — requête HTTP brute
+
+```md
+<HttpRequest
+  method="POST"
+  url="/login"
+  :headers="[['Host', 'www.exemple.fr'], ['User-Agent', 'Firefox'], ['Content-Type', 'application/json']]"
+  body='{ "user": "alice", "mdp": "••••••" }'
+  :clicks="true"
+/>
+```
+
+Props : `method` (`GET`), `url` (`/`), `version` (`HTTP/1.1`), `headers` (liste de paires `[nom, valeur]`), `body` (`''` → « Vide : un GET n'a pas de corps », « Vide » sinon), `explain` (`true`, colonne « En clair »), `clicks` (révèle les 4 parties une à une), `legend` (`true`, ligne « sp / CR LF »). Quatre parties colorées : ligne de requête, lignes d'en-tête, ligne vide, corps de l'entité — chacune avec sa carte « En clair ».
+
+**Quand** : montrer la structure d'une requête HTTP (ligne de requête, en-têtes, ligne vide, corps) ; jamais une image ni un bloc de code ASCII.
+
 ### `<ImageGrid>` — grille de logos ou captures
 
 ```md
@@ -381,3 +397,42 @@ background: https://placeholdit.com/1920x1080/0f172a/94a3b8?text=Chapitre   # op
 ```
 
 Props frontmatter : `number` (rang du chapitre **dans le deck** — repart à `01` pour chaque deck ; affiché « Chapitre 03 »), `duration`, `background` (image avec overlay sombre). **Quand** : première slide de chaque chapitre, à la place de `layout: cover` + `cover.sli.dev`. 2 à 4 objectifs formulés en verbes d'action.
+
+---
+
+## Layout `two-cols-bottom`
+
+````md
+---
+layout: two-cols-bottom
+layoutClass: gap-x-6
+---
+
+# Titre
+
+::left::
+
+```ts
+// code
+```
+
+::right::
+
+<div v-click="1">
+
+Explication synchronisée avec le code
+
+</div>
+
+::bottom::
+
+<div v-click="2">
+
+Retenez : …
+
+</div>
+````
+
+Slots : `default` (header), `left`, `right`, `bottom` — le `::bottom::` est pleine largeur, sous les deux colonnes, séparé par un filet.
+
+**Quand** : slide code + explications dont la dernière étape est une conclusion commune à toute la slide (« Retenez… », synthèse). La colonne droite ne contient que les explications synchronisées avec le code (v-click ↔ highlighting) ; la conclusion va dans `::bottom::`, jamais empilée à la suite de la colonne droite.

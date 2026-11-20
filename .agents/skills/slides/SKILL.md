@@ -79,6 +79,7 @@ sections/
 | Lignes de BDD, enregistrements, relations entre tables | `<TableLinks>` (jamais Mermaid ni cartes)            |
 | Arborescence de fichiers                          | `<FileTree>` (jamais d'ASCII art)                         |
 | Capture / rendu d'app                             | `<Browser>`                                               |
+| Structure d'une requête HTTP                      | `<HttpRequest>`                                           |
 | Grille de logos / captures                        | `<ImageGrid>`                                             |
 | Chiffre marquant                                  | `<Stat>` (dans `layout: fact`)                            |
 | Consignes d'exercice                              | `<Exercise>`                                              |
@@ -134,6 +135,7 @@ Le style des tableaux est **global**, fourni par l'addon (`packages/ui/styles/in
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `chapter` (addon)            | Ouverture de chapitre : `number` (rang dans le deck, repart à `01`), `duration`, H1 + objectifs. Remplace `layout: cover` + `cover.sli.dev` |
 | `two-cols-header`            | Code à gauche, explications synchronisées à droite                                                                                          |
+| `two-cols-bottom` (addon)    | Idem + slot `::bottom::` pleine largeur (filet) pour la conclusion commune à toute la slide (« Retenez… », synthèse)                        |
 | `default`                    | Un seul composant pleine largeur (`<Steps>`, `<Compare>`, Mermaid)                                                                          |
 | `center`                     | Schéma, `<Arrow>`, flux à 2-3 cartes                                                                                                        |
 | `statement`                  | Une phrase d'impact à mémoriser                                                                                                             |
@@ -223,6 +225,11 @@ duration: 20 min
 - **Chaque colonne** : 4-5 points de liste OU 2-3 paragraphes courts
 - **Texte par colonne** : ~100-180 mots maximum
 - **Règle d'or** : Utiliser pour comparaisons (avant/après, avantages/inconvénients)
+
+**Layout `two-cols-bottom`** (addon) :
+
+- Identique à `two-cols-header`, avec en plus un slot `::bottom::` pleine largeur sous les colonnes, séparé par un filet
+- **Règle d'or** : un texte ou une conclusion qui vaut pour toute la slide (« Retenez… », synthèse) va dans `::bottom::` — jamais empilé en fin de colonne droite, qui ne contient que les explications synchronisées avec le code (v-click ↔ highlighting)
 
 **Layouts spéciaux** :
 
@@ -737,3 +744,11 @@ Les éléments vivent dans `courses/<Cours>/references/<concept>.ts` (`export de
 - [ ] Un seul lien, vers la documentation officielle
 - [ ] `at` correspond au chapitre courant ; `seen` renseigné uniquement pour les éléments utilisés en livecoding/démo ou en Partie A (bonus, parties B et C exclus)
 - [ ] Pas de `v-click` ; note présentateur « survol 30 s » présente
+
+---
+
+## Checklist finale — à passer sur chaque slide modifiée
+
+- [ ] **Backticks ≠ `<KeyTerm>`** : le code inline (backticks) est réservé au code qu'on tape — vérifier qu'**aucun concept n'est en backticks** et qu'**aucun code tapé n'est en gras ou dans `<KeyTerm>`** (deux visuels = deux rôles)
+- [ ] **Conclusion d'une slide deux colonnes** : « Retenez… », synthèse ou règle valant pour toute la slide → slot `::bottom::` du layout `two-cols-bottom`, jamais empilée dans la colonne droite
+- [ ] **Synchronisation clicks** : autant de `v-click="N"` numérotés que de segments après l'état initial du line highlighting, et `all` en dernier segment si la dernière étape est une synthèse

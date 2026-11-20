@@ -112,7 +112,7 @@ Retirer l'attribut `required` du champ titre dans les DevTools (ou la page sourc
 
 DevTools → Éléments : montrer `<input type="hidden" name="featured" value="0">` placé juste **avant** la case — décochée, la valeur `0` part quand même ; cochée, le `1` de la case l'emporte (dernier gagne). C'est ce qui permettra à l'édition (chapitre 4) de repasser « à la une » à faux.
 
-*Facultatif (30 s)* : montrer les messages personnalisés (`'title.required' => '…'`) si le temps le permet.
+*Les messages personnalisés (`'title.required' => '…'`) ne sont pas dans ce tag : ils se montrent au chapitre 6, dans `messages()` des Form Requests.*
 
 ---
 

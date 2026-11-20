@@ -48,7 +48,7 @@ Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
 ## Partie A — Socle (en séance)
 
-Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant. **A1 et A2 se font ensemble** pendant le « À vous » du chapitre 2 : le chapitre 1 se termine volontairement sur l'erreur 419 que `@csrf` résout en A2.
+Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant. **A1** se fait pendant le « À vous » du chapitre 1, qui se termine volontairement sur l'erreur 419 : constatez-la, puis **A2** (chapitre 2) la résout avec `@csrf`.
 
 ### A1 — Le formulaire de création (Chapitre 1)
 
@@ -73,7 +73,7 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
 
 **Étape A1.4** — **`store()`** : `Game::create($request->only([...]))` avec les colonnes de `Game`, puis `platforms()->sync($request->input('platform_ids', []))`, puis `redirect()->route('games.show', $game)->with('success', 'Jeu créé !')`.
 
-**Étape A1.5** — **Message flash** : dans `layouts/app.blade.php`, affichez `session('success')` au-dessus de `@yield('content')`.
+**Étape A1.5** — **Message flash** : dans `layouts/app.blade.php`, affichez `session('success')` au-dessus de `@yield('content')` ; prévoyez aussi `session('error')` (même emplacement), utile en Partie B.
 
 **Étape A1.6** — Ajoutez un lien « Nouveau jeu » dans la navbar.
 

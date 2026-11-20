@@ -25,12 +25,12 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Route et méthode ci-dessous. Que se passe-t-il pour `/quests/999`, une quête qui n'existe pas ?"
+  question="La méthode attend un objet `Quest`, mais l'URL ne contient qu'un nombre. Que se passe-t-il pour `/quests/999`, une quête qui n'existe pas ?"
   :options="[
-    'Une erreur 500 : le modèle est introuvable',
-    'Une page 404, sans que vous ayez écrit `findOrFail`',
-    'Un objet `Quest` vide est injecté',
-    'Rien ne se passe : la route ne correspond pas'
+    'Une erreur de type : `999` n\'est pas un objet `Quest`',
+    'Une page 404 : Laravel cherche la quête 999 et ne la trouve pas',
+    'Un objet `Quest` vide est passé à la méthode',
+    'Une erreur 500 : PHP ne sait pas construire `$quest`'
   ]"
   :answer="1"
 >
@@ -44,6 +44,7 @@ public function show(Quest $quest) { /* … */ }
 </Quiz>
 
 <!--
+Faites raisonner : en PHP pur, la 1re réponse serait juste (TypeError). Qui transforme donc 999 en Quest ?
 Réponse : 404 automatique. Laravel exécute le findOrFail pour vous — c'est le route model binding, vu à la slide « Le binding ».
 Fausse piste fréquente : « objet vide » — vrai seulement si le nom du paramètre ne correspond pas à la variable (voir notes plus loin).
 -->
@@ -115,12 +116,13 @@ Cette **seule ligne** remplace toutes les routes des quêtes — et leur donne u
 
 Mêmes noms que vos routes à la main : **rien à changer dans les vues**. Mais le paramètre s'appelle maintenant `{quest}`, plus `{id}`.
 
+`->only([...])` / `->except([...])` : ne générer qu'une partie des sept routes — utile quand l'une existe déjà (ici `show`).
+
 </v-click>
 
 <!--
 À retenir plutôt que par cœur : index/show = GET d'affichage, create/edit = GET des formulaires,
 store/update/destroy = POST/PUT/DELETE de modification.
-On peut limiter les routes générées : Route::resource('quests', C)->only(['index','show']) ou ->except([...]) — utile quand une route existe déjà.
 -->
 
 ---
@@ -207,13 +209,15 @@ Le binding fonctionne pour show, edit, update et destroy — toutes les routes q
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,13fr)_minmax(0,6fr)]
 transition: slide-up | slide-down
 ---
 
 # Le contrôleur après refactor
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px; --slidev-code-line-height: 16px">
 
 ```php {all|1-7|9-14|16-20|all}
 public function edit(Quest $quest)
@@ -240,6 +244,8 @@ public function destroy(Quest $quest)
     return redirect()->route('quests.index')->with('success', 'Quête supprimée !');
 }
 ```
+
+</div>
 
 ::right::
 

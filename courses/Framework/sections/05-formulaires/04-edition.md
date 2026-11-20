@@ -50,13 +50,15 @@ Résultat : la quête n'est pas modifiée et les champs apparaissent dans l'URL.
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,7fr)_minmax(0,3fr)]
 transition: slide-up | slide-down
 ---
 
 # Les routes, écrites à la main
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px">
 
 ```php {all|2|3|4|all}
 // routes/web.php
@@ -65,7 +67,11 @@ Route::put('/quests/{id}', [QuestController::class, 'update'])->name('quests.upd
 Route::delete('/quests/{id}', [QuestController::class, 'destroy'])->name('quests.destroy');
 ```
 
+</div>
+
 ::right::
+
+<div class="text-lg">
 
 <div v-click="1">
 
@@ -85,6 +91,8 @@ Un **DELETE** supprime : encore la même URL. `edit`, `update`, `destroy` — tr
 
 </div>
 
+</div>
+
 <!--
 Ajouter aussi dans le contrôleur les trois méthodes (vides pour l'instant) : edit(int $id), update(Request $request, int $id), destroy(int $id).
 Rappel S2 : le verbe fait partie de la route — la même URI peut porter plusieurs verbes.
@@ -92,7 +100,7 @@ Rappel S2 : le verbe fait partie de la route — la même URI peut porter plusie
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,3fr)_minmax(0,1fr)]
 transition: slide-up | slide-down
 ---
 
@@ -100,6 +108,8 @@ transition: slide-up | slide-down
 `resources/views/quests/edit.blade.php`
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px; --slidev-code-line-height: 13px">
 
 ```blade {all|1|2-3|5-6|9-10|12-13|all}
 <form method="POST" action="{{ route('quests.update', $quest) }}">
@@ -120,7 +130,11 @@ transition: slide-up | slide-down
 </form>
 ```
 
+</div>
+
 ::right::
+
+<div class="text-xs">
 
 <div v-click="1">
 
@@ -133,6 +147,12 @@ Le `method` reste **`POST`** : c'est le seul verbe d'écriture qu'un formulaire 
 `@csrf` **et** `@method('PUT')` : le jeton protège la requête, `@method` ajoute un champ caché `_method`.
 
 </div>
+
+</div>
+
+::bottom::
+
+<div class="grid grid-cols-3 gap-4 border-t border-slate-500/35 pt-2 text-xs">
 
 <div v-click="3">
 
@@ -149,6 +169,8 @@ Les cases aussi : `old('location_ids', $quest->locations->pluck('id')->all())` p
 <div v-click="5">
 
 Le champ caché `featured=0` reste **devant** la case : décocher renvoie `0` — `old('featured', $quest->featured)` garde l'état actuel.
+
+</div>
 
 </div>
 
@@ -208,13 +230,15 @@ Depuis JavaScript (fetch), on pourrait envoyer un vrai PUT : c'est l'objet de la
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,13fr)_minmax(0,6fr)]
 transition: slide-up | slide-down
 ---
 
 # `edit()` et `update()`
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px; --slidev-code-line-height: 14px">
 
 ```php {all|1-8|10-27|all}{maxHeight:'420px'}
 public function edit(int $id)
@@ -246,6 +270,8 @@ public function update(Request $request, int $id)
 }
 ```
 
+</div>
+
 ::right::
 
 <div v-click="1">
@@ -274,13 +300,15 @@ Demander à la salle de compter les findOrFail : show, edit, update, destroy —
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,2fr)_minmax(0,1fr)]
 transition: slide-up | slide-down
 ---
 
 # `destroy()` et la clé étrangère
 
 ::left::
+
+<div style="--slidev-code-font-size: 9.5px">
 
 ```php {all|3|4|all}
 public function destroy(int $id)
@@ -293,7 +321,11 @@ public function destroy(int $id)
 }
 ```
 
+</div>
+
 ::right::
+
+<div class="text-lg">
 
 <div v-click="1">
 
@@ -310,6 +342,8 @@ Sans `detach()`, une quête qui a des lieux fait une **erreur 500** : la table p
 <div v-click="3">
 
 `delete()` supprime la ligne, puis on revient à la liste — toujours en **PRG**.
+
+</div>
 
 </div>
 

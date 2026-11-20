@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 02
-duration: 33 min
+duration: 13 min
 ---
 
 # Le jeton CSRF
@@ -13,7 +13,7 @@ duration: 33 min
 
 <!--
 Transition : le 419 n'est pas un bug, c'est une protection. Pour la comprendre, il faut voir l'attaque qu'elle bloque.
-Découpage : ≈ 6 min de slides (≈ 6 slides), démo flash ≈ 2 min — moments : ajouter `@csrf`, le 419 disparaît, `_token` visible dans les DevTools ; micro-pratique ≈ 25 min (slide « À vous », étapes A1-A2 du README).
+Découpage : ≈ 6 min de slides (≈ 6 slides), démo flash ≈ 2 min — moments : ajouter `@csrf`, le 419 disparaît, `_token` visible dans les DevTools ; micro-pratique ≈ 5 min (slide « À vous », étape A2 du README : ajouter `@csrf` au formulaire du chapitre 1).
 Moment léger : « 419, c'est le code HTTP de l'oubli » — laisser un @csrf manquant volontairement dans un second formulaire, puis le retrouver ensemble.
 Tag Campus Quest de fin de chapitre : s5-ch2-csrf.
 -->
@@ -25,19 +25,22 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Un site piégé contient un formulaire caché, auto-soumis, qui poste vers `campus-quest.test/quests` avec `title` = « Quête offerte ». Vous êtes connecté·e à Campus Quest. Sans protection, que se passe-t-il ?"
+  question="Un site piégé contient un formulaire caché, auto-soumis, qui poste vers `campus-quest.test/quests` avec `title` = « Quête offerte ». Vous avez une session ouverte sur Campus Quest. Sans protection, que se passe-t-il ?"
   :options="[
-    'Rien : le navigateur refuse d\'envoyer un formulaire vers un autre site',
-    'Une quête spam est créée : la requête part avec votre session, le serveur ne voit pas la différence',
-    'Rien : seul un clic volontaire peut soumettre un formulaire',
-    'Le site piégé récupère votre mot de passe en échange'
+    'Rien : le navigateur bloque les formulaires qui visent un autre site',
+    'Rien : sans clic de votre part, aucun formulaire ne part',
+    'La quête est créée : le navigateur joint vos cookies de session à la requête',
+    'Rien : le site piégé ne connaît pas votre mot de passe'
   ]"
-  :answer="1"
+  :answer="2"
 />
 
 <!--
-Faites voter : beaucoup croient que le navigateur bloque — non : il attache vos cookies à TOUTE requête
-vers campus-quest.test, d'où qu'elle vienne. La slide suivante rejoue l'attaque pas à pas.
+Faites voter : chaque « Rien » repose sur une croyance répandue.
+- Le navigateur bloque : non — il attache vos cookies à TOUTE requête vers campus-quest.test, d'où qu'elle vienne.
+- Sans clic : un form.submit() en JavaScript suffit.
+- Le mot de passe : inutile, le cookie de session prouve déjà qui vous êtes.
+La slide suivante rejoue l'attaque pas à pas.
 -->
 
 ---
@@ -213,23 +216,20 @@ transition: slide-up | slide-down
 
 # À vous : créer un jeu
 
-<Exercise title="WishFlix — formulaire de création d'un jeu" duration="25 min" level="guidé"
+<Exercise title="WishFlix — réparer le 419" duration="5 min" level="guidé"
   :criteria="[
-    '/games/create affiche un formulaire avec tous les champs du jeu et le select des catégories',
     'L\'envoi crée le jeu puis redirige vers sa fiche /game/{id}',
-    'Un message flash « Jeu créé » s\'affiche une seule fois'
+    'Un message flash « Jeu créé » s\'affiche une seule fois',
+    'Le champ caché _token est visible dans les DevTools'
   ]"
   :hints="[
-    'Deux routes : un GET pour afficher, un POST pour traiter',
     'Un 419 ? Il manque @csrf sous la balise form',
-    'Le chapitre 01 donne l\'ordre : routes → create() → vue → store() → flash dans le layout'
+    'DevTools > Éléments : cherchez input type=hidden name=_token'
   ]">
 
-**Exercice** `05-formulaires-validation` — étapes **A1 à A2** du README.
+**Exercice** `05-formulaires-validation` — étape **A2** du README.
 
-Transposez la démo sur les **jeux** WishFlix : formulaire, `@csrf`, enregistrement, redirection.
-
-**Spécificités WishFlix** : votre formulaire a plus de champs que la démo — `release_year`, `rating`, `playtime_hours`, `cover_url` et un `select` `status` à trois valeurs. Les cases `platform_ids[]` et `featured` fonctionnent **exactement comme** les lieux et « à la une » de la démo : `[]` dans le `name`, `platforms()->sync(...)` dans `store()`.
+Reprenez le formulaire WishFlix du chapitre 1 et corrigez le 419 que vous avez constaté.
 
 </Exercise>
 

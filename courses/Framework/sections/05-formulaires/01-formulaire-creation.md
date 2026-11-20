@@ -2,21 +2,21 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 18 min
+duration: 40 min
 ---
 
 # Le formulaire de création
 
-- Choisir entre GET et POST pour envoyer des données
-- Afficher un formulaire avec une route GET
-- Traiter l'envoi avec une route POST, puis rediriger
+- Choisir entre `GET` et `POST` pour envoyer des données
+- Afficher un formulaire avec une route `GET`
+- Traiter l'envoi avec une route `POST`, puis rediriger
 
 <!--
 Transition : le Maître du jeu veut créer ses quêtes dans le navigateur. Première brique : le formulaire.
 Moment léger (running gag Campus Quest) : « Hier, le Maître du jeu a voulu ajouter une quête… il a ouvert Tinker,
 tapé Quest::create( et refermé le terminal en pleurant. » Aujourd'hui, on lui offre un vrai écran.
 Tag Campus Quest de fin de chapitre : s5-ch1-formulaire.
-Découpage : ≈ 15 min de slides (≈ 13 slides), démo flash ≈ 3 min — moment : envoyer le formulaire → **419** (le tag ch1 n'a pas `@csrf`) ; pas de micro-pratique ici, le « À vous » est au chapitre 02.
+Découpage : ≈ 17 min de slides (≈ 15 slides), démo flash ≈ 3 min — moment : envoyer le formulaire → **419** (le tag ch1 n'a pas `@csrf`) ; micro-pratique ≈ 20 min (slide « À vous », étape A1 du README) juste avant « Premier envoi… » : chacun constate le 419.
 -->
 
 ---
@@ -26,19 +26,22 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Campus Quest gagne deux formulaires : une recherche de quêtes et l'inscription d'une nouvelle quête. Lequel doit partir en POST ?"
+  question="Le Maître du jeu va saisir une nouvelle quête dans un formulaire. Avec quelle méthode HTTP le formulaire doit-il l'envoyer, et pour quelle raison ?"
   :options="[
-    'Le formulaire de recherche : ses critères doivent rester cachés',
-    'Le formulaire de création : il modifie les données du serveur',
-    'Les deux : POST est toujours plus sécurisé que GET',
-    'Aucun des deux : le choix GET/POST est purement cosmétique'
+    '`GET` : c\'est la méthode par défaut d\'un formulaire, Laravel s\'adapte',
+    '`POST` : les données sont chiffrées, donc protégées des curieux',
+    '`POST` : la requête crée une donnée, elle ne doit pas pouvoir être rejouée par un simple lien',
+    '`GET` : les saisies restent visibles dans l\'URL, c\'est plus facile à déboguer'
   ]"
-  :answer="1"
+  :answer="2"
 />
 
 <!--
-Faites voter : beaucoup répondent « POST = plus sécurisé » — non, POST n'est ni chiffré ni caché, il transporte juste
-autrement. La slide suivante compare concrètement les deux méthodes.
+Les quatre réponses sont des raisonnements qu'on entend vraiment — faites voter, puis demandez à un défenseur de chaque réponse de se justifier.
+- « GET par défaut » : vrai (un <form> sans method envoie en GET)… mais ce n'est pas une raison de le garder.
+- « POST chiffré » : faux — POST n'est ni chiffré ni caché ; seul HTTPS chiffre, et il chiffre GET comme POST.
+- « GET plus facile à déboguer » : vrai… et c'est justement le problème : un lien /quests/store?title=… recréerait une quête à chaque clic.
+- Le vrai critère, déjà croisé en S2 (« un verbe HTTP par intention ») : la requête modifie-t-elle quelque chose ? Oui → POST.
 -->
 
 ---
@@ -49,12 +52,12 @@ transition: slide-up | slide-down
 
 | **Critère** | GET | POST |
 |---|---|---|
-| **Où voyagent les données** | Dans l'URL (`?difficulty=easy`) | Dans le corps de la requête, invisibles |
+| **Où voyagent les données** | Dans l'URL (`?difficulty=easy`) | Dans le corps de la requête, hors de l'URL |
 | **Marque-page / partage d'URL** | Oui, l'URL suffit | Non, les données ne sont pas dans l'URL |
 | **Effet sur le serveur** | Lecture seule, sans effet de bord | Peut créer, modifier, supprimer |
 | **Usage typique** | Recherche, filtres, navigation | Inscription, paiement, suppression |
 
-Une recherche en GET peut être **enregistrée en favori** ou partagée ; une création en POST ne doit **jamais** être rejouée en rechargeant une URL.
+Une recherche en `GET` peut être **enregistrée en favori** ou partagée ; une création en `POST` ne doit **jamais** être rejouée en rechargeant une URL.
 
 <!--
 POST n'est pas « plus sûr » : les données sont simplement dans le corps, lisibles dans les DevTools.
@@ -63,50 +66,63 @@ Lien avec S2 : le filtre ?difficulty=easy de la liste était un GET — logique,
 -->
 
 ---
-layout: center
 transition: slide-up | slide-down
 ---
 
-# Un formulaire = deux requêtes
+# Rappel : anatomie d'une requête HTTP
+Vue en S2 — cette fois, avec un corps
 
-<div class="grid grid-cols-2 gap-8 mt-4">
-<div>
-
-**1. Afficher** — une route **GET**
-
-```mermaid {scale: 0.75}
-sequenceDiagram
-    participant N as Navigateur
-    participant L as Laravel
-    N->>L: GET /quests/create
-    L-->>N: HTML du formulaire
-```
-
-</div>
-<div v-click>
-
-**2. Envoyer** — une route **POST**
-
-```mermaid {scale: 0.75}
-sequenceDiagram
-    participant N as Navigateur
-    participant L as Laravel
-    participant B as Base
-    N->>L: POST /quests (title, xp…)
-    L->>B: INSERT INTO quests
-    L-->>N: 302 → /quests/31
-```
-
-</div>
-</div>
+<HttpRequest
+  method="POST"
+  url="/login"
+  :headers="[['Host', 'www.exemple.fr'], ['User-Agent', 'Firefox'], ['Content-Type', 'application/json']]"
+  body='{ "user": "alice", "mdp": "••••••" }'
+/>
 
 <!--
-Deux allers-retours distincts : on affiche (GET, sans effet), puis on envoie (POST, avec effet).
-Le 302 de la fin est le sujet de la slide « Post/Redirect/Get » un peu plus loin.
+Rappel de la S2 (chapitre Routing) : la même structure en 4 parties.
+Un GET s'arrête à la ligne vide (3) : ses données sont dans l'URL de la ligne 1.
+Un POST remplit la partie 4, le corps — et l'en-tête Content-Type annonce dans quel format il est écrit.
+Ici c'est du JSON : c'est ce qu'enverrait une API ou un fetch() JavaScript. Et un formulaire HTML ? Slide suivante.
 -->
 
 ---
-layout: two-cols-header
+transition: slide-up | slide-down
+---
+
+# Que contient le corps ?
+L'en-tête `Content-Type` annonce le format
+
+| **Format** | `Content-Type` | **Usage courant** |
+|---|---|---|
+| **Formulaire encodé** | <span v-mark.circle.orange="1">`application/x-www-form-urlencoded`</span> | Formulaires simples : `title=Salle+404&xp=50` |
+| **Formulaire multipart** | <span v-mark.circle.blue="2">`multipart/form-data`</span> | Formulaires avec fichiers (avatar, image…) |
+| **JSON** | `application/json` | API web : objets et tableaux structurés |
+| **Texte brut** | `text/plain` | Texte sans structure particulière |
+| **XML** | `application/xml` | API ou systèmes qui échangent du XML |
+| **Binaire** | `application/octet-stream` | Fichier ou données binaires génériques |
+
+<div v-click="1">
+
+Un `<form method="POST">` envoie **par défaut** du `x-www-form-urlencoded` : les paires `name=valeur` de vos champs, séparées par `&`.
+
+</div>
+
+<div v-click="2">
+
+Pour envoyer un fichier, il faut le demander : `<form method="POST" enctype="multipart/form-data">`.
+
+</div>
+
+<!--
+Clic 1 : le format par défaut d'un formulaire HTML — c'est celui de Campus Quest aujourd'hui. Même encodage que la query string d'un GET, mais dans le corps.
+Clic 2 : multipart n'arrive que si on l'écrit (enctype) ; pas d'upload dans ce chapitre.
+Côté Laravel, peu importe le format : $request->input('title') lit la valeur, qu'elle vienne d'un formulaire encodé, multipart ou de JSON.
+Geste à montrer en démo : DevTools > Réseau > la requête POST /quests > onglet « Requête » : title=…&xp=… (Content-Type visible dans les en-têtes).
+-->
+
+---
+layout: two-cols-bottom
 layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
@@ -115,12 +131,20 @@ transition: slide-up | slide-down
 
 ::left::
 
-```php {all|2|3|5-11|all}
+```php {all|2-4|5-7|all}
 // routes/web.php
-Route::get('/quests/create', [QuestController::class, 'create'])->name('quests.create');
-Route::post('/quests', [QuestController::class, 'store'])->name('quests.store');
+Route::get('/quests/create',
+    [QuestController::class, 'create'])
+    ->name('quests.create');
+Route::post('/quests',
+    [QuestController::class, 'store'])
+    ->name('quests.store');
+```
 
-// app/Http/Controllers/QuestController.php
+<div v-click="3">
+
+```php
+// QuestController.php
 public function create()
 {
     return view('quests.create', [
@@ -130,17 +154,19 @@ public function create()
 }
 ```
 
+</div>
+
 ::right::
 
 <div v-click="1">
 
-Le **GET** affiche le formulaire. `/quests/create` n'est pas capturée par `/quests/{id}` : le `whereNumber('id')` de la S2 n'accepte que des chiffres.
+Le `GET` affiche le formulaire. `/quests/create` n'est pas capturée par `/quests/{id}` : le `whereNumber('id')` de la S2 n'accepte que des chiffres.
 
 </div>
 
 <div v-click="2">
 
-Le **POST** vise la **même URL que la liste** : c'est le verbe qui change l'action.
+Le `POST` vise la **même URL que la liste** : c'est le verbe qui change l'action.
 
 </div>
 
@@ -150,9 +176,11 @@ Le **POST** vise la **même URL que la liste** : c'est le verbe qui change l'act
 
 </div>
 
+::bottom::
+
 <div v-click="4">
 
-Retenez : **une route GET pour afficher, une route POST pour traiter**.
+Retenez : **une route `GET` pour afficher, une route `POST` pour traiter**.
 
 </div>
 
@@ -162,7 +190,7 @@ Un lien « Nouvelle quête » dans partials/nav.blade.php : route('quests.create
 -->
 
 ---
-layout: two-cols-header
+layout: two-cols-bottom
 layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
@@ -172,7 +200,7 @@ transition: slide-up | slide-down
 
 ::left::
 
-```blade {all|1|2-9|11-16|18-23|27|all}{maxHeight:'360px'}
+```blade {all|1|2-9|11-16|18-23|27|all}{maxHeight:'300px'}
 <form method="POST" action="{{ route('quests.store') }}">
     <label for="title">Titre</label>
     <input id="title" name="title" type="text">
@@ -231,9 +259,11 @@ Chaque champ a un `name` : c'est la **clé** sous laquelle la saisie arrivera au
 
 <div v-click="5">
 
-Le `<button type="submit">` envoie **tout le formulaire** en POST vers `quests.store`.
+Le `<button type="submit">` envoie **tout le formulaire** en `POST` vers `quests.store`.
 
 </div>
+
+::bottom::
 
 <div v-click="6">
 
@@ -302,7 +332,7 @@ Pas de champ caché pour l'instant : featured décoché = clé absente, donc abs
 -->
 
 ---
-layout: two-cols-header
+layout: two-cols-bottom
 layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
@@ -345,6 +375,8 @@ public function store(Request $request)
 
 </div>
 
+::bottom::
+
 <div v-click="4">
 
 Le cycle complet : **soumettre → insérer → rediriger**.
@@ -376,7 +408,7 @@ transition: slide-up | slide-down
 
 <Definition term="Post/Redirect/Get">
 
-Le pattern <KeyTerm>PRG</KeyTerm> : après un POST réussi, on répond par une **redirection** vers une page en GET — jamais par la page elle-même.
+Le pattern <KeyTerm>PRG</KeyTerm> : après un `POST` réussi, on répond par une **redirection** vers une page en `GET` — jamais par la page elle-même.
 
 </Definition>
 
@@ -384,7 +416,7 @@ Le pattern <KeyTerm>PRG</KeyTerm> : après un POST réussi, on répond par une *
 
 <v-click>
 
-Sans redirection, un **F5** renverrait le formulaire une seconde fois — et créerait un doublon. Avec la redirection, F5 ne recharge qu'un inoffensif GET.
+Sans redirection, un **F5** renverrait le formulaire une seconde fois — et créerait un doublon. Avec la redirection, F5 ne recharge qu'un inoffensif `GET`.
 
 </v-click>
 
@@ -426,11 +458,43 @@ On le verra fonctionner… dès que le formulaire passera. Slide suivante : prem
 -->
 
 ---
+transition: slide-up | slide-down
+---
+
+# À vous : le formulaire de création
+
+<Exercise title="WishFlix — formulaire de création d'un jeu" duration="20 min" level="guidé"
+  :criteria="[
+    '/games/create affiche un formulaire avec tous les champs du jeu et le select des catégories',
+    'Vous avez cliqué sur « Créer » et regardé ce qui se passe',
+    'Vous savez dire quel code HTTP et quel message vous avez reçus'
+  ]"
+  :hints="[
+    'Deux routes : un GET pour afficher, un POST pour traiter',
+    'L\'ordre du chapitre : routes → create() → vue → store() → flash dans le layout',
+    'Une erreur à l\'envoi ? C\'est probablement le but : notez le code et le message'
+  ]">
+
+**Exercice** `05-formulaires-validation` — étape **A1** du README.
+
+Transposez le chapitre sur les **jeux** WishFlix : routes, `create()`, vue, `store()`, flash.
+
+**À la fin, remplissez le formulaire et envoyez-le.** Notez ce que vous obtenez : on en parle juste après.
+
+</Exercise>
+
+<!--
+Point clé : les étudiants ne mettent PAS @csrf (il n'est pas dans les slides du chapitre) — ils doivent tous tomber sur le 419 par eux-mêmes. Ne leur soufflez rien.
+Palier de rattrapage : tag Campus Quest s5-ch1-formulaire (relire le diff, refaire sur WishFlix).
+-->
+
+---
 layout: center
 transition: slide-up | slide-down
 ---
 
 # Premier envoi…
+Vous l'avez vu aussi ?
 
 <Browser url="localhost/quests" title="Campus Quest">
   <div class="flex flex-col items-center justify-center h-60 text-2xl tracking-widest opacity-70">
@@ -445,7 +509,7 @@ Le formulaire est correct, les routes existent, le contrôleur aussi. **Qui refu
 </v-click>
 
 <!--
-Moment léger : jouez la surprise (« ça marchait chez moi ! »), faites lancer des hypothèses dans la salle.
+Les étudiants viennent de le vivre : demandez qui a eu le 419, faites lancer des hypothèses dans la salle (« ça marchait chez moi ! »).
 « Page Expired » alors qu'on vient d'ouvrir la page : le message est trompeur, c'est voulu par Laravel.
 Ne donnez pas la réponse : elle ouvre le chapitre suivant.
 -->

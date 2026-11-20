@@ -187,13 +187,15 @@ Démo : soumettre avec un titre vide, montrer le message rouge et les autres cha
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,2fr)_minmax(0,1fr)]
 transition: slide-up | slide-down
 ---
 
 # `old()` sur un `<select>` et un `<textarea>`
 
 ::left::
+
+<div style="--slidev-code-font-size: 9.5px">
 
 ```blade {all|1-2|4-8|all}
 <textarea id="description" name="description">{{ old('description') }}</textarea>
@@ -206,7 +208,11 @@ transition: slide-up | slide-down
 </select>
 ```
 
+</div>
+
 ::right::
+
+<div class="text-lg">
 
 <div v-click="1">
 
@@ -220,6 +226,8 @@ Un `<select>` ne se pré-remplit pas non plus : la directive `@selected(conditio
 
 </div>
 
+</div>
+
 <!--
 Même logique pour une catégorie : @selected((int) old('category_id') === $category->id) dans la boucle foreach.
 Piège : old() renvoie une chaîne, l'id est un entier — d'où le cast (int) ou la comparaison souple ==.
@@ -227,7 +235,7 @@ Piège : old() renvoie une chaîne, l'id est un entier — d'où le cast (int) o
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,16fr)_minmax(0,9fr)]
 transition: slide-up | slide-down
 ---
 
@@ -244,6 +252,8 @@ $quest = Quest::create(Arr::except($validated, 'location_ids'));
 $quest->locations()->sync($validated['location_ids'] ?? []);
 ```
 
+<div style="--slidev-code-font-size: 10.5px">
+
 ```blade {all|1-2|4-6|all}
 <input type="hidden" name="featured" value="0">
 <input type="checkbox" name="featured" value="1" @checked(old('featured'))>
@@ -251,6 +261,8 @@ $quest->locations()->sync($validated['location_ids'] ?? []);
 <input type="checkbox" name="location_ids[]" value="{{ $location->id }}"
      @checked(in_array($location->id, old('location_ids', [])))>
 ```
+
+</div>
 
 ::right::
 

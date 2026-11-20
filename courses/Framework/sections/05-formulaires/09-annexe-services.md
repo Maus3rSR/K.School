@@ -2,7 +2,9 @@
 transition: slide-left | slide-right
 ---
 
-# Les services
+# Annexe : les services
+
+> **Hors parcours** : pour celles et ceux qui sont en avance et veulent aller plus loin. Rien à reproduire, rien d'exigé.
 
 - Repérer la logique métier qui s'accumule dans un contrôleur
 - Extraire cette logique dans une classe de service
@@ -22,23 +24,27 @@ transition: slide-up | slide-down
 # À votre avis ?
 
 <Quiz
-  question="Une règle métier (« une seule quête à la une ») est nécessaire dans `store()` et dans `update()`. Où la placer ?"
+  question="La règle « une seule quête à la une » sert dans `store()` et `update()`. Demain, un import de quêtes depuis un fichier CSV devra la respecter aussi. Où l'écrire pour ne l'écrire qu'une fois ?"
   :options="[
-    'Recopiée dans les deux méthodes du contrôleur',
-    'Dans la vue Blade, avant l\'envoi',
-    'Dans une classe dédiée, appelée par les deux méthodes',
-    'Dans la route, avec un middleware'
+    'Dans le Form Request : il passe avant chaque création',
+    'Dans la migration : une contrainte `unique` sur la colonne `featured`',
+    'Dans `store()`, que `update()` et l\'import appelleront',
+    'Dans une classe dédiée, appelée par le contrôleur comme par l\'import'
   ]"
-  :answer="2"
+  :answer="3"
 />
 
 <!--
-La plupart répondent « recopiée » par habitude : c'est exactement ce que la slide suivante fait vivre, et ce qu'on veut éviter.
+Chaque mauvaise réponse a une vraie logique — faites-les défendre :
+- Form Request : il ne valide que les requêtes HTTP ; l'import CSV ne passe pas par lui. Et valider ≠ appliquer une règle métier (décocher les autres).
+- unique sur featured : un booléen n'a que deux valeurs — une seule quête pourrait alors être « pas à la une ».
+- store() appelé par les autres : une action de contrôleur attend une requête HTTP et renvoie une redirection, pas un service.
+La slide suivante fait vivre la duplication, puis la classe dédiée.
 -->
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,13fr)_minmax(0,7fr)]
 transition: slide-up | slide-down
 ---
 
@@ -46,6 +52,8 @@ transition: slide-up | slide-down
 Les règles métier du Maître du jeu arrivent
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px">
 
 ```php
 public function store(StoreQuestRequest $request)
@@ -64,6 +72,8 @@ public function store(StoreQuestRequest $request)
 }
 ```
 
+</div>
+
 ::right::
 
 Une **règle métier** s'invite :
@@ -71,9 +81,15 @@ Une **règle métier** s'invite :
 - Une seule quête **« à la une »** à la fois : si la nouvelle est `featured`, toutes les autres repassent à `false`
 - `Arr::except()` et `sync()` des lieux sont **déjà là** depuis le chapitre 3 — mais le bloc grossit encore
 
+::bottom::
+
 <v-click>
 
+<div class="border-t border-slate-500/35 pt-2">
+
 La règle « à la une » serait à **recopier** dans `update()` — et elle n'a rien à voir avec HTTP : ni requête, ni réponse.
+
+</div>
 
 </v-click>
 
@@ -137,13 +153,15 @@ Un service ne connaît ni Request ni Response : il prend des données et rend de
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,3fr)_minmax(0,2fr)]
 transition: slide-up | slide-down
 ---
 
 # `QuestService` : la logique déménage
 
 ::left::
+
+<div style="--slidev-code-font-size: 10.5px; --slidev-code-line-height: 12px">
 
 ```php {all|3-9|11-17|19-26|all}
 class QuestService
@@ -174,6 +192,8 @@ class QuestService
     }
 }
 ```
+
+</div>
 
 ::right::
 
@@ -211,13 +231,15 @@ Import à ajouter : use Illuminate\Support\Arr;
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,13fr)_minmax(0,7fr)]
 transition: slide-up | slide-down
 ---
 
 # Injecter le service
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px">
 
 ````md magic-move
 ```php
@@ -266,6 +288,8 @@ class QuestController extends Controller
 ```
 ````
 
+</div>
+
 ::right::
 
 Avant : `store()` mélange HTTP et métier — et `update()` devrait tout recopier.
@@ -282,13 +306,19 @@ Le constructeur déclare `private QuestService $quests` (**promotion de proprié
 
 </div>
 
+::bottom::
+
 <div v-click="3">
+
+<div class="border-t border-slate-500/35 pt-2">
 
 <Definition term="Dependency injection" translation="(Injection de dépendances)">
 
 Recevoir ses dépendances **de l'extérieur** — ici par le constructeur — au lieu de les instancier soi-même.
 
 </Definition>
+
+</div>
 
 </div>
 

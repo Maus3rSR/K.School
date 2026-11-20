@@ -103,13 +103,15 @@ Laravel fournit souvent deux classes : StoreQuestRequest et UpdateQuestRequest �
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,13fr)_minmax(0,7fr)]
 transition: slide-up | slide-down
 ---
 
 # La classe `StoreQuestRequest`
 
 ::left::
+
+<div style="--slidev-code-font-size: 10.5px; --slidev-code-line-height: 14px">
 
 ```php {all|3-6|8-21|23-26|all}
 class StoreQuestRequest extends FormRequest
@@ -135,10 +137,15 @@ class StoreQuestRequest extends FormRequest
 
     public function messages(): array
     {
-        return ['title.required' => 'Le titre est obligatoire.'];
+        return [
+            'title.required' => 'Le titre est obligatoire.',
+            'title.max' => 'Le titre ne peut pas dépasser 100 caractères.',
+        ];
     }
 }
 ```
+
+</div>
 
 ::right::
 
@@ -173,13 +180,15 @@ D'autres hooks existent : prepareForValidation() pour nettoyer la saisie avant l
 
 ---
 layout: two-cols-header
-layoutClass: gap-x-6
+layoutClass: gap-x-6 !grid-cols-[minmax(0,2fr)_minmax(0,1fr)]
 transition: slide-up | slide-down
 ---
 
 # Le contrôleur s'allège
 
 ::left::
+
+<div style="--slidev-code-font-size: 9px">
 
 ```php
 public function store(StoreQuestRequest $request)
@@ -191,12 +200,28 @@ public function store(StoreQuestRequest $request)
 }
 ```
 
+</div>
+
 ::right::
+
+<div class="text-sm">
 
 - Le type `StoreQuestRequest` dans la signature suffit : Laravel **valide avant** d'appeler la méthode — en échec, `store()` n'est jamais exécutée
 - `$request->validated()` renvoie **uniquement** les données validées
 
-<v-click>
+<div v-click="2">
+
+`update()` reçoit sa jumelle `UpdateQuestRequest` — même mécanisme, règles ajustables séparément.
+
+</div>
+
+</div>
+
+::bottom::
+
+<div v-click="1">
+
+<div class="border-t border-slate-500/35 pt-2">
 
 <Definition term="Form Request">
 
@@ -204,13 +229,9 @@ Une classe qui encapsule la validation d'un formulaire : **autorisation + règle
 
 </Definition>
 
-</v-click>
+</div>
 
-<v-click>
-
-`update()` reçoit sa jumelle `UpdateQuestRequest` — même mécanisme, règles ajustables séparément.
-
-</v-click>
+</div>
 
 <!--
 C'est le même mécanisme d'injection que Request ou Quest : déclarer le type, Laravel fournit l'objet validé.
@@ -241,12 +262,11 @@ public function update(UpdateQuestRequest $request, Quest $quest)
 
 <v-click>
 
-Deux classes, une par formulaire : le jour où l'édition diffère (champ facultatif, règle `unique`), vous ne touchez que **celle-là**.
+Deux classes, une par formulaire : le jour où l'édition diffère (champ facultatif, règle `unique`), vous ne touchez que **celle-là** — par exemple `Rule::unique('quests', 'title')->ignore($this->quest)` pour qu'une quête garde son propre titre à l'édition.
 
 </v-click>
 
 <!--
-Pour une règle unique à l'édition : Rule::unique('quests', 'title')->ignore($this->quest) — mention orale seulement.
 Pas d'héritage entre les deux classes dans le cours : deux fichiers explicites, plus simples à lire.
 -->
 

@@ -144,6 +144,27 @@ Le cas 404 du dernier clic prépare la contrainte whereNumber (slide suivante) e
 transition: slide-up | slide-down
 ---
 
+# Anatomie d'une requête HTTP
+Un message texte en 4 parties, comme une lettre
+
+<HttpRequest
+  method="GET"
+  url="/quests"
+  :headers="[['Host', 'localhost'], ['User-Agent', 'Firefox'], ['Accept', 'text/html']]"
+  :clicks="true"
+/>
+
+<!--
+Rappel (cours réseau / web des années précédentes) : une requête HTTP n'est que du texte, en 4 parties — dérouler partie par partie.
+Le router de Laravel lit la partie 1 : la méthode (le verbe) et l'URL — c'est exactement ce que déclare Route::get('/quests', …).
+En S2 on n'envoie que des GET : ligne de requête + en-têtes, pas de corps. Le corps (4) revient en S5 avec les formulaires.
+Geste à montrer : DevTools > Réseau > clic sur la requête /quests > En-têtes > « Brut » : on retrouve la ligne GET /quests HTTP/1.1.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # Un verbe HTTP par intention
 
 | Verbe | Intention | Exemple Campus Quest |

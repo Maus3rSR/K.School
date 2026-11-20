@@ -308,6 +308,23 @@ Démontre Mermaid `sequenceDiagram` natif. À utiliser pour des échanges chrono
 transition: slide-up | slide-down
 ---
 
+# Ce que le navigateur envoie vraiment
+
+<HttpRequest
+  method="GET"
+  url="/api/servers"
+  :headers="[['Host', 'api.nimbus.dev'], ['Accept', 'application/json'], ['Authorization', 'Bearer nbm_123']]"
+  :clicks="true"
+/>
+
+<!--
+Démontre `<HttpRequest>` (addon) : structure brute d'une requête HTTP en 4 parties colorées — ligne de requête, lignes d'en-tête, ligne vide, corps — chacune avec sa carte « En clair ». `clicks` révèle les parties une à une ; `body` vide affiche « Vide : un GET n'a pas de corps » ; `legend` ajoute la ligne « sp / CR LF ». À utiliser pour montrer la structure d'une requête HTTP, jamais une image ni un bloc ASCII.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
 # Versionner votre travail
 
 ```mermaid

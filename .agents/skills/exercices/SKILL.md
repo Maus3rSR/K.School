@@ -82,6 +82,19 @@ Une durée affichée devient une promesse que l'apprenant lent ne tient pas. Ind
 - **Point de contrôle** à la fin de chaque groupe d'étapes, avec son **palier de rattrapage** : l'état de référence défini par le cours (ex. tag d'un dépôt de démonstration). Ne jamais créer de tag Git dans ce dépôt pour un rattrapage
 - **Jamais de première installation lourde en séance** (téléchargement d'images, d'outils) : elle se fait avant, ou se lance tôt en arrière-plan
 - Une copie manuelle répétitive (fichiers à recopier un par un) se remplace par un script fourni (voir « Scripts dans package.json »)
+- Un long morceau de HTML ou de code sans lien avec la notion (formulaire à 10 champs, page à retaper) est donné en **squelette brut** dans un `<details>` : l'apprenant le colle puis fait seulement les adaptations liées à la notion, listées sous le squelette
+
+### Mise en forme des consignes
+
+Le README se lit pendant que l'apprenant code, souvent dans une fenêtre étroite : chaque étape doit se lire d'un coup d'œil.
+
+- **Une étape = un titre court** (`#### A1.4 · Enregistrer le jeu`), pas un paragraphe qui commence par plusieurs mots en gras
+- **Le fichier touché sur sa propre ligne**, au début de l'étape : 📄 suivi du chemin en code (ex. 📄 `routes/web.php`)
+- **Plusieurs actions → liste numérotée**, une action par ligne ; jamais une phrase qui enchaîne les « puis »
+- **Code à taper dans un bloc** (` ```php `, ` ```blade `, ` ```bash `) dès qu'il dépasse un appel court ; le code dans la phrase reste réservé aux noms (méthode, route, champ)
+- **Spécification avant aide** : le tableau des champs ou des règles vient avant le squelette ou l'indice
+- **Vérification en encadré** : `> ✅ **Vérification** : …`, pour qu'elle se distingue des actions
+- **Lignes courtes** : une ligne qui dépasse ≈ 200 caractères est à découper en liste
 
 ---
 
@@ -140,6 +153,7 @@ Avant de publier un exercice :
 - [ ] Script ajouté dans `exercices/<cours>/package.json` (uniquement s'il fait un vrai travail : génération, environnement, tests)
 - [ ] Étape 0 de contrôle d'environnement
 - [ ] Instructions claires, une action vérifiable par étape, chapitre source indiqué
+- [ ] Mise en forme des consignes respectée (titre par étape, fichier en tête, actions numérotées, code en bloc, vérification encadrée)
 - [ ] Ordre des étapes = ordre des chapitres du cours
 - [ ] Points de contrôle avec palier de rattrapage (sans tag Git dans ce dépôt)
 - [ ] Critères de réussite mesurables

@@ -42,7 +42,7 @@ Construire le **back-office de WishFlix** : créer, modifier et supprimer des je
 
 Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
-✅ Vérification : `games.show` apparaît dans `route:list`, `http://localhost` affiche les jeux, `Game::count()` ≥ 6 et `Category::count()` ≥ 4. Sinon, terminez d'abord l'exercice 03.
+> ✅ **Vérification** : `games.show` apparaît dans `route:list`, `http://localhost` affiche les jeux, `Game::count()` ≥ 6 et `Category::count()` ≥ 4. Sinon, terminez d'abord l'exercice 03.
 
 ---
 
@@ -52,22 +52,55 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
 
 ### A1 — Le formulaire de création (Chapitre 1)
 
-**Étape A1.1** — **Routes** : dans `routes/web.php`, ajoutez `GET /games/create` (action `create`, nom `games.create`) et `POST /games` (action `store`, nom `games.store`) vers `GameController`.
+#### A1.1 · Routes de création
 
-**Étape A1.2** — **`create()`** : renvoyez la vue `games.create` en lui passant `Category::all()` et `Platform::all()`.
+📄 `routes/web.php`
 
-**Étape A1.3** — **Vue** `resources/views/games/create.blade.php` : elle étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur). Pour ne pas retaper tout le HTML, partez du **squelette brut** ci-dessous (HTML pur, sans Laravel) : collez-le dans `@section('content')`, puis faites les trois adaptations indiquées sous le squelette.
+Ajoutez vers `GameController` :
+
+1. `GET /games/create` (action `create`, nom `games.create`)
+2. `POST /games` (action `store`, nom `games.store`)
+
+#### A1.2 · La méthode `create()`
+
+📄 `app/Http/Controllers/GameController.php`
+
+Renvoyez la vue `games.create` en lui passant `Category::all()` et `Platform::all()`.
+
+#### A1.3 · La vue du formulaire
+
+📄 `resources/views/games/create.blade.php`
+
+La vue étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur) :
+
+| Champ (`name`) | Contrôle |
+|---|---|
+| `title` | `input type="text"` |
+| `synopsis` | `textarea` |
+| `release_year` | `input type="number"` |
+| `rating` | `input type="number" step="0.1"` |
+| `playtime_hours` | `input type="number"` |
+| `cover_url` | `input type="text"` |
+| `status` | `select` (valeurs `released`, `upcoming`, `early_access`) |
+| `category_id` | `select` alimenté par `$categories` |
+| `platform_ids[]` | cases à cocher alimentées par `$platforms` |
+| `featured` | case à cocher (`value="1"`) |
+
+Pour ne pas retaper tout le HTML, partez du **squelette brut** ci-dessous (HTML pur, sans Laravel) :
+
+1. Collez-le dans `@section('content')`
+2. Faites les trois adaptations indiquées sous le squelette
 
 <details>
 <summary>Squelette HTML brut du formulaire</summary>
 
 ```html
-<section class="wish-login">
-  <div class="card">
+<section class="max-w-2xl mx-auto py-6">
+  <div class="card bg-base-200 shadow-xl">
     <div class="card-body">
-      <h1 class="card-title">Nouveau jeu</h1>
+      <h1 class="card-title text-2xl">Nouveau jeu</h1>
 
-      <form method="POST" action="/games">
+      <form method="POST" action="/games" class="grid gap-3">
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Titre</legend>
           <input type="text" name="title" class="input w-full" />
@@ -129,7 +162,7 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
           </label>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
       </form>
     </div>
   </div>
@@ -138,46 +171,70 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
 
 </details>
 
+Les classes (`card`, `fieldset`, `input`, `select`, `btn`…) sont celles de **DaisyUI**, déjà chargé par la balise CDN de votre layout (S2) : gardez-les telles quelles.
+
 Les trois adaptations (le reste du squelette ne change pas) :
 
 1. `action="/games"` devient `action="{{ route('games.store') }}"`.
 2. L'unique `<option>` de `category_id` est remplacée par une boucle `@foreach ($categories as $category)` : `value` = l'`id`, texte = le `name`.
 3. La seule case de `platform_ids[]` est remplacée par une boucle `@foreach ($platforms as $platform)` sur le même principe.
 
-Le tableau ci-dessous résume les champs et leur contrôle : relisez-le pour comprendre le rôle de chaque `name`.
+#### A1.4 · Enregistrer le jeu (`store()`)
 
-| Champ (`name`) | Contrôle |
-|---|---|
-| `title` | `input type="text"` |
-| `synopsis` | `textarea` |
-| `release_year` | `input type="number"` |
-| `rating` | `input type="number" step="0.1"` |
-| `playtime_hours` | `input type="number"` |
-| `cover_url` | `input type="text"` |
-| `status` | `select` (valeurs `released`, `upcoming`, `early_access`) |
-| `category_id` | `select` alimenté par `$categories` |
-| `platform_ids[]` | cases à cocher alimentées par `$platforms` |
-| `featured` | case à cocher (`value="1"`) |
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A1.4** — **`store()`** : `Game::create($request->only([...]))` avec les colonnes de `Game`, puis `platforms()->sync($request->input('platform_ids', []))`, puis `redirect()->route('games.show', $game)->with('success', 'Jeu créé !')`.
+1. Créez le jeu : `Game::create($request->only([...]))` avec les colonnes de `Game`
+2. Liez les plateformes : `$game->platforms()->sync($request->input('platform_ids', []))`
+3. Redirigez vers la fiche avec un message de succès :
 
-**Étape A1.5** — **Message flash** : dans `layouts/app.blade.php`, affichez `session('success')` au-dessus de `@yield('content')` ; prévoyez aussi `session('error')` (même emplacement), utile en Partie B.
+   ```php
+   return redirect()->route('games.show', $game)->with('success', 'Jeu créé !')
+   ```
 
-**Étape A1.6** — Ajoutez un lien « Nouveau jeu » dans la navbar.
+#### A1.5 · Message flash
 
-✅ Vérification : `/games/create` affiche le formulaire. Remplissez-le et envoyez : vous obtenez une erreur **419 Page Expired**. C'est normal et attendu, l'étape suivante l'explique.
+📄 `resources/views/layouts/app.blade.php`
+
+1. Affichez `session('success')` au-dessus de `@yield('content')`
+2. Prévoyez aussi `session('error')` (même emplacement), utile en Partie B
+
+Pour l'habillage, une alerte DaisyUI suffit :
+
+```html
+<div role="alert" class="alert alert-success my-4">Texte du message</div>
+```
+
+Pour `session('error')`, remplacez `alert-success` par `alert-error`.
+
+#### A1.6 · Lien « Nouveau jeu »
+
+📄 `resources/views/layouts/app.blade.php`
+
+Ajoutez un lien « Nouveau jeu » dans la navbar, avec les classes de bouton DaisyUI : `class="btn btn-sm btn-outline"`.
+
+> ✅ **Vérification** : `/games/create` affiche le formulaire. Remplissez-le et envoyez : vous obtenez une erreur **419 Page Expired**. C'est normal et attendu, l'étape suivante l'explique.
 
 ### A2 — Le jeton CSRF (Chapitre 2)
 
-**Étape A2.1** — Ajoutez `@csrf` juste après la balise `<form>`.
+#### A2.1 · Le jeton `@csrf`
 
-**Étape A2.2** — Inspectez la page avec les DevTools : repérez le champ caché `_token`.
+📄 `resources/views/games/create.blade.php`
 
-✅ Vérification : l'envoi crée le jeu, vous arrivez sur `/game/{id}` et la bannière « Jeu créé ! » s'affiche **une seule fois** (rechargez : elle disparaît).
+Ajoutez `@csrf` juste après la balise `<form>`.
+
+#### A2.2 · Le champ caché `_token`
+
+Inspectez la page avec les DevTools : repérez le champ caché `_token`.
+
+> ✅ **Vérification** : l'envoi crée le jeu, vous arrivez sur `/game/{id}` et la bannière « Jeu créé ! » s'affiche **une seule fois** (rechargez : elle disparaît).
 
 ### A3 — Valider la saisie (Chapitre 3)
 
-**Étape A3.1** — Dans `store()`, remplacez `only()` par `$request->validate([...])` : une règle par champ.
+#### A3.1 · Valider dans `store()`
+
+📄 `app/Http/Controllers/GameController.php`
+
+Remplacez `only()` par `$request->validate([...])` : une règle par champ.
 
 | Champ | Contrainte attendue |
 |---|---|
@@ -192,13 +249,35 @@ Le tableau ci-dessous résume les champs et leur contrôle : relisez-le pour com
 | `platform_ids` / `platform_ids.*` | tableau facultatif, chaque id doit exister dans `platforms` |
 | `featured` | booléen |
 
-**Étape A3.2** — Dans la vue, sous chaque champ : `@error('champ')` avec `$message`.
+#### A3.2 · Afficher les erreurs
 
-**Étape A3.3** — Conservez la saisie : `old('title')` dans les champs texte, entre les balises du `textarea`, `@selected(...)` sur les `select`, `@checked(...)` sur les cases.
+📄 `resources/views/games/create.blade.php`
 
-**Étape A3.4** — `featured` : ajoutez avant la case un `<input type="hidden" name="featured" value="0">` pour que la valeur soit toujours envoyée.
+Sous chaque champ : `@error('champ')` avec `$message`. Pour que l'erreur se voie, affichez-la en rouge : `<p class="text-error text-sm">…</p>`.
 
-✅ Vérification : un titre vide ramène au formulaire avec un message sous le champ et les autres champs conservés ; une catégorie inexistante (modifiez le `value` dans les DevTools) est refusée ; un jeu valide est créé.
+#### A3.3 · Conserver la saisie
+
+📄 `resources/views/games/create.blade.php`
+
+1. `old('title')` dans les champs texte, entre les balises du `textarea`
+2. `@selected(...)` sur les `select`
+3. `@checked(...)` sur les cases
+
+#### A3.4 · Valeur par défaut de `featured`
+
+📄 `resources/views/games/create.blade.php`
+
+Ajoutez avant la case un champ caché pour que la valeur soit toujours envoyée :
+
+```blade
+<input type="hidden" name="featured" value="0">
+```
+
+> ✅ **Vérification** :
+>
+> - un titre vide ramène au formulaire avec un message sous le champ et les autres champs conservés
+> - une catégorie inexistante (modifiez le `value` dans les DevTools) est refusée
+> - un jeu valide est créé
 
 > ✅ **Point de contrôle 1**
 >
@@ -211,25 +290,81 @@ Le tableau ci-dessous résume les champs et leur contrôle : relisez-le pour com
 
 ### A4 — Éditer et supprimer, routes à la main (Chapitre 4)
 
-**Étape A4.1** — **Routes** (à la main, une par une) : `GET /games/{id}/edit` (`games.edit`), `PUT /games/{id}` (`games.update`), `DELETE /games/{id}` (`games.destroy`).
+#### A4.1 · Routes d'édition et de suppression
 
-**Étape A4.2** — **`edit(int $id)`** : `Game::findOrFail($id)`, puis la vue `games.edit` avec le jeu, les catégories et les plateformes.
+📄 `routes/web.php`
 
-**Étape A4.3** — **Vue** `games/edit.blade.php` : **dupliquez** `create.blade.php` (ne retapez rien) puis adaptez : titre « Modifier le jeu », `action="{{ route('games.update', $game->id) }}"`, ajout de `@method('PUT')` après `@csrf`, et les valeurs actuelles en repli : `old('title', $game->title)`. Pour les plateformes cochées : `$game->platforms->pluck('id')`.
+À la main, une par une :
 
-**Étape A4.4** — **`update(Request $request, int $id)`** : `findOrFail`, les **mêmes règles** que `store()` (recopiez-les), `$game->update(...)`, `sync()` des plateformes, redirection vers la fiche avec un message.
+1. `GET /games/{id}/edit` (`games.edit`)
+2. `PUT /games/{id}` (`games.update`)
+3. `DELETE /games/{id}` (`games.destroy`)
 
-**Étape A4.5** — **`destroy(int $id)`** : `findOrFail`, détachez les plateformes (`platforms()->detach()`), `delete()`, redirection vers `/` avec un message.
+#### A4.2 · La méthode `edit(int $id)`
 
-**Étape A4.6** — Sur `game-detail.blade.php` : un lien « Modifier » et un petit formulaire « Supprimer » (`@csrf` + `@method('DELETE')`).
+📄 `app/Http/Controllers/GameController.php`
 
-✅ Vérification : modifier un jeu change bien sa fiche, un titre invalide ramène au formulaire d'édition avec ses erreurs, supprimer un jeu qui a des plateformes fonctionne (sans le `detach()` vous auriez une erreur 500).
+1. Chargez le jeu : `Game::findOrFail($id)`
+2. Renvoyez la vue `games.edit` avec le jeu, les catégories et les plateformes
+
+#### A4.3 · La vue `games/edit.blade.php`
+
+📄 `resources/views/games/edit.blade.php`
+
+**Dupliquez** `create.blade.php` (ne retapez rien), puis adaptez :
+
+1. Titre « Modifier le jeu »
+2. L'attribut `action` du formulaire :
+
+   ```blade
+   action="{{ route('games.update', $game->id) }}"
+   ```
+
+3. `@method('PUT')` ajouté après `@csrf`
+4. Les valeurs actuelles en repli : `old('title', $game->title)`
+5. Les plateformes cochées : `$game->platforms->pluck('id')`
+
+#### A4.4 · La méthode `update(Request $request, int $id)`
+
+📄 `app/Http/Controllers/GameController.php`
+
+1. Chargez le jeu avec `findOrFail`
+2. Validez avec les **mêmes règles** que `store()` (recopiez-les)
+3. Mettez à jour : `$game->update(...)`
+4. Synchronisez les plateformes avec `sync()`
+5. Redirigez vers la fiche avec un message
+
+#### A4.5 · La méthode `destroy(int $id)`
+
+📄 `app/Http/Controllers/GameController.php`
+
+1. Chargez le jeu avec `findOrFail`
+2. Détachez les plateformes : `$game->platforms()->detach()`
+3. Supprimez le jeu : `$game->delete()`
+4. Redirigez vers `/` avec un message
+
+#### A4.6 · Modifier et supprimer depuis la fiche
+
+📄 `resources/views/game-detail.blade.php`
+
+1. Ajoutez un lien « Modifier » (`class="btn btn-sm"`)
+2. Ajoutez un petit formulaire « Supprimer » (`@csrf` + `@method('DELETE')`), son bouton en `class="btn btn-sm btn-error"`
+
+> ✅ **Vérification** :
+>
+> - modifier un jeu change bien sa fiche
+> - un titre invalide ramène au formulaire d'édition avec ses erreurs
+> - supprimer un jeu qui a des plateformes fonctionne (sans le `detach()` vous auriez une erreur 500)
 
 ### A5 — `Route::resource` et route model binding (Chapitre 5)
 
 C'est un **refactor** : les pages ne changent pas.
 
-**Étape A5.1** — Remplacez vos cinq routes `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy` par :
+#### A5.1 · `Route::resource`
+
+📄 `routes/web.php`
+
+Remplacez vos cinq routes `games.create`, `games.store`, `games.edit`, `games.update`, `games.destroy` par :
 
 ```php
 Route::resource('games', GameController::class)->except(['index', 'show']);
@@ -237,11 +372,25 @@ Route::resource('games', GameController::class)->except(['index', 'show']);
 
 `games.show` (`/game/{id}`) existe déjà : il est donc exclu.
 
-**Étape A5.2** — Passez `edit`, `update` et `destroy` au **binding** : signatures `edit(Game $game)`, `update(Request $request, Game $game)`, `destroy(Game $game)` ; supprimez les `findOrFail`.
+#### A5.2 · Route model binding
 
-**Étape A5.3** — Dans les vues, `route('games.edit', $game)` suffit.
+📄 `app/Http/Controllers/GameController.php`
 
-✅ Vérification : `sail artisan route:list --name=games` montre vos routes avec `{game}` ; création, édition et suppression marchent toujours.
+Passez `edit`, `update` et `destroy` au **binding** — signatures :
+
+```php
+edit(Game $game)
+update(Request $request, Game $game)
+destroy(Game $game)
+```
+
+Puis supprimez les `findOrFail`.
+
+#### A5.3 · `route()` avec le modèle
+
+Dans les vues, `route('games.edit', $game)` suffit.
+
+> ✅ **Vérification** : `sail artisan route:list --name=games` montre vos routes avec `{game}` ; création, édition et suppression marchent toujours.
 
 > ✅ **Point de contrôle 2**
 >
@@ -254,18 +403,32 @@ Route::resource('games', GameController::class)->except(['index', 'show']);
 
 ### A6 — Form Request (Chapitre 6)
 
-**Étape A6.1** — Générez les classes :
+#### A6.1 · Générer les Form Requests
+
+Générez les classes :
 
 ```bash
 ./vendor/bin/sail artisan make:request StoreGameRequest
 ./vendor/bin/sail artisan make:request UpdateGameRequest
 ```
 
-**Étape A6.2** — Dans chacune : `authorize()` renvoie `true` et `rules()` contient vos règles (déplacées telles quelles depuis le contrôleur).
+#### A6.2 · `authorize()` et `rules()`
 
-**Étape A6.3** — Dans le contrôleur, remplacez `Request` par `StoreGameRequest` / `UpdateGameRequest` et utilisez `$request->validated()`.
+📄 `app/Http/Requests/StoreGameRequest.php` et `app/Http/Requests/UpdateGameRequest.php`
 
-✅ Vérification : le comportement est identique à celui du point de contrôle 2, mais `store()` et `update()` ne contiennent plus de `validate()`.
+Dans chacune :
+
+1. `authorize()` renvoie `true`
+2. `rules()` contient vos règles (déplacées telles quelles depuis le contrôleur)
+
+#### A6.3 · Brancher les Form Requests
+
+📄 `app/Http/Controllers/GameController.php`
+
+1. Remplacez `Request` par `StoreGameRequest` / `UpdateGameRequest`
+2. Utilisez `$request->validated()`
+
+> ✅ **Vérification** : le comportement est identique à celui du point de contrôle 2, mais `store()` et `update()` ne contiennent plus de `validate()`.
 
 > ✅ **Point de contrôle 3 (fin de la Partie A, requis pour la S6)**
 >
@@ -423,7 +586,7 @@ Les formulaires de la Partie A semblent marcher « tout seuls » : `@csrf`, `@me
 
 Sortez la logique métier du contrôleur dans `app/Services/GameService.php` (classe PHP simple, créée à la main) : `create(array $data)` et `update(Game $game, array $data)` qui enregistrent le jeu, synchronisent les plateformes et appliquent la règle « à la une ». Injectez-le dans le constructeur de `GameController`.
 
-✅ Vérification : `store()` et `update()` ne contiennent plus que `$this->games->create(...)` / `update(...)` et la redirection.
+> ✅ **Vérification** : `store()` et `update()` ne contiennent plus que `$this->games->create(...)` / `update(...)` et la redirection.
 
 <details>
 <summary>Indice — L'anatomie</summary>

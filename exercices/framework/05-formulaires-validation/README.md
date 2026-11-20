@@ -56,7 +56,95 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
 
 **Étape A1.2** — **`create()`** : renvoyez la vue `games.create` en lui passant `Category::all()` et `Platform::all()`.
 
-**Étape A1.3** — **Vue** `resources/views/games/create.blade.php` : elle étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur) :
+**Étape A1.3** — **Vue** `resources/views/games/create.blade.php` : elle étend le layout et contient un `<form method="POST" action="{{ route('games.store') }}">` avec ces champs (chaque `name` est la clé reçue par le serveur). Pour ne pas retaper tout le HTML, partez du **squelette brut** ci-dessous (HTML pur, sans Laravel) : collez-le dans `@section('content')`, puis faites les trois adaptations indiquées sous le squelette.
+
+<details>
+<summary>Squelette HTML brut du formulaire</summary>
+
+```html
+<section class="wish-login">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Nouveau jeu</h1>
+
+      <form method="POST" action="/games">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Titre</legend>
+          <input type="text" name="title" class="input w-full" />
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Synopsis</legend>
+          <textarea name="synopsis" class="textarea w-full"></textarea>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Année de sortie</legend>
+          <input type="number" name="release_year" class="input w-full" />
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Note</legend>
+          <input type="number" step="0.1" name="rating" class="input w-full" />
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Durée de jeu (heures)</legend>
+          <input type="number" name="playtime_hours" class="input w-full" />
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">URL de la jaquette</legend>
+          <input type="text" name="cover_url" class="input w-full" />
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Statut</legend>
+          <select name="status" class="select w-full">
+            <option value="released">Sorti</option>
+            <option value="upcoming">À venir</option>
+            <option value="early_access">Accès anticipé</option>
+          </select>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Catégorie</legend>
+          <select name="category_id" class="select w-full">
+            <option value="1">Nom de la catégorie</option>
+          </select>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Plateformes</legend>
+          <label class="label">
+            <input type="checkbox" name="platform_ids[]" value="1" class="checkbox" />
+            Nom de la plateforme
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <label class="label">
+            <input type="checkbox" name="featured" value="1" class="checkbox" />
+            À la une
+          </label>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+</section>
+```
+
+</details>
+
+Les trois adaptations (le reste du squelette ne change pas) :
+
+1. `action="/games"` devient `action="{{ route('games.store') }}"`.
+2. L'unique `<option>` de `category_id` est remplacée par une boucle `@foreach ($categories as $category)` : `value` = l'`id`, texte = le `name`.
+3. La seule case de `platform_ids[]` est remplacée par une boucle `@foreach ($platforms as $platform)` sur le même principe.
+
+Le tableau ci-dessous résume les champs et leur contrôle : relisez-le pour comprendre le rôle de chaque `name`.
 
 | Champ (`name`) | Contrôle |
 |---|---|
@@ -127,7 +215,7 @@ Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste 
 
 **Étape A4.2** — **`edit(int $id)`** : `Game::findOrFail($id)`, puis la vue `games.edit` avec le jeu, les catégories et les plateformes.
 
-**Étape A4.3** — **Vue** `games/edit.blade.php` : même formulaire que la création, avec `@csrf`, `@method('PUT')` et les valeurs actuelles en repli : `old('title', $game->title)`. Pour les plateformes cochées : `$game->platforms->pluck('id')`.
+**Étape A4.3** — **Vue** `games/edit.blade.php` : **dupliquez** `create.blade.php` (ne retapez rien) puis adaptez : titre « Modifier le jeu », `action="{{ route('games.update', $game->id) }}"`, ajout de `@method('PUT')` après `@csrf`, et les valeurs actuelles en repli : `old('title', $game->title)`. Pour les plateformes cochées : `$game->platforms->pluck('id')`.
 
 **Étape A4.4** — **`update(Request $request, int $id)`** : `findOrFail`, les **mêmes règles** que `store()` (recopiez-les), `$game->update(...)`, `sync()` des plateformes, redirection vers la fiche avec un message.
 

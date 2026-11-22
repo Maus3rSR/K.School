@@ -32,6 +32,6 @@ export default [
   { name: '@checked($cond)', desc: 'Cocher une case selon une condition', group: 'Assets et formulaires', seen: 's5-ch3' },
   { name: 'old(\'champ\')', desc: 'Reprendre la valeur saisie après erreur', group: 'Assets et formulaires', seen: 's5-ch3' },
   // Accès
-  { name: '@auth / @guest', desc: 'Afficher selon la connexion', group: 'Accès' },
-  { name: '@can', desc: 'Afficher selon une permission', group: 'Accès' },
+  { name: '@auth / @guest', desc: 'Afficher selon la connexion', group: 'Accès', seen: 's6-ch2' },
+  { name: '@can', desc: 'Afficher selon une permission', group: 'Accès', seen: 's6-ch5' },
 ]

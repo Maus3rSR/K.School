@@ -25,6 +25,7 @@ export default [
   { name: 'attach()', desc: 'Ajouter un lien pivot', group: 'Écrire', seen: 's3-ch3' },
   { name: 'detach()', desc: 'Retirer un lien pivot', group: 'Écrire', seen: 's3-ch3' },
   { name: 'sync()', desc: 'Remplacer tous les liens pivot', group: 'Écrire', seen: 's3-ch3' },
+  { name: 'syncWithoutDetaching()', desc: 'Ajouter un lien pivot s\'il manque', group: 'Écrire', seen: 's6-ch6' },
   { name: 'toggle()', desc: 'Inverser un lien pivot', group: 'Écrire' },
   { name: 'associate() / dissociate()', desc: 'Lier ou délier côté belongsTo', group: 'Écrire' },
   { name: '->quests()->create()', desc: 'Créer un enfant déjà lié', group: 'Écrire', seen: 's3-ch2' },

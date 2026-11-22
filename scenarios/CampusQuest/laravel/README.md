@@ -16,9 +16,12 @@ laravel/
 └── seance-04/    # démo flash S4 : requêtes, eager loading, Debugbar, agrégats, pagination
 │   ├── LIVECODING.md   # fil à suivre, calé sur les slides 04-request
 │   └── solution/       # fichiers finaux à copier dans app/ (prérequis : solution S3 appliquée)
-└── seance-05/    # démo flash S5 : formulaires, CSRF, validation, Route::resource, Form Request (+ services en annexe)
-    ├── LIVECODING.md   # fil à suivre, calé sur les slides 05-formulaires
-    └── solution/       # fichiers finaux à copier dans app/ (prérequis : solutions S2 puis S3 puis S4 appliquées — inclut l'état S4 : filtres, pagination, /classement)
+├── seance-05/    # démo flash S5 : formulaires, CSRF, validation, Route::resource, Form Request (+ services en annexe)
+│   ├── LIVECODING.md   # fil à suivre, calé sur les slides 05-formulaires
+│   └── solution/       # fichiers finaux à copier dans app/ (prérequis : solutions S2 puis S3 puis S4 appliquées — inclut l'état S4 : filtres, pagination, /classement)
+└── seance-06/    # démo flash S6 : Breeze, connexion, hash, middleware auth, Gate, quêtes acceptées, XSS, injection SQL
+    ├── LIVECODING.md   # fil à suivre, calé sur les slides 06-authentification
+    └── solution/       # fichiers écrits ou modifiés par la S6 (prérequis : solution S5 appliquée, puis Breeze installé et trié — voir LIVECODING.md)
 ```
 
 ## Appliquer une séance
@@ -30,6 +33,8 @@ cp -r seance-02/solution/* app/   # état final de la S2
 cp -r seance-03/solution/* app/   # état final de la S3 (après la S2)
 cp -r seance-04/solution/* app/   # état final de la S4 (après la S3)
 cp -r seance-05/solution/* app/   # état final de la S5 (après la S4 — inclut filtres, pagination et /classement)
+# S6 : d'abord sail composer require laravel/breeze --dev && sail artisan breeze:install blade, puis le tri du chapitre 01 (LIVECODING.md)
+cp -r seance-06/solution/* app/   # état final de la S6 (après la S5 et l'installation de Breeze)
 ```
 
 L'installation et les commandes Sail sont décrites dans [`base/README.md`](base/README.md).

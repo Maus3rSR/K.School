@@ -132,6 +132,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - Injection SQL : requête concaténée (`DB::select`) détournée en direct, puis la même valeur liée par Eloquent — à côté de la démo XSS (déplacé de la S4)
 - Wishlist liée à l'utilisateur connecté
 - 🛠️ Atelier : connexion avec un compte démo, back-office réservé aux admins, ajout d'un jeu à sa wishlist
+- 🛠️ Exercice : `exercices/framework/06-authentification-securite`
 
 ### **Séance 7 — Interactivité front et optimisation** (4h)
 - Rappel du cycle requête/réponse
@@ -159,7 +160,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 | S3 | `Game`, `Category`, `Platform`, migrations, relations | Seeders complets (≈ 20 jeux) | Slug unique dans l'URL de la fiche |
 | S4 | « À la une », meilleures notes, filtre par catégorie, N+1 mesuré/corrigé, compteur par catégorie, pagination | Recherche par titre, puis recherche + filtre combinés | Top catégories par note moyenne (`withAvg`), `inRandomOrder()`, `simplePaginate` |
 | S5 | Création validée, édition et suppression d'un `Game` | CRUD `Category` et `Platform` | `GameService`, upload de la jaquette |
-| S6 | Connexion (Breeze), rôles, back-office protégé | Page wishlist dynamique | Inscription d'un nouvel utilisateur |
+| S6 | Connexion (Breeze), rôles, back-office protégé, ajout à la wishlist, XSS et injection SQL testées | Page wishlist dynamique, wishlist signalée sur l'accueil | Inscription d'un nouvel utilisateur, `GamePolicy` |
 | S7 | Wishlist sans rechargement, `Cache::remember` mesuré | Compteur en direct dans la barre de navigation | Filtre du catalogue en direct |
 | S8 | Tests HTTP des routes clés | README (installation, migrations, seeders, comptes de test) | Test de la wishlist |
 

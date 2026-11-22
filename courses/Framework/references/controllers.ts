@@ -22,7 +22,7 @@ export default [
   { name: 'view()', desc: 'Renvoyer une page HTML', group: 'Répondre', seen: 's2-ch2' },
   { name: 'response()->json()', desc: 'Renvoyer du JSON', group: 'Répondre', seen: 's2-ch3' },
   { name: 'redirect()->route()', desc: 'Rediriger vers une route nommée', group: 'Répondre', seen: 's2-ch3' },
-  { name: 'back()', desc: 'Revenir à la page précédente', group: 'Répondre' },
+  { name: 'back()', desc: 'Revenir à la page précédente', group: 'Répondre', seen: 's6-ch6' },
   { name: '->with(\'status\', …)', desc: 'Transmettre un message flash', group: 'Répondre', seen: 's5-ch1' },
   { name: 'abort(404)', desc: 'Interrompre avec une erreur HTTP', group: 'Répondre', seen: 's2-ch6' },
 ]

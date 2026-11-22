@@ -23,7 +23,7 @@ export default [
   // Grouper
   { name: 'Route::prefix()', desc: 'Préfixer les URL d\'un groupe', group: 'Grouper' },
   { name: 'Route::name()', desc: 'Préfixer les noms d\'un groupe', group: 'Grouper' },
-  { name: 'Route::middleware()', desc: 'Protéger un groupe de routes', group: 'Grouper' },
+  { name: 'Route::middleware()', desc: 'Protéger un groupe de routes', group: 'Grouper', seen: 's6-ch4' },
   { name: 'Route::controller()', desc: 'Partager un contrôleur entre routes', group: 'Grouper' },
   { name: 'Route::fallback()', desc: 'Répondre quand aucune route ne correspond', group: 'Grouper' },
   // Outils

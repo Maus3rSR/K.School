@@ -15,7 +15,7 @@ export default [
   { name: 'make:seeder', desc: 'Générer un seeder', group: 'Générer', seen: 's3-ch4' },
   { name: 'make:request', desc: 'Générer une Form Request', group: 'Générer', seen: 's5-ch6' },
   { name: 'make:middleware', desc: 'Générer un middleware', group: 'Générer' },
-  { name: 'make:policy', desc: 'Générer une policy d\'autorisation', group: 'Générer' },
+  { name: 'make:policy', desc: 'Générer une policy d\'autorisation', group: 'Générer', seen: 's6-ch5' },
   { name: 'make:test', desc: 'Générer une classe de test', group: 'Générer' },
   // Base de données
   { name: 'migrate', desc: 'Jouer les migrations en attente', group: 'Base de données', seen: 's1-ch3' },

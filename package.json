@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "docker:dev": "turbo run dev --filter @k.school/docker",
     "export": "turbo run export",
+    "framework:auth:dev": "pnpm --filter @k.school/framework dev:auth",
     "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent",
     "framework:form:dev": "pnpm --filter @k.school/framework dev:formulaires",
     "framework:request:dev": "pnpm --filter @k.school/framework dev:request",

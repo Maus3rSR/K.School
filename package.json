@@ -8,7 +8,7 @@
     "export": "turbo run export",
     "framework:auth:dev": "pnpm --filter @k.school/framework dev:auth",
     "framework:eloquent:dev": "pnpm --filter @k.school/framework dev:eloquent",
-    "framework:form:dev": "pnpm --filter @k.school/framework dev:formulaires",
+    "framework:form:dev": "pnpm --filter @k.school/framework dev:form",
     "framework:request:dev": "pnpm --filter @k.school/framework dev:request",
     "framework:routing:dev": "pnpm --filter @k.school/framework dev:routing",
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",

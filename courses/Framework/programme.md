@@ -134,16 +134,14 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - 🛠️ Atelier : connexion avec un compte démo, back-office réservé aux admins, ajout d'un jeu à sa wishlist
 - 🛠️ Exercice : `exercices/framework/06-authentification-securite`
 
-### **Séance 7 — Interactivité front et optimisation** (4h)
-- Rappel du cycle requête/réponse
-- Interactivité légère : requêtes `fetch` vers une route API, réponse JSON
-- Cache applicatif : `Cache::remember` sur une requête coûteuse, **gain mesuré** avant / après (compétence « Optimiser », réutilisable en soutenance)
-- 🛠️ Atelier : ajout / retrait de la wishlist sans rechargement, compteur de la barre de navigation mis à jour en direct
+### **Séance 7 — Atelier pratique** (4h)
+- Séance **100 % pratique**, sans nouvelle notion ni support (pas de deck, pas d'exercice dédié) : rattraper les Parties A en retard (S1 → S6, paliers = tags Campus Quest) et avancer WishFlix (Parties B, bonus)
+- Temps encadré pour lever les blocages et vérifier la compréhension du code produit
 
 ### **Séance 8 — Atelier pratique** (4h)
-- Séance **100 % pratique**, sans nouvelle notion ni support (pas de deck, pas d'exercice dédié) : rattraper les Parties A en retard (S1 → S7, paliers = tags Campus Quest) et avancer WishFlix (Parties B, bonus)
+- Séance **100 % pratique**, sans nouvelle notion ni support (pas de deck, pas d'exercice dédié) : rattraper les Parties A en retard (S1 → S6, paliers = tags Campus Quest) et avancer WishFlix (Parties B, bonus)
 - Préparation de la soutenance : finitions, README (installation, migrations, seeders, comptes de test), choix de l'optimisation mesurée à présenter
-- Les tests automatisés (PHPUnit) sont **hors programme**
+- Les tests automatisés (PHPUnit) sont **hors programme** (ils ouvrent le cours du Sem6, `courses/Framework-Advanced`)
 
 ### **Séance 9 — Soutenances** (2h)
 - Démonstration de 10 minutes par étudiant : parcours utilisateur, un choix technique justifié, une optimisation mesurée
@@ -160,7 +158,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 | S4 | « À la une », meilleures notes, filtre par catégorie, N+1 mesuré/corrigé, compteur par catégorie, pagination | Recherche par titre, puis recherche + filtre combinés | Top catégories par note moyenne (`withAvg`), `inRandomOrder()`, `simplePaginate` |
 | S5 | Création validée, édition et suppression d'un `Game` | CRUD `Category` et `Platform` | `GameService`, upload de la jaquette |
 | S6 | Connexion (Breeze), rôles, back-office protégé, ajout à la wishlist, XSS et injection SQL testées | Page wishlist dynamique, wishlist signalée sur l'accueil | Inscription d'un nouvel utilisateur, `GamePolicy` |
-| S7 | Wishlist sans rechargement, `Cache::remember` mesuré | Compteur en direct dans la barre de navigation | Filtre du catalogue en direct |
+| S7 | Atelier pratique : rattrapage des Parties A, avancement WishFlix | Parties B en retard, README | Bonus des séances précédentes |
 | S8 | Atelier pratique : rattrapage des Parties A, avancement WishFlix | README (installation, migrations, seeders, comptes de test) | Bonus des séances précédentes |
 
 Travail personnel estimé : **≈ 2h par semaine** (Partie B ≈ 1h15 + Partie C ≈ 45 min), soit **≈ 16h** sur le module. Ces estimations supposent un rythme rapide.
@@ -199,7 +197,7 @@ Bonus : remplacer la relation wishlist par une entité `WishlistItem` (`user_id`
 
 | Niveau | Contenu | Poids indicatif |
 |--------|---------|-----------------|
-| **Socle** | Tout ce qui est réalisé en atelier (S1 → S8) | 50 % |
+| **Socle** | Tout ce qui est réalisé en atelier (S1 → S6) | 50 % |
 | **Attendu** | User stories de travail personnel | 30 % |
 | **Bonus** | Au choix, au moins un par étudiant | 10 % |
 | **Soutenance** | Démo, justification d'un choix, optimisation mesurée | 10 % |
@@ -218,7 +216,7 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 | S4 | Query Builder, Eloquent relationships, eager loading, Debugbar |
 | S5 | CSRF, Resource controllers, route model binding, Validation, Form Requests (Services en annexe) |
 | S6 | Auth (Breeze), Middleware, Gates/Policies |
-| S7 | Fetch API routes, JSON responses, `Cache::remember` |
+| S7 | — (atelier pratique, aucune notion nouvelle) |
 | S8 | — (atelier pratique, aucune notion nouvelle) |
 
 ---
@@ -255,5 +253,3 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 - ✅ Écrire des requêtes **optimisées** et le prouver avec les outils de profiling
 - ✅ Construire des formulaires **validés** et un back-office
 - ✅ **Sécuriser** une application (authentification, autorisations)
-- ✅ Ajouter de l'**interactivité** légère côté client
-- ✅ **Tester** fonctionnellement les parcours clés

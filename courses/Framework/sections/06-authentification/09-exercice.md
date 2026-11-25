@@ -22,5 +22,5 @@ Consignes dans le **README** de l'exercice `06-authentification-securite`.
 <!--
 Les deux US attendues : US1 page /wishlist dynamique (protégée, liste + Retirer, compteur dans la barre) ; US2 accueil qui signale les jeux déjà en wishlist, sans N+1.
 Bonus : inscription (vue register de Breeze dans le layout WishFlix), protection des CRUD Category/Platform de la S5, GamePolicy à la place de la Gate (l'aperçu du chapitre 05), page 403 personnalisée.
-La S7 rendra l'ajout/retrait de la wishlist instantané (fetch) : le POST /wishlist/{game} d'aujourd'hui sera repris.
+La wishlist reste un POST classique avec rechargement : l'interactivité sans rechargement (fetch) est hors programme de ce module.
 -->

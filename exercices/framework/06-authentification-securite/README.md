@@ -501,7 +501,7 @@ Supprimez la route `/debug/recherche` et les deux imports ajoutés en A8.1 : ell
 
 > ✅ **Vérification** : `/debug/recherche` renvoie une 404.
 
-> ✅ **Point de contrôle 4 (fin de la Partie A, requis pour la S7)**
+> ✅ **Point de contrôle 4 (fin de la Partie A, dernière Partie A du module)**
 >
 > - [ ] Vous avez vu la fuite de la table `users`, puis la même URL bloquée par `?`
 > - [ ] La route de démonstration est supprimée

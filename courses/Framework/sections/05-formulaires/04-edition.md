@@ -225,7 +225,7 @@ Le champ caché `_method` fait passer un PUT, PATCH ou DELETE **dans** un POST �
 
 <!--
 @method('PUT') se compile en <input type="hidden" name="_method" value="PUT">. C'est ce champ, pas le verbe réel, qui décide de la route.
-Depuis JavaScript (fetch), on pourrait envoyer un vrai PUT : c'est l'objet de la S7.
+Depuis JavaScript (fetch), on pourrait envoyer un vrai PUT : hors programme de ce module.
 -->
 
 ---

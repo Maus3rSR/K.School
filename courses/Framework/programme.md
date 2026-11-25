@@ -140,11 +140,10 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - Cache applicatif : `Cache::remember` sur une requête coûteuse, **gain mesuré** avant / après (compétence « Optimiser », réutilisable en soutenance)
 - 🛠️ Atelier : ajout / retrait de la wishlist sans rechargement, compteur de la barre de navigation mis à jour en direct
 
-### **Séance 8 — Tests et atelier projet** (4h)
-- Tests HTTP avec PHPUnit et `TestCase`
-- Base de données de test en mémoire (SQLite)
-- Tests des routes publiques, accès protégé, formulaire
-- Atelier projet : finitions, README, préparation de la démonstration
+### **Séance 8 — Atelier pratique** (4h)
+- Séance **100 % pratique**, sans nouvelle notion ni support (pas de deck, pas d'exercice dédié) : rattraper les Parties A en retard (S1 → S7, paliers = tags Campus Quest) et avancer WishFlix (Parties B, bonus)
+- Préparation de la soutenance : finitions, README (installation, migrations, seeders, comptes de test), choix de l'optimisation mesurée à présenter
+- Les tests automatisés (PHPUnit) sont **hors programme**
 
 ### **Séance 9 — Soutenances** (2h)
 - Démonstration de 10 minutes par étudiant : parcours utilisateur, un choix technique justifié, une optimisation mesurée
@@ -162,7 +161,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 | S5 | Création validée, édition et suppression d'un `Game` | CRUD `Category` et `Platform` | `GameService`, upload de la jaquette |
 | S6 | Connexion (Breeze), rôles, back-office protégé, ajout à la wishlist, XSS et injection SQL testées | Page wishlist dynamique, wishlist signalée sur l'accueil | Inscription d'un nouvel utilisateur, `GamePolicy` |
 | S7 | Wishlist sans rechargement, `Cache::remember` mesuré | Compteur en direct dans la barre de navigation | Filtre du catalogue en direct |
-| S8 | Tests HTTP des routes clés | README (installation, migrations, seeders, comptes de test) | Test de la wishlist |
+| S8 | Atelier pratique : rattrapage des Parties A, avancement WishFlix | README (installation, migrations, seeders, comptes de test) | Bonus des séances précédentes |
 
 Travail personnel estimé : **≈ 2h par semaine** (Partie B ≈ 1h15 + Partie C ≈ 45 min), soit **≈ 16h** sur le module. Ces estimations supposent un rythme rapide.
 
@@ -220,7 +219,7 @@ Critères transverses : code conforme à Laravel 12, commits réguliers, README 
 | S5 | CSRF, Resource controllers, route model binding, Validation, Form Requests (Services en annexe) |
 | S6 | Auth (Breeze), Middleware, Gates/Policies |
 | S7 | Fetch API routes, JSON responses, `Cache::remember` |
-| S8 | PHPUnit, `TestCase`, base de test SQLite |
+| S8 | — (atelier pratique, aucune notion nouvelle) |
 
 ---
 

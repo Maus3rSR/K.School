@@ -12,6 +12,7 @@
     "framework:request:dev": "pnpm --filter @k.school/framework dev:request",
     "framework:routing:dev": "pnpm --filter @k.school/framework dev:routing",
     "framework:setup:dev": "pnpm --filter @k.school/framework dev:setup",
+    "framework-advanced:dev": "turbo run dev --filter @k.school/framework-advanced",
     "hexa:ex:coffee": "pnpm --filter @k.school/exercices-hexagonal-architecture dev:coffee-shop",
     "hexa:test:coffee": "pnpm --filter @k.school/exercices-hexagonal-architecture test:coffee-shop",
     "oop:dev": "turbo run dev --filter @k.school/oop",

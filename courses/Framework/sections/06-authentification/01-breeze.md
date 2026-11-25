@@ -435,71 +435,64 @@ transition: slide-up | slide-down
 
 Un <KeyTerm>middleware</KeyTerm> est une **couche** que la requête traverse avant d'atteindre le contrôleur : il la laisse passer, ou répond à sa place.
 
-<v-switch>
-<template #0>
-
-```mermaid {scale: 0.9}
-flowchart LR
-    R([GET /login]) --> W[web<br/>session, CSRF]
-    W --> G{guest<br/>déjà connecté ?}
-    G -- non --> C[create<br/>le formulaire]
-    G -- oui --> H[302 vers l'accueil]
-    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
-    class W on
-```
-
-</template>
-<template #1>
-
-```mermaid {scale: 0.9}
-flowchart LR
-    R([GET /login]) --> W[web<br/>session, CSRF]
-    W --> G{guest<br/>déjà connecté ?}
-    G -- non --> C[create<br/>le formulaire]
-    G -- oui --> H[302 vers l'accueil]
-    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
-    class G on
-```
-
-</template>
-<template #2>
-
-```mermaid {scale: 0.9}
-flowchart LR
-    R([GET /login]) --> W[web<br/>session, CSRF]
-    W --> G{guest<br/>déjà connecté ?}
-    G -- non --> C[create<br/>le formulaire]
-    G -- oui --> H[302 vers l'accueil]
-    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
-    class G,H on
-```
-
-</template>
-</v-switch>
-
-<div class="grid grid-cols-3 gap-6 mt-4 text-sm">
-
-<div>
-
-**Déjà là** : le groupe `web` (session, CSRF de la S5) s'applique à toutes vos routes.
-
+<div class="flex items-stretch justify-center gap-3 mt-6 text-sm">
+  <div class="flex flex-col justify-center items-center w-32 rounded-lg border-2 border-slate-400 p-3 text-center">
+    <div class="text-2xl">📨</div>
+    <div class="font-semibold">Requête</div>
+    <code>GET /login</code>
+  </div>
+  <div class="flex items-center text-2xl text-slate-400">→</div>
+  <div v-click="1" class="flex flex-col justify-center items-center w-36 rounded-lg border-2 border-sky-400 bg-sky-500/15 p-3 text-center">
+    <div class="font-bold text-sky-300">web</div>
+    <div>session, CSRF</div>
+    <div class="text-xs opacity-75 mt-1">jeton faux → 419</div>
+  </div>
+  <div v-click="1" class="flex items-center text-2xl text-slate-400">→</div>
+  <div v-click="2" class="relative flex flex-col justify-center items-center w-36 rounded-lg border-2 border-amber-400 bg-amber-500/15 p-3 text-center">
+    <div class="font-bold text-amber-300">guest</div>
+    <div>invité ?</div>
+    <div class="text-xs opacity-75 mt-1">connecté → 302</div>
+  </div>
+  <div v-click="2" class="flex items-center text-2xl text-slate-400">→</div>
+  <div class="flex flex-col justify-center items-center w-36 rounded-lg border-2 border-emerald-400 p-3 text-center">
+    <div class="text-2xl">🎯</div>
+    <div class="font-semibold">Contrôleur</div>
+    <div>affiche le formulaire</div>
+    <div class="text-xs opacity-75 mt-1">create() de Breeze</div>
+  </div>
 </div>
+
+<div v-click="3" class="flex justify-center mt-2 text-sm">
+  <div class="rounded-md border border-rose-400 bg-rose-500/15 px-3 py-1 text-rose-200">
+    ↩ Déjà connecté : <code>guest</code> répond <strong>302 vers l'accueil</strong> — le formulaire n'est jamais affiché
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-6 mt-5 text-sm">
 
 <div v-click="1">
 
-**Une couche en plus** : `Route::middleware('guest')->group(…)` place `guest` devant chaque route du groupe.
+**Couche 1, déjà là** : le groupe `web` (session, CSRF de la S5) s'applique à toutes vos routes.
 
 </div>
 
 <div v-click="2">
 
-**Exemple** : déjà connecté, vous ouvrez `/login` → `guest` vous renvoie à l'accueil. `create()` n'est **jamais** appelé.
+**Couche 2, ajoutée** : `Route::middleware('guest')->group(…)` l'insère devant chaque route du groupe.
+
+</div>
+
+<div v-click="3">
+
+**Le principe** : chaque couche peut arrêter la requête avant le contrôleur, sans que celui-ci change d'une ligne.
 
 </div>
 
 </div>
 
 <!--
+État initial : sans couche, la requête irait droit au contrôleur — chaque clic ajoute une couche.
+Le contrôleur, c'est AuthenticatedSessionController::create() de Breeze (slide précédente : GET login → create) : il renvoie la vue du formulaire.
 Analogie : un pipeline, ou les portiques d'un aéroport — chaque portique contrôle une chose, et peut vous arrêter avant l'avion (le contrôleur).
 Ajouter un middleware = ajouter un portique, sans toucher au contrôleur : c'est tout l'intérêt.
 D'où viennent guest et auth ? Ce sont des alias fournis par Laravel (Illuminate\Foundation\Configuration\Middleware::defaultAliases) : guest → RedirectIfAuthenticated, auth → Authenticate. Le groupe web est branché sur routes/web.php par bootstrap/app.php (withRouting) ; c'est aussi là, dans withMiddleware(), qu'on déclarerait les nôtres.

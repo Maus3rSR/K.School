@@ -132,6 +132,7 @@ Le style des tableaux est **global**, fourni par l'addon (`packages/ui/styles/in
 - Le texte doit **toujours** s'afficher en entier : jamais de colonne de texte coupée en bas de slide ni compressée par un schéma trop large.
 - Schéma + explications côte à côte (`two-cols-*`) seulement si le schéma est **étroit** (flowchart `TD`, 3-4 nœuds). Un `sequenceDiagram` à 3 participants ou plus, ou un flowchart `LR`, prend **toute la largeur** : layout `default`, explications **sous** le schéma (grille `grid grid-cols-3 text-sm` synchronisée par `v-click`, ou `::bottom::` de `two-cols-bottom`). Si le texte ne tient toujours pas, scinder en deux slides.
 - **Largeur constante** dans un `<v-switch>` qui fait grandir un schéma : chaque étape déclare **tous** les participants / nœuds dès la première (on n'ajoute que les messages, ou on met en évidence avec `classDef` + `class`), sinon le schéma change d'échelle d'une étape à l'autre.
+- **Progression par couches / empilement** (middlewares, pipeline, étapes qui s'ajoutent) : préférer une UI HTML (cartes `flex` UnoCSS, une carte par couche, `v-click` sur chaque nouvelle couche) à un Mermaid. Un élément `v-click` masqué garde sa place : la largeur reste constante et chaque couche apparaît à sa position finale.
 - `sequenceDiagram` : ajouter `%%{init: {'sequence': {'mirrorActors': false}}}%%` en première ligne pour supprimer la rangée d'acteurs du bas (gain de hauteur).
 
 ### Varier les layouts (OBLIGATOIRE)

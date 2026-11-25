@@ -9,7 +9,7 @@ Guide du formateur. Ordre calé sur les slides de `courses/Framework/sections/06
 | Moment | Chapitre | Tag Campus Quest |
 |---|---|---|
 | 1.1 `breeze:install` en direct sur l'état S5 → `git status` (6 fichiers `M`, nouveaux fichiers `??`) ; 1.2 `git restore .`, suppression des deux configs, `npm install`, `require auth.php` → `/quests` revient ; `route:list --path=login` | 01 — Le starter kit Breeze | `s6-ch1-breeze` |
-| 2.1 Connexion réussie au tag ch1 → `Route [dashboard] not defined` ; 2.2 au tag ch2 : compte Alice créé dans Tinker, connexion → nom dans la barre, mauvais mot de passe → erreur + email conservé, déconnexion | 02 — La connexion | `s6-ch2-connexion` |
+| 2.1 Connexion réussie au tag ch1 → `Route [dashboard] not defined` ; 2.2 au tag ch2 : compte Alice créé dans Tinker, connexion → nom dans la barre, `/login` retapé connecté → accueil (`guest`), mauvais mot de passe → erreur + email conservé, déconnexion | 02 — La connexion | `s6-ch2-connexion` |
 | 3.1 Tinker : `User::first()->password`, `Hash::check()` vrai puis faux ; 3.2 `migrate:fresh --seed` → connexion avec le joueur démo | 03 — Le mot de passe haché | `s6-ch3-mot-de-passe` |
 | 4.1 Déconnecté : `/quests/create` s'ouvre au tag ch3, redirige vers `/login` au tag ch4 ; connexion → retour sur `/quests/create` (intended) | 04 — Le middleware d'authentification | `s6-ch4-middleware` |
 | 5.1 Joueur → 403 sur `/quests/create` ; 5.2 fiche quête côte à côte joueur / Maître du jeu (boutons masqués) | 05 — L'autorisation | `s6-ch5-autorisation` |
@@ -87,7 +87,7 @@ Connexion → **`Route [dashboard] not defined`** : la redirection de Breeze vis
 git checkout s6-ch2-connexion
 ```
 
-`/login` est maintenant dans le layout Campus Quest. Mauvais mot de passe → « These credentials do not match our records. » sous l'email, **email conservé**. Bon mot de passe → `/quests`, « Alice » dans la barre. « Déconnexion » → accueil, « Se connecter » réapparaît.
+`/login` est maintenant dans le layout Campus Quest. Mauvais mot de passe → « These credentials do not match our records. » sous l'email, **email conservé**. Bon mot de passe → `/quests`, « Alice » dans la barre. Toujours connecté, retaper `/login` → renvoyé à l'accueil : le middleware `guest` (slide « C'est quoi, un middleware ? », chapitre 01). « Déconnexion » → accueil, « Se connecter » réapparaît.
 
 *Facultatif (30 s)* : 6 mauvais mots de passe de suite → « Too many login attempts » (limitation des essais de `LoginRequest`).
 

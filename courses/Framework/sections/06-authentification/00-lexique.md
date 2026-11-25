@@ -35,5 +35,5 @@ transition: slide-left | slide-right
 <!--
 Termes centraux : authentication vs authorization — la confusion la plus fréquente, elle structure toute la séance (ch. 01-04 puis ch. 05).
 Hash et binding sont les deux réflexes de sécurité de la séance : on ne stocke jamais un mot de passe en clair, on ne concatène jamais une saisie dans du SQL.
-Middleware : déjà croisé en S5 (ValidateCsrfToken) — il est défini ici parce qu'on va en poser un nous-mêmes au chapitre 04.
+Middleware : déjà croisé en S5 (ValidateCsrfToken) — il est défini ici, expliqué au chapitre 01 (`guest`), et on en pose un nous-mêmes au chapitre 04.
 -->

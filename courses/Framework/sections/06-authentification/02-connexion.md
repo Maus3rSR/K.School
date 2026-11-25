@@ -150,7 +150,7 @@ Une **Form Request** (S5) valide `email` et `password` ; `authenticate()` les v�
 
 <div v-click="4">
 
-`intended()` : retour à la page demandée **avant** la connexion. Ex. : vous ouvrez `/quests/create` sans être connecté → `/login` → une fois connecté, retour direct sur le formulaire.
+`intended()` : retour à la page demandée **avant** la connexion. Ex. (chapitre 04) : vous ouvrez `/quests/create` sans être connecté → `/login` → une fois connecté, retour direct sur le formulaire.
 
 Sans page mémorisée : `dashboard`, une route **qu'on a retirée**.
 

@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 01
-duration: 28 min
+duration: 30 min
 ---
 
 # Le starter kit Breeze
@@ -13,7 +13,7 @@ duration: 28 min
 
 <!--
 Transition : avant de protéger le back-office, il faut savoir QUI visite le site. C'est le rôle de la connexion — et on ne va pas l'écrire à la main.
-Découpage : ≈ 11 min de slides (≈ 8 slides), démo flash ≈ 5 min — moments : `breeze:install` en direct, `git status` (fichiers écrasés), `git restore .`, `route:list --path=login` ; micro-pratique ≈ 12 min (slide « À vous », étape A1 du README).
+Découpage : ≈ 13 min de slides (≈ 9 slides), démo flash ≈ 5 min — moments : `breeze:install` en direct, `git status` (fichiers écrasés), `git restore .`, `route:list --path=login` ; micro-pratique ≈ 12 min (slide « À vous », étape A1 du README).
 Moment léger : « Breeze, c'est une brise… qui renverse votre layout. Heureusement, Git a gardé une photo. »
 Tag Campus Quest de fin de chapitre : s6-ch1-breeze.
 -->
@@ -362,7 +362,7 @@ transition: slide-up | slide-down
 
 <!--
 Les deux fichiers en surbrillance sont ceux qu'on modifie au chapitre 02.
-Restent dans le projet sans être branchés : ProfileController, dashboard.blade.php, les vues profile/ et les tests tests/Feature/Auth (ils visent /dashboard, on les reprendra en S8).
+Restent dans le projet sans être branchés : ProfileController, dashboard.blade.php, les vues profile/ et les tests tests/Feature/Auth (ils visent /dashboard ; les tests sont hors programme).
 Breeze a aussi généré des composants Blade (resources/views/components) utilisés par ses propres vues : on ne s'en sert pas.
 -->
 
@@ -423,8 +423,88 @@ Retenez : la route s'appelle **`login`** — c'est ce nom que Laravel utilise po
 
 <!--
 Démo : `sail artisan route:list --path=login` → GET et POST login, contrôleur AuthenticatedSessionController.
-Les middlewares guest et auth sont là, déjà écrits par Breeze : on ne fait que les lire. Le chapitre 04 explique ce qu'est un middleware et en pose un nous-mêmes.
+Les middlewares guest et auth sont là, déjà écrits par Breeze : on ne fait que les lire. La slide suivante explique ce qu'est un middleware ; le chapitre 04 en pose un nous-mêmes.
 Ouvrir /login : la page de Breeze s'affiche, avec son propre style — elle ne ressemble pas à Campus Quest. Chapitre suivant.
+-->
+
+---
+transition: slide-up | slide-down
+---
+
+# C'est quoi, un middleware ?
+
+Un <KeyTerm>middleware</KeyTerm> est une **couche** que la requête traverse avant d'atteindre le contrôleur : il la laisse passer, ou répond à sa place.
+
+<v-switch>
+<template #0>
+
+```mermaid {scale: 0.9}
+flowchart LR
+    R([GET /login]) --> W[web<br/>session, CSRF]
+    W --> G{guest<br/>déjà connecté ?}
+    G -- non --> C[create<br/>le formulaire]
+    G -- oui --> H[302 vers l'accueil]
+    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
+    class W on
+```
+
+</template>
+<template #1>
+
+```mermaid {scale: 0.9}
+flowchart LR
+    R([GET /login]) --> W[web<br/>session, CSRF]
+    W --> G{guest<br/>déjà connecté ?}
+    G -- non --> C[create<br/>le formulaire]
+    G -- oui --> H[302 vers l'accueil]
+    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
+    class G on
+```
+
+</template>
+<template #2>
+
+```mermaid {scale: 0.9}
+flowchart LR
+    R([GET /login]) --> W[web<br/>session, CSRF]
+    W --> G{guest<br/>déjà connecté ?}
+    G -- non --> C[create<br/>le formulaire]
+    G -- oui --> H[302 vers l'accueil]
+    classDef on fill:#0369a1,stroke:#38bdf8,color:#fff
+    class G,H on
+```
+
+</template>
+</v-switch>
+
+<div class="grid grid-cols-3 gap-6 mt-4 text-sm">
+
+<div>
+
+**Déjà là** : le groupe `web` (session, CSRF de la S5) s'applique à toutes vos routes.
+
+</div>
+
+<div v-click="1">
+
+**Une couche en plus** : `Route::middleware('guest')->group(…)` place `guest` devant chaque route du groupe.
+
+</div>
+
+<div v-click="2">
+
+**Exemple** : déjà connecté, vous ouvrez `/login` → `guest` vous renvoie à l'accueil. `create()` n'est **jamais** appelé.
+
+</div>
+
+</div>
+
+<!--
+Analogie : un pipeline, ou les portiques d'un aéroport — chaque portique contrôle une chose, et peut vous arrêter avant l'avion (le contrôleur).
+Ajouter un middleware = ajouter un portique, sans toucher au contrôleur : c'est tout l'intérêt.
+D'où viennent guest et auth ? Ce sont des alias fournis par Laravel (Illuminate\Foundation\Configuration\Middleware::defaultAliases) : guest → RedirectIfAuthenticated, auth → Authenticate. Le groupe web est branché sur routes/web.php par bootstrap/app.php (withRouting) ; c'est aussi là, dans withMiddleware(), qu'on déclarerait les nôtres.
+« L'accueil » : RedirectIfAuthenticated vise la route dashboard, sinon home, sinon / — Campus Quest n'a ni l'une ni l'autre, donc /.
+Pas de démo ici (aucun compte encore) : au chapitre 02, une fois connecté, retaper /login pour montrer la redirection.
 -->
 
 ---

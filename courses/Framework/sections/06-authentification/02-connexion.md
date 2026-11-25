@@ -19,22 +19,20 @@ Tag Campus Quest de fin de chapitre : s6-ch2-connexion.
 -->
 
 ---
-layout: two-cols-header
-layoutClass: gap-x-6
 transition: slide-up | slide-down
 ---
 
 # Le trajet d'une connexion
 
-::left::
-
 <v-switch>
 <template #0>
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.7}
+%%{init: {'sequence': {'mirrorActors': false}}}%%
 sequenceDiagram
     participant N as Navigateur
     participant C as AuthenticatedSessionController
+    participant B as Base (users)
     N->>C: GET /login
     C-->>N: formulaire (create)
 ```
@@ -42,7 +40,8 @@ sequenceDiagram
 </template>
 <template #1>
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.7}
+%%{init: {'sequence': {'mirrorActors': false}}}%%
 sequenceDiagram
     participant N as Navigateur
     participant C as AuthenticatedSessionController
@@ -56,7 +55,8 @@ sequenceDiagram
 </template>
 <template #2>
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.7}
+%%{init: {'sequence': {'mirrorActors': false}}}%%
 sequenceDiagram
     participant N as Navigateur
     participant C as AuthenticatedSessionController
@@ -72,7 +72,7 @@ sequenceDiagram
 </template>
 </v-switch>
 
-::right::
+<div class="grid grid-cols-3 gap-6 mt-2 text-sm">
 
 <div>
 
@@ -88,7 +88,9 @@ sequenceDiagram
 
 <div v-click="2">
 
-**Se souvenir** : en cas de succès, la <KeyTerm>session</KeyTerm> retient votre identifiant. Le cookie de session, renvoyé à chaque requête, vous fait reconnaître.
+**Se souvenir** : la <KeyTerm>session</KeyTerm> retient votre identifiant ; le cookie, renvoyé à chaque requête, vous fait reconnaître.
+
+</div>
 
 </div>
 
@@ -99,7 +101,7 @@ C'est le même cookie que celui de l'attaque CSRF de la S5 : il est envoyé auto
 
 ---
 layout: two-cols-bottom
-class: '!grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-x-6'
+class: '!grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-x-6'
 transition: slide-up | slide-down
 ---
 
@@ -148,7 +150,9 @@ Une **Form Request** (S5) valide `email` et `password` ; `authenticate()` les v�
 
 <div v-click="4">
 
-`intended()` : la page demandée avant la connexion… sinon `dashboard`, une route **qu'on a retirée**.
+`intended()` : retour à la page demandée **avant** la connexion. Ex. : vous ouvrez `/quests/create` sans être connecté → `/login` → une fois connecté, retour direct sur le formulaire.
+
+Sans page mémorisée : `dashboard`, une route **qu'on a retirée**.
 
 </div>
 
@@ -432,7 +436,7 @@ Vous avez tapé `secret123` en clair. Qu'est-ce que la base a **vraiment** enreg
 </v-click>
 
 <!--
-Démo : créer le compte dans Tinker, se connecter avec alice@campus-quest.test / secret123 → redirection vers /quests, « Alice » dans la barre. Déconnexion → retour à l'accueil, « Se connecter » réapparaît.
+Démo : créer le compte dans Tinker, se connecter avec alice@campus-quest.test / secret123 → redirection vers /quests, « Alice » dans la barre. Toujours connecté, retaper /login → renvoyé à l'accueil : le middleware guest du chapitre 01 en action. Déconnexion → retour à l'accueil, « Se connecter » réapparaît.
 Puis volontairement un mauvais mot de passe : message d'erreur sous l'email, email conservé.
 Ne répondez pas à la question du bas : elle ouvre le chapitre 03.
 -->

@@ -2,7 +2,7 @@
 layout: chapter
 transition: slide-left | slide-right
 number: 04
-duration: 15 min
+duration: 14 min
 ---
 
 # Le middleware d'authentification
@@ -13,7 +13,7 @@ duration: 15 min
 
 <!--
 Transition : on sait qui est connecté… mais on ne s'en sert encore nulle part. Le back-office est toujours ouvert.
-Découpage : ≈ 6 min de slides (≈ 5 slides), démo flash ≈ 2 min — moments : déconnecté, /quests/create → redirection vers /login ; connexion → retour automatique sur /quests/create ; micro-pratique ≈ 7 min (slide « À vous », étape A4 du README).
+Découpage : ≈ 5 min de slides (≈ 5 slides, le rappel est court : le middleware est défini au chapitre 01), démo flash ≈ 2 min — moments : déconnecté, /quests/create → redirection vers /login ; connexion → retour automatique sur /quests/create ; micro-pratique ≈ 7 min (slide « À vous », étape A4 du README).
 Moment léger : « Le middleware auth, c'est le vigile de la BU : pas de carte, pas d'entrée — mais il vous indique gentiment l'accueil. »
 Tag Campus Quest de fin de chapitre : s6-ch4-middleware.
 -->
@@ -64,7 +64,7 @@ Un **filtre** que la requête traverse avant d'atteindre le contrôleur. Il la l
 
 </Definition>
 
-Vous en avez déjà croisé un : `ValidateCsrfToken` (S5), qui répond **419** sans jeton.
+Vous en avez déjà croisé deux : `ValidateCsrfToken` (S5), qui répond **419** sans jeton, et `guest` (chapitre 01), qui renvoie un connecté loin de `/login`.
 
 ::right::
 

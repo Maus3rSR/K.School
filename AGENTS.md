@@ -1,5 +1,10 @@
 # K.School — Agent Rules
 
+## Vocabulaire : séance ≠ semestre
+
+- **S1, S2…** désignent toujours les **séances** d'un cours (decks, `seance-XX`, tags `sXX-chY-slug`).
+- Les **semestres** s'écrivent **Sem1 … Sem6** (ex. « JavaScript en Sem5 », « Docker en Sem6 ») — jamais « S5 » / « S6 », réservés aux séances.
+
 ## Fin de tâche sur un cours — audit de séquencement
 
 Toute création ou modification sous `courses/`, `exercices/` ou `scenarios/` se termine par le skill `sequencing-audit` sur les séances touchées (pas sur tout le dépôt), et son rapport figure dans la réponse finale. Un cours sans « Profil pédagogique » dans son `programme.md` n'est audité qu'au niveau 1 (universel).

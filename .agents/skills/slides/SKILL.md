@@ -127,6 +127,13 @@ Le style des tableaux est **global**, fourni par l'addon (`packages/ui/styles/in
 - **Contenu trop long** : Changer de layout ou diviser en plusieurs slides
 - Référence : `.agents/skills/slidev/references/core-layouts.md`
 
+### Schéma + texte : le texte est prioritaire (OBLIGATOIRE)
+
+- Le texte doit **toujours** s'afficher en entier : jamais de colonne de texte coupée en bas de slide ni compressée par un schéma trop large.
+- Schéma + explications côte à côte (`two-cols-*`) seulement si le schéma est **étroit** (flowchart `TD`, 3-4 nœuds). Un `sequenceDiagram` à 3 participants ou plus, ou un flowchart `LR`, prend **toute la largeur** : layout `default`, explications **sous** le schéma (grille `grid grid-cols-3 text-sm` synchronisée par `v-click`, ou `::bottom::` de `two-cols-bottom`). Si le texte ne tient toujours pas, scinder en deux slides.
+- **Largeur constante** dans un `<v-switch>` qui fait grandir un schéma : chaque étape déclare **tous** les participants / nœuds dès la première (on n'ajoute que les messages, ou on met en évidence avec `classDef` + `class`), sinon le schéma change d'échelle d'une étape à l'autre.
+- `sequenceDiagram` : ajouter `%%{init: {'sequence': {'mirrorActors': false}}}%%` en première ligne pour supprimer la rangée d'acteurs du bas (gain de hauteur).
+
 ### Varier les layouts (OBLIGATOIRE)
 
 `two-cols-header` représente aujourd'hui 60 % des slides : l'utiliser pour code + explication, pas par défaut. Palette à exploiter :
@@ -750,5 +757,6 @@ Les éléments vivent dans `courses/<Cours>/references/<concept>.ts` (`export de
 ## Checklist finale — à passer sur chaque slide modifiée
 
 - [ ] **Backticks ≠ `<KeyTerm>`** : le code inline (backticks) est réservé au code qu'on tape — vérifier qu'**aucun concept n'est en backticks** et qu'**aucun code tapé n'est en gras ou dans `<KeyTerm>`** (deux visuels = deux rôles)
+- [ ] **Schéma + texte** : texte entièrement visible ; schéma large en pleine largeur avec texte dessous ; largeur constante entre les étapes d'un `<v-switch>`
 - [ ] **Conclusion d'une slide deux colonnes** : « Retenez… », synthèse ou règle valant pour toute la slide → slot `::bottom::` du layout `two-cols-bottom`, jamais empilée dans la colonne droite
 - [ ] **Synchronisation clicks** : autant de `v-click="N"` numérotés que de segments après l'état initial du line highlighting, et `all` en dernier segment si la dernière étape est une synthèse

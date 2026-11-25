@@ -18,6 +18,7 @@ export default [
   { name: '$request->query()', desc: 'Lire un paramètre d\'URL (?x=)', group: 'Lire la requête', seen: 's2-ch3' },
   { name: '$request->input()', desc: 'Lire un champ de formulaire', group: 'Lire la requête', seen: 's5-ch1' },
   { name: '$request->validate()', desc: 'Valider les données reçues', group: 'Lire la requête', seen: 's5-ch3' },
+  { name: '$request->expectsJson()', desc: 'La requête attend-elle du JSON ?', group: 'Lire la requête', seen: 's7-ch3' },
   // Répondre
   { name: 'view()', desc: 'Renvoyer une page HTML', group: 'Répondre', seen: 's2-ch2' },
   { name: 'response()->json()', desc: 'Renvoyer du JSON', group: 'Répondre', seen: 's2-ch3' },

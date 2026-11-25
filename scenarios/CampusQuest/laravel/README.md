@@ -22,6 +22,9 @@ laravel/
 └── seance-06/    # démo flash S6 : Breeze, connexion, hash, middleware auth, Gate, quêtes acceptées, XSS, injection SQL
     ├── LIVECODING.md   # fil à suivre, calé sur les slides 06-authentification
     └── solution/       # fichiers écrits ou modifiés par la S6 (prérequis : solution S5 appliquée, puis Breeze installé et trié — voir LIVECODING.md)
+└── seance-07/    # démo flash S7 : fetch, réponse JSON, cache applicatif
+    ├── LIVECODING.md   # fil à suivre, calé sur les slides 07-interactivite
+    └── solution/       # fichiers écrits ou modifiés par la S7 (prérequis : solution S6 appliquée — routes et vite.config inchangés)
 ```
 
 ## Appliquer une séance
@@ -35,6 +38,7 @@ cp -r seance-04/solution/* app/   # état final de la S4 (après la S3)
 cp -r seance-05/solution/* app/   # état final de la S5 (après la S4 — inclut filtres, pagination et /classement)
 # S6 : d'abord sail composer require laravel/breeze --dev && sail artisan breeze:install blade, puis le tri du chapitre 01 (LIVECODING.md)
 cp -r seance-06/solution/* app/   # état final de la S6 (après la S5 et l'installation de Breeze)
+cp -r seance-07/solution/* app/   # état final de la S7 (après la S6 — fetch, JSON, cache ; penser à CACHE_STORE=database dans .env)
 ```
 
 L'installation et les commandes Sail sont décrites dans [`base/README.md`](base/README.md).

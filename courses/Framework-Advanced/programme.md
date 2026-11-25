@@ -3,7 +3,7 @@
 **Ressources couvertes** : R6.Real.05 Développement avancé (18h nationales dont 7h TP) + R6.Real.06 Maintenance applicative (13h nationales dont 6h TP)
 **Public** : BUT Informatique 3e année, parcours Réalisation, semestre 6
 **Volume proposé** : 32h — 8 séances de 4h (≈ 31h nationales) — ⚠️ à caler sur la maquette locale et la date de départ en stage
-**Version** : Laravel 12 (PHP 8.3+), même base qu'au S5 — [documentation Laravel 12.x](https://laravel.com/docs/12.x)
+**Version** : Laravel 12 (PHP 8.3+), même base qu'au Sem5 — [documentation Laravel 12.x](https://laravel.com/docs/12.x)
 **Suite de** : `courses/Framework` (R5.Real.05 Programmation avancée)
 **SAÉ alimentée** : SAÉ 6.Real.01 « Évolution d'une application existante »
 
@@ -11,7 +11,7 @@
 
 ## Intention
 
-Au S5, les étudiants ont découvert un framework pour la première fois : ils ont **construit** une application. Au S6, ils **reprennent** une application qu'ils n'ont pas écrite, la sécurisent par des tests, la remanient, la font évoluer en TDD et la livrent automatiquement.
+Au Sem5, les étudiants ont découvert un framework pour la première fois : ils ont **construit** une application. Au Sem6, ils **reprennent** une application qu'ils n'ont pas écrite, la sécurisent par des tests, la remanient, la font évoluer en TDD et la livrent automatiquement.
 
 Fil conducteur : **reprendre → sécuriser → faire évoluer → livrer**.
 
@@ -43,7 +43,7 @@ Le TDD écrit le test **avant** le code. Sur une application existante, le code 
 
 ## Format de séance
 
-**Public** : étudiants de BUT 3 ayant suivi `courses/Framework` (S5) : à l'aise avec routes, contrôleurs, Blade, Eloquent, formulaires, Breeze, `fetch` + JSON, `Cache::remember`. **Débutants sur les tests automatisés, l'intégration continue et le déploiement.** Le S5 ne fait qu'un premier contact avec `php artisan test` (S8 du S5).
+**Public** : étudiants de BUT 3 ayant suivi `courses/Framework` (Sem5) : à l'aise avec routes, contrôleurs, Blade, Eloquent, formulaires, Breeze, `fetch` + JSON, `Cache::remember`. **Débutants sur les tests automatisés, l'intégration continue et le déploiement.** Le Sem5 ne fait qu'un premier contact avec `php artisan test` (séance 8 du Sem5).
 
 ### Profil pédagogique
 
@@ -51,7 +51,7 @@ Lu par le skill `sequencing-audit`. Le détail de chaque clé est dans les sous-
 
 | Clé | Valeur |
 |---|---|
-| Public | étudiants de BUT 3 ayant suivi `courses/Framework` ; débutants sur les tests, la CI et le déploiement ; prérequis : Laravel niveau S5, Git, GitHub |
+| Public | étudiants de BUT 3 ayant suivi `courses/Framework` ; débutants sur les tests, la CI et le déploiement ; prérequis : Laravel niveau Sem5, Git, GitHub |
 | Unité | séance de 4h |
 | Budget utile | 180 min (somme des `duration` des chapitres) |
 | Modèle de séance | cycles théorie courte → démo flash Campus Quest → micro-pratique sur l'application héritée |
@@ -59,7 +59,7 @@ Lu par le skill `sequencing-audit`. Le détail de chaque clé est dans les sous-
 | Démo | `scenarios/CampusQuest/laravel-advanced/seance-XX/LIVECODING.md` |
 | Solution de référence | `scenarios/CampusQuest/laravel-advanced/seance-XX/solution/` |
 | Exercice | `exercices/framework-advanced/XX-*/README.md` (partie en séance : Partie A) |
-| Fil rouge | application héritée commune ⚖️ (règle : transposition de la démo, jamais de recopie) ; Partie B sur le WishFlix personnel du S5 |
+| Fil rouge | application héritée commune ⚖️ (règle : transposition de la démo, jamais de recopie) ; Partie B sur le WishFlix personnel du Sem5 |
 | Ordre imposé | chapitres des slides = moments de `LIVECODING.md` = étapes de la Partie A |
 | Rattrapage | tag Campus Quest du chapitre (`adv-sXX-chY-slug`) |
 | Densité | 3-4 notions nouvelles par séance, ≤ 1 aperçu |
@@ -67,7 +67,7 @@ Lu par le skill `sequencing-audit`. Le détail de chaque clé est dans les sous-
 
 ### Une séance = une suite de cycles
 
-Même modèle qu'au S5, en démo flash dès la S1 (les étudiants connaissent le rythme) :
+Même modèle qu'au Sem5, en démo flash dès la S1 (les étudiants connaissent le rythme) :
 
 1. **Théorie courte** : le problème, puis le concept (slides qui déroulent le code)
 2. **Démo flash sur Campus Quest** (3-5 min par chapitre) : uniquement les moments où l'exécution parle — test rouge puis vert, pipeline qui casse, rapport de couverture, déploiement
@@ -77,13 +77,13 @@ Même modèle qu'au S5, en démo flash dès la S1 (les étudiants connaissent le
 
 | Terrain | Rôle | Pourquoi |
 |---|---|---|
-| **Campus Quest** (état de fin de S5) | Démonstrations | Connu de vue par les étudiants : on lit vite, on se concentre sur la notion |
+| **Campus Quest** (état de fin de Sem5) | Démonstrations | Connu de vue par les étudiants : on lit vite, on se concentre sur la notion |
 | **Application héritée commune** ⚖️ | Partie A en séance | Inconnue des étudiants : la rétroconception est réelle ; commune à tous : le cours reste collectif ; défauts **semés volontairement** (contrôleurs trop chargés, logique dupliquée, N+1, aucune validation centralisée, aucun test) |
-| **WishFlix personnel** (S5) | Partie B à la maison | Transposition sur son propre code : tests, CI et remaniement de son projet ; hétérogène, donc jamais utilisé en séance |
+| **WishFlix personnel** (Sem5) | Partie B à la maison | Transposition sur son propre code : tests, CI et remaniement de son projet ; hétérogène, donc jamais utilisé en séance |
 
 ### Budget de temps
 
-Identique au S5 :
+Identique au Sem5 :
 
 - `duration` d'un chapitre = slides + démo + micro-pratique
 - 4h = 20 min de pause + 20 min de marge en début + 20 min de marge en fin = **180 min utiles**
@@ -103,7 +103,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 
 ### Rattrapage
 
-- Campus Quest avancé est versionné dans le dépôt `CampusQuest`, avec un tag par chapitre au format **`adv-sXX-chY-slug`** (préfixe `adv-` : les tags `sXX-` du S5 existent déjà)
+- Campus Quest avancé est versionné dans le dépôt `CampusQuest`, avec un tag par chapitre au format **`adv-sXX-chY-slug`** (préfixe `adv-` : les tags `sXX-` du Sem5 existent déjà)
 - L'application héritée est distribuée dans son **état initial** ; un étudiant en retard relit le diff du tag Campus Quest et **refait** l'étape sur l'application héritée
 - Point de reprise collectif possible en début de séance : une branche `checkpoint-sXX` de l'application héritée ⚖️
 
@@ -123,7 +123,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 
 ### **Séance 2 — Le filet de sécurité et l'intégration continue** (4h)
 - **Tests de caractérisation** : figer le comportement actuel, bugs compris (et le dire dans le nom du test)
-- Assertions utiles : `assertSee`, `assertRedirect`, `assertSessionHasErrors`, `assertDatabaseHas`, `postJson()->assertJson()` (les réponses JSON du S5)
+- Assertions utiles : `assertSee`, `assertRedirect`, `assertSessionHasErrors`, `assertDatabaseHas`, `postJson()->assertJson()` (les réponses JSON du Sem5)
 - **Couverture** mesurée : `php artisan test --coverage` (Sail : `SAIL_XDEBUG_MODE=coverage`) — un chiffre qui guide, pas un objectif
 - **GitHub Actions** : un workflow qui lance les tests à chaque push et à chaque pull request ; le badge du pipeline dans le README
 - 🛠️ Atelier : tests de caractérisation des parcours clés de l'application héritée, pipeline vert
@@ -131,7 +131,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 
 ### **Séance 3 — Remaniement sous filet** (4h)
 - Remanier sans changer le comportement : les tests restent verts à chaque étape
-- Contrôleur trop chargé → Form Request (rappel S5) → **classe d'action / service** injecté par le conteneur (injection de dépendances)
+- Contrôleur trop chargé → Form Request (rappel Sem5) → **classe d'action / service** injecté par le conteneur (injection de dépendances)
 - Requêtes dupliquées → **scopes Eloquent** ; N+1 corrigé, prouvé par un test (`preventLazyLoading`)
 - **Tests unitaires** vs tests HTTP : tester une action sans passer par une route
 - **Qualité outillée dans la CI** : Pint (style) et Larastan (analyse statique) — le pipeline casse sur une erreur
@@ -157,7 +157,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 - 🛠️ Exercice : `exercices/framework-advanced/05-events-queues`
 
 ### **Séance 6 — Découpler : API et services externes** (4h)
-- Suite directe de la slide « Pourquoi pas `routes/api.php` ? » de la S7 du S5 : un client **externe** sans session
+- Suite directe de la slide « Pourquoi pas `routes/api.php` ? » de la séance 7 du Sem5 : un client **externe** sans session
 - `install:api`, **Sanctum** (jetons d'API), **API Resources** pour contrôler la forme du JSON
 - Appeler un **service externe** avec le client HTTP de Laravel, derrière une **interface** (adaptateur) liée dans le conteneur — introduction douce aux ports / adaptateurs
 - Tester sans réseau : `Http::fake`, tests d'API avec `Sanctum::actingAs`
@@ -169,7 +169,7 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 ### **Séance 7 — Livraison continue** (4h)
 - Sail est un environnement de **développement** : ce qui change en production (`APP_ENV`, `APP_DEBUG`, secrets, `config:cache`, `optimize`)
 - Construire une **image de production** (Dockerfile multi-étapes : Composer, `npm run build`, PHP-FPM) ⚖️
-- Migrations en production (`migrate --force`), cache Redis (suite de la S7 du S5), worker de file d'attente
+- Migrations en production (`migrate --force`), cache Redis (suite de la séance 7 du Sem5), worker de file d'attente
 - **Pipeline de livraison** : tests → qualité → construction → déploiement d'une préproduction depuis `main` ; revenir en arrière
 - 🛠️ Atelier : l'application héritée déployée automatiquement à chaque fusion sur `main`
 - 🛠️ Exercice : `exercices/framework-advanced/07-continuous-delivery`
@@ -197,11 +197,11 @@ Travail personnel : **≈ 2h par semaine** (B + C).
 
 ---
 
-## Domaine des démonstrations : Campus Quest (état de fin de S5)
+## Domaine des démonstrations : Campus Quest (état de fin de Sem5)
 
 | Notion | Démonstration Campus Quest |
 |---|---|
-| Rétroconception | Campus Quest relu comme si on le découvrait ; défauts présents dans le code du S5 (contrôleurs, absence de tests) |
+| Rétroconception | Campus Quest relu comme si on le découvrait ; défauts présents dans le code du Sem5 (contrôleurs, absence de tests) |
 | Caractérisation | Classement, acceptation de quête (HTML et JSON), back-office du maître du jeu |
 | Remaniement | `QuestController` → action injectée, scopes de quêtes |
 | TDD | Nouvelle règle : bonus d'XP pour une quête acceptée le jour de sa création ⚖️ |
@@ -249,21 +249,21 @@ Critères transverses : pipeline vert sur `main`, commits atomiques, pull reques
 
 ## Liens avec les autres cours du dépôt
 
-- `courses/Framework` : prérequis direct (S5)
+- `courses/Framework` : prérequis direct (Sem5)
 - `courses/Tdd` : cycle rouge-vert-remaniement, anatomie d'un test (exercices en Deno/TypeScript : prévoir un kata PHP)
 - `courses/DesignPattern`, `courses/hexagonal-architecture` : lectures pour les S3 et S6
 - `courses/Docker` : rappels pour la S7
-- `courses/Ci-Cd` : QCM uniquement à ce jour ; à coordonner avec R5.Real.07 (Automatisation de la chaîne de production) : le S6 **réinvestit** la CI/CD du S5, il ne la réenseigne pas
+- `courses/Ci-Cd` : QCM uniquement à ce jour ; à coordonner avec R5.Real.07 (Automatisation de la chaîne de production) : le Sem6 **réinvestit** la CI/CD du Sem5, il ne la réenseigne pas
 
 ---
 
-## Conséquences sur le cours du S5 (`courses/Framework`)
+## Conséquences sur le cours du Sem5 (`courses/Framework`)
 
 Non appliquées à ce jour :
 
-- S8 du S5 : tests réduits à un premier contact (lancer `php artisan test`, lire deux tests fournis), le reste en atelier projet et préparation de soutenance
-- Exercice 07 du S5 : retirer la mention « les branches JSON de vos routes seront testées » en S8 (déplacé en S2 du S6)
-- Évaluation du S5 : README et propreté du dépôt valorisés, le projet étant repris au S6
+- séance 8 du Sem5 : tests réduits à un premier contact (lancer `php artisan test`, lire deux tests fournis), le reste en atelier projet et préparation de soutenance
+- Exercice 07 du Sem5 : retirer la mention « les branches JSON de vos routes seront testées » en séance 8 (déplacé en séance 2 du Sem6)
+- Évaluation du Sem5 : README et propreté du dépôt valorisés, le projet étant repris au Sem6
 
 ---
 
@@ -272,6 +272,6 @@ Non appliquées à ce jour :
 1. **Application héritée** : domaine, taille, défauts semés ; dépôt modèle GitHub ou archive Moodle ; branches de reprise `checkpoint-sXX`
 2. **PHPUnit ou Pest** : PHPUnit par défaut dans cette proposition (lien direct avec la documentation et le code de `vendor/`), Pest plus lisible pour débuter
 3. **Cible de déploiement** (S7) : serveur de l'IUT, hébergeur gratuit, petit serveur privé — conditionne la livraison continue réelle
-4. **Volume réel** du S6 dans la maquette locale et date de départ en stage (le S6 est souvent court)
-5. **Coordination** avec l'enseignant de R5.Real.07 (CI/CD au S5) et avec la SAÉ 6.Real.01 (même application héritée ou non)
+4. **Volume réel** du Sem6 dans la maquette locale et date de départ en stage (le Sem6 est souvent court)
+5. **Coordination** avec l'enseignant de R5.Real.07 (CI/CD au Sem5) et avec la SAÉ 6.Real.01 (même application héritée ou non)
 6. **Version de Laravel** : rester sur Laravel 12 ou faire de la **montée de version** une évolution de l'application héritée (bonus ou séance dédiée)

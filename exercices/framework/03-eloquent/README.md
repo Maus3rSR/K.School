@@ -40,7 +40,7 @@ Remplacer le **tableau PHP** du `GameController` par une **vraie base de donnée
 - `git status` : l'arbre de travail est propre (commit de S2 fait)
 - `./vendor/bin/sail artisan migrate` : les tables par défaut de Laravel (users, cache, jobs…) se créent — c'est la preuve que la connexion à la base fonctionne
 
-✅ Vérification : `migrate:status` liste les migrations jouées. Sinon, revenez à l'exercice 01.
+> ✅ **Vérification** : `migrate:status` liste les migrations jouées. Sinon, revenez à l'exercice 01.
 
 ---
 
@@ -48,49 +48,70 @@ Remplacer le **tableau PHP** du `GameController` par une **vraie base de donnée
 
 Chaque étape indique son **chapitre** du cours. La pratique est répartie au fil des chapitres : après chaque notion démontrée sur Campus Quest, vous la transposez sur WishFlix et vous validez le point de contrôle.
 
+> 💡 **Lire les consignes** : les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège. Le code donné en entier concerne des détails peu vus en cours ; le reste, c'est à vous de l'écrire.
+
 ### A1 — Un modèle et sa table : `Category` (Chapitre 1)
 
-**Étape A1.1** — Générez le modèle et sa migration :
+#### A1.1 · Générer le modèle et sa migration
 
 ```bash
 ./vendor/bin/sail artisan make:model Category -m
 ```
 
-Repérez les fichiers : le modèle `app/Models/Category.php` (vide) et la migration `…_create_categories_table.php` (squelette : `id()` + `timestamps()` seulement — les colonnes s'écrivent à la main).
+Repérez les deux fichiers créés :
 
-**Étape A1.2** — Dans le `up()` de la migration, ajoutez la colonne `$table->string('name');`, puis jouez-la :
+- le **modèle** `app/Models/Category.php`, vide
+- la **migration** `database/migrations/…_create_categories_table.php`, qui ne contient que `id()` et `timestamps()`
 
-```bash
-./vendor/bin/sail artisan migrate
-./vendor/bin/sail artisan migrate:status
-```
+> 💡 **Modèle** : la classe PHP qui représente une table. **Migration** : le fichier qui décrit la structure de la table. L'option `-m` génère les deux d'un coup.
 
-✅ La migration `create_categories_table` est à `Ran`.
+#### A1.2 · La colonne `name`
 
-**Étape A1.3** — Dans Tinker (`./vendor/bin/sail artisan tinker`), écrivez une ligne sans `create()` :
+📄 `database/migrations/…_create_categories_table.php`
 
-```php
-$c = new Category();
-$c->name = 'RPG';
-$c->save();
-Category::find(1)->name;
-Category::count();
-```
+1. Dans la méthode `up()`, entre `id()` et `timestamps()`, ajoutez la colonne : `$table->string('name');`
+2. Jouez la migration, puis vérifiez son état :
 
-✅ `Category::find(1)->name` renvoie `"RPG"`, `count()` renvoie `1`.
+   ```bash
+   ./vendor/bin/sail artisan migrate
+   ./vendor/bin/sail artisan migrate:status
+   ```
+
+> ✅ **Vérification** : la migration `create_categories_table` est à `Ran`.
+
+#### A1.3 · Écrire et relire une ligne dans Tinker
+
+1. Ouvrez **Tinker** : `./vendor/bin/sail artisan tinker`
+2. Créez une catégorie sans `create()`, champ par champ, puis relisez-la :
+
+   ```php
+   $c = new Category();
+   $c->name = 'RPG';
+   $c->save();
+   Category::find(1)->name;
+   Category::count();
+   ```
+
+> 💡 **Active Record** : un objet `Category` correspond à une ligne de la table. `save()` écrit la ligne, `find(1)` relit celle dont l'`id` vaut 1.
+
+> ✅ **Vérification** : `Category::find(1)->name` renvoie `"RPG"`, `count()` renvoie `1`.
 
 > ✅ **Point de contrôle 1** — la table `categories` existe, une ligne a été écrite et relue en Tinker.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch1-table-objet` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A2 — `Game` appartient à `Category` (Chapitre 2)
 
-**Étape A2.1** — Générez le modèle et sa migration :
+#### A2.1 · Générer le modèle `Game`
 
 ```bash
 ./vendor/bin/sail artisan make:model Game -m
 ```
 
-**Étape A2.2** — Complétez le `up()` de la migration `games` avec toutes les colonnes du modèle de données, **dont la clé étrangère écrite à la main** :
+#### A2.2 · Les colonnes de `games`
+
+📄 `database/migrations/…_create_games_table.php`
+
+Dans `up()`, ajoutez toutes les colonnes du modèle de données, **dont la clé étrangère** :
 
 | Colonne | Ligne à écrire |
 |---------|----------------|
@@ -104,31 +125,45 @@ Category::count();
 | `status` | `$table->string('status');` |
 | `category_id` | `$table->foreignId('category_id')->constrained();` |
 
-> ⚠️ `categories` doit exister **avant** `games` : l'ordre des fichiers (le timestamp du nom) fixe l'ordre d'exécution. Comme `categories` a été jouée en A1, vous êtes dans le bon ordre.
+> 💡 **Clé étrangère** : `foreignId('category_id')->constrained()` crée la colonne **et** la contrainte qui oblige `category_id` à exister dans `categories`. Laravel devine la table à partir du nom `category_id`.
 
-**Étape A2.3** — Jouez les migrations et vérifiez : `migrate` puis `migrate:status` (les deux migrations à `Ran`).
+> ⚠️ `categories` doit exister **avant** `games` : le timestamp au début du nom des fichiers fixe l'ordre d'exécution. Comme `categories` a été jouée en A1, vous êtes dans le bon ordre.
 
-**Étape A2.4** — Dans `app/Models/Game.php`, ajoutez `$fillable` avec les colonnes remplissables (`title`, `synopsis`, `release_year`, `rating`, `playtime_hours`, `cover_url`, `featured`, `status`, `category_id`) et `casts()` renvoyant `'featured' => 'boolean'`. Ajoutez aussi `$fillable = ['name']` dans `Category`.
+#### A2.3 · Jouer les migrations
 
-**Étape A2.5** — Déclarez les relations des deux côtés :
+Lancez `migrate`, puis `migrate:status`.
 
-```php
-// Game.php
-public function category(): BelongsTo
-{
-    return $this->belongsTo(Category::class);
-}
+> ✅ **Vérification** : les deux migrations sont à `Ran`.
 
-// Category.php
-public function games(): HasMany
-{
-    return $this->hasMany(Game::class);
-}
-```
+#### A2.4 · `$fillable` et `casts()`
 
-(Imports en tête : `Illuminate\Database\Eloquent\Relations\BelongsTo` et `HasMany`.)
+1. 📄 `app/Models/Game.php` : dans la classe, ajoutez la propriété `protected $fillable = [...]` avec les neuf colonnes remplissables : `title`, `synopsis`, `release_year`, `rating`, `playtime_hours`, `cover_url`, `featured`, `status`, `category_id`
+2. 📄 `app/Models/Game.php` : ajoutez la méthode `protected function casts(): array`, qui renvoie `['featured' => 'boolean']`
 
-**Étape A2.6** — Dans Tinker, créez des données et naviguez :
+3. 📄 `app/Models/Category.php` : ajoutez `protected $fillable = ['name'];`
+
+> 💡 **Assignation de masse** : remplir un modèle en une fois avec un tableau, comme `Game::create([...])`. `$fillable` est la liste blanche des colonnes autorisées : sans elle, Laravel lève une `MassAssignmentException`.
+
+> 💡 **`casts()`** : la base stocke `featured` en `0` / `1`. Le cast `boolean` le convertit en `true` / `false` quand vous lisez `$game->featured`.
+
+#### A2.5 · Les relations
+
+1. 📄 `app/Models/Game.php` : ajoutez l'**import** `use Illuminate\Database\Eloquent\Relations\BelongsTo;` et la méthode
+
+   ```php
+   public function category(): BelongsTo
+   {
+       return $this->belongsTo(Category::class);
+   }
+   ```
+
+2. 📄 `app/Models/Category.php` : ajoutez l'**import** `use Illuminate\Database\Eloquent\Relations\HasMany;` et la méthode `games()`, qui renvoie `$this->hasMany(Game::class)` avec le type de retour `HasMany`
+
+> 💡 **`belongsTo`** : un jeu **appartient à** une catégorie (il porte `category_id`). **`hasMany`** : une catégorie **a plusieurs** jeux. On déclare les deux côtés pour naviguer dans les deux sens.
+
+#### A2.6 · Naviguer dans Tinker
+
+Dans Tinker, créez des données puis naviguez :
 
 ```php
 Category::create(['name' => 'Action']);
@@ -137,48 +172,57 @@ Game::first()->category->name;
 Category::find(1)->games->count();
 ```
 
-✅ Le jeu connaît sa catégorie, la catégorie liste ses jeux. (Un `category_id` inexistant serait refusé par la contrainte — c'est voulu.)
+> 💡 **`->category` sans parenthèses** renvoie l'objet lié (la catégorie). **`->category()` avec parenthèses** renvoie la relation elle-même, sur laquelle on peut enchaîner des méthodes.
+
+> ⚠️ Tinker garde les classes chargées : après avoir modifié un modèle, quittez (`exit`) et relancez Tinker.
+
+> ✅ **Vérification** : le jeu connaît sa catégorie, la catégorie liste ses jeux. Un `category_id` inexistant serait refusé par la contrainte : c'est voulu.
 
 > ✅ **Point de contrôle 2** — `Game::create()` fonctionne grâce au `$fillable`, la FK `category_id` est une vraie contrainte, la navigation marche dans les deux sens.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch2-relation-1n` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A3 — `Game` ↔ `Platform` : la table pivot (Chapitre 3)
 
-**Étape A3.1** — Générez `Platform` et sa migration (`make:model Platform -m`), ajoutez la colonne `$table->string('name');`, puis créez la pivot :
+#### A3.1 · Le modèle `Platform`
 
-```bash
-./vendor/bin/sail artisan make:migration create_game_platform_table
-```
+1. Générez le modèle et sa migration : `./vendor/bin/sail artisan make:model Platform -m`
+2. 📄 `database/migrations/…_create_platforms_table.php` : ajoutez la colonne `$table->string('name');`
+3. 📄 `app/Models/Platform.php` : ajoutez `protected $fillable = ['name'];`
 
-Dans le `up()` de la migration créée :
+#### A3.2 · La table pivot `game_platform`
 
-```php
-$table->foreignId('game_id')->constrained();
-$table->foreignId('platform_id')->constrained();
-$table->primary(['game_id', 'platform_id']);
-```
+1. Générez une migration vide :
 
-Puis `migrate` : `platforms` et `game_platform` passent à `Ran`.
+   ```bash
+   ./vendor/bin/sail artisan make:migration create_game_platform_table
+   ```
+
+2. 📄 `database/migrations/…_create_game_platform_table.php` : dans `up()`, remplacez le contenu du `Schema::create` par
+
+   ```php
+   $table->foreignId('game_id')->constrained();
+   $table->foreignId('platform_id')->constrained();
+   $table->primary(['game_id', 'platform_id']);
+   ```
+
+3. Lancez `migrate`
+
+> 💡 **Table pivot** : une table qui ne contient que deux clés étrangères, pour relier plusieurs jeux à plusieurs plateformes. `primary([...])` crée une **clé composite** : un même couple jeu / plateforme ne peut exister qu'une fois.
 
 > 💡 La pivot se nomme **au singulier, dans l'ordre alphabétique** : `game_platform`. C'est cette convention qui permet à `belongsToMany` de la trouver sans configuration.
 
-**Étape A3.2** — Déclarez `belongsToMany` des deux côtés :
+> ✅ **Vérification** : `platforms` et `game_platform` sont à `Ran`.
 
-```php
-// Game.php
-public function platforms(): BelongsToMany
-{
-    return $this->belongsToMany(Platform::class);
-}
+#### A3.3 · Les relations `belongsToMany`
 
-// Platform.php
-public function games(): BelongsToMany
-{
-    return $this->belongsToMany(Game::class);
-}
-```
+📄 `app/Models/Game.php` et `app/Models/Platform.php`
 
-**Étape A3.3** — Dans Tinker, écrivez et lisez les liens :
+1. Dans les deux fichiers, ajoutez l'**import** `use Illuminate\Database\Eloquent\Relations\BelongsToMany;`
+2. Dans `Game`, ajoutez la méthode `platforms()`, qui renvoie `$this->belongsToMany(Platform::class)`
+3. Dans `Platform`, ajoutez la méthode `games()`, qui renvoie `$this->belongsToMany(Game::class)`
+4. Les deux méthodes ont le type de retour `BelongsToMany`
+
+#### A3.4 · Écrire et lire les liens dans Tinker
 
 ```php
 Platform::create(['name' => 'PC']);
@@ -189,16 +233,20 @@ $g->platforms;              // une Collection de Platform
 $g->platforms()->sync([2]); // la pivot vaut exactement [2]
 ```
 
-✅ `$g->platforms` reflète chaque `attach`/`sync` — et un doublon est refusé par la clé composite.
+> 💡 **`attach([1, 2])`** ajoute des lignes dans la pivot. **`sync([2])`** remplace tous les liens par la liste donnée : il ajoute ce qui manque et retire le reste.
+
+> 💡 **Collection** : `$g->platforms` renvoie une liste d'objets `Platform`, qu'on parcourt avec `foreach` ou `@foreach` comme un tableau.
+
+> ✅ **Vérification** : `$g->platforms` reflète chaque `attach` / `sync`, et un doublon est refusé par la clé composite.
 
 > ✅ **Point de contrôle 3** — la pivot `game_platform` existe et les liens jeu ↔ plateforme s'écrivent et se lisent.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch3-relation-nn` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A4 — Seeders : peupler la base (Chapitre 4)
 
-Le chapitre 4 est une **démo guidée** : la factory est présentée sur Campus Quest. Ici, écrivez d'abord vos données « à la main » — la factory WishFlix complète est la US1, à la maison.
+Le chapitre 4 est une **démo guidée** : la factory est présentée sur Campus Quest. Ici, écrivez d'abord vos données « à la main » ; la factory WishFlix complète est la US1, à la maison.
 
-**Étape A4.1** — Générez les seeders :
+#### A4.1 · Générer les seeders
 
 ```bash
 ./vendor/bin/sail artisan make:seeder CategorySeeder
@@ -206,32 +254,86 @@ Le chapitre 4 est une **démo guidée** : la factory est présentée sur Campus 
 ./vendor/bin/sail artisan make:seeder GameSeeder
 ```
 
-**Étape A4.2** — `CategorySeeder` : insérez **au moins 4 catégories** (RPG, Action, Aventure, Stratégie…). `PlatformSeeder` : **au moins 3 plateformes** (PC, PS5, Xbox, Switch…).
+> 💡 **Seeder** : une classe dont la méthode `run()` remplit la base avec des données de départ. Les fichiers sont dans `database/seeders/`.
 
-**Étape A4.3** — `GameSeeder` : insérez **au moins 6 jeux** avec `Game::create([...])` : reprenez les **4 jeux de votre tableau PHP** de la S2 en ajoutant leur `category_id`, et ajoutez-en au moins 2. Attachez ensuite à chaque jeu 1 à 3 plateformes : `$game->platforms()->attach(...)`.
+#### A4.2 · Catégories et plateformes
 
-**Étape A4.4** — Dans `DatabaseSeeder`, appelez les trois seeders **dans le bon ordre** : ce qui est référencé avant ce qui référence (catégories et plateformes, puis jeux).
+1. 📄 `database/seeders/CategorySeeder.php` : dans `run()`, créez **au moins 4 catégories** (RPG, Action, Aventure, Stratégie…) avec `Category::create([...])`
+2. 📄 `database/seeders/PlatformSeeder.php` : créez **au moins 3 plateformes** (PC, PS5, Xbox, Switch…)
+3. Dans les deux fichiers, ajoutez l'**import** du modèle : `use App\Models\Category;` / `use App\Models\Platform;`
 
-**Étape A4.5** — Reconstruisez la base :
+#### A4.3 · Les jeux
 
-```bash
-./vendor/bin/sail artisan migrate:fresh --seed
+📄 `database/seeders/GameSeeder.php`
+
+1. Ajoutez l'**import** `use App\Models\Game;`
+2. Dans `run()`, créez **au moins 6 jeux** avec `Game::create([...])` : reprenez les **4 jeux de votre tableau PHP** de la S2 en ajoutant leur `category_id`, et ajoutez-en au moins 2
+3. Rangez chaque jeu créé dans une variable, puis attachez-lui 1 à 3 plateformes :
+
+   ```php
+   $game = Game::create([...]);
+   $game->platforms()->attach([1, 3]);
+   ```
+
+#### A4.4 · L'ordre des seeders
+
+📄 `database/seeders/DatabaseSeeder.php`
+
+Dans `run()`, appelez les trois seeders **dans le bon ordre** : ce qui est référencé avant ce qui référence.
+
+```php
+$this->call([
+    CategorySeeder::class,
+    PlatformSeeder::class,
+    GameSeeder::class,
+]);
 ```
 
-Puis vérifiez dans Tinker : `Game::count()`, `Game::first()->category->name`, `Game::first()->platforms`.
+> ⚠️ `GameSeeder` en premier provoquerait une erreur de **clé étrangère** : les `category_id` n'existeraient pas encore.
 
-✅ `Game::count()` ≥ 6, la catégorie s'affiche, `platforms` renvoie une Collection non vide.
+#### A4.5 · Reconstruire la base
+
+1. Supprimez toutes les tables, rejouez les migrations et les seeders en une commande :
+
+   ```bash
+   ./vendor/bin/sail artisan migrate:fresh --seed
+   ```
+
+2. Vérifiez dans Tinker : `Game::count()`, `Game::first()->category->name`, `Game::first()->platforms`
+
+> ⚠️ `migrate:fresh` **efface** toutes les données de la base. Ce n'est pas grave ici : les seeders les recréent.
+
+> ✅ **Vérification** : `Game::count()` ≥ 6, la catégorie s'affiche, `platforms` renvoie une Collection non vide.
 
 > ✅ **Point de contrôle 4** — `migrate:fresh --seed` reconstruit la base peuplée en une commande.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s3-ch4-seeders-factory` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A5 — Le catalogue lit la base (Chapitre 5)
 
-**Étape A5.1** — Dans `GameController` : dans `index()`, remplacez le tableau par `Game::all()` et supprimez la propriété `$games` ; dans `show(int $id)`, remplacez le tableau et son `abort_unless` par `Game::findOrFail($id)` — la 404 est automatique. (N'oubliez pas `use App\Models\Game;`.)
+#### A5.1 · Le contrôleur lit la base
 
-**Étape A5.2** — Adaptez les vues `home.blade.php` et `game-detail.blade.php` : `$game['title']` devient `$game->title` (tous les champs), la catégorie s'affiche avec `$game->category->name`, et `route('games.show', $id)` devient `route('games.show', $game->id)`.
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A5.3** — Constatez le N+1 dans Tinker (la correction arrive en S4) :
+1. Ajoutez l'**import** `use App\Models\Game;`
+2. Dans `index()`, remplacez `$this->games` par `Game::all()`
+3. Supprimez la propriété `$games` (le tableau PHP)
+4. Dans `show(int $id)`, supprimez l'`abort_unless` et remplacez `$this->games[$id]` par `Game::findOrFail($id)`
+
+> 💡 **`findOrFail($id)`** cherche le jeu par son `id` et déclenche lui-même la 404 s'il n'existe pas : plus besoin de `abort_unless`.
+
+#### A5.2 · Les vues lisent des objets
+
+📄 `resources/views/home.blade.php` et `resources/views/game-detail.blade.php`
+
+1. Chaque champ passe de la syntaxe tableau à la syntaxe objet : `$game['title']` devient `$game->title`
+2. La catégorie s'affiche par la relation : `$game->category->name`
+3. Le lien vers la fiche : `route('games.show', $id)` devient `route('games.show', $game->id)`
+
+> 💡 Un modèle Eloquent n'est plus un tableau mais un **objet** : on lit ses colonnes avec `->`.
+
+#### A5.3 · Constater le N+1
+
+Dans Tinker, comptez les requêtes SQL envoyées pour afficher la catégorie de chaque jeu (la correction arrive en S4) :
 
 ```php
 DB::enableQueryLog();
@@ -240,7 +342,9 @@ $games->each(fn ($g) => $g->category->name);
 count(DB::getQueryLog());   // = 1 + le nombre de jeux
 ```
 
-✅ `/` liste les jeux **depuis la base** ; `/game/1` affiche la fiche avec sa catégorie ; `/game/999` → 404 via `findOrFail` ; `/game/abc` → 404 (contrainte de route inchangée).
+> 💡 **N+1** : 1 requête pour la liste des jeux, puis 1 requête de plus **par jeu** pour sa catégorie. Avec 100 jeux, 101 requêtes.
+
+> ✅ **Vérification** : `/` liste les jeux **depuis la base** ; `/game/1` affiche la fiche avec sa catégorie ; `/game/999` → 404 via `findOrFail` ; `/game/abc` → 404 (contrainte de route inchangée).
 
 > ✅ **Point de contrôle 5 (fin de la Partie A, requis pour la S4)**
 >
@@ -599,7 +703,7 @@ Remplacez `/game/{id}` par `/game/{slug}` :
 - un slug renseigné pour chaque jeu ;
 - le **route model binding** de Laravel sur la colonne `slug`.
 
-✅ Vérification : `/game/hollow-knight` affiche la fiche, un slug inconnu renvoie 404, et `route('games.show', $game)` génère l'URL avec le slug.
+> ✅ **Vérification** : `/game/hollow-knight` affiche la fiche, un slug inconnu renvoie 404, et `route('games.show', $game)` génère l'URL avec le slug.
 
 <details>
 <summary>Indice 1 — Par où commencer</summary>
@@ -638,7 +742,7 @@ public function show(Game $game)
 
 Remplacez la chaîne `status` par un **enum** `GameStatus` (dans `app/Enums/`), backed par `string` — par exemple `Released`, `Upcoming`, `EarlyAccess` — puis déclarez `'status' => GameStatus::class` dans `casts()`.
 
-✅ Vérification : `$game->status` renvoie un `GameStatus`, la vue affiche `$game->status->value` (ou un libellé déduit), et les seeders/factory produisent des statuts valides.
+> ✅ **Vérification** : `$game->status` renvoie un `GameStatus`, la vue affiche `$game->status->value` (ou un libellé déduit), et les seeders/factory produisent des statuts valides.
 
 <details>
 <summary>Indice — L'anatomie</summary>

@@ -41,7 +41,7 @@ docker compose version
 docker ps
 ```
 
-✅ Vérification : les deux commandes répondent sans `Cannot connect to the Docker daemon`.
+> ✅ **Vérification** : les deux commandes répondent sans `Cannot connect to the Docker daemon`.
 
 ---
 
@@ -57,11 +57,13 @@ Dans le répertoire où vous stockez vos projets :
 curl -s "https://laravel.build/wishflix?with=mariadb" | bash
 ```
 
-> La commande utilise un conteneur temporaire : ni PHP ni Composer ne sont installés sur votre machine. `with=mariadb` limite les services à la base de données. **Le nom `wishflix` est imposé** : les exercices suivants l'attendent.
+> 💡 **Conteneur temporaire** : la commande lance un conteneur **Docker** qui contient PHP et **Composer** le temps de créer le projet. Rien n'est installé sur votre machine. `with=mariadb` limite les services à la base de données.
+
+> ⚠️ **Le nom `wishflix` est imposé** : les exercices suivants l'attendent.
 
 Laissez tourner (10 à 30 min) : c'est le moment du chapitre 02.
 
-✅ Vérification : la commande se termine par un message invitant à faire `cd wishflix`.
+> ✅ **Vérification** : la commande se termine par un message invitant à faire `cd wishflix`.
 
 ### Étape 2 — Démarrer l'environnement (Chapitre 3)
 
@@ -70,7 +72,9 @@ cd wishflix
 ./vendor/bin/sail up -d
 ```
 
-`up -d` peut être **long la première fois** (images à télécharger).
+> 💡 **Sail** est le script qui pilote les conteneurs Docker du projet. `up` démarre les conteneurs, `-d` (*detached*) les laisse tourner en arrière-plan et vous rend la main.
+
+> ⚠️ `up -d` peut être **long la première fois** : Docker télécharge les images.
 
 ### Étape 3 — Préparer la base (Chapitre 3)
 
@@ -78,7 +82,9 @@ cd wishflix
 ./vendor/bin/sail artisan migrate
 ```
 
-`migrate` crée les tables dont Laravel a besoin dès le départ (sessions, cache, jobs). **Sans cette étape, la page d'accueil affiche une erreur.**
+> 💡 **Artisan** est la console de Laravel. La commande `migrate` exécute les **migrations** : elle crée les tables dont Laravel a besoin dès le départ (sessions, cache, jobs).
+
+> ⚠️ Sans cette étape, la page d'accueil affiche une erreur.
 
 ### Étape 4 — Vérifier le site et la console (Chapitre 3)
 
@@ -88,31 +94,45 @@ Rendez-vous sur [http://localhost](http://localhost), puis :
 ./vendor/bin/sail artisan about
 ```
 
-✅ Vérification : la page d'accueil Laravel s'affiche ; `about` indique Laravel 12.x, PHP 8.3+ et l'environnement `local`.
+> ✅ **Vérification** : la page d'accueil Laravel s'affiche ; `about` indique Laravel 12.x, PHP 8.3+ et l'environnement `local`.
 
 ### Étape 5 — Configurer l'alias `sail` (Chapitre 3)
 
-Ajoutez dans `~/.bashrc` (ou `~/.zshrc`), puis rouvrez le terminal :
+📄 `~/.bashrc` (ou `~/.zshrc` si votre terminal utilise zsh)
 
-```bash
-alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
-```
+1. Ajoutez cette ligne à la fin du fichier :
 
-> Les consignes gardent la forme longue `./vendor/bin/sail` pour fonctionner partout.
+   ```bash
+   alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+   ```
 
-✅ Vérification : `sail artisan about` donne le même résultat.
+2. Fermez puis rouvrez le terminal, pour qu'il relise le fichier
+
+> 💡 **Alias** : un raccourci de commande. Taper `sail` lance désormais `./vendor/bin/sail`. Les consignes gardent la forme longue pour fonctionner partout.
+
+> ✅ **Vérification** : `sail artisan about` donne le même résultat.
 
 ### Étape 6 — Versionner et pousser sur GitHub (Chapitre 3)
 
-```bash
-git init -b main
-git add .
-git commit -m "Installation de Laravel 12 avec Sail"
-```
+1. Initialisez le dépôt et faites le premier commit :
 
-Créez un dépôt **privé** sur GitHub (sans README, sans `.gitignore`), puis suivez les instructions de GitHub (`git remote add origin ...`, `git push -u origin main`).
+   ```bash
+   git init -b main
+   git add .
+   git commit -m "Installation de Laravel 12 avec Sail"
+   ```
 
-✅ Vérification : le dépôt contient votre commit et le fichier `.env` **n'apparaît pas**.
+2. Sur GitHub, créez un dépôt **privé** nommé `wishflix`, **sans** README ni `.gitignore` (le projet a déjà le sien)
+3. Reliez votre dépôt local au dépôt GitHub (le **remote** `origin`), puis poussez. Remplacez `<url-du-depot>` par l'URL que GitHub affiche sur la page du dépôt vide (HTTPS ou SSH, selon votre configuration) :
+
+   ```bash
+   git remote add origin <url-du-depot>
+   git push -u origin main
+   ```
+
+> 💡 **`.gitignore`** : Laravel y liste déjà `.env` (vos secrets) et `vendor/` (les dépendances que **Composer** télécharge). Ils ne partent donc pas sur GitHub.
+
+> ✅ **Vérification** : le dépôt contient votre commit et le fichier `.env` **n'apparaît pas**.
 
 > ✅ **Point de contrôle 1** — étapes 2 à 6 validées : le site répond, `migrate` est passé, le dépôt GitHub contient le commit sans `.env`.
 > 🛟 Rattrapage : relisez le projet neuf du tag Campus Quest `s1-ch3-installation` (dépôt `CampusQuest`), puis **refaites** l'installation de `wishflix` (ou le plan B).
@@ -123,7 +143,9 @@ Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **co
 
 **Question 5** — Le tout premier fichier chargé.
 
-- Ouvrez `public/index.php`.
+📄 `public/index.php`, le **front controller** : toutes les requêtes passent par lui
+
+- Ouvrez le fichier.
 - Repérez le **premier** fichier chargé par `require`.
 
 **À noter dans `REPONSES.md`** : ce fichier, le dossier auquel il appartient, et qui a généré ce dossier.
@@ -149,13 +171,18 @@ Créez `REPONSES.md` à la racine du projet. Pour chaque réponse, indiquez **co
 
 Puis modifiez un mot dans la vue trouvée et rafraîchissez [http://localhost](http://localhost).
 
-✅ Vérification : votre mot apparaît dans le navigateur.
+> ✅ **Vérification** : votre mot apparaît dans le navigateur.
 
 ### Étape 10 — Configuration (Chapitre 4)
 
-Changez `APP_NAME` dans `.env`, puis lancez `./vendor/bin/sail artisan about`.
+📄 `.env`
 
-✅ Vérification : le nouveau nom apparaît dans la sortie. Remettez `WishFlix` si vous voulez garder un nom cohérent.
+1. Changez la valeur de `APP_NAME`
+2. Lancez `./vendor/bin/sail artisan about`
+
+> 💡 **`.env`** contient la configuration propre à **votre** machine (nom, base de données, secrets). Laravel le lit au démarrage : aucun code à modifier pour changer d'environnement.
+
+> ✅ **Vérification** : le nouveau nom apparaît dans la sortie. Remettez `WishFlix` si vous voulez garder un nom cohérent.
 
 > ✅ **Point de contrôle 2** — `REPONSES.md` contient les questions 1, 5 et 6 avec leur méthode.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s1-ch4-requete` (dépôt `CampusQuest`), puis **refaites** les étapes 7 à 10 sur `wishflix`.

@@ -53,16 +53,22 @@ git status
 
 Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
+> 💡 **Lire les consignes** : le HTML et les classes **DaisyUI** sont fournis, collez-les tels quels. Ce que vous tapez vous-même, c'est le code Laravel. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
+
 ### A1 — Le starter kit Breeze (Chapitre 1)
 
 #### A1.1 · Installer Breeze
 
-Installez le starter kit (l'installation lance un `npm install` : comptez une minute) :
+Installez le **starter kit** Breeze avec **Composer**, puis générez ses fichiers en version Blade :
 
 ```bash
 ./vendor/bin/sail composer require laravel/breeze --dev
 ./vendor/bin/sail artisan breeze:install blade
 ```
+
+> 💡 **Starter kit** : un paquet qui écrit dans votre projet tout le code de l'**authentification** (routes, contrôleurs, vues, tests). Ce code devient le vôtre : vous pouvez le lire et le modifier.
+
+> ⚠️ L'installation lance un `npm install` : comptez une minute.
 
 #### A1.2 · Repérer ce que Breeze a écrasé
 
@@ -70,15 +76,17 @@ Installez le starter kit (l'installation lance un `npm install` : comptez une mi
 git status --short
 ```
 
-Les lignes `M` sont **vos** fichiers, écrasés par Breeze (`routes/web.php`, votre layout, `app.css`, `vite.config.js`…). Les lignes `??` sont les nouveaux fichiers de Breeze.
+> 💡 Les lignes `M` (*modified*) sont **vos** fichiers, écrasés par Breeze (`routes/web.php`, votre layout, `app.css`, `vite.config.js`…). Les lignes `??` sont les nouveaux fichiers de Breeze, que l'on garde.
 
 #### A1.3 · Récupérer vos fichiers
 
-1. Remettez vos fichiers modifiés :
+1. Remettez vos fichiers modifiés dans leur état du dernier commit :
 
    ```bash
    git restore .
    ```
+
+   > 💡 `git restore .` annule les modifications des fichiers **déjà suivis** par Git, mais ne touche pas aux nouveaux fichiers (`??`) : vous gardez les contrôleurs et vues de Breeze.
 
 2. Supprimez les deux fichiers de configuration de l'ancienne version de Tailwind :
 
@@ -107,6 +115,8 @@ Les lignes `M` sont **vos** fichiers, écrasés par Breeze (`routes/web.php`, vo
    require __DIR__.'/auth.php';
    ```
 
+> 💡 **`require`** charge un autre fichier PHP à cet endroit. Breeze a mis toutes ses routes (`login`, `logout`, `register`…) dans `routes/auth.php` : cette ligne les ajoute aux vôtres.
+
 > ✅ **Vérification** :
 >
 > - l'accueil et une fiche jeu s'affichent comme avant
@@ -126,6 +136,8 @@ Les lignes `M` sont **vos** fichiers, écrasés par Breeze (`routes/web.php`, vo
    return redirect()->intended(route('home', absolute: false));
    ```
 
+> 💡 **`intended()`** renvoie vers la page que l'utilisateur voulait ouvrir **avant** d'être envoyé sur `/login`, et sinon vers l'URL donnée. `absolute: false` génère `/` au lieu de `http://localhost/`.
+
 #### A2.2 · Faire fonctionner le formulaire
 
 📄 `resources/views/login.blade.php`
@@ -139,7 +151,9 @@ Adaptez le `<form>` de la maquette :
 | Champ mot de passe | `name="password"`, **sans** `old()` |
 | Case « Se souvenir de moi » | `name="remember"`, `value="1"` (à ajouter) |
 
-Pour l'erreur, reprenez la classe de la S5 : `<p class="text-error text-sm">…</p>`.
+Pour l'erreur, reprenez le paragraphe DaisyUI de la S5 : `<p class="label text-error">…</p>`.
+
+> 💡 **Pourquoi pas de `old()` sur le mot de passe ?** `old()` repasse la saisie par la **session** : un mot de passe ne doit jamais y être stocké, ni réaffiché dans la page.
 
 <details>
 <summary>Pas de page de connexion depuis la S2 ? Squelette brut de la vue</summary>
@@ -191,21 +205,35 @@ Créez un compte dans Tinker (`./vendor/bin/sail artisan tinker`) :
 App\Models\User::create(['name' => 'Alice', 'email' => 'alice@wishflix.com', 'password' => 'secret123'])
 ```
 
+> 💡 Le mot de passe est écrit en clair ici, mais le modèle `User` le **hache** tout seul avant l'enregistrement (cast `hashed` de `User::casts()`). Le chapitre 3 le montre.
+
 #### A2.4 · L'utilisateur dans la navbar
 
 📄 `resources/views/partials/nav.blade.php`
 
-Le bloc `navbar-end` de la maquette (« Invité » + « Se connecter ») devient :
+1. Remplacez le bloc `navbar-end` de la maquette (« Invité » + « Se connecter ») par ce HTML, qui garde ses classes et ajoute la version connectée :
 
-1. `@guest` … `@endguest` autour de « Invité » et du bouton « Se connecter », qui pointe vers `route('login')`
-2. `@auth` … `@endauth` avec le nom (`Auth::user()->name`) et un formulaire de déconnexion :
+   ```html
+   <div class="navbar-end wishflix-shell__user">
+     <span class="wishflix-shell__user-label">Invité</span>
+     <a class="btn btn-primary btn-sm" href="#">Se connecter</a>
 
-   ```blade
-   <form method="POST" action="{{ route('logout') }}">
-       @csrf
+     <span class="wishflix-shell__user-label">Nom de l'utilisateur</span>
+     <form method="POST" action="#">
        <button type="submit" class="btn btn-ghost btn-sm">Déconnexion</button>
-   </form>
+     </form>
+   </div>
    ```
+
+2. Complétez avec le code Laravel :
+   1. Entourez « Invité » et « Se connecter » de `@guest` … `@endguest` ; le `href` devient `{{ route('login') }}`
+   2. Entourez le nom et le formulaire de `@auth` … `@endauth`
+   3. Le nom de l'utilisateur : `{{ Auth::user()->name }}`
+   4. Le formulaire : `action="{{ route('logout') }}"`, et `@csrf` juste après la balise `<form>`
+
+> 💡 **`@auth` / `@guest`** : le contenu ne s'affiche que si un utilisateur est connecté (`@auth`) ou s'il n'y en a pas (`@guest`). **`Auth::user()`** renvoie l'utilisateur connecté, lu dans la **session**.
+
+> ⚠️ **Déconnexion = un formulaire `POST`**, jamais un lien : comme pour la suppression en S5, une action qui change l'état passe par un `POST` protégé par le jeton **CSRF**.
 
 > ✅ **Vérification** :
 >
@@ -224,6 +252,8 @@ App\Models\User::first()->password
 Illuminate\Support\Facades\Hash::check('secret123', App\Models\User::first()->password)
 ```
 
+> 💡 **Hash** : une empreinte à sens unique. On ne peut pas retrouver `secret123` à partir de l'empreinte ; `Hash::check()` hache la saisie et compare les deux empreintes, et renvoie `true` si elles correspondent.
+
 #### A3.2 · Le compte démo de la maquette
 
 📄 `database/seeders/UserSeeder.php`
@@ -239,7 +269,9 @@ Illuminate\Support\Facades\Hash::check('secret123', App\Models\User::first()->pa
    ]);
    ```
 
-3. Ajoutez `use App\Models\User;` en tête du fichier
+3. Ajoutez l'**import** `use App\Models\User;` en tête du fichier
+
+> 💡 **`User::factory()->create([...])`** : la **factory** de Breeze remplit tous les champs avec de fausses données, et le tableau passé à `create()` **remplace** celles que vous voulez fixer (nom, email, mot de passe).
 
 #### A3.3 · Appeler le seeder
 
@@ -280,6 +312,8 @@ Route::middleware('auth')->group(function () {
 
 L'accueil (`home`) et la fiche (`games.show`) restent **en dehors** du groupe.
 
+> 💡 **Middleware** : un filtre exécuté **avant** le contrôleur. `auth` vérifie qu'un utilisateur est connecté, sinon il redirige vers `/login`. `group(function () { … })` l'applique à toutes les routes déclarées dans la fonction.
+
 > ✅ **Vérification** (dans une fenêtre de navigation privée, donc déconnecté) :
 >
 > - `/games/create` redirige vers `/login`
@@ -308,9 +342,13 @@ L'accueil (`home`) et la fiche (`games.show`) restent **en dehors** du groupe.
 
 3. Dans `down()` : `$table->dropColumn('is_admin')`, dans un `Schema::table('users', …)`
 
+> 💡 **`Schema::table`** (et non `Schema::create`) modifie une table qui existe déjà. `down()` défait ce que fait `up()` : il sert à `migrate:rollback`.
+
 #### A5.2 · Le cast et le compte admin
 
 1. 📄 `app/Models/User.php` : ajoutez `'is_admin' => 'boolean'` dans `casts()` — **pas** dans `$fillable`
+
+   > ⚠️ **Pourquoi pas dans `$fillable` ?** Avec l'**assignation de masse**, un utilisateur pourrait ajouter un champ caché `is_admin=1` au formulaire d'inscription et devenir administrateur. Hors de `$fillable`, Laravel l'ignore.
 2. 📄 `database/seeders/UserSeeder.php` : ajoutez un second compte, `admin@wishflix.com` / `admin1234`, avec `'is_admin' => true`
 3. Recréez la base : `./vendor/bin/sail artisan migrate:fresh --seed`
 
@@ -326,7 +364,9 @@ Gate::define('admin', function (User $user) {
 });
 ```
 
-Imports en tête : `use App\Models\User;` et `use Illuminate\Support\Facades\Gate;`.
+**Imports** en tête du fichier : `use App\Models\User;` et `use Illuminate\Support\Facades\Gate;`.
+
+> 💡 **Gate** : une règle d'**autorisation** nommée. La fonction reçoit l'utilisateur connecté et renvoie `true` s'il a le droit. On la vérifie ensuite par son nom : `can:admin`, `@can('admin')`, `->can('admin')`.
 
 #### A5.4 · Réserver le back-office
 
@@ -337,6 +377,8 @@ Le groupe de l'étape A4 reçoit un second middleware :
 ```php
 Route::middleware(['auth', 'can:admin'])->group(function () {
 ```
+
+> 💡 Les middlewares s'exécutent **dans l'ordre** : `auth` d'abord (invité → `/login`), puis `can:admin` (connecté mais pas admin → **403**).
 
 #### A5.5 · Masquer les boutons
 
@@ -354,6 +396,8 @@ Entourez de `@can('admin')` … `@endcan` :
 ```php
 return $this->user()->can('admin');
 ```
+
+> 💡 Dans une **Form Request**, `$this->user()` renvoie l'utilisateur connecté. Masquer un bouton ne suffit pas : un joueur peut toujours envoyer la requête à la main. Cette vérification côté serveur est la vraie protection.
 
 > ✅ **Vérification** :
 >
@@ -391,12 +435,22 @@ public function wishlist(): BelongsToMany
 }
 ```
 
-Import en tête : `use Illuminate\Database\Eloquent\Relations\BelongsToMany;`.
+**Imports** en tête : `use Illuminate\Database\Eloquent\Relations\BelongsToMany;` et `use App\Models\Game;` si le modèle n'est pas déjà importé.
+
+> 💡 La méthode s'appelle `wishlist` et non `games` : Laravel trouve quand même la **table pivot** `game_user`, car il la déduit des deux modèles (`Game` et `User`), pas du nom de la méthode.
 
 #### A6.3 · Le contrôleur et la route
 
 1. Générez le contrôleur : `./vendor/bin/sail artisan make:controller WishlistController`
-2. 📄 `app/Http/Controllers/WishlistController.php` : une action `store(Request $request, Game $game)` qui ajoute le jeu **sans doublon** à la wishlist de l'utilisateur connecté (`syncWithoutDetaching()`, chapitre 6), puis revient à la page précédente avec un message (`back()->with('success', 'Jeu ajouté à votre wishlist !')`)
+2. 📄 `app/Http/Controllers/WishlistController.php` :
+   1. Ajoutez les **imports** `use Illuminate\Http\Request;` et `use App\Models\Game;`
+   2. Écrivez l'action avec cette signature : `public function store(Request $request, Game $game)`
+   3. Ajoutez le jeu **sans doublon** à la wishlist de l'utilisateur connecté : `$request->user()->wishlist()->syncWithoutDetaching(...)` (chapitre 6), avec l'id du jeu
+   4. Revenez à la page précédente avec un message : `back()->with('success', 'Jeu ajouté à votre wishlist !')`
+
+   > 💡 Deux **injections** dans la même signature : `Request $request` (la requête, dont `$request->user()` donne l'utilisateur connecté) et `Game $game` (le jeu de l'URI `{game}`, chargé par le **route model binding** de la S5).
+
+   > 💡 **`syncWithoutDetaching([$id])`** ajoute le lien s'il manque, et ne fait rien s'il existe déjà. `attach()` provoquerait une erreur de clé primaire au deuxième ajout ; `sync()` retirerait tous les autres jeux de la wishlist.
 3. 📄 `routes/web.php` : dans un groupe `auth` **sans** `can:admin` :
 
    ```php
@@ -409,10 +463,22 @@ Votre route `GET /wishlist` (S2) ne change pas pour l'instant : elle devient dyn
 
 📄 `resources/views/game-detail.blade.php`
 
-Dans un bloc `@auth` :
+1. Près du titre du jeu, collez ce HTML DaisyUI :
 
-1. Si `Auth::user()->wishlist->contains($game)` : un badge `<span class="badge badge-success">Dans votre wishlist</span>`
-2. Sinon : un formulaire `POST` vers `route('wishlist.store', $game)`, avec `@csrf` et un bouton `class="btn btn-secondary"` « Ajouter à ma wishlist »
+   ```html
+   <span class="badge badge-success">Dans votre wishlist</span>
+
+   <form method="POST" action="#">
+     <button type="submit" class="btn btn-secondary">Ajouter à ma wishlist</button>
+   </form>
+   ```
+
+2. Complétez avec le code Laravel :
+   1. Entourez le tout de `@auth` … `@endauth`
+   2. Affichez le badge seulement si le jeu est déjà dans la wishlist, le formulaire sinon : `@if (Auth::user()->wishlist->contains($game))` … `@else` … `@endif`
+   3. Le formulaire : `action="{{ route('wishlist.store', $game) }}"` et `@csrf` après la balise `<form>`
+
+> 💡 **`contains($game)`** : `Auth::user()->wishlist` est une **Collection** de jeux, et `contains()` renvoie `true` si `$game` en fait partie.
 
 > ✅ **Vérification** :
 >
@@ -447,12 +513,16 @@ Ouvrez sa fiche : le titre s'affiche **en texte**, balises comprises.
 📄 `resources/views/game-detail.blade.php`
 
 1. Remplacez l'affichage du titre `{{ $game->title }}` par `{!! $game->title !!}`
+
+   > 💡 **`{!! !!}`** affiche le texte **sans échappement** : les balises sont envoyées au navigateur, qui les exécute. C'est l'inverse de `{{ }}` (S2).
 2. Rechargez la fiche : l'alerte s'ouvre
 3. **Remettez `{{ $game->title }}`** et rechargez : plus d'alerte
 
 #### A7.3 · Auditer vos vues
 
 Dans VS Code, `Ctrl+Shift+F` puis cherchez `{!!` dans `resources/views`.
+
+> 💡 **XSS** : du JavaScript injecté dans une page s'exécute chez chaque visiteur (vol de session, faux formulaire…). Un `{!!` n'est acceptable que pour un HTML que **vous** avez écrit, jamais pour une donnée saisie.
 
 > ✅ **Vérification** :
 >
@@ -495,6 +565,8 @@ return DB::select('SELECT id, title, rating FROM games WHERE title LIKE ?', ["%{
 
 Rejouez l'URL de l'étape A8.2-3 : la réponse est `[]`.
 
+> 💡 **Binding** (valeur liée) : le `?` est une place réservée. La valeur voyage **à part** de la requête SQL, et la base la traite toujours comme une donnée, jamais comme du code. Eloquent (`where('title', 'like', …)`) fait la même chose pour vous.
+
 #### A8.4 · Supprimer la route
 
 Supprimez la route `/debug/recherche` et les deux imports ajoutés en A8.1 : elle n'a pas sa place dans le projet.
@@ -528,6 +600,19 @@ Critères d'acceptation :
 - Une wishlist vide affiche un message et un lien vers le catalogue
 - Le badge « Wishlist » de la navbar affiche le **nombre réel** de jeux de l'utilisateur ; il est masqué pour un invité
 
+> 💡 **HTML fourni** : gardez les cartes de `wishlist.html`. Le bouton « Retirer » de chaque carte et le message de liste vide sont :
+>
+> ```html
+> <form method="POST" action="#">
+>   <button type="submit" class="btn btn-error btn-sm btn-outline">Retirer</button>
+> </form>
+>
+> <div role="alert" class="alert alert-info">
+>   <span>Votre wishlist est vide.</span>
+>   <a href="#" class="btn btn-sm btn-primary">Parcourir le catalogue</a>
+> </div>
+> ```
+
 ### US2 — Ma wishlist visible dans le catalogue
 
 **En tant que** joueur connecté, **je veux** repérer sur l'accueil les jeux déjà dans ma wishlist et ajouter les autres d'un clic, **afin de** ne pas ouvrir chaque fiche.
@@ -538,6 +623,8 @@ Critères d'acceptation :
 - Invité : ni badge ni bouton
 - Les identifiants de la wishlist sont chargés en **une seule** requête, quel que soit le nombre de cartes (Debugbar)
 - Après un ajout depuis l'accueil, vous revenez sur l'accueil avec le message de succès
+
+> 💡 **HTML fourni** : dans la carte de l'accueil, à côté du lien vers la fiche, reprenez le badge et le formulaire de A6.4, en version compacte : `badge-sm` sur le badge, `btn-sm` sur le bouton.
 
 ### Indices de la Partie B
 
@@ -558,6 +645,8 @@ Critères d'acceptation :
 - Retirer : `$request->user()->wishlist()->detach($game->id)`
 - Compteur : `Auth::user()->wishlist()->count()` dans la navbar, entouré de `@auth`
 - Identifiants en une requête : `$request->user()?->wishlist()->pluck('games.id')->all() ?? []`, puis `in_array($game->id, $wishlistIds)` dans la vue
+
+> 💡 **`?->`** (opérateur *nullsafe*) : si `$request->user()` vaut `null` (invité), la suite n'est pas exécutée et l'expression vaut `null`, que `?? []` remplace par un tableau vide. **`pluck('games.id')`** précise la table, car la requête joint `games` et la **table pivot** `game_user`, qui ont toutes deux des colonnes d'id.
 
 </details>
 

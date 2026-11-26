@@ -41,7 +41,7 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 - `git status` : l'arbre de travail est propre (commit de S1 fait)
 - Dans un terminal : `./vendor/bin/sail npm install` (peut prendre quelques minutes : lancez-le maintenant, il sert à l'étape A5)
 
-✅ Vérification : la page Laravel s'affiche. Sinon, revenez à l'exercice 01.
+> ✅ **Vérification** : la page Laravel s'affiche. Sinon, revenez à l'exercice 01.
 
 ---
 
@@ -49,69 +49,161 @@ Transformer les **maquettes HTML statiques** de WishFlix en **pages Laravel dyna
 
 Chaque étape indique son **chapitre** du cours. Les maquettes de départ sont celles de l'archive `wishflix-maquettes` décompressée (prérequis).
 
+> 💡 **Lire les consignes** : le HTML et les classes des maquettes sont fournis, vous les copiez tels quels. Ce que vous tapez vous-même, c'est le code Laravel : routes, contrôleur, directives Blade. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
+
 ### A1 — Une première route (Chapitre 1)
 
-**Étape A1.1** — Ouvrez `routes/web.php` et ajoutez une route `GET /game/{id}` dont la closure renvoie `"Jeu n°{$id}"`.
+#### A1.1 · La route `/game/{id}`
 
-✅ `/game/3` affiche « Jeu n°3 ».
+📄 `routes/web.php`
 
-**Étape A1.2** — Ajoutez la contrainte `->whereNumber('id')`.
+Ajoutez une **route** `GET /game/{id}` dont la **closure** renvoie le texte `"Jeu n°{$id}"`.
 
-✅ `/game/abc` renvoie une 404.
+> 💡 **Paramètre de route** : `{id}` capture la partie variable de l'URL. Laravel la passe à la closure dans le paramètre `$id`, parce que les deux noms correspondent.
 
-**Étape A1.3** — Nommez la route `games.show` et vérifiez-la :
+> 💡 **Closure** : une fonction anonyme, écrite directement dans la route : `function ($id) { … }`.
 
-```bash
-./vendor/bin/sail artisan route:list
-```
+> ✅ **Vérification** : `/game/3` affiche « Jeu n°3 ».
 
-✅ `games.show` apparaît dans la liste.
+#### A1.2 · La contrainte de route
+
+📄 `routes/web.php`
+
+Ajoutez `->whereNumber('id')` à la fin de la route.
+
+> 💡 **Contrainte de route** : la route ne répond que si `{id}` est composé de chiffres. Sinon, aucune route ne correspond et Laravel renvoie une 404.
+
+> ✅ **Vérification** : `/game/abc` renvoie une 404.
+
+#### A1.3 · Nommer la route
+
+📄 `routes/web.php`
+
+1. Ajoutez `->name('games.show')` à la fin de la route
+2. Vérifiez-la avec Artisan :
+
+   ```bash
+   ./vendor/bin/sail artisan route:list
+   ```
+
+> 💡 **Route nommée** : le nom sert ensuite à générer l'URL avec `route('games.show', 3)`, sans écrire `/game/3` à la main. Si l'URL change un jour, les liens suivent.
+
+> ✅ **Vérification** : `games.show` apparaît dans la liste.
 
 > ✅ **Point de contrôle 1** — `/game/3` répond, `/game/abc` → 404, `games.show` dans `route:list`.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch1-routing` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A2 — De la route à la vue (Chapitre 2)
 
-**Étape A2.1** — Créez `resources/views/home.blade.php` en copiant **tout** `home.html`. Supprimez les deux balises `<link rel="stylesheet">` vers `app.css` et `home.css` (les CSS arrivent à l'étape A5) ; gardez les deux balises CDN.
+#### A2.1 · La vue d'accueil
 
-**Étape A2.2** — Dans `routes/web.php`, faites répondre la route `/` par `view('home', ['games' => $games])`, nommée `home`. Définissez `$games` juste au-dessus : un tableau d'**au moins 4 jeux**, indexé par id (`1 => [...]`).
+📄 `resources/views/home.blade.php` (nouveau fichier)
 
-Chaque jeu suit le modèle de données du programme : `title`, `synopsis`, `release_year`, `rating`, `category`, `platforms`, `cover_url`.
+1. Copiez-y **tout** le contenu de `home.html`
+2. Supprimez les deux balises `<link rel="stylesheet">` vers `app.css` et `home.css` : les CSS arrivent à l'étape A5
+3. Gardez les deux balises **CDN** (Tailwind et DaisyUI)
+
+> 💡 **Blade** : le moteur de templates de Laravel. Un fichier `.blade.php` est du HTML dans lequel on peut ajouter des **directives** (`@forelse`, `@extends`…) et des affichages `{{ }}`.
+
+#### A2.2 · La route `/` et ses données
+
+📄 `routes/web.php`
+
+1. Dans la closure de la route `/`, définissez une variable `$games` : un tableau d'**au moins 4 jeux**, indexé par id (`1 => [...]`, `2 => [...]`…)
+2. Chaque jeu est un tableau avec les clés du modèle de données du programme : `title`, `synopsis`, `release_year`, `rating`, `category`, `platforms`, `cover_url`
+3. Faites répondre la route `/` par `view('home', ['games' => $games])`, et nommez-la `home`
+
+> 💡 **`view('home', [...])`** charge `resources/views/home.blade.php`. Chaque clé du tableau devient une variable dans la vue : `'games' => $games` donne `$games`.
 
 > 💡 Pour `cover_url`, vous pouvez utiliser `https://via.assets.so/game.png?id=N&q=95&w=300&h=450&fit=cover` avec un `id` différent par jeu.
 
-✅ `/` affiche la maquette (sans ses couleurs, c'est normal).
+> ✅ **Vérification** : `/` affiche la maquette (sans ses couleurs, c'est normal).
 
-**Étape A2.3** — Dans la grille de cartes de `home.blade.php`, ne gardez **qu'une carte** et faites-la boucler avec `@forelse ($games as $id => $game)` / `@empty`, en affichant les champs avec `{{ }}`.
+#### A2.3 · Boucler sur les jeux
 
-✅ Une carte par jeu du tableau.
+📄 `resources/views/home.blade.php`
 
-**Étape A2.4** — Le bouton « Details » de la carte pointe vers `route('games.show', $id)`.
+1. Dans la grille de cartes, ne gardez **qu'une seule** carte (supprimez les autres)
+2. Entourez-la de la **directive** `@forelse ($games as $id => $game)` … `@empty` … `@endforelse`
+3. Dans le `@empty`, affichez un court message « Aucun jeu »
+4. Remplacez les textes de la carte par les champs du jeu avec `{{ }}` : `{{ $game['title'] }}`, `{{ $game['rating'] }}`…
 
-✅ Le bouton mène à `/game/{id}`.
+> 💡 **`@forelse`** : un `foreach` qui prévoit le cas vide. `$id => $game` donne à chaque tour la clé du tableau (l'id) et le jeu.
+
+> 💡 **Échappement** : `{{ }}` convertit les caractères HTML spéciaux avant de les afficher. Un titre qui contient `<script>` s'affiche comme du texte, il ne s'exécute pas.
+
+> ✅ **Vérification** : une carte par jeu du tableau.
+
+#### A2.4 · Le lien vers la fiche
+
+📄 `resources/views/home.blade.php`
+
+Dans la carte, l'attribut `href` du bouton « Details » devient `{{ route('games.show', $id) }}`.
+
+> ✅ **Vérification** : le bouton mène à `/game/{id}`.
 
 > ✅ **Point de contrôle 2** — l'accueil est une vue Blade avec ses 4+ cartes générées par la boucle.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch2-blade-vue` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A3 — Le contrôleur (Chapitre 3)
 
-**Étape A3.1** — Générez le contrôleur :
+#### A3.1 · Générer le contrôleur
+
+Générez le **contrôleur** avec Artisan :
 
 ```bash
 ./vendor/bin/sail artisan make:controller GameController
 ```
 
-**Étape A3.2** — Déplacez votre tableau dans `app/Http/Controllers/GameController.php`, comme propriété `private array $games` (même contenu, même clés).
+> ✅ **Vérification** : le fichier `app/Http/Controllers/GameController.php` existe.
 
-**Étape A3.3** — Écrivez l'action `index()` qui renvoie `view('home', ['games' => $this->games])`, puis remplacez la closure de la route `/` par `[GameController::class, 'index']` (nom `home` conservé).
+#### A3.2 · Déplacer les données
 
-✅ L'accueil s'affiche **à l'identique**.
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A3.4** — Créez `resources/views/game-detail.blade.php` en copiant `game-detail.html` (supprimez, comme en A2.1, les `<link>` vers `app.css` et `game-detail.css`), rempli avec la variable `$game`.
+1. Coupez votre tableau de jeux de la closure de `/` dans `routes/web.php`
+2. Collez-le dans la classe, comme **propriété** : `private array $games = [ … ];` (même contenu, mêmes clés)
 
-**Étape A3.5** — Ajoutez l'action `show(int $id)` qui renvoie `view('game-detail', ['game' => $this->games[$id], 'id' => $id])`.
+> 💡 **Propriété** : une variable qui appartient à l'objet. Dans les méthodes de la classe, on la lit avec `$this->games`.
 
-**Étape A3.6** — Remplacez la closure de `/game/{id}` par `[GameController::class, 'show']` ; gardez `whereNumber` et le nom `games.show` :
+#### A3.3 · L'action `index()`
+
+1. 📄 `app/Http/Controllers/GameController.php` : écrivez la méthode `public function index()`, qui renvoie `view('home', ['games' => $this->games])`
+2. 📄 `routes/web.php` : ajoutez l'**import** du contrôleur en haut du fichier
+
+   ```php
+   use App\Http\Controllers\GameController;
+   ```
+
+3. 📄 `routes/web.php` : remplacez la closure de la route `/` par `[GameController::class, 'index']`, en gardant le nom `home`
+
+> 💡 **Action** : une méthode publique du contrôleur qui répond à une route. `[GameController::class, 'index']` dit à la route : « appelle la méthode `index` de `GameController` ».
+
+> 💡 **Import** : `use App\Http\Controllers\GameController;` dit à PHP où trouver la classe. Sans lui : `Class "GameController" not found`.
+
+> ✅ **Vérification** : l'accueil s'affiche **à l'identique**.
+
+#### A3.4 · La vue de la fiche
+
+📄 `resources/views/game-detail.blade.php` (nouveau fichier)
+
+1. Copiez-y le contenu de `game-detail.html`
+2. Supprimez, comme en A2.1, les `<link>` vers `app.css` et `game-detail.css`
+3. Remplacez les textes d'exemple par les champs de `$game` avec `{{ }}` : `{{ $game['title'] }}`, `{{ $game['synopsis'] }}`…
+
+#### A3.5 · L'action `show()`
+
+📄 `app/Http/Controllers/GameController.php`
+
+Ajoutez la méthode `public function show(int $id)`, qui renvoie la vue `game-detail` avec deux variables : `game` (le jeu `$this->games[$id]`) et `id`.
+
+> 💡 **`int $id`** : le **paramètre de route** `{id}` arrive ici, comme dans la closure de A1.1. Le type `int` le convertit en entier.
+
+#### A3.6 · Brancher la route sur `show()`
+
+📄 `routes/web.php`
+
+Remplacez la closure de `/game/{id}` par `[GameController::class, 'show']`, en gardant `whereNumber` et le nom `games.show` :
 
 ```php
 Route::get('/game/{id}', [GameController::class, 'show'])
@@ -119,68 +211,112 @@ Route::get('/game/{id}', [GameController::class, 'show'])
     ->name('games.show');
 ```
 
-✅ `/game/1` affiche la fiche du jeu n°1. (`/game/999` plante encore : c'est normal, voir A6.)
+> ✅ **Vérification** : `/game/1` affiche la fiche du jeu n°1. `/game/999` plante encore : c'est normal, voir A6.
 
 > ✅ **Point de contrôle 3** — plus de tableau dans `web.php`, `route:list` affiche `GameController@index` et `GameController@show`.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch3-controleurs` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A4 — Le layout (Chapitre 4)
 
-**Étape A4.1** — Créez `resources/views/layouts/app.blade.php` à partir de la **coquille commune** de `home.blade.php` : `<!doctype>`, `<head>` (balises CDN comprises), navbar et footer. Remplacez le titre par `@yield('title')` et le contenu du `<main>` par `@yield('content')`.
+#### A4.1 · Créer le layout
 
-**Étape A4.2** — Dans `home.blade.php`, ne gardez que le contenu du `<main>` et faites-le étendre le layout :
+📄 `resources/views/layouts/app.blade.php` (nouveau fichier, dans un nouveau dossier `layouts/`)
 
-```blade
-@extends('layouts.app')
+1. Copiez-y la **coquille commune** de `home.blade.php` : `<!doctype html>`, tout le `<head>` (balises CDN comprises), la navbar, le `<main>` vide et le footer
+2. Remplacez le texte de la balise `<title>` par la **directive** `@yield('title')`
+3. Mettez `@yield('content')` à l'intérieur du `<main>`
 
-@section('title', 'Accueil')
+> 💡 **Layout** : le gabarit commun à toutes les pages. `@yield('nom')` marque un emplacement que chaque page remplira.
 
-@section('content')
-    {{-- hero + catalogue --}}
-@endsection
-```
+#### A4.2 · L'accueil étend le layout
 
-**Étape A4.3** — Faites de même pour `game-detail.blade.php` (titre : le titre du jeu).
+📄 `resources/views/home.blade.php`
 
-**Étape A4.4** — Déplacez la navbar dans `resources/views/partials/nav.blade.php` et insérez-la dans le layout avec `@include('partials.nav')`.
+1. Supprimez tout ce qui est maintenant dans le layout : il ne reste que le contenu du `<main>` (hero et catalogue)
+2. Entourez ce contenu de la structure suivante :
 
-✅ Modifier un libellé de la navbar change les **deux** pages.
+   ```blade
+   @extends('layouts.app')
+
+   @section('title', 'Accueil')
+
+   @section('content')
+       {{-- hero + catalogue --}}
+   @endsection
+   ```
+
+> 💡 **`@extends`** : la vue part du layout. Chaque `@section('nom')` remplit le `@yield('nom')` correspondant.
+
+#### A4.3 · La fiche étend le layout
+
+📄 `resources/views/game-detail.blade.php`
+
+Faites de même qu'en A4.2. Le titre de la page est celui du jeu : `@section('title', $game['title'])`.
+
+#### A4.4 · La navbar en fragment partagé
+
+1. 📄 `resources/views/partials/nav.blade.php` (nouveau fichier) : coupez la navbar du layout et collez-la ici
+2. 📄 `resources/views/layouts/app.blade.php` : à la place de la navbar, écrivez `@include('partials.nav')`
+
+> 💡 **`@include`** insère un **fragment partagé**, le contenu d'une autre vue. Le point remplace le `/` du dossier : `partials.nav` désigne `partials/nav.blade.php`.
+
+> ✅ **Vérification** : modifier un libellé de la navbar change les **deux** pages.
 
 > ✅ **Point de contrôle 4** — navbar et footer n'existent qu'une fois ; les deux pages étendent le layout.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch4-layouts` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A5 — Vite et les CSS (Chapitre 5)
 
-**Étape A5.1** — Lancez Vite dans un second terminal (laissez-le ouvert) :
+#### A5.1 · Lancer Vite
+
+Dans un **second terminal**, que vous laissez ouvert :
 
 ```bash
 ./vendor/bin/sail npm run dev
 ```
 
-**Étape A5.2** — Copiez les CSS des maquettes avec le **script fourni dans l'archive**. Depuis le dossier `wishflix-maquettes` décompressé :
+> 💡 **Vite** compile vos CSS et JS et les sert au navigateur. Tant que cette commande tourne, une modification de CSS s'affiche sans recharger.
+
+#### A5.2 · Copier les CSS des maquettes
+
+Depuis le dossier `wishflix-maquettes` décompressé, lancez le **script fourni dans l'archive**, avec le chemin **absolu** de votre projet :
 
 ```bash
 node copy-css.mjs /chemin/vers/wishflix
 ```
 
-Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`, `login`, `404`) dans `resources/css/` de votre projet. Votre ancien `app.css` est sauvegardé en `app.css.orig`. Utilisez un chemin **absolu** pour éviter les erreurs de dossier.
+> 💡 Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`, `login`, `404`) dans `resources/css/` de votre projet. Votre ancien `app.css` est sauvegardé en `app.css.orig`.
 
-> 💡 Distribution : le script `copy-css.mjs` fait partie de l'archive WishFlix, à côté des maquettes. Si vous n'avez pas Node.js hors Sail, copiez à la main les six fichiers CSS du dossier `wishflix-maquettes` dans `resources/css/` de votre projet.
+> ⚠️ Pas de Node.js hors Sail ? Copiez à la main les six fichiers CSS du dossier `wishflix-maquettes` dans `resources/css/` de votre projet.
 
-✅ `resources/css/` contient `app.css`, `home.css`, `game-detail.css`, `wishlist.css`, `login.css`, `404.css`.
+> ✅ **Vérification** : `resources/css/` contient `app.css`, `home.css`, `game-detail.css`, `wishlist.css`, `login.css`, `404.css`.
 
-**Étape A5.3** — Ouvrez `vite.config.js` et ajoutez `'resources/css/home.css'` et `'resources/css/game-detail.css'` au tableau `input` (ne modifiez que ce tableau ; laissez `tailwindcss()`).
+#### A5.3 · Déclarer les CSS de page
 
-> ⚠️ **Chaque fichier CSS/JS chargé par `@vite` doit figurer dans `input`.**
+📄 `vite.config.js`
 
-**Étape A5.4** — Dans le `<head>` du layout, après le titre, ajoutez :
+Ajoutez `'resources/css/home.css'` et `'resources/css/game-detail.css'` au tableau `input`. Ne modifiez que ce tableau ; laissez `tailwindcss()`.
+
+> ⚠️ **Chaque fichier CSS/JS chargé par `@vite` doit figurer dans `input`.** Sinon : `Unable to locate file in Vite manifest`.
+
+#### A5.4 · Charger la CSS commune
+
+📄 `resources/views/layouts/app.blade.php`
+
+Dans le `<head>`, après la balise `<title>`, ajoutez :
 
 ```blade
 @vite(['resources/css/app.css'])
 @yield('styles')
 ```
 
-**Étape A5.5** — Dans `home.blade.php` puis `game-detail.blade.php`, chargez la CSS de la page :
+> 💡 `@yield('styles')` est un emplacement de plus : chaque page pourra y ajouter sa propre CSS.
+
+#### A5.5 · Charger la CSS de chaque page
+
+📄 `resources/views/home.blade.php` puis `resources/views/game-detail.blade.php`
+
+Ajoutez une section `styles` qui charge la CSS de la page :
 
 ```blade
 @section('styles')
@@ -188,26 +324,47 @@ Le script copie `app.css` et les CSS de page (`home`, `game-detail`, `wishlist`,
 @endsection
 ```
 
-(`game-detail.css` pour la fiche.)
+Pour la fiche, le fichier est `resources/css/game-detail.css`.
 
-✅ L'accueil et la fiche ont les couleurs WishFlix. Si vous voyez « Vite manifest not found », `sail npm run dev` ne tourne pas.
+> ⚠️ « Vite manifest not found » : `sail npm run dev` ne tourne pas dans le second terminal.
+
+> ✅ **Vérification** : l'accueil et la fiche ont les couleurs WishFlix.
 
 > ✅ **Point de contrôle 5** — pages stylées, Vite tourne.
 > 🛟 Rattrapage : relisez le diff du tag Campus Quest `s2-ch5-vite` (dépôt `CampusQuest`), puis **refaites** ces étapes sur WishFlix.
 
 ### A6 — La page 404 (Chapitre 6)
 
-**Étape A6.1** — Dans `show()`, avant le `return` :
+#### A6.1 · Refuser un id inconnu
+
+📄 `app/Http/Controllers/GameController.php`
+
+Dans `show()`, ajoutez avant le `return` :
 
 ```php
 abort_unless(isset($this->games[$id]), 404);
 ```
 
-✅ `/game/999` affiche la 404 de Laravel.
+> 💡 **`abort_unless(condition, 404)`** arrête la requête avec une erreur 404 si la condition est fausse. `isset($this->games[$id])` vérifie que la clé existe dans le tableau.
 
-**Étape A6.2** — Créez `resources/views/errors/404.blade.php` depuis `404.html` : elle étend le layout, charge `404.css` (ajoutez-la à `input`) et son lien de retour utilise `route('home')`.
+> ✅ **Vérification** : `/game/999` affiche la 404 de Laravel.
 
-**Étape A6.3** — Vérifiez les **deux** cas : `/game/999` (via `abort`) et `/url-inexistante` (aucune route).
+#### A6.2 · La page 404 WishFlix
+
+📄 `resources/views/errors/404.blade.php` (nouveau fichier, dans un nouveau dossier `errors/`)
+
+1. Copiez-y le contenu du `<main>` de `404.html`
+2. Faites-la **étendre** le layout, comme en A4.2, avec le titre « Page introuvable »
+3. Chargez `resources/css/404.css` dans la section `styles`, et ajoutez ce fichier au tableau `input` de `vite.config.js`
+4. Le `href` du lien de retour devient `{{ route('home') }}`
+
+> 💡 Laravel cherche tout seul une vue `errors/404.blade.php` quand il doit afficher une 404 : aucune route à écrire.
+
+#### A6.3 · Les deux cas de 404
+
+Testez les **deux** cas : `/game/999` (via `abort_unless`) et `/url-inexistante` (aucune route ne correspond).
+
+> ✅ **Vérification** : les deux URL affichent la 404 WishFlix.
 
 > ✅ **Point de contrôle 6 (fin de la Partie A, requis pour la S3)**
 >
@@ -619,6 +776,8 @@ Critères d'acceptation :
 - Sans paramètre, tous les jeux s'affichent ; avec une catégorie inconnue, le cas `@empty` s'affiche
 - Contenu filtré avec `array_filter` (la version avec la base arrive en S4)
 
+> 💡 **Injection de dépendances** : pour « recevoir l'objet `Request` », ajoutez le paramètre `Request $request` à la signature (`public function index(Request $request)`) et l'**import** `use Illuminate\Http\Request;` en haut du contrôleur. Vous ne créez pas l'objet : Laravel lit le **type** du paramètre et vous passe la requête courante.
+
 ### Bonus 2 — Des liens générés partout
 
 - Le bouton « Voir la fiche » du hero pointe vers la fiche du jeu mis en avant via `route('games.show', ...)`
@@ -629,7 +788,7 @@ Critères d'acceptation :
 
 Remplacez les balises CDN (link DaisyUI + script `@tailwindcss/browser`) par Tailwind CSS + DaisyUI servis **via Vite**.
 
-✅ Vérification : le rendu est identique **sans** aucune balise CDN dans le layout.
+> ✅ **Vérification** : le rendu est identique **sans** aucune balise CDN dans le layout.
 
 Bon à savoir : Tailwind est **déjà installé** dans votre projet Laravel (paquet npm + plugin `tailwindcss()` dans `vite.config.js`) — ne suivez pas un guide d'installation Tailwind « from scratch ». Il reste à ajouter DaisyUI et à réactiver Tailwind dans `app.css` : voir la [page d'installation DaisyUI pour Laravel](https://daisyui.com/docs/install/laravel/).
 

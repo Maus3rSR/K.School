@@ -82,7 +82,40 @@ Une durée affichée devient une promesse que l'apprenant lent ne tient pas. Ind
 - **Point de contrôle** à la fin de chaque groupe d'étapes, avec son **palier de rattrapage** : l'état de référence défini par le cours (ex. tag d'un dépôt de démonstration). Ne jamais créer de tag Git dans ce dépôt pour un rattrapage
 - **Jamais de première installation lourde en séance** (téléchargement d'images, d'outils) : elle se fait avant, ou se lance tôt en arrière-plan
 - Une copie manuelle répétitive (fichiers à recopier un par un) se remplace par un script fourni (voir « Scripts dans package.json »)
-- Un long morceau de HTML ou de code sans lien avec la notion (formulaire à 10 champs, page à retaper) est donné en **squelette brut** dans un `<details>` : l'apprenant le colle puis fait seulement les adaptations liées à la notion, listées sous le squelette
+- Le code d'interface hors notion est **fourni**, voir « Niveau d'aide selon le statut de la notion »
+
+### Niveau d'aide selon le statut de la notion
+
+L'apprenant pratique le **framework**, pas l'écriture d'interface. L'aide d'une consigne dépend de la place de la notion dans le cours :
+
+| Statut | Exemples (Laravel) | Ce que donne la consigne |
+|---|---|---|
+| **Notion centrale** : cœur du chapitre, montrée en démo | `validate()`, `@error` / `old()`, `Route::resource`, Form Request | La spécification ; l'apprenant écrit le code ; indices gradués dans des `<details>` |
+| **Notion secondaire ou peu vue** : une ligne de slide, une note orale, un détail de démo | Injection de dépendances, `sync()`, `pluck()`, champ caché d'une case à cocher, `Rule::unique()->ignore()` | Le **code complet** dans un bloc, suivi d'une explication en citation (voir ci-dessous) |
+| **Hors cours** : HTML, classes CSS, mise en page | Wrappers, cartes, tableaux, boutons, alertes | Le HTML **complet et déjà designé**, à coller tel quel |
+
+- **Interface fournie, langage du framework écrit** : le HTML est donné avec toutes ses classes ; l'apprenant tape lui-même ce qui relève du framework (directives et expressions Blade, `@csrf`, `old()`, `@error`, boucles, `route()`…), même s'il le répète sur plusieurs champs : c'est cette répétition qui ancre la notion
+- **DaisyUI d'abord** : composants et classes DaisyUI (`card`, `fieldset`, `input`, `select`, `btn`, `alert`, `table`…), Tailwind seulement pour ce que DaisyUI ne couvre pas (espacements, grilles, largeurs)
+- Dans le HTML fourni, les emplacements à compléter sont des valeurs neutres (`href="#"`, `action="#"`, une seule `<option>` d'exemple) et la liste numérotée qui suit le bloc dit quoi y mettre
+- **Signature complète et imports** : dès qu'une méthode change, la consigne donne sa signature complète et les **imports** (`use …;`) à ajouter en haut du fichier
+- **Jamais un verbe de jargon seul** (« injectez », « bindez », « pluckez ») : le terme est suivi du code exact qu'il désigne
+
+### Vocabulaire technique
+
+Plus l'apprenant lit les termes, mieux il les intègre :
+
+- Les **termes et notions des slides** (lexique, `<KeyTerm>`, `<Definition>`) sont repris **en gras** dans les consignes, avec le terme exact des slides : **injection de dépendances**, **import**, **assignation de masse**, **route model binding**…
+- Un terme technique est nommé précisément à chaque fois : « ajoutez l'**import** `use Illuminate\Http\Request;` », jamais « ajoutez `use …` en haut »
+- Une méthode ou une fonction peu vue (ex. `pluck()`, `in_array()`, `Arr::except()`) est expliquée à sa première apparition : ce qu'elle reçoit, ce qu'elle renvoie, sur l'exemple de l'exercice
+
+### Explications : en citation, après la consigne
+
+La consigne dit **quoi faire**, l'explication dit **pourquoi** ; elles ne se mélangent pas :
+
+- Explication d'une notion : citation `> 💡 **Terme** : …` placée juste après l'action qu'elle éclaire
+- Piège ou erreur fréquente : citation `> ⚠️ …`
+- Vérification : citation `> ✅ **Vérification** : …`
+- Une citation = une idée, en deux ou trois lignes au plus ; au-delà, renvoyer à la slide ou à la Partie C
 
 ### Mise en forme des consignes
 
@@ -154,6 +187,8 @@ Avant de publier un exercice :
 - [ ] Étape 0 de contrôle d'environnement
 - [ ] Instructions claires, une action vérifiable par étape, chapitre source indiqué
 - [ ] Mise en forme des consignes respectée (titre par étape, fichier en tête, actions numérotées, code en bloc, vérification encadrée)
+- [ ] Niveau d'aide adapté : notions secondaires données en code complet + explication en citation, HTML/DaisyUI fourni, Blade et PHP du framework écrits par l'apprenant
+- [ ] Termes des slides en gras, signatures complètes et **imports** nommés, aucun verbe de jargon sans son code
 - [ ] Ordre des étapes = ordre des chapitres du cours
 - [ ] Points de contrôle avec palier de rattrapage (sans tag Git dans ce dépôt)
 - [ ] Critères de réussite mesurables

@@ -53,7 +53,7 @@ git status
 
 Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
-> 💡 **Lire les consignes** : le HTML et les classes **DaisyUI** sont fournis, collez-les tels quels. Ce que vous tapez vous-même, c'est le code Laravel. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
+> 💡 **Lire les consignes** : vous **réutilisez** les blocs des maquettes (navbar, boutons, cartes) ; le peu de HTML qui manque est fourni avec ses classes **DaisyUI**. Ce que vous tapez vous-même, c'est le code Laravel. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
 
 ### A1 — Le starter kit Breeze (Chapitre 1)
 
@@ -463,20 +463,25 @@ Votre route `GET /wishlist` (S2) ne change pas pour l'instant : elle devient dyn
 
 📄 `resources/views/game-detail.blade.php`
 
-1. Près du titre du jeu, collez ce HTML DaisyUI :
+La fiche de la maquette a déjà le bouton : `<button class="btn btn-secondary">Ajouter a la wishlist</button>`, dans `<div class="wish-detail__actions">`. Sans framework front, il ne fait rien : il lui manque un formulaire. Gardez-le et complétez autour :
 
-   ```html
-   <span class="badge badge-success">Dans votre wishlist</span>
+1. Entourez ce bouton d'un formulaire, et donnez-lui `type="submit"` :
 
-   <form method="POST" action="#">
-     <button type="submit" class="btn btn-secondary">Ajouter à ma wishlist</button>
+   ```blade
+   <form method="POST" action="{{ route('wishlist.store', $game) }}">
+       @csrf
+       <button type="submit" class="btn btn-secondary">Ajouter à ma wishlist</button>
    </form>
    ```
 
-2. Complétez avec le code Laravel :
-   1. Entourez le tout de `@auth` … `@endauth`
-   2. Affichez le badge seulement si le jeu est déjà dans la wishlist, le formulaire sinon : `@if (Auth::user()->wishlist->contains($game))` … `@else` … `@endif`
-   3. Le formulaire : `action="{{ route('wishlist.store', $game) }}"` et `@csrf` après la balise `<form>`
+2. Juste avant ce formulaire, ajoutez le badge qui le remplacera une fois le jeu ajouté :
+
+   ```html
+   <span class="badge badge-success">Dans votre wishlist</span>
+   ```
+
+3. Entourez badge et formulaire de `@auth` … `@endauth`, puis affichez l'un ou l'autre : `@if (Auth::user()->wishlist->contains($game))` (le badge) … `@else` (le formulaire) … `@endif`
+4. Le lien « Voir ma wishlist » de la maquette pointe vers `{{ route('wishlist') }}`
 
 > 💡 **`contains($game)`** : `Auth::user()->wishlist` est une **Collection** de jeux, et `contains()` renvoie `true` si `$game` en fait partie.
 
@@ -600,18 +605,16 @@ Critères d'acceptation :
 - Une wishlist vide affiche un message et un lien vers le catalogue
 - Le badge « Wishlist » de la navbar affiche le **nombre réel** de jeux de l'utilisateur ; il est masqué pour un invité
 
-> 💡 **HTML fourni** : gardez les cartes de `wishlist.html`. Le bouton « Retirer » de chaque carte et le message de liste vide sont :
+> 💡 **Réutiliser la maquette** : les cartes de `wishlist.html` ont déjà un bouton « Retirer » (`btn btn-sm btn-secondary`). Entourez-le d'un formulaire `POST` vers `wishlist.destroy`, avec `@csrf`, `@method('DELETE')` et `type="submit"` sur le bouton. Pour la wishlist vide, une alerte DaisyUI suffit :
 >
 > ```html
-> <form method="POST" action="#">
->   <button type="submit" class="btn btn-error btn-sm btn-outline">Retirer</button>
-> </form>
->
 > <div role="alert" class="alert alert-info">
 >   <span>Votre wishlist est vide.</span>
 >   <a href="#" class="btn btn-sm btn-primary">Parcourir le catalogue</a>
 > </div>
 > ```
+
+> 💡 **Suggestion** (facultatif) : si vous avez créé `partials/game-card.blade.php` en S4, réutilisez-le ici avec `@include('partials.game-card', ['game' => $game])`. Le bouton change d'une page à l'autre (« Wishlist » sur l'accueil, « Retirer » ici) : passez une variable de plus, par exemple `['game' => $game, 'inWishlist' => true]`, et testez-la dans le fragment avec `@if ($inWishlist ?? false)`.
 
 ### US2 — Ma wishlist visible dans le catalogue
 
@@ -624,7 +627,7 @@ Critères d'acceptation :
 - Les identifiants de la wishlist sont chargés en **une seule** requête, quel que soit le nombre de cartes (Debugbar)
 - Après un ajout depuis l'accueil, vous revenez sur l'accueil avec le message de succès
 
-> 💡 **HTML fourni** : dans la carte de l'accueil, à côté du lien vers la fiche, reprenez le badge et le formulaire de A6.4, en version compacte : `badge-sm` sur le badge, `btn-sm` sur le bouton.
+> 💡 **Réutiliser la maquette** : la carte de l'accueil a déjà un bouton « Wishlist » (`btn btn-sm btn-outline`). Entourez-le du formulaire de A6.4, et utilisez le badge de A6.4 en version compacte (`badge-sm`).
 
 ### Indices de la Partie B
 

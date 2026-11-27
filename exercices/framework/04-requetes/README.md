@@ -50,7 +50,7 @@ Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
 Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
-> 💡 **Lire les consignes** : le HTML et les classes **DaisyUI** des nouveaux blocs sont fournis, collez-les tels quels. Ce que vous tapez vous-même, c'est le code Laravel : requêtes Eloquent, contrôleur, directives Blade. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
+> 💡 **Lire les consignes** : vous **réutilisez** les blocs des maquettes (hero, sections, cartes, filtres) ; le peu de HTML qui manque est fourni avec ses classes **DaisyUI**. Ce que vous tapez vous-même, c'est le code Laravel : requêtes Eloquent, contrôleur, directives Blade. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
 
 ### A1 — La une et le podium (Chapitre 1)
 
@@ -93,25 +93,19 @@ Le hero de la maquette (`<section class="hero wishflix-hero">`, en haut de la pa
 
 📄 `resources/views/home.blade.php`
 
-1. Entre le hero et la section du catalogue, collez cette section (classes de la maquette et de **DaisyUI**) :
+La maquette a déjà tout ce qu'il faut : la section du catalogue (`<section class="wish-section">`) et ses cartes de jeu (`<article class="card movie-card game-card">`). Rien à écrire en HTML, vous les réutilisez :
 
-   ```html
-   <section class="wish-section" aria-labelledby="top-rated-title">
-     <header class="wish-section__header">
-       <h2 class="wish-section__title" id="top-rated-title">Mieux notés</h2>
-     </header>
-     <ul class="list bg-base-200 rounded-box">
-       <li class="list-row items-center">
-         <img src="#" alt="" class="size-12 rounded-box object-cover" />
-         <a href="#" class="link link-hover font-semibold">Titre du jeu</a>
-         <span class="badge badge-accent">0/10</span>
-       </li>
-     </ul>
-   </section>
-   ```
+1. **Dupliquez** la `<section class="wish-section">` du catalogue et placez la copie entre le hero et le catalogue
+2. Dans la copie, gardez seulement le `<header>` et la grille `<div class="wish-home__grid">` : supprimez les filtres et les statistiques
+3. Changez le titre en « Mieux notés », et l'`id` du titre (`top-rated-title`, repris dans l'`aria-labelledby` de la section), pour qu'il ne soit pas en double dans la page
+4. Dans la grille, la boucle passe sur `$topRated` au lieu de `$games` : `@foreach ($topRated as $game)` … `@endforeach`, autour d'**une seule** carte
 
-2. Répétez le `<li>` avec `@foreach ($topRated as $game)` … `@endforeach`
-3. Remplissez l'image, le lien vers la fiche, le titre et la note, comme en A1.2
+> 💡 **Suggestion** (facultatif) : la carte de jeu est maintenant écrite deux fois, et elle reviendra en S6 sur la page wishlist. Vous pouvez l'extraire dans un **fragment partagé**, comme la navbar en S2 :
+>
+> 1. Coupez une carte `<article class="card movie-card game-card">…</article>` et collez-la dans un nouveau fichier `resources/views/partials/game-card.blade.php`
+> 2. À sa place, dans les deux boucles, écrivez `@include('partials.game-card', ['game' => $game])`
+>
+> Le second argument de `@include` passe des variables au fragment : dans `game-card.blade.php`, `$game` est le jeu de la boucle.
 
 > ✅ **Vérification** :
 >
@@ -171,29 +165,30 @@ $games = Game::query()
 
 📄 `resources/views/home.blade.php`
 
-Dans la maquette, les filtres du catalogue (`<div class="wish-home__filters">`) ne sont pas encore un formulaire. Remplacez **toute** cette `<div>` par le bloc ci-dessous, qui garde les mêmes classes mais en fait un `<form>` :
+Les filtres du catalogue existent déjà dans la maquette (`<div class="wish-home__filters">`), mais ce n'est que du HTML statique : sans framework front (React, Vue…), il manque le `<form>`, les attributs `name` et un bouton d'envoi. Gardez le bloc et ses classes, et ajoutez seulement ce qui manque :
 
-```html
-<form method="GET" action="#" class="wish-home__filters">
-  <fieldset class="fieldset">
-    <legend class="fieldset-legend">Catégorie</legend>
-    <select name="category" class="select w-full">
-      <option value="">Toutes les catégories</option>
-      <option value="1">Nom de la catégorie</option>
-    </select>
-  </fieldset>
+1. La `<div class="wish-home__filters">` devient un formulaire, avec la même classe :
 
-  <button type="submit" class="btn btn-secondary">Filtrer</button>
-</form>
-```
+   ```blade
+   <form method="GET" action="{{ route('home') }}" class="wish-home__filters">
+   ```
 
-Puis complétez avec le code Laravel :
+   N'oubliez pas de remplacer aussi la balise fermante `</div>` par `</form>`.
 
-1. `action` du formulaire : `{{ route('home') }}`
-2. Remplacez la seconde `<option>` par une boucle `@foreach ($categories as $category)` : `value` = l'`id`, texte = le `name`
-3. Sur cette `<option>`, ajoutez la **directive** `@selected(request('category') == $category->id)`
+2. Sur le `<select>` des catégories, ajoutez `name="category"`
+3. L'option « Toutes » prend `value=""` ; remplacez les autres options par une boucle `@foreach ($categories as $category)` : `value` = l'`id`, texte = le `name`
+4. Sur l'option de la boucle, ajoutez la **directive** `@selected(request('category') == $category->id)`
+5. Ajoutez le bouton d'envoi après le dernier `<fieldset>` :
 
-> 💡 Le champ « Rechercher » et le bouton « Disponibles uniquement » de la maquette disparaissent pour l'instant : la recherche revient en Partie B.
+   ```html
+   <button type="submit" class="btn btn-primary">Filtrer</button>
+   ```
+
+6. Sur le bouton « Disponibles uniquement » de la maquette, ajoutez `type="button"` : il ne fait rien pour l'instant
+
+> 💡 **`type="button"`** : dans un `<form>`, un `<button>` sans type **envoie** le formulaire. `type="button"` en fait un simple bouton, qui n'envoie rien.
+
+> 💡 Le champ « Rechercher » reste en place : il sera branché en Partie B, avec son attribut `name`.
 
 > 💡 **Formulaire `GET`** : les champs partent dans l'URL. Choisir « Action » et valider ouvre `/?category=2`, que `$request->query('category')` lit côté contrôleur.
 
@@ -356,14 +351,7 @@ Critères d'acceptation :
 - `/?search=zelda` ne renvoie que les jeux dont le titre contient « zelda »
 - La pagination de l'étape A6 conserve `search` au changement de page (`withQueryString()` est déjà en place)
 
-> 💡 **HTML fourni** : dans le `<form>` de A2.4, avant le `<fieldset>` des catégories, collez le champ de la maquette avec `name="search"` :
->
-> ```html
-> <fieldset class="fieldset wish-home__search">
->   <legend class="fieldset-legend">Rechercher</legend>
->   <input type="search" name="search" class="input w-full" placeholder="Titre ou mot-clé" />
-> </fieldset>
-> ```
+> 💡 **Rien à écrire en HTML** : le champ « Rechercher » de la maquette est déjà dans le formulaire de A2.4. Ajoutez-lui `name="search"`.
 
 ### US2 — Recherche + filtre combinés (~35 min)
 
@@ -375,7 +363,7 @@ Critères d'acceptation :
 - `/?category=…` sans `search` filtre seul ; `/?search=…` sans `category` cherche seule
 - Le formulaire « se souvient » des deux valeurs après envoi
 - Un lien « Réinitialiser » ramène à `/` sans paramètres
-  (HTML fourni, à placer après le bouton « Filtrer » : `<a href="#" class="btn btn-ghost">Réinitialiser</a>`)
+  (après le bouton « Filtrer » : `<a href="#" class="btn btn-ghost">Réinitialiser</a>`, avec `href` vers `route('home')`)
 - `?search=…&category=…&page=2` conserve les trois paramètres dans les liens de pagination
 
 ---

@@ -283,6 +283,8 @@ Puis complétez avec Blade :
 
 > 💡 **Donnée flash** : `->with('success', '…')` écrit le message en session pour **une seule** requête. Il s'affiche sur la page suivante, puis disparaît.
 
+> 💡 **Suggestion** (facultatif) : pour alléger le layout, déplacez les deux alertes dans un **fragment partagé** `resources/views/partials/flash.blade.php`, et écrivez à leur place `@include('partials.flash')`, comme la navbar en S2.
+
 #### A1.6 · Lien « Nouveau jeu »
 
 📄 `resources/views/partials/nav.blade.php`
@@ -489,6 +491,8 @@ Ajoutez à la main, une par une, trois **routes nommées** vers `GameController`
 
 > 💡 **Method spoofing** : un formulaire HTML ne sait envoyer que `GET` et `POST`. `@method('PUT')` ajoute un champ caché `_method=PUT`, et Laravel traite alors le `POST` comme un `PUT`. Le `method` du `<form>` reste donc `POST`.
 
+> 💡 **Suggestion** (facultatif) : `create` et `edit` ont maintenant les mêmes champs, écrits deux fois. Vous pouvez les extraire dans `resources/views/games/_form.blade.php` (les `<fieldset>` seulement, sans la balise `<form>`), puis écrire `@include('games._form')` dans les deux vues. Le fragment doit marcher sans `$game` (création) : écrivez chaque valeur de repli avec `?->` et `??`, par exemple `old('title', $game?->title ?? '')` et `old('platform_ids', $game?->platforms->pluck('id')->all() ?? [])`.
+
 > 💡 **`pluck('id')`** : `$game->platforms` est une **Collection** d'objets `Platform` (S3). `pluck('id')` en extrait uniquement la colonne `id` et renvoie une nouvelle Collection, par exemple `[1, 3]`. `->all()` la convertit en simple tableau PHP, ce qu'attend `in_array()`. Résultat : au premier affichage, les plateformes actuelles du jeu sont cochées.
 
 #### A4.4 · La méthode `update(Request $request, int $id)`
@@ -522,7 +526,7 @@ Ajoutez à la main, une par une, trois **routes nommées** vers `GameController`
 
 📄 `resources/views/game-detail.blade.php`
 
-1. Sous le titre du jeu, collez ces deux boutons DaisyUI :
+1. Dans la `<div class="wish-detail__actions">` de la fiche (là où la maquette met déjà ses boutons), collez ces deux boutons DaisyUI :
 
    ```html
    <div class="flex gap-2 my-4">

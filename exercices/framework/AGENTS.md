@@ -19,3 +19,13 @@ Budget à la maison : ≈ 2h par semaine (B + C).
 - Rattrapage : renvoyer vers le tag Campus Quest du dépôt `CampusQuest`, jamais vers un tag de K.School ni vers une solution WishFlix.
 - Pas de première installation lourde en séance ; une copie manuelle répétitive se remplace par un script fourni aux étudiants (ex. dans l'archive distribuée via Moodle) — les étudiants n'ont pas accès au dépôt K.School.
 - Compatibilité avec le projet déjà commencé : ne pas changer le modèle de données (`programme.md`), ni les noms de fichiers, routes et vues attendus.
+
+## Interface et maquettes
+
+Applique le « Niveau d'aide selon le statut de la notion » du skill `exercices` :
+
+- **Réutiliser les maquettes WishFlix** (`scenarios/WishFlix/src/`, distribuées aux étudiants en S2) : hero, `wish-section`, cartes `game-card`, filtres `wish-home__filters`, boutons des fiches et de la wishlist. La consigne nomme le bloc (fichier + classe) et n'ajoute que ce qui manque à une maquette statique (`<form>`, `name`, bouton d'envoi, `type="button"`)
+- **HTML neuf seulement sans équivalent dans les maquettes** (formulaires du back-office, liste des catégories…) : fourni complet avec **DaisyUI**, Tailwind seulement pour ce que DaisyUI ne couvre pas (espacements, grilles, largeurs)
+- **L'étudiant écrit le Blade et le PHP** (directives, `old()`, `@error`, `route()`, boucles), même répété sur plusieurs champs
+- **Suggestions de factorisation** en **partials Blade** (`@include`), facultatives : `partials/game-card` (catalogue, mieux notés, wishlist), `partials/flash` (messages flash), `games/_form` (champs partagés par `create` et `edit`)
+

@@ -82,16 +82,67 @@ Une durée affichée devient une promesse que l'apprenant lent ne tient pas. Ind
 - **Point de contrôle** à la fin de chaque groupe d'étapes, avec son **palier de rattrapage** : l'état de référence défini par le cours (ex. tag d'un dépôt de démonstration). Ne jamais créer de tag Git dans ce dépôt pour un rattrapage
 - **Jamais de première installation lourde en séance** (téléchargement d'images, d'outils) : elle se fait avant, ou se lance tôt en arrière-plan
 - Une copie manuelle répétitive (fichiers à recopier un par un) se remplace par un script fourni (voir « Scripts dans package.json »)
-- Un long morceau de HTML ou de code sans lien avec la notion (formulaire à 10 champs, page à retaper) est donné en **squelette brut** dans un `<details>` : l'apprenant le colle puis fait seulement les adaptations liées à la notion, listées sous le squelette
+- Le code hors notion (interface, configuration, données…) est **fourni**, voir « Niveau d'aide selon le statut de la notion »
+
+### Niveau d'aide selon le statut de la notion
+
+L'apprenant pratique **la notion du cours** (un framework, une librairie, un outil, un langage, une méthode), pas ce qui l'entoure. L'aide d'une consigne dépend de la place de la notion dans le cours.
+
+Ces règles valent pour tous les cours. Les règles marquées « quand… » ne s'appliquent que si l'exercice a l'élément concerné (une interface, des maquettes, une démo). Les choix propres à un cours (librairie de composants, maquettes à réutiliser, unité de factorisation) vont dans son `exercices/<cours>/AGENTS.md`, pas dans ce skill.
+
+| Statut | Ce que donne la consigne |
+|---|---|
+| **Notion centrale** : cœur du chapitre, montrée en démo ou en slide détaillée | La spécification ; l'apprenant écrit le code ; indices gradués dans des `<details>` |
+| **Notion secondaire ou peu vue** : une ligne de slide, une note orale, un détail de démo, un prérequis d'un autre cours | Le **code complet** dans un bloc, suivi d'une explication en citation (voir ci-dessous) |
+| **Hors cours** : le code d'à-côté, d'une autre techno que celle enseignée (HTML et CSS dans un cours back-end, config d'outillage, données de test…) | Le code **complet et prêt à l'emploi**, à coller tel quel |
+
+Exemples selon le cours :
+
+| Cours | Centrale | Secondaire | Hors cours |
+|---|---|---|---|
+| Framework back (Laravel) | `validate()`, `Route::resource` | Injection de dépendances, `pluck()`, `sync()` | HTML et classes CSS des vues |
+| Librairie front (React) | `useState`, props | `useEffect` avec dépendances, `key` d'une liste | Styles, données JSON de départ |
+| Langage (TypeScript) | Génériques, types union | Option du `tsconfig.json`, méthode de la lib standard | Tests fournis, données de départ |
+| Pratique (TDD) | Cycle rouge / vert / refactor | Assertion ou option du runner de tests | Squelette du kata, configuration du runner |
+| Outil (Git, Docker, VS Code) | `rebase`, `Dockerfile`, raccourci étudié | Option rarement vue, syntaxe d'un fichier de config | Script qui prépare le dépôt ou l'environnement |
+| Méthode sans code (User stories, Ubiquitous language) | Rédiger une user story, nommer un concept | Format d'un critère d'acceptation | Contexte métier, gabarit de document |
+
+Pour un exercice sans code, « écrire le code » devient « produire le livrable » (texte, glossaire, schéma) : la notion centrale se rédige, le gabarit est fourni.
+
+- **Code d'à-côté fourni, code de la notion écrit** : l'apprenant tape lui-même tout ce qui relève de la techno enseignée, même s'il le répète plusieurs fois (c'est cette répétition qui ancre la notion) ; le reste est donné, même s'il est dans un autre langage
+- **Quand l'exercice a une interface** et que l'UI n'est pas la notion : le HTML est fourni complet et déjà mis en forme avec la librairie de composants du cours (nommée dans l'`AGENTS.md` du cours)
+- **Quand le projet a déjà des maquettes, un template ou des composants** : réutiliser l'existant avant de fournir du neuf. La consigne désigne le bloc à reprendre (fichier, et classe ou nom du composant) et ne fournit que ce qui manque. Exemple : une maquette HTML statique n'a ni `<form>`, ni `name`, ni bouton d'envoi ; la consigne ajoute seulement ces éléments au bloc existant
+- **Suggérer la factorisation, sans l'imposer** : quand un même bloc revient (deux listes qui affichent la même carte, deux tests qui préparent les mêmes données, deux fonctions qui partagent un calcul), une citation `> 💡 **Suggestion** :` propose de l'extraire dans l'unité réutilisable du cours (partial de template, composant, fonction, *helper* de test…), avec le code d'appel. C'est facultatif : la vérification de l'étape ne dépend pas de la suggestion
+- Dans le code fourni, les emplacements à compléter sont des valeurs neutres (`href="#"`, `TODO`, une chaîne vide, un seul élément d'exemple dans une liste) et la liste numérotée qui suit le bloc dit quoi y mettre
+- **Signature complète et imports** : dès qu'une fonction ou une méthode change, la consigne donne sa signature complète et les **imports** à ajouter, dans la syntaxe du langage (`import { … } from '…';` en JS/TS, `use …;` en PHP…)
+- **Jamais un verbe de jargon seul** (« injectez », « mémoïsez », « rebasez ») : le terme est suivi du code ou de la commande exacte qu'il désigne
+- **Quand le cours a une démo** : la spécification d'une notion centrale ne recopie pas le code de la démo transposé à l'exercice ; si le cours définit un pacte démo / pratique, il prime
+
+### Vocabulaire technique
+
+Plus l'apprenant lit les termes, mieux il les intègre :
+
+- Les **termes et notions des slides** (lexique, `<KeyTerm>`, `<Definition>`) sont repris **en gras** dans les consignes, avec le terme exact des slides
+- Un terme technique est nommé précisément à chaque fois : « ajoutez l'**import** `import { assertEquals } from "jsr:@std/assert"` », jamais « ajoutez la ligne en haut »
+- Une fonction, une méthode ou une option peu vue est expliquée à sa première apparition : ce qu'elle reçoit, ce qu'elle renvoie, sur l'exemple de l'exercice
+
+### Explications : en citation, après la consigne
+
+La consigne dit **quoi faire**, l'explication dit **pourquoi** ; elles ne se mélangent pas :
+
+- Explication d'une notion : citation `> 💡 **Terme** : …` placée juste après l'action qu'elle éclaire
+- Piège ou erreur fréquente : citation `> ⚠️ …`
+- Vérification : citation `> ✅ **Vérification** : …`
+- Une citation = une idée, en deux ou trois lignes au plus ; au-delà, renvoyer à la slide ou à une partie d'approfondissement
 
 ### Mise en forme des consignes
 
 Le README se lit pendant que l'apprenant code, souvent dans une fenêtre étroite : chaque étape doit se lire d'un coup d'œil.
 
-- **Une étape = un titre court** (`#### A1.4 · Enregistrer le jeu`), pas un paragraphe qui commence par plusieurs mots en gras
-- **Le fichier touché sur sa propre ligne**, au début de l'étape : 📄 suivi du chemin en code (ex. 📄 `routes/web.php`)
+- **Une étape = un titre court** (`#### A1.4 · Enregistrer le jeu`, `#### 2.3 · Faire passer le test`), pas un paragraphe qui commence par plusieurs mots en gras
+- **Le fichier touché sur sa propre ligne**, au début de l'étape : 📄 suivi du chemin en code (ex. 📄 `src/converter.ts`)
 - **Plusieurs actions → liste numérotée**, une action par ligne ; jamais une phrase qui enchaîne les « puis »
-- **Code à taper dans un bloc** (` ```php `, ` ```blade `, ` ```bash `) dès qu'il dépasse un appel court ; le code dans la phrase reste réservé aux noms (méthode, route, champ)
+- **Code à taper dans un bloc** avec son langage (` ```ts `, ` ```php `, ` ```bash `…) dès qu'il dépasse un appel court ; le code dans la phrase reste réservé aux noms (méthode, route, champ)
 - **Spécification avant aide** : le tableau des champs ou des règles vient avant le squelette ou l'indice
 - **Vérification en encadré** : `> ✅ **Vérification** : …`, pour qu'elle se distingue des actions
 - **Lignes courtes** : une ligne qui dépasse ≈ 200 caractères est à découper en liste
@@ -154,6 +205,8 @@ Avant de publier un exercice :
 - [ ] Étape 0 de contrôle d'environnement
 - [ ] Instructions claires, une action vérifiable par étape, chapitre source indiqué
 - [ ] Mise en forme des consignes respectée (titre par étape, fichier en tête, actions numérotées, code en bloc, vérification encadrée)
+- [ ] Niveau d'aide adapté : notions secondaires données en code complet + explication en citation, code d'à-côté (UI, config…) fourni, code de la notion écrit par l'apprenant
+- [ ] Termes des slides en gras, signatures complètes et **imports** nommés, aucun verbe de jargon sans son code
 - [ ] Ordre des étapes = ordre des chapitres du cours
 - [ ] Points de contrôle avec palier de rattrapage (sans tag Git dans ce dépôt)
 - [ ] Critères de réussite mesurables

@@ -42,7 +42,7 @@ Rendre le catalogue WishFlix **filtrable, mesuré et paginé** : requêtes `wher
 
 Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
-✅ Vérification : `games.show` apparaît dans `route:list`, `http://localhost` affiche les jeux, `Game::count()` ≥ 6 et `Category::count()` ≥ 4. Sinon, terminez d'abord l'exercice 03.
+> ✅ **Vérification** : `games.show` apparaît dans `route:list`, `http://localhost` affiche les jeux, `Game::count()` ≥ 6 et `Category::count()` ≥ 4. Sinon, terminez d'abord l'exercice 03.
 
 ---
 
@@ -50,22 +50,68 @@ Dans Tinker : `App\Models\Game::count()` puis `App\Models\Category::count()`.
 
 Chaque étape indique son **chapitre** du cours. Faites-les dans l'ordre, juste après la démo du chapitre correspondant.
 
+> 💡 **Lire les consignes** : vous **réutilisez** les blocs des maquettes (hero, sections, cartes, filtres) ; le peu de HTML qui manque est fourni avec ses classes **DaisyUI**. Ce que vous tapez vous-même, c'est le code Laravel : requêtes Eloquent, contrôleur, directives Blade. Les citations 💡 expliquent le pourquoi, les citations ⚠️ signalent un piège.
+
 ### A1 — La une et le podium (Chapitre 1)
 
 **En tant que** visiteur, **je veux** voir un jeu mis en avant et les mieux notés, **afin de** repérer les valeurs sûres du catalogue.
 
-**Étape A1.1** — Dans `GameController::index`, ajoutez deux requêtes en plus de celle du catalogue :
+#### A1.1 · Deux requêtes de plus
 
-```php
-$featured = Game::where('featured', true)->first();
-$topRated = Game::orderByDesc('rating')->limit(6)->get();
-```
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A1.2** — Affichez `$featured` dans un encart en haut de l'accueil (titre, jaquette, note) — protégez l'affichage par `@if ($featured)` : `first()` renvoie `null` si aucun jeu n'est `featured`, et la page ne doit ni planter ni afficher d'encart vide.
+1. Dans `index()`, ajoutez deux requêtes en plus de celle du catalogue :
 
-**Étape A1.3** — Affichez `$topRated` dans une section « Mieux notés » : les 6 jeux au plus haut `rating`, du plus grand au plus petit.
+   ```php
+   $featured = Game::where('featured', true)->first();
+   $topRated = Game::orderByDesc('rating')->limit(6)->get();
+   ```
 
-✅ Vérification : un jeu `featured` s'affiche dans l'encart ; sans jeu `featured`, la page n'affiche pas d'encart vide ; la section « Mieux notés » liste 6 jeux maximum triés par `rating` décroissant.
+2. Ajoutez `featured` et `topRated` au tableau passé à `view('home', [...])`
+
+> 💡 **Query Builder** : `where()`, `orderByDesc()` et `limit()` construisent la requête SQL morceau par morceau. Rien n'est envoyé à la base avant `first()` (un seul jeu, ou `null`) ou `get()` (une Collection).
+
+#### A1.2 · Le hero « À la une »
+
+📄 `resources/views/home.blade.php`
+
+Le hero de la maquette (`<section class="hero wishflix-hero">`, en haut de la page) devient l'encart du jeu à la une. Gardez son HTML et ses classes, et branchez-le sur `$featured` :
+
+1. Entourez toute la `<section class="hero wishflix-hero">` de `@if ($featured)` … `@endif`
+2. `src` et `alt` de l'image : `{{ $featured->cover_url }}` et le titre du jeu
+3. Le badge de catégorie (« RPG ») : `{{ $featured->category->name }}`
+4. Le titre (`<h1>`) et la description : `{{ $featured->title }}` et `{{ $featured->synopsis }}`
+5. La ligne de détails : `{{ $featured->release_year }} | {{ $featured->rating }}/10 | {{ $featured->playtime_hours }}h de jeu`
+6. `href` du bouton « Voir la fiche » : `{{ route('games.show', $featured->id) }}`
+7. Le badge des plateformes (« PC, PS5, Xbox ») : `{{ $featured->platforms->pluck('name')->join(', ') }}`
+
+> ⚠️ **Pourquoi `@if` ?** `first()` renvoie `null` si aucun jeu n'est `featured`. Sans le `@if`, `$featured->title` provoque l'erreur `Attempt to read property "title" on null`.
+
+> 💡 **`pluck('name')->join(', ')`** : `$featured->platforms` est une **Collection** de plateformes. `pluck('name')` n'en garde que les noms (`['PC', 'PS5']`), et `join(', ')` les colle en un texte : « PC, PS5 ».
+
+#### A1.3 · La section « Mieux notés »
+
+📄 `resources/views/home.blade.php`
+
+La maquette a déjà tout ce qu'il faut : la section du catalogue (`<section class="wish-section">`) et ses cartes de jeu (`<article class="card movie-card game-card">`). Rien à écrire en HTML, vous les réutilisez :
+
+1. **Dupliquez** la `<section class="wish-section">` du catalogue et placez la copie entre le hero et le catalogue
+2. Dans la copie, gardez seulement le `<header>` et la grille `<div class="wish-home__grid">` : supprimez les filtres et les statistiques
+3. Changez le titre en « Mieux notés », et l'`id` du titre (`top-rated-title`, repris dans l'`aria-labelledby` de la section), pour qu'il ne soit pas en double dans la page
+4. Dans la grille, la boucle passe sur `$topRated` au lieu de `$games` : `@foreach ($topRated as $game)` … `@endforeach`, autour d'**une seule** carte
+
+> 💡 **Suggestion** (facultatif) : la carte de jeu est maintenant écrite deux fois, et elle reviendra en S6 sur la page wishlist. Vous pouvez l'extraire dans un **fragment partagé**, comme la navbar en S2 :
+>
+> 1. Coupez une carte `<article class="card movie-card game-card">…</article>` et collez-la dans un nouveau fichier `resources/views/partials/game-card.blade.php`
+> 2. À sa place, dans les deux boucles, écrivez `@include('partials.game-card', ['game' => $game])`
+>
+> Le second argument de `@include` passe des variables au fragment : dans `game-card.blade.php`, `$game` est le jeu de la boucle.
+
+> ✅ **Vérification** :
+>
+> - un jeu `featured` s'affiche dans l'encart
+> - sans jeu `featured` (passez-les tous à `false` dans Tinker), la page n'affiche pas d'encart vide
+> - la section « Mieux notés » liste 6 jeux maximum, du mieux noté au moins bien noté
 
 > 💡 Variante : `->inRandomOrder()->first()` pioche un jeu « à la une » différent à chaque chargement (bonus).
 
@@ -73,7 +119,29 @@ $topRated = Game::orderByDesc('rating')->limit(6)->get();
 
 **En tant que** visiteur, **je veux** filtrer les jeux par catégorie via `/?category=`, **afin de** ne voir que les jeux qui m'intéressent.
 
-**Étape A2.1** — Dans `GameController::index`, injectez `Request $request` et construisez la requête du catalogue :
+#### A2.1 · Recevoir la requête HTTP
+
+📄 `app/Http/Controllers/GameController.php`
+
+1. Ajoutez l'**import** de la classe `Request` en haut du fichier, sous le `namespace` :
+
+   ```php
+   use Illuminate\Http\Request;
+   ```
+
+2. Changez la signature de `index()` pour qu'elle reçoive la requête en paramètre :
+
+   ```php
+   public function index(Request $request)
+   ```
+
+> 💡 **Injection de dépendances** : vous ne créez pas l'objet `$request` vous-même (pas de `new Request()`). Vous **déclarez** le paramètre avec son **type** `Request`, et Laravel, en lisant ce type, crée l'objet avec les données de la requête HTTP (URL, **query string**, formulaire…) et vous le passe. C'est le **conteneur de services** de la S1 qui fait ce travail.
+
+#### A2.2 · Le filtre optionnel
+
+📄 `app/Http/Controllers/GameController.php`
+
+Dans `index()`, construisez la requête du catalogue avec `when()` :
 
 ```php
 $games = Game::query()
@@ -82,13 +150,51 @@ $games = Game::query()
     ->get();
 ```
 
-Pensez à ajouter l'import `Illuminate\Http\Request`.
+> 💡 **`$request->query('category')`** lit le paramètre `?category=` de l'URL, ou renvoie `null` s'il est absent.
 
-**Étape A2.2** — Passez aussi les catégories à la vue : `'categories' => Category::all()` dans le tableau renvoyé par `index()`.
+> 💡 **`when(valeur, fonction)`** n'ajoute le `where` que si la valeur est remplie. Sans `?category=`, la requête reste « tous les jeux ». La fonction reçoit la requête en cours (`$query`) et la valeur (`$id`).
 
-**Étape A2.3** — Sur l'accueil, ajoutez un formulaire `GET` avec un `<select name="category">` : l'option « Toutes les catégories » a `value=""`, chaque catégorie envoie son `id` en `value`, et l'option choisie reste sélectionnée après filtrage (`@selected(request('category') == $category->id)`).
+#### A2.3 · Les catégories pour le filtre
 
-✅ Vérification : `/?category=1` n'affiche que les jeux de cette catégorie, `/` sans paramètre affiche tout, et la catégorie choisie reste sélectionnée dans le `select`.
+📄 `app/Http/Controllers/GameController.php`
+
+1. Ajoutez l'**import** `use App\Models\Category;`
+2. Ajoutez `'categories' => Category::all()` au tableau passé à la vue
+
+#### A2.4 · Le formulaire de filtre
+
+📄 `resources/views/home.blade.php`
+
+Les filtres du catalogue existent déjà dans la maquette (`<div class="wish-home__filters">`), mais ce n'est que du HTML statique : sans framework front (React, Vue…), il manque le `<form>`, les attributs `name` et un bouton d'envoi. Gardez le bloc et ses classes, et ajoutez seulement ce qui manque :
+
+1. La `<div class="wish-home__filters">` devient un formulaire, avec la même classe :
+
+   ```blade
+   <form method="GET" action="{{ route('home') }}" class="wish-home__filters">
+   ```
+
+   N'oubliez pas de remplacer aussi la balise fermante `</div>` par `</form>`.
+
+2. Sur le `<select>` des catégories, ajoutez `name="category"`
+3. L'option « Toutes » prend `value=""` ; remplacez les autres options par une boucle `@foreach ($categories as $category)` : `value` = l'`id`, texte = le `name`
+4. Sur l'option de la boucle, ajoutez la **directive** `@selected(request('category') == $category->id)`
+5. Ajoutez le bouton d'envoi après le dernier `<fieldset>` :
+
+   ```html
+   <button type="submit" class="btn btn-primary">Filtrer</button>
+   ```
+
+6. Sur le bouton « Disponibles uniquement » de la maquette, ajoutez `type="button"` : il ne fait rien pour l'instant
+
+> 💡 **`type="button"`** : dans un `<form>`, un `<button>` sans type **envoie** le formulaire. `type="button"` en fait un simple bouton, qui n'envoie rien.
+
+> 💡 Le champ « Rechercher » reste en place : il sera branché en Partie B, avec son attribut `name`.
+
+> 💡 **Formulaire `GET`** : les champs partent dans l'URL. Choisir « Action » et valider ouvre `/?category=2`, que `$request->query('category')` lit côté contrôleur.
+
+> 💡 **`@selected(condition)`** ajoute l'attribut `selected` à l'option si la condition est vraie : la catégorie choisie reste affichée après le filtrage. `request('category')` lit le même paramètre que dans le contrôleur.
+
+> ✅ **Vérification** : `/?category=1` n'affiche que les jeux de cette catégorie, `/` sans paramètre affiche tout, et la catégorie choisie reste sélectionnée dans le `select`.
 
 > ✅ **Point de contrôle 1**
 >
@@ -96,37 +202,69 @@ Pensez à ajouter l'import `Illuminate\Http\Request`.
 > - [ ] `/?category=<id>` filtre le catalogue, `/` affiche tout, le `select` se souvient du choix
 > - [ ] Commit : « feat: catalogue à la une et filtrable »
 >
-> � Rattrapage : relisez le diff des tags Campus Quest `s4-ch1-filtrer-trier` et `s4-ch2-filtres-optionnels` (dépôt `CampusQuest`), puis **refaites** les étapes A1 et A2 sur WishFlix.
+> 🛟 Rattrapage : relisez le diff des tags Campus Quest `s4-ch1-filtrer-trier` et `s4-ch2-filtres-optionnels` (dépôt `CampusQuest`), puis **refaites** les étapes A1 et A2 sur WishFlix.
 
 ### A3 — Installer la Debugbar et mesurer (Chapitre 3)
 
-**Étape A3.1** — Installez le package en dépendance de dev :
+#### A3.1 · Installer le package
+
+Installez le package avec **Composer**, en dépendance de développement :
 
 ```bash
 ./vendor/bin/sail composer require fruitcake/laravel-debugbar --dev
 ```
 
-Le `--dev` est important : la barre affiche vos requêtes SQL — utile en développement, elle ne doit **jamais** partir en production.
+> ⚠️ **Le `--dev` est important** : la barre affiche vos requêtes SQL. Utile en développement, elle ne doit **jamais** partir en production.
 
-**Étape A3.2** — Rechargez `/` : une barre apparaît en bas de page. Ouvrez l'onglet **Queries** : chaque requête SQL exécutée, sa durée, et le nombre total.
+#### A3.2 · Ouvrir l'onglet Queries
 
-**Étape A3.3 — Mesurer AVANT** : vos cartes affichent `$game->category->name` — chaque carte déclenche sa propre requête `categories`. **Notez dans `REPONSES.md`** (section « Séance 4 — N+1 ») : le **nombre de requêtes** de la page d'accueil, et le SQL de la requête qui se répète.
+1. Rechargez `/` : une barre apparaît en bas de page
+2. Ouvrez l'onglet **Queries** : il liste chaque requête SQL exécutée, sa durée, et le nombre total
 
-> 💡 Si vous avez fait l'US3 de l'exercice 03 (`$category->games()->count()` dans la vue), elle compte aussi une requête par catégorie — elle fait partie du diagnostic.
+> 💡 **Profiler** : un outil qui mesure ce que fait la page (requêtes, temps, mémoire). La Debugbar en est un.
 
-> 💡 Si la barre n'apparaît pas : elle nécessite une page HTML complète (pas de réponse JSON) et `APP_DEBUG=true`. Elle se désactive via `DEBUGBAR_ENABLED=false` dans `.env`.
+> ⚠️ La barre n'apparaît pas ? Elle nécessite une page HTML complète (pas de réponse JSON) et `APP_DEBUG=true` dans `.env`. Elle se désactive via `DEBUGBAR_ENABLED=false`.
+
+#### A3.3 · Mesurer AVANT
+
+📄 `REPONSES.md`, section « Séance 4 — N+1 »
+
+Vos cartes affichent `$game->category->name` : chaque carte déclenche sa propre requête sur `categories`. Notez :
+
+1. le **nombre de requêtes** de la page d'accueil
+2. le SQL de la requête qui se répète
+
+> 💡 **Lazy loading** : `$game->category` charge la catégorie **au moment où on la lit**, avec une requête par jeu. C'est la cause du **N+1** de la S3.
+
+> 💡 Si vous avez fait l'US3 de l'exercice 03 (`$category->games()->count()` dans la vue), elle compte aussi une requête par catégorie : elle fait partie du diagnostic.
 
 ### A4 — Corriger le N+1 (Chapitre 4)
 
-**Étape A4.1** — Ajoutez `->with('category')` à la requête du catalogue, **avant** `get()`/`paginate()`.
+#### A4.1 · Charger les catégories d'avance
 
-**Étape A4.2** — Si d'autres requêtes de l'accueil affichent aussi la catégorie d'un jeu (section « Mieux notés », par exemple), ajoutez-leur le même `with('category')` — la Debugbar montrera si elles en ont besoin.
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A4.3 — Mesurer APRÈS** : rechargez et relisez l'onglet Queries.
+Dans la requête du catalogue, ajoutez `->with('category')` **avant** `->get()`.
 
-**À noter dans `REPONSES.md`** : le **nombre de requêtes après correction**, le gain constaté — et en une phrase, ce que `with('category')` a changé dans le SQL exécuté.
+> 💡 **Eager loading** : `with('category')` charge les catégories de tous les jeux **en une seule requête** (`where id in (…)`), avant la boucle de la vue.
 
-✅ Vérification : l'onglet Queries montre nettement moins de requêtes qu'en A3.3, et les catégories s'affichent toujours sur les cartes.
+#### A4.2 · Les autres requêtes
+
+📄 `app/Http/Controllers/GameController.php`
+
+Si d'autres requêtes de l'accueil affichent aussi la catégorie d'un jeu (section « Mieux notés », par exemple), ajoutez-leur le même `with('category')`. La Debugbar montre si elles en ont besoin.
+
+#### A4.3 · Mesurer APRÈS
+
+📄 `REPONSES.md`
+
+Rechargez l'accueil, relisez l'onglet Queries, puis notez :
+
+1. le **nombre de requêtes après correction**
+2. le gain constaté
+3. en une phrase, ce que `with('category')` a changé dans le SQL exécuté
+
+> ✅ **Vérification** : l'onglet Queries montre nettement moins de requêtes qu'en A3.3, et les catégories s'affichent toujours sur les cartes.
 
 > ✅ **Point de contrôle 2**
 >
@@ -140,25 +278,52 @@ Le `--dev` est important : la barre affiche vos requêtes SQL — utile en déve
 
 **En tant que** visiteur, **je veux** voir le nombre de jeux dans chaque catégorie du filtre, **afin de** choisir en connaissance de cause.
 
-**Étape A5.1** — Dans `index()`, remplacez `Category::all()` par `Category::withCount('games')->get()`.
+#### A5.1 · `withCount()`
 
-**Étape A5.2** — Dans le `select`, affichez le compteur : `{{ $category->name }} ({{ $category->games_count }})` — « Action (5) ».
+📄 `app/Http/Controllers/GameController.php`
 
-✅ Vérification : chaque option du `select` affiche son nombre de jeux, et le filtre par catégorie fonctionne toujours.
+Dans `index()`, remplacez `Category::all()` par `Category::withCount('games')->get()`.
 
-> 💡 La relation `games()` existe déjà sur `Category` (S3) — `withCount` s'en sert sans rien ajouter.
+> 💡 **Agrégat** : `withCount('games')` compte les jeux de chaque catégorie **dans la même requête SQL** (`count(*)`), et range le résultat dans un attribut `games_count`. La relation `games()` existe déjà sur `Category` (S3).
+
+#### A5.2 · Afficher le compteur
+
+📄 `resources/views/home.blade.php`
+
+Dans l'`<option>` du `select`, affichez le compteur après le nom : `{{ $category->name }} ({{ $category->games_count }})`, ce qui donne « Action (5) ».
+
+> ✅ **Vérification** : chaque option du `select` affiche son nombre de jeux, et le filtre par catégorie fonctionne toujours.
 
 ### A6 — Paginer le catalogue (Chapitre 6)
 
 **En tant que** visiteur, **je veux** parcourir le catalogue page par page, **afin de** ne pas charger tous les jeux d'un coup.
 
-**Étape A6.1** — Sur la requête du catalogue, remplacez `->get()` par `->paginate(9)` — **après** les `with()` et `when()`.
+#### A6.1 · `paginate()`
 
-**Étape A6.2** — Ajoutez `->withQueryString()` après `paginate()` : les liens de page recopieront les paramètres de l'URL courante.
+📄 `app/Http/Controllers/GameController.php`
 
-**Étape A6.3** — Affichez `{{ $games->links() }}` sous la grille de jeux.
+1. Sur la requête du catalogue, remplacez `->get()` par `->paginate(9)`, **après** les `with()` et `when()`
+2. Ajoutez `->withQueryString()` juste après `paginate(9)`
 
-✅ Vérification : `/` affiche 9 jeux par page avec des liens numérotés ; `?category=…&page=2` conserve le filtre ; la Debugbar montre les 2 requêtes de pagination (`count(*)` + `limit … offset …`).
+> 💡 **Pagination** : `paginate(9)` lit le paramètre `?page=` tout seul et ne renvoie que les 9 jeux de cette page. Il fait 2 requêtes : un `count(*)` pour le nombre total de pages, puis un `limit … offset …`.
+
+> 💡 **`withQueryString()`** : les liens de page recopient les paramètres de l'URL courante. Sans lui, passer à la page 2 perdrait le `?category=`.
+
+#### A6.2 · Les liens de page
+
+📄 `resources/views/home.blade.php`
+
+Sous la grille de jeux, collez :
+
+```html
+<div class="flex justify-center my-8">
+  {{ $games->links() }}
+</div>
+```
+
+> 💡 **`links()`** génère les liens numérotés de la pagination (HTML et classes Tailwind fournis par Laravel).
+
+> ✅ **Vérification** : `/` affiche 9 jeux par page avec des liens numérotés ; `?category=…&page=2` conserve le filtre ; la Debugbar montre les 2 requêtes de pagination (`count(*)` + `limit … offset …`).
 
 > ✅ **Point de contrôle 3 — fin du socle**
 >
@@ -167,7 +332,7 @@ Le `--dev` est important : la barre affiche vos requêtes SQL — utile en déve
 > - [ ] `?category=…` (et plus tard `?search=…`) survivent au changement de page
 > - [ ] Commit : « feat: pagination du catalogue »
 >
-> 🛟 Rattrapage : relisez le diff du tag Campus Quest `s4-ch5-agregats` et `s4-ch6-pagination` (dépôt `CampusQuest`), puis **refaites** les étapes A5 et A6 sur WishFlix.
+> 🛟 Rattrapage : relisez le diff des tags Campus Quest `s4-ch5-agregats` et `s4-ch6-pagination` (dépôt `CampusQuest`), puis **refaites** les étapes A5 et A6 sur WishFlix.
 
 ---
 
@@ -180,10 +345,13 @@ Le `--dev` est important : la barre affiche vos requêtes SQL — utile en déve
 Critères d'acceptation :
 
 - Un champ de recherche `search` dans le formulaire de l'accueil (méthode `GET`)
+
 - La requête applique `where('title', 'like', "%{$search}%")` via `when()` — pas de filtre si `search` est absent
 - Le champ reste rempli après la recherche (`value="{{ request('search') }}"`)
 - `/?search=zelda` ne renvoie que les jeux dont le titre contient « zelda »
 - La pagination de l'étape A6 conserve `search` au changement de page (`withQueryString()` est déjà en place)
+
+> 💡 **Rien à écrire en HTML** : le champ « Rechercher » de la maquette est déjà dans le formulaire de A2.4. Ajoutez-lui `name="search"`.
 
 ### US2 — Recherche + filtre combinés (~35 min)
 
@@ -195,6 +363,7 @@ Critères d'acceptation :
 - `/?category=…` sans `search` filtre seul ; `/?search=…` sans `category` cherche seule
 - Le formulaire « se souvient » des deux valeurs après envoi
 - Un lien « Réinitialiser » ramène à `/` sans paramètres
+  (après le bouton « Filtrer » : `<a href="#" class="btn btn-ghost">Réinitialiser</a>`, avec `href` vers `route('home')`)
 - `?search=…&category=…&page=2` conserve les trois paramètres dans les liens de pagination
 
 ---
